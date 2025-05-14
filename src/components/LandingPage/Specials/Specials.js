@@ -25,7 +25,7 @@ const Specials = ({ setting }) => {
 
     useEffect(() => {
         fetchBouquets();
-      }, []);
+    }, []);
 
     return (
         <div className='Specials-container'>
