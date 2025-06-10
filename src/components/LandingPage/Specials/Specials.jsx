@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SpecialsItem from '../../ReusableComponents/BouquetCard/BouquetCard';
+// import SpecialsItem from '../../ReusableComponents/BouquetCard/BouquetCard.jsx';
 import axios from 'axios';
 import './Specials.css';
 
@@ -31,7 +31,8 @@ const Specials = ({ setting }) => {
         <div className='Specials-container'>
             <h2 className='Specials-container_category'>{setting}</h2>
             <div className='Specials-container_bouquets'>
-                {bouquets.length > 0 && bouquets.map(bouquet => <SpecialsItem key={bouquet.name} bouquet={bouquet} />)}
+                <h4>Hello hello</h4>
+                {/* {bouquets.length > 0 && bouquets.map(bouquet => <SpecialsItem key={bouquet.name} bouquet={bouquet} />)} */}
             </div>
         </div>
     );
