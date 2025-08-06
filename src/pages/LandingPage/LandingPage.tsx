@@ -1,12 +1,13 @@
-import Specials from '../../components/Specials/Specials';
-import CollectionList from '../../components/CollectionList/CollectionList';
-import './LandingPage.css';
+import TituleBlock from "../../components/TituleBlock/TituleBlock";
+import Specials from "../../components/Specials/Specials";
+import CollectionList from "../../components/CollectionList/CollectionList";
 
-function LandingPage() {
+const LandingPage = () => {
   return (
-    <div className='Landing-page-container'>
-      <Specials setting={'Favorite'} />
-      <Specials setting={'Season'} />
+    <div className="flex flex-col items-center justify-center w-full h-full">
+      <TituleBlock />
+      <Specials setting={"Favorite"} />
+      <Specials setting={"Season"} />
       <CollectionList />
     </div>
   );

@@ -1,13 +1,17 @@
-@font-face {
+@layer base {
+  @font-face {
     font-family: "HattonMedium";
-    src: local("HattonMedium"),
-    url("./Hatton/PP-Hatton-Medium-500.otf") format("truetype");
+    src:
+      local("HattonMedium"),
+      url("./Hatton/PP-Hatton-Medium-500.otf") format("truetype");
     font-weight: 500;
-}
-  
-@font-face {
+  }
+
+  @font-face {
     font-family: "HattonUltralight";
-    src: local("HattonUltralight"),
-    url("./Hatton/PP-Hatton-Ultralight-200.otf") format("truetype");
+    src:
+      local("HattonUltralight"),
+      url("./Hatton/PP-Hatton-Ultralight-200.otf") format("truetype");
     font-weight: 200;
+  }
 }

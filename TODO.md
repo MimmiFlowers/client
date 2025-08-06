@@ -3,6 +3,7 @@
 ## 1. Client
 
 ### Landing page
+
 - [x] **Header**
 - Header includes Shop logo which can be used as **Home** link. Links to **Flowers**, **Cart**, **Contact**, **About us** and may be to user profile.
 - [ ] **Deal/News carusel**
@@ -17,6 +18,7 @@
 ---
 
 ### Shopping cart
+
 - [ ] **Header**
 - [ ] **Cart list with product items**
 - [ ] **Link to checkout**
@@ -27,6 +29,7 @@
 ---
 
 ### Shopping cart mini
+
 - [ ] **Shopping cart in minmized window on a screen**
 - [ ] **Link to checkout**
 - [ ] **Cart list with product items**
@@ -36,6 +39,7 @@
 ---
 
 ### Checkout
+
 - [ ] **Header**
 - [ ] **Simple list of items**
 - [ ] **Form for customer info**
@@ -46,6 +50,7 @@
 ---
 
 ### Product list
+
 - [x] **Header**
 - [ ] **Category filter (additional filter might be needed)**
 - [x] **Items which are available to oreder**
@@ -55,6 +60,7 @@
 ---
 
 ### Item page
+
 - [ ] **Header**
 - [ ] **Item info**
 - [ ] **Item picture**
@@ -66,6 +72,7 @@
 ---
 
 ### Subscription page?
+
 - [ ] **Header**
 - [ ] **Subscription advantages**
 - [ ] **Form to subscribe for service**
@@ -74,6 +81,7 @@
 ---
 
 ### About us
+
 - [ ] **Header**
 - [ ] **Some information about the shop, may be som history**
 - [ ] **Footer**
@@ -81,6 +89,7 @@
 ---
 
 ### Contact
+
 - [ ] **Header**
 - [ ] **From that can be sent by e-mail**
 - [ ] **Contact numbers**
@@ -88,6 +97,7 @@
 - [ ] **Footer**
 
 ---
+
 ---
 
 ## 2. Server

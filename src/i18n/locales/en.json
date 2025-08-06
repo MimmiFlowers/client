@@ -1,0 +1,29 @@
+{
+    "specials": {
+        "favorite": "Favorite",
+        "season": "Season",
+        "show_all": "Show All"
+    },
+    "menu": {
+        "catalog": "Catalog",
+        "about": "About Us",
+        "contact": "Contact"
+    },
+    "buttons": {
+        "add_to_cart": "Add to Cart",
+        "cancel": "Cancel"
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "catalog": "Catalog",
+        "subgroup": {
+            "favorite": "Favorite",
+            "season": "Season",
+            "monobouquets": "Monobouquets",
+            "gifts": "Gifts"
+        }
+    },
+    "product_page": {
+        "description": "Description"
+    }
+}

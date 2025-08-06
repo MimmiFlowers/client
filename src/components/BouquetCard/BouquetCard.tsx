@@ -1,22 +1,28 @@
-import { useNavigate } from 'react-router';
-import type { BouquetMini } from '../../types/types';
-import './BouquetCard.css';
+import { useNavigate } from "react-router";
+import type { BouquetMini } from "../../types/types";
 
-function BouquetCard({ bouquetMini }: { bouquetMini: BouquetMini }) {
-    const navigate = useNavigate();
+const BouquetCard = ({ bouquetMini }: { bouquetMini: BouquetMini }) => {
+  const navigate = useNavigate();
 
-    const handleRedirect = (e: React.MouseEvent) => {
-        e.preventDefault();
-        navigate(`Product/${bouquetMini.id}`);
-    }
+  const handleRedirect = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`Catalog/${bouquetMini.id}`);
+  };
 
-    return (
-        <div className='Bouquet' onClick={handleRedirect}>
-            <img className='Bouquet-img' src={bouquetMini.picture} alt={bouquetMini.name} />
-            <h4 className='Bouquet-price'>{bouquetMini.price}kr</h4>
-            <p className='Bouquet-desc'>{bouquetMini.name}</p>
-        </div>
-    )
+  return (
+    <div
+      className="w-[24%] flex flex-col items-center justify-center transition duration-500 overflow-hidden hover:cursor-pointer"
+      onClick={handleRedirect}
+    >
+      <img
+        className="w-[100%] aspect-square object-cover shadow-lg rounded transform transition duration-500 hover:scale-105"
+        src={bouquetMini.picture}
+        alt={bouquetMini.name}
+      />
+      <p className="text-lg pt-2 text-center">{bouquetMini.price}kr</p>
+      <p className="text-base text-center">{bouquetMini.name}</p>
+    </div>
+  );
 };
 
 export default BouquetCard;

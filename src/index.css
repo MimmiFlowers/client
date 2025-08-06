@@ -1,17 +1,31 @@
 @import "tailwindcss";
 
-body {
-    margin: 0;
-    font-family: "HattonMedium";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  a {
-    font-family: "HattonUltralight";
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
+@layer base {
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body,
+    #root {
+        height: 100%;
+    }
+
+    body {
+        margin: 0;
+        font-family: "HattonMedium";
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+        font-family: "HattonUltralight";
+    }
+
+    code {
+        font-family:
+        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+}

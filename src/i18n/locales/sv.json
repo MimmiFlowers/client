@@ -1,0 +1,29 @@
+{
+    "specials": {
+        "favorite": "Favoriter",
+        "season": "Säsong",
+        "show_all": "Visa Alla"
+    },
+    "menu": {
+        "catalog": "Katalog",
+        "about": "Om Oss",
+        "contact": "Kontakta Oss"
+    },
+    "buttons": {
+        "add_to_cart": "Lägg till i varukorgen",
+        "cancel": "Avbryt"
+    },
+    "breadcrumbs": {
+        "home": "Hem",
+        "catalog": "Katalog",
+        "subgroup": {
+            "favorite": "Favoriter",
+            "season": "Säsong",
+            "monobouquets": "Monobuketter",
+            "gifts": "Presenter"
+        }
+    },
+    "product_page": {
+        "description": "Beskrivning"
+    }
+}
