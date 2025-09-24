@@ -1,52 +1,63 @@
 import { useState, useEffect } from "react";
-import SpecialsItem from "../BouquetCard/BouquetCard";
+import { Link } from "react-router";
+import ProductCard from "../ProductCard/ProductCard";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import type { SpecialProps, BouquetMini } from "../../types/types";
+import type { SpecialProps, ProductMini } from "../../types/types";
 
 const Specials = ({ setting }: SpecialProps) => {
-  const [bouquetsMini, setBouquetsMini] = useState<BouquetMini[]>([]);
-  const { t } = useTranslation();
+    const [productsMini, setProductsMini] = useState<ProductMini[]>([]);
+    const { t } = useTranslation();
 
-  const fetchBouquetsMini = async () => {
-    const urlDev = "http://localhost:8500";
+    const fetchProductsMini = async () => {
+        const apiUrl = import.meta.env.VITE_API_URL;
 
-    switch (setting) {
-      case "Favorite":
-        const favorite = await axios.get(`${urlDev}/${setting.toLowerCase()}`);
-        setBouquetsMini(favorite.data.data);
-        break;
-      case "Season":
-        const season = await axios.get(`${urlDev}/${setting.toLowerCase()}`);
-        setBouquetsMini(season.data.data);
-        break;
-      default:
-        setBouquetsMini([]);
-    }
-  };
+        switch (setting) {
+            case "Favorite":
+                const favorite = await axios.get(
+                    `${apiUrl}/data/category/${setting.toLowerCase()}`,
+                );
+                setProductsMini(favorite.data.data);
+                break;
+            case "Season":
+                const season = await axios.get(
+                    `${apiUrl}/data/category/${setting.toLowerCase()}`,
+                );
+                setProductsMini(season.data.data);
+                break;
+            default:
+                setProductsMini([]);
+        }
+    };
 
-  useEffect(() => {
-    fetchBouquetsMini();
-  }, []);
+    useEffect(() => {
+        fetchProductsMini();
+    }, []);
 
-  return (
-    <div className="w-[90%] flex flex-col items-center justify-center m-2">
-      <div className="w-full mt-4 flex items-center justify-between">
-        <h2 className="text-4xl uppercase text-left">
-          {t(`specials.${setting.toLowerCase()}`)}
-        </h2>
-        <button className="p-1 cursor-pointer transform transition duration-500 hover:scale-110 underline">
-          {t("specials.show_all")}
-        </button>
-      </div>
-      <div className="w-full flex flex-row items-center justify-between my-4 flex-wrap gap-2">
-        {bouquetsMini.length > 0 &&
-          bouquetsMini.map((bouquetMini) => (
-            <SpecialsItem key={bouquetMini.name} bouquetMini={bouquetMini} />
-          ))}
-      </div>
-    </div>
-  );
+    return (
+        <div className="m-2 flex w-[80%] flex-col items-center justify-center">
+            <div className="mt-4 flex w-full items-center justify-between">
+                <h2 className="text-left text-4xl uppercase">
+                    {t(`specials.${setting.toLowerCase()}`)}
+                </h2>
+                <Link
+                    to={`/Catalog?filter=${setting.toLowerCase()}`}
+                    className="transform cursor-pointer p-1 underline transition duration-500 hover:scale-110"
+                >
+                    {t("specials.show_all")}
+                </Link>
+            </div>
+            <div className="my-4 flex w-full flex-row flex-wrap items-center justify-between gap-2">
+                {productsMini.length > 0 &&
+                    productsMini.map((productMini) => (
+                        <ProductCard
+                            key={productMini.productID}
+                            productMini={productMini}
+                        />
+                    ))}
+            </div>
+        </div>
+    );
 };
 
 export default Specials;

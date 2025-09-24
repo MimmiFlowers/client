@@ -2,15 +2,16 @@ export interface SpecialProps {
     setting: string;
 }
 
-export interface BouquetMini {
-    id: string;
+export interface ProductMini {
+    productID: string;
     name: string;
     picture: string;
     price: number;
 }
 
-export interface Bouquet {
-    id: string;
+export interface Product {
+    productID: string;
+    sku: string;
     name: string;
     category: string;
     collection: string;

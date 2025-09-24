@@ -1,6 +1,6 @@
 type Props = {
-  selected: string[];
-  onChange: (filters: string[]) => void;
+    selected: string[];
+    onChange: (filters: string[]) => void;
 };
 
 const subgroupOptions = ["favorite", "monobouquets", "birthday", "romantic"]; // твои сабгруппы
@@ -17,15 +17,18 @@ const ProductFilter = ({ selected, onChange }: Props) => {
     };
 
     return (
-        <div className="flex flex-wrap gap-4 mb-4">
+        <div className="mb-4 flex flex-wrap gap-4">
             {subgroupOptions.map((option) => (
-                <label key={option} className="flex items-center gap-2 cursor-pointer">
-                <input
-                    type="checkbox"
-                    checked={selected.includes(option)}
-                    onChange={() => toggleFilter(option)}
-                />
-                <span className="capitalize">{option}</span>
+                <label
+                    key={option}
+                    className="flex cursor-pointer items-center gap-2"
+                >
+                    <input
+                        type="checkbox"
+                        checked={selected.includes(option)}
+                        onChange={() => toggleFilter(option)}
+                    />
+                    <span className="capitalize">{option}</span>
                 </label>
             ))}
         </div>

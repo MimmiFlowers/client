@@ -25,5 +25,12 @@
     },
     "product_page": {
         "description": "Description"
+    },
+    "cart": {
+        "your_cart": "Your Cart",
+        "empty_cart": "Your cart is empty",
+        "pp": "kr/pc",
+        "total": "Total",
+        "checkout": "Go to Checkout"
     }
 }

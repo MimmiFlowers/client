@@ -25,5 +25,12 @@
     },
     "product_page": {
         "description": "Beskrivning"
+    },
+    "cart": {
+        "your_cart": "Din varukorg",
+        "empty_cart": "Din varukorg är tom",
+        "pp": "kr/st",
+        "total": "Totalt",
+        "checkout": "Gå till kassan"
     }
 }

@@ -12,31 +12,31 @@ const BurgerMenu: React.FC = () => {
         <>
             <button
                 onClick={toggleMenu}
-                className="top-4 left-4 z-50 mx-3 flex flex-col justify-between w-8 h-6 group cursor-pointer hover:scale-110 transition-transform duration-300"
+                className="group top-4 left-4 z-50 mx-3 flex h-6 w-8 cursor-pointer flex-col justify-between transition-transform duration-300 hover:scale-110"
             >
                 <span
-                    className={`h-1 bg-black rounded transition-transform duration-300 ${
-                        isOpen ? "rotate-45 translate-y-2" : ""
+                    className={`h-1 rounded bg-black transition-transform duration-300 ${
+                        isOpen ? "translate-y-2 rotate-45" : ""
                     }`}
                 ></span>
                 <span
-                    className={`h-1 bg-black rounded transition-all duration-300 ${
+                    className={`h-1 rounded bg-black transition-all duration-300 ${
                         isOpen ? "opacity-0" : ""
                     }`}
                 ></span>
                 <span
-                    className={`h-1 bg-black rounded transition-transform duration-300 ${
-                        isOpen ? "-rotate-45 -translate-y-3" : ""
+                    className={`h-1 rounded bg-black transition-transform duration-300 ${
+                        isOpen ? "-translate-y-3 -rotate-45" : ""
                     }`}
                 ></span>
             </button>
 
             <div
-                className={`fixed top-0 left-0 h-full bg-white shadow-lg z-40 transition-transform duration-300 ${
-                isOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed top-0 left-0 z-40 h-full bg-white shadow-lg transition-transform duration-300 ${
+                    isOpen ? "translate-x-0" : "-translate-x-full"
                 } w-[20vw] min-w-[200px]`}
             >
-                <nav className="flex flex-col p-6 space-y-2 translate-y-16">
+                <nav className="flex translate-y-16 flex-col space-y-2 p-6">
                     <Link
                         to="/Catalog"
                         onClick={() => setIsOpen(false)}
