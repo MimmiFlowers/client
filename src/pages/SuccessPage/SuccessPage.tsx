@@ -1,10 +1,10 @@
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { useCart } from "../../contexts/CartContext";
 import { useEffect } from "react";
 
 const SuccessPage = () => {
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const { clearItems } = useCart();
     const { orderID } = useParams<string>();
 

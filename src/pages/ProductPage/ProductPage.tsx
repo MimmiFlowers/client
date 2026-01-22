@@ -7,7 +7,7 @@ import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import api, { registerReloadOnLanguageChange } from "../../instances/api";
 import type { Product } from "../../types/types";
 
-const Product = () => {
+const ProductPage = () => {
     const [product, setProduct] = useState<Product>({} as Product);
     const [subgroup, setSubgroup] = useState<string>("");
     const { id } = useParams<string>();
@@ -112,4 +112,4 @@ const Product = () => {
     );
 };
 
-export default Product;
+export default ProductPage;
