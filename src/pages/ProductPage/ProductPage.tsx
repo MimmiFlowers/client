@@ -10,17 +10,23 @@ import type { Product } from "../../types/types";
 const ProductPage = () => {
     const [product, setProduct] = useState<Product>({} as Product);
     const [subgroup, setSubgroup] = useState<string>("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const { id } = useParams<string>();
     const { t } = useTranslation();
     const { addItem } = useCart();
 
-    const fetchProduct = async (id: string) => {
-        try {
-            const response = await api.get(`/data/products/${id}`);
+    const fetchProduct = async (productId: string) => {
+        setLoading(true);
+        setError("");
 
+        try {
+            const response = await api.get(`/data/products/${productId}`);
             setProduct(response.data);
-        } catch (error) {
-            console.error("Error fetching product:", error);
+        } catch {
+            setError("Failed to load product. Please try again later.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -49,6 +55,22 @@ const ProductPage = () => {
         product && subgroupSetter();
     }, [product]);
 
+    if (loading) {
+        return (
+            <div className="flex h-screen w-screen items-center justify-center">
+                <p className="text-gray-400">Loading...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex h-screen w-screen items-center justify-center">
+                <p className="text-red-500">{error}</p>
+            </div>
+        );
+    }
+
     return (
         <div className="relative flex h-screen w-screen flex-col items-center">
             {product.name && (
@@ -68,9 +90,6 @@ const ProductPage = () => {
                 />
             )}
             <div className="m-4 flex w-[75%] flex-row">
-                {/* <div className='w-[50%] flex justify-center items-start'>
-                            <img className='w-[90%] aspect-square shadow-lg mx-4' src={product.picture} alt={product.name} />
-                        </div> */}
                 <img
                     className="mr-8 aspect-[3/4] w-[45%] rounded object-cover object-center shadow-lg"
                     src={product.picture}
@@ -83,7 +102,6 @@ const ProductPage = () => {
                         sku: {product.sku}
                     </p>
                     <p className="my-2 text-3xl">{product.price} kr</p>
-                    {/* <input type='number' min='1' max='10' step='1' value='1' className='border-1 border-solid' /> */}
                     <div className="my-2 flex w-full flex-row items-center">
                         <button
                             className="flex w-[50%] cursor-pointer flex-row items-center justify-center rounded bg-[#edc7f5] px-4 py-2 text-xl shadow-lg transition-transform duration-300 hover:scale-105"
@@ -100,7 +118,6 @@ const ProductPage = () => {
                             <BasketShopping3 className="mr-2" />
                             {t("buttons.add_to_cart")}
                         </button>
-                        {/* <button className='w-[45%] p-2 ml-6 border-1 border-solid cursor-pointer shadow-lg'>Order now</button> */}
                     </div>
                     <p className="mt-4 text-xl uppercase">
                         {t("product_page.description")}

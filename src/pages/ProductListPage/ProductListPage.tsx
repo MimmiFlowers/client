@@ -8,14 +8,24 @@ import axios from "axios";
 const ProductListPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
     const fetchProducts = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
-        const fetchedProducts = await axios.get(`${apiUrl}/data/products`);
-        setProducts(fetchedProducts.data.products);
-        return;
+        setLoading(true);
+        setError("");
+
+        try {
+            const fetchedProducts = await axios.get(`${apiUrl}/data/products`);
+            setProducts(fetchedProducts.data.products);
+        } catch {
+            setError("Failed to load products. Please try again later.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -31,8 +41,6 @@ const ProductListPage = () => {
         if (selectedFilters.length === 0) {
             setFilteredProducts(products);
         } else {
-            console.log("Selected Filters:", products);
-
             const filtered = products.filter((p) => {
                 const productGroups = [
                     p.category?.toLowerCase(),
@@ -49,7 +57,7 @@ const ProductListPage = () => {
 
     const handleFilterChange = (newFilters: string[]) => {
         setSelectedFilters(newFilters);
-        setSearchParams({ filter: newFilters }); // синхронизация с URL
+        setSearchParams({ filter: newFilters }); // sync with URL
     };
 
     return (
@@ -58,7 +66,17 @@ const ProductListPage = () => {
                 selected={selectedFilters}
                 onChange={handleFilterChange}
             />
-            <ProductList products={filteredProducts} />
+            {loading && (
+                <p className="w-full py-8 text-center text-gray-400">
+                    Loading...
+                </p>
+            )}
+            {error && (
+                <p className="w-full py-8 text-center text-red-500">
+                    {error}
+                </p>
+            )}
+            {!loading && !error && <ProductList products={filteredProducts} />}
         </div>
     );
 };

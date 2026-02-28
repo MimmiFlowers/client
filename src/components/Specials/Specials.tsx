@@ -7,26 +7,24 @@ import type { SpecialProps, ProductMini } from "../../types/types";
 
 const Specials = ({ setting }: SpecialProps) => {
     const [productsMini, setProductsMini] = useState<ProductMini[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
     const { t } = useTranslation();
 
     const fetchProductsMini = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
+        setLoading(true);
+        setError("");
 
-        switch (setting) {
-            case "Favorite":
-                const favorite = await axios.get(
-                    `${apiUrl}/data/category/${setting.toLowerCase()}`,
-                );
-                setProductsMini(favorite.data.data);
-                break;
-            case "Season":
-                const season = await axios.get(
-                    `${apiUrl}/data/category/${setting.toLowerCase()}`,
-                );
-                setProductsMini(season.data.data);
-                break;
-            default:
-                setProductsMini([]);
+        try {
+            const response = await axios.get(
+                `${apiUrl}/data/category/${setting.toLowerCase()}`,
+            );
+            setProductsMini(response.data.data);
+        } catch {
+            setError("Failed to load products. Please try again later.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -48,7 +46,18 @@ const Specials = ({ setting }: SpecialProps) => {
                 </Link>
             </div>
             <div className="my-4 flex w-full flex-row flex-wrap items-center justify-between gap-2">
-                {productsMini.length > 0 &&
+                {loading && (
+                    <p className="w-full py-8 text-center text-gray-400">
+                        Loading...
+                    </p>
+                )}
+                {error && (
+                    <p className="w-full py-8 text-center text-red-500">
+                        {error}
+                    </p>
+                )}
+                {!loading &&
+                    !error &&
                     productsMini.map((productMini) => (
                         <ProductCard
                             key={productMini.productID}
