@@ -143,6 +143,7 @@ export default function CheckoutPage() {
 
     return (
         <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-3">
+            <title>{t("seo.checkout_title")}</title>
             {/* Customer Info */}
             <div className="rounded-xl bg-white p-4 shadow-lg">
                 <h2 className="mb-4 text-xl font-bold">

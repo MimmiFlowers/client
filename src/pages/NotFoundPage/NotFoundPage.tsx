@@ -6,6 +6,7 @@ const NotFoundPage = () => {
 
     return (
         <div className="mx-auto max-w-xl px-6 py-12 text-center">
+            <title>{t("seo.not_found_title")}</title>
             <h1 className="mb-4 text-6xl font-bold text-gray-300">404</h1>
             <h2 className="mb-4 text-2xl font-semibold text-gray-800">
                 {t("not_found.title")}

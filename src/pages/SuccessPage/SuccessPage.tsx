@@ -34,6 +34,7 @@ const SuccessPage = () => {
     if (state === "loading") {
         return (
             <div className="mt-20 text-center">
+                <title>{t("seo.success_title")}</title>
                 <p className="text-xl">{t("success.verifying")}</p>
             </div>
         );
@@ -59,6 +60,7 @@ const SuccessPage = () => {
 
     return (
         <div>
+            <title>{t("seo.success_title")}</title>
             <h1 className="mt-10 text-center text-2xl font-bold">
                 {t("success.thank_you")}
             </h1>

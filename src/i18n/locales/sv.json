@@ -115,6 +115,16 @@
         "hours_label": "Öppettider:",
         "hours_value": "Mån\u2013Fre 08:00\u201318:00, Lör 10:00\u201316:00"
     },
+    "seo": {
+        "home_title": "Mimmi Flowers — Blomsterleverans i Stockholm",
+        "catalog_title": "Katalog — Mimmi Flowers",
+        "checkout_title": "Kassan — Mimmi Flowers",
+        "about_title": "Om oss — Mimmi Flowers",
+        "contact_title": "Kontakt — Mimmi Flowers",
+        "success_title": "Beställning bekräftad — Mimmi Flowers",
+        "cancel_title": "Betalningen avbruten — Mimmi Flowers",
+        "not_found_title": "Sidan hittades inte — Mimmi Flowers"
+    },
     "loading": "Laddar...",
     "errors": {
         "load_products": "Det gick inte att ladda produkter. Försök igen senare.",

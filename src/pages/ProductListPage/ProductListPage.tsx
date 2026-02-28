@@ -63,6 +63,7 @@ const ProductListPage = () => {
 
     return (
         <div className="flex flex-col items-center p-4">
+            <title>{t("seo.catalog_title")}</title>
             <ProductFilter
                 selected={selectedFilters}
                 onChange={handleFilterChange}

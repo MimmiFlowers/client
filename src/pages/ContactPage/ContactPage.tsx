@@ -5,6 +5,7 @@ const ContactPage = () => {
 
     return (
         <div className="mx-auto max-w-3xl px-6 py-12">
+            <title>{t("seo.contact_title")}</title>
             <h1 className="mb-6 text-3xl font-bold">{t("contact.title")}</h1>
             <div className="space-y-4 text-lg text-gray-700">
                 <p>

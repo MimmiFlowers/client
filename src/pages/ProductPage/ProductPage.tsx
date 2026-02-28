@@ -73,6 +73,7 @@ const ProductPage = () => {
 
     return (
         <div className="relative flex h-screen w-screen flex-col items-center">
+            <title>{product.name ? `${product.name} — Mimmi Flowers` : "Mimmi Flowers"}</title>
             {product.name && (
                 <Breadcrumb
                     items={[

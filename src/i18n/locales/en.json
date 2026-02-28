@@ -115,6 +115,16 @@
         "hours_label": "Opening hours:",
         "hours_value": "Mon\u2013Fri 08:00\u201318:00, Sat 10:00\u201316:00"
     },
+    "seo": {
+        "home_title": "Mimmi Flowers — Flower Delivery in Stockholm",
+        "catalog_title": "Catalog — Mimmi Flowers",
+        "checkout_title": "Checkout — Mimmi Flowers",
+        "about_title": "About Us — Mimmi Flowers",
+        "contact_title": "Contact — Mimmi Flowers",
+        "success_title": "Order Confirmed — Mimmi Flowers",
+        "cancel_title": "Payment Cancelled — Mimmi Flowers",
+        "not_found_title": "Page Not Found — Mimmi Flowers"
+    },
     "loading": "Loading...",
     "errors": {
         "load_products": "Failed to load products. Please try again later.",

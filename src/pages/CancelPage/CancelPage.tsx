@@ -7,6 +7,7 @@ const CancelPage = () => {
 
     return (
         <div className="mx-auto max-w-xl px-6 py-12 text-center">
+            <title>{t("seo.cancel_title")}</title>
             <h1 className="mb-4 text-3xl font-bold text-red-600">
                 {t("cancel.title")}
             </h1>
