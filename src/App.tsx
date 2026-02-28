@@ -16,7 +16,7 @@ const App = () => {
         <div className="h-screen w-screen">
             <div className="App__wrapper">
                 <Header />
-                <div className="Page-content translate-y-[7vh]">
+                <main className="Page-content translate-y-[7vh]">
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/Catalog" element={<ProductListPage />} />
@@ -34,7 +34,7 @@ const App = () => {
                         />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
-                </div>
+                </main>
                 <Footer />
             </div>
         </div>

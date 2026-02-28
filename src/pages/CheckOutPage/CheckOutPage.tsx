@@ -129,16 +129,16 @@ export default function CheckoutPage() {
     };
 
     const customerFields = [
-        { key: "firstName", label: "First name", errorKey: "customerFirstName" },
-        { key: "lastName", label: "Last name", errorKey: "customerLastName" },
-        { key: "phone", label: "Phone", errorKey: "customerPhone" },
-        { key: "email", label: "Email", errorKey: "customerEmail" },
+        { key: "firstName", label: "First name", errorKey: "customerFirstName", id: "customer-firstName" },
+        { key: "lastName", label: "Last name", errorKey: "customerLastName", id: "customer-lastName" },
+        { key: "phone", label: "Phone", errorKey: "customerPhone", id: "customer-phone" },
+        { key: "email", label: "Email", errorKey: "customerEmail", id: "customer-email" },
     ] as const;
 
     const recipientFields = [
-        { key: "firstName", label: "First name", errorKey: "recipientFirstName" },
-        { key: "lastName", label: "Last name", errorKey: "recipientLastName" },
-        { key: "phone", label: "Phone", errorKey: "recipientPhone" },
+        { key: "firstName", label: "First name", errorKey: "recipientFirstName", id: "recipient-firstName" },
+        { key: "lastName", label: "Last name", errorKey: "recipientLastName", id: "recipient-lastName" },
+        { key: "phone", label: "Phone", errorKey: "recipientPhone", id: "recipient-phone" },
     ] as const;
 
     return (
@@ -148,9 +148,13 @@ export default function CheckoutPage() {
                 <h2 className="mb-4 text-xl font-bold">
                     Information of the customer
                 </h2>
-                {customerFields.map(({ key, label, errorKey }) => (
+                {customerFields.map(({ key, label, errorKey, id }) => (
                     <div key={key}>
+                        <label htmlFor={id} className="mb-1 block text-sm font-medium">
+                            {label}
+                        </label>
                         <input
+                            id={id}
                             className={`mb-1 w-full border p-2 ${errors[errorKey] ? "border-red-500" : ""}`}
                             placeholder={label}
                             value={customer[key]}
@@ -162,7 +166,7 @@ export default function CheckoutPage() {
                             }
                         />
                         {errors[errorKey] && (
-                            <p className="mb-2 text-xs text-red-600">{errors[errorKey]}</p>
+                            <p className="mb-2 text-xs text-red-600" role="alert">{errors[errorKey]}</p>
                         )}
                     </div>
                 ))}
@@ -186,7 +190,7 @@ export default function CheckoutPage() {
                 </label>
                 {pickup && (
                     <p className="mt-2 text-sm text-gray-500">
-                        Pick up address: Rågsved, Stockholm
+                        Pick up address: Ragsved, Stockholm
                     </p>
                 )}
             </div>
@@ -196,9 +200,13 @@ export default function CheckoutPage() {
                 <h2 className="mb-4 text-xl font-bold">
                     Information of the receiver
                 </h2>
-                {recipientFields.map(({ key, label, errorKey }) => (
+                {recipientFields.map(({ key, label, errorKey, id }) => (
                     <div key={key}>
+                        <label htmlFor={id} className="mb-1 block text-sm font-medium">
+                            {label}
+                        </label>
                         <input
+                            id={id}
                             className={`mb-1 w-full border p-2 ${errors[errorKey] ? "border-red-500" : ""}`}
                             placeholder={label}
                             disabled={orderForMyself || pickup}
@@ -211,12 +219,16 @@ export default function CheckoutPage() {
                             }
                         />
                         {errors[errorKey] && (
-                            <p className="mb-2 text-xs text-red-600">{errors[errorKey]}</p>
+                            <p className="mb-2 text-xs text-red-600" role="alert">{errors[errorKey]}</p>
                         )}
                     </div>
                 ))}
                 <div>
+                    <label htmlFor="recipient-address" className="mb-1 block text-sm font-medium">
+                        Delivery address
+                    </label>
                     <input
+                        id="recipient-address"
                         className={`mb-1 w-full border p-2 ${errors.recipientAddress ? "border-red-500" : ""}`}
                         placeholder="Delivery address"
                         disabled={pickup}
@@ -226,12 +238,15 @@ export default function CheckoutPage() {
                         }
                     />
                     {errors.recipientAddress && (
-                        <p className="mb-2 text-xs text-red-600">{errors.recipientAddress}</p>
+                        <p className="mb-2 text-xs text-red-600" role="alert">{errors.recipientAddress}</p>
                     )}
                 </div>
-                <label className="mb-2 block">Delivery date</label>
+                <label htmlFor="recipient-date" className="mb-2 block text-sm font-medium">
+                    Delivery date
+                </label>
                 <div>
                     <input
+                        id="recipient-date"
                         type="date"
                         className={`mb-1 w-full border p-2 ${errors.recipientDate ? "border-red-500" : ""}`}
                         disabled={pickup || orderForMyself}
@@ -246,12 +261,15 @@ export default function CheckoutPage() {
                         }
                     />
                     {errors.recipientDate && (
-                        <p className="mb-2 text-xs text-red-600">{errors.recipientDate}</p>
+                        <p className="mb-2 text-xs text-red-600" role="alert">{errors.recipientDate}</p>
                     )}
                 </div>
-                <label className="mb-2 block">Time of delivery</label>
+                <label htmlFor="recipient-time" className="mb-2 block text-sm font-medium">
+                    Time of delivery
+                </label>
                 <div>
                     <input
+                        id="recipient-time"
                         type="time"
                         className={`w-full border p-2 ${errors.recipientTime ? "border-red-500" : ""}`}
                         disabled={pickup || orderForMyself}
@@ -277,7 +295,7 @@ export default function CheckoutPage() {
                         }}
                     />
                     {errors.recipientTime && (
-                        <p className="mt-1 text-xs text-red-600">{errors.recipientTime}</p>
+                        <p className="mt-1 text-xs text-red-600" role="alert">{errors.recipientTime}</p>
                     )}
                 </div>
             </div>
@@ -319,7 +337,7 @@ export default function CheckoutPage() {
                     <span>{total} kr</span>
                 </div>
                 {submitError && (
-                    <p className="mt-2 text-sm text-red-600">{submitError}</p>
+                    <p className="mt-2 text-sm text-red-600" role="alert">{submitError}</p>
                 )}
                 <button
                     className="mt-4 w-full rounded-lg bg-green-600 p-3 text-white disabled:cursor-not-allowed disabled:opacity-50"

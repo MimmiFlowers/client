@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import BurgerMenu from "../../components/BurgerMenu/BurgerMenu";
 import { useCart } from "../../contexts/CartContext";
 import { useState } from "react";
+import { Link } from "react-router";
 import { CartDropdown } from "../../components/CartDropdown/CartDropdown";
 
 const Header = () => {
@@ -15,18 +16,20 @@ const Header = () => {
     };
 
     return (
-        <div className="fixed z-10 flex h-[7vh] w-full items-center justify-between bg-[#edc7f5] px-4 shadow-lg">
+        <header className="fixed z-10 flex h-[7vh] w-full items-center justify-between bg-[#edc7f5] px-4 shadow-lg">
             <BurgerMenu />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <a className="text-3xl font-bold uppercase" href="/">
+                <Link className="text-3xl font-bold uppercase" to="/">
                     Mimmi Flowers
-                </a>
+                </Link>
             </div>
             <ul className="flex items-center justify-between">
                 <div className="flex scale-120 items-center justify-center px-3 py-1">
                     <button
                         className="cursor-pointer"
                         onClick={() => setShowCart((prev) => !prev)}
+                        aria-label={`Shopping cart, ${count} items`}
+                        aria-expanded={showCart}
                     >
                         <BasketShopping3 className="transition-transform duration-300 hover:scale-110" />
                         <span className="absolute top-0 right-0 rounded-full bg-white px-1.5 py-0.5 text-xs font-bold text-black">
@@ -45,6 +48,7 @@ const Header = () => {
                                 : "cursor-pointer border-b-2 border-transparent px-3 py-1 text-gray-500 hover:text-black"
                         }
                         onClick={() => changeLanguage("en")}
+                        aria-pressed={i18n.language === "en"}
                     >
                         EN
                     </button>
@@ -56,12 +60,13 @@ const Header = () => {
                                 : "cursor-pointer border-b-2 border-transparent px-3 py-1 text-gray-500 hover:text-black"
                         }
                         onClick={() => changeLanguage("sv")}
+                        aria-pressed={i18n.language === "sv"}
                     >
                         SV
                     </button>
                 </ul>
             </ul>
-        </div>
+        </header>
     );
 };
 

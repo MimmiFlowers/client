@@ -8,15 +8,25 @@ const CollectionCard = ({
 }) => {
     const navigate = useNavigate();
 
-    const handleRedirect = (e: React.MouseEvent) => {
-        e.preventDefault();
+    const handleRedirect = () => {
         navigate(`/Catalog?collection=${collectionMini.id}`);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleRedirect();
+        }
     };
 
     return (
         <div
             className="relative flex aspect-4/3 w-[45%] cursor-pointer items-center justify-center overflow-hidden shadow-lg transition-transform"
             onClick={handleRedirect}
+            onKeyDown={handleKeyDown}
+            role="button"
+            tabIndex={0}
+            aria-label={`Collection: ${collectionMini.name}`}
         >
             <img
                 src={collectionMini.picture}

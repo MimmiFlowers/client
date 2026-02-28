@@ -1,5 +1,5 @@
 import { useCart } from "../../contexts/CartContext";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
@@ -12,7 +12,34 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
     const ref = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     const { t } = useTranslation();
-    // const apiUrl = "http://localhost:8500/";
+
+    const handleKeyDown = useCallback(
+        (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+                return;
+            }
+
+            if (e.key === "Tab" && ref.current) {
+                const focusable = ref.current.querySelectorAll<HTMLElement>(
+                    'a, button, [tabindex]:not([tabindex="-1"])',
+                );
+                if (focusable.length === 0) return;
+
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        },
+        [onClose],
+    );
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -24,13 +51,23 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
-        return () =>
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
             document.removeEventListener("mousedown", handleClickOutside);
-    }, [onClose]);
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [onClose, handleKeyDown]);
 
     const handleRedirect = (e: React.MouseEvent, id: string) => {
         e.preventDefault();
-        navigate(`Catalog/${id}`);
+        navigate(`/Catalog/${id}`);
+    };
+
+    const handleRedirectKeyDown = (e: React.KeyboardEvent, id: string) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            navigate(`/Catalog/${id}`);
+        }
     };
 
     const total = items.reduce(
@@ -41,6 +78,9 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
     return (
         <div
             ref={ref}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t("cart.your_cart")}
             className="absolute top-10 right-2 z-50 w-80 rounded-lg border bg-[#FFF0F5] p-4 shadow-xl"
         >
             <h3 className="mb-2 text-lg font-semibold">
@@ -62,11 +102,21 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                                 src={item.picture}
                                 alt={item.name}
                                 onClick={(e) => handleRedirect(e, item.id)}
+                                onKeyDown={(e) =>
+                                    handleRedirectKeyDown(e, item.id)
+                                }
+                                role="button"
+                                tabIndex={0}
                                 className="h-12 w-12 cursor-pointer rounded object-cover object-center transition-transform duration-300 hover:scale-105"
                             />
                             <div className="flex-1 px-2">
                                 <p
                                     onClick={(e) => handleRedirect(e, item.id)}
+                                    onKeyDown={(e) =>
+                                        handleRedirectKeyDown(e, item.id)
+                                    }
+                                    role="button"
+                                    tabIndex={0}
                                     className="cursor-pointer text-sm font-medium hover:underline"
                                 >
                                     {item.name}
@@ -77,6 +127,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                                 <div className="mt-1 flex items-center gap-2">
                                     <button
                                         onClick={() => decrease(item.id)}
+                                        aria-label={`Decrease quantity of ${item.name}`}
                                         className="cursor-pointer px-2 transition-transform duration-300 hover:scale-110"
                                     >
                                         −
@@ -84,6 +135,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                                     <span>{item.quantity}</span>
                                     <button
                                         onClick={() => increase(item.id)}
+                                        aria-label={`Increase quantity of ${item.name}`}
                                         className="cursor-pointer px-2 transition-transform duration-300 hover:scale-110"
                                     >
                                         +
@@ -94,6 +146,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                                 <p>{item.price * item.quantity} kr</p>
                                 <button
                                     onClick={() => removeItem(item.id)}
+                                    aria-label={`Remove ${item.name} from cart`}
                                     className="mt-1 cursor-pointer text-sm text-red-500 transition-transform duration-300 hover:scale-110"
                                 >
                                     ×

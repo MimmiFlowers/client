@@ -1,18 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
 const BurgerMenu: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t } = useTranslation();
+    const menuRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const toggleMenu = () => setIsOpen(!isOpen);
+
+    const closeMenu = useCallback(() => {
+        setIsOpen(false);
+        buttonRef.current?.focus();
+    }, []);
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                closeMenu();
+            }
+
+            if (e.key === "Tab" && menuRef.current) {
+                const focusable = menuRef.current.querySelectorAll<HTMLElement>(
+                    'a, button, [tabindex]:not([tabindex="-1"])',
+                );
+                if (focusable.length === 0) return;
+
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen, closeMenu]);
 
     return (
         <>
             <button
+                ref={buttonRef}
                 onClick={toggleMenu}
                 className="group top-4 left-4 z-50 mx-3 flex h-6 w-8 cursor-pointer flex-col justify-between transition-transform duration-300 hover:scale-110"
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isOpen}
+                aria-controls="burger-menu-panel"
             >
                 <span
                     className={`h-1 rounded bg-black transition-transform duration-300 ${
@@ -32,6 +74,11 @@ const BurgerMenu: React.FC = () => {
             </button>
 
             <div
+                id="burger-menu-panel"
+                ref={menuRef}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Navigation menu"
                 className={`fixed top-0 left-0 z-40 h-full bg-white shadow-lg transition-transform duration-300 ${
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 } w-[20vw] min-w-[200px]`}
@@ -39,21 +86,21 @@ const BurgerMenu: React.FC = () => {
                 <nav className="flex translate-y-16 flex-col space-y-2 p-6">
                     <Link
                         to="/Catalog"
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeMenu}
                         className="text-2xl hover:underline"
                     >
                         {t("menu.catalog")}
                     </Link>
                     <Link
                         to="/About"
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeMenu}
                         className="text-2xl hover:underline"
                     >
                         {t("menu.about")}
                     </Link>
                     <Link
                         to="/Contact"
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeMenu}
                         className="text-2xl hover:underline"
                     >
                         {t("menu.contact")}
