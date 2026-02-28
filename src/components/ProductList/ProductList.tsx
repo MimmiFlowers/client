@@ -2,7 +2,6 @@ import { useNavigate } from "react-router";
 import type { Product } from "../../types/types";
 
 const ProductList = ({ products }: { products: Product[] }) => {
-    // const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
 
     const handleRedirect = (e: React.MouseEvent, productID: string) => {
@@ -14,7 +13,7 @@ const ProductList = ({ products }: { products: Product[] }) => {
         <div className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
             {products.map((product) => (
                 <div
-                    key={product.name}
+                    key={product.productID}
                     className="rounded bg-white p-4 shadow-md hover:cursor-pointer"
                     onClick={(e) => handleRedirect(e, product.productID)}
                 >

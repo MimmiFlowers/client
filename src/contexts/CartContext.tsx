@@ -8,17 +8,25 @@ export interface CartItem {
     quantity: number;
 }
 
+interface StoredCart {
+    items: CartItem[];
+    updatedAt: number;
+}
+
 interface CartContextType {
     items: CartItem[];
     addItem: (item: CartItem) => void;
     removeItem: (id: string) => void;
-    increase: (id: string) => void; // ==========================
-    decrease: (id: string) => void; // ==========================
+    increase: (id: string) => void;
+    decrease: (id: string) => void;
     count: number;
     clearItems: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+// Cart expires after 7 days of inactivity
+const CART_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const MAX_ITEM_QTY = 99;
@@ -27,16 +35,30 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             const stored = localStorage.getItem("cartItems");
             if (!stored) return [];
-            const parsed = JSON.parse(stored);
-            if (!Array.isArray(parsed)) return [];
-            return parsed;
+
+            const parsed: unknown = JSON.parse(stored);
+
+            // Support legacy format (plain array) and new format (object with updatedAt)
+            if (Array.isArray(parsed)) return parsed;
+
+            const cart = parsed as StoredCart;
+            if (!cart.items || !Array.isArray(cart.items)) return [];
+
+            // Expire cart if stale
+            if (Date.now() - cart.updatedAt > CART_TTL_MS) {
+                localStorage.removeItem("cartItems");
+                return [];
+            }
+
+            return cart.items;
         } catch {
             return [];
         }
     });
 
     useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(items));
+        const cart: StoredCart = { items, updatedAt: Date.now() };
+        localStorage.setItem("cartItems", JSON.stringify(cart));
     }, [items]);
 
     const addItem = (item: CartItem) => {
