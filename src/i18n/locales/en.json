@@ -32,5 +32,99 @@
         "pp": "kr/pc",
         "total": "Total",
         "checkout": "Go to Checkout"
+    },
+    "collections": {
+        "title": "Our Collections"
+    },
+    "welcome": {
+        "title": "Welcome!"
+    },
+    "checkout": {
+        "customer_title": "Information of the customer",
+        "recipient_title": "Information of the receiver",
+        "cart_title": "Cart",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "phone": "Phone",
+        "email": "Email",
+        "order_for_myself": "Order for myself",
+        "pickup_myself": "I am picking up the order myself",
+        "pickup_address": "Pick up address: Ragsved, Stockholm",
+        "delivery_address": "Delivery address",
+        "delivery_date": "Delivery date",
+        "delivery_time": "Time of delivery",
+        "delivery_time_range": "Delivery time is only from 08:00 to 22:00",
+        "delivery": "Delivery",
+        "vat_included": "VAT included (25%)",
+        "total": "Total",
+        "pay": "Pay",
+        "processing": "Processing...",
+        "empty_cart": "Your cart is empty.",
+        "errors": {
+            "first_name": "First name is required",
+            "last_name": "Last name is required",
+            "phone": "Phone is required",
+            "email_required": "Email is required",
+            "email_invalid": "Invalid email format",
+            "recipient_first_name": "Recipient first name is required",
+            "recipient_last_name": "Recipient last name is required",
+            "recipient_phone": "Recipient phone is required",
+            "delivery_address": "Delivery address is required",
+            "delivery_date": "Delivery date is required",
+            "delivery_time": "Delivery time is required",
+            "payment_redirect": "Payment redirect failed",
+            "checkout_session": "Failed to create checkout session. Please try again.",
+            "unexpected": "An unexpected error occurred. Please try again."
+        }
+    },
+    "success": {
+        "verifying": "Verifying your order...",
+        "error_title": "We could not verify your order",
+        "error_message": "If you completed payment, your order is being processed. Please contact our support team if you need assistance.",
+        "return_home": "Return to Homepage",
+        "thank_you": "Thank You for Your Order!",
+        "order_id": "Your order ID is:",
+        "processing": "We will process your order shortly.",
+        "questions": "If you have any questions, please contact our support team.",
+        "thanks_shopping": "Thank you for shopping with us!"
+    },
+    "cancel": {
+        "title": "Payment Cancelled",
+        "order_not_completed": "Order {{orderID}} was not completed.",
+        "not_processed": "Your payment was not processed. You can return to your cart and try again.",
+        "return_checkout": "Return to Checkout"
+    },
+    "not_found": {
+        "title": "Page Not Found",
+        "message": "The page you are looking for does not exist or has been moved.",
+        "go_home": "Go to Homepage"
+    },
+    "about": {
+        "title": "About Mimmi Flowers",
+        "paragraph1": "Mimmi Flowers is a Stockholm-based florist dedicated to creating beautiful, hand-crafted bouquets for every occasion.",
+        "paragraph2": "Whether you are celebrating a birthday, expressing love, or simply brightening someone's day, our carefully curated arrangements are designed to bring joy.",
+        "paragraph3": "We offer delivery across Stockholm and convenient pickup from our location in Ragsved.",
+        "browse_catalog": "Browse our catalog"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "address_label": "Address:",
+        "address_value": "Ragsved, Stockholm",
+        "email_label": "Email:",
+        "phone_label": "Phone:",
+        "hours_label": "Opening hours:",
+        "hours_value": "Mon\u2013Fri 08:00\u201318:00, Sat 10:00\u201316:00"
+    },
+    "loading": "Loading...",
+    "errors": {
+        "load_products": "Failed to load products. Please try again later.",
+        "load_collections": "Failed to load collections. Please try again later.",
+        "load_product": "Failed to load product. Please try again later."
+    },
+    "filter": {
+        "favorite": "Favorite",
+        "monobouquets": "Monobouquets",
+        "birthday": "Birthday",
+        "romantic": "Romantic"
     }
 }

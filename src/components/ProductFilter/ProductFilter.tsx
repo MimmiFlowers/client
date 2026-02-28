@@ -1,11 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 type Props = {
     selected: string[];
     onChange: (filters: string[]) => void;
 };
 
-const subgroupOptions = ["favorite", "monobouquets", "birthday", "romantic"]; // твои сабгруппы
+// Available product subgroup filter options
+const subgroupOptions = ["favorite", "monobouquets", "birthday", "romantic"];
 
 const ProductFilter = ({ selected, onChange }: Props) => {
+    const { t } = useTranslation();
+
     const toggleFilter = (filter: string) => {
         let updated: string[];
         if (selected.includes(filter)) {
@@ -28,7 +33,7 @@ const ProductFilter = ({ selected, onChange }: Props) => {
                         checked={selected.includes(option)}
                         onChange={() => toggleFilter(option)}
                     />
-                    <span className="capitalize">{option}</span>
+                    <span className="capitalize">{t(`filter.${option}`)}</span>
                 </label>
             ))}
         </div>

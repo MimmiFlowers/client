@@ -32,5 +32,99 @@
         "pp": "kr/st",
         "total": "Totalt",
         "checkout": "Gå till kassan"
+    },
+    "collections": {
+        "title": "Våra Kollektioner"
+    },
+    "welcome": {
+        "title": "Välkommen!"
+    },
+    "checkout": {
+        "customer_title": "Kundinformation",
+        "recipient_title": "Mottagarinformation",
+        "cart_title": "Varukorg",
+        "first_name": "Förnamn",
+        "last_name": "Efternamn",
+        "phone": "Telefon",
+        "email": "E-post",
+        "order_for_myself": "Beställning till mig själv",
+        "pickup_myself": "Jag hämtar beställningen själv",
+        "pickup_address": "Hämtningsadress: Rågsved, Stockholm",
+        "delivery_address": "Leveransadress",
+        "delivery_date": "Leveransdatum",
+        "delivery_time": "Leveranstid",
+        "delivery_time_range": "Leveranstid är enbart mellan 08:00 och 22:00",
+        "delivery": "Leverans",
+        "vat_included": "Moms ingår (25%)",
+        "total": "Totalt",
+        "pay": "Betala",
+        "processing": "Bearbetar...",
+        "empty_cart": "Din varukorg är tom.",
+        "errors": {
+            "first_name": "Förnamn krävs",
+            "last_name": "Efternamn krävs",
+            "phone": "Telefon krävs",
+            "email_required": "E-post krävs",
+            "email_invalid": "Ogiltigt e-postformat",
+            "recipient_first_name": "Mottagarens förnamn krävs",
+            "recipient_last_name": "Mottagarens efternamn krävs",
+            "recipient_phone": "Mottagarens telefon krävs",
+            "delivery_address": "Leveransadress krävs",
+            "delivery_date": "Leveransdatum krävs",
+            "delivery_time": "Leveranstid krävs",
+            "payment_redirect": "Betalningsomdirigering misslyckades",
+            "checkout_session": "Det gick inte att skapa kassasession. Försök igen.",
+            "unexpected": "Ett oväntat fel inträffade. Försök igen."
+        }
+    },
+    "success": {
+        "verifying": "Verifierar din beställning...",
+        "error_title": "Vi kunde inte verifiera din beställning",
+        "error_message": "Om du har genomfört betalningen behandlas din beställning. Kontakta vår kundtjänst om du behöver hjälp.",
+        "return_home": "Tillbaka till startsidan",
+        "thank_you": "Tack för din beställning!",
+        "order_id": "Ditt ordernummer är:",
+        "processing": "Vi kommer att behandla din beställning inom kort.",
+        "questions": "Om du har frågor, kontakta vår kundtjänst.",
+        "thanks_shopping": "Tack för att du handlar hos oss!"
+    },
+    "cancel": {
+        "title": "Betalningen avbruten",
+        "order_not_completed": "Beställning {{orderID}} slutfördes inte.",
+        "not_processed": "Din betalning behandlades inte. Du kan gå tillbaka till kassan och försöka igen.",
+        "return_checkout": "Tillbaka till kassan"
+    },
+    "not_found": {
+        "title": "Sidan hittades inte",
+        "message": "Sidan du letar efter finns inte eller har flyttats.",
+        "go_home": "Gå till startsidan"
+    },
+    "about": {
+        "title": "Om Mimmi Flowers",
+        "paragraph1": "Mimmi Flowers är en Stockholmsbaserad florist som skapar vackra, handgjorda buketter för alla tillfällen.",
+        "paragraph2": "Oavsett om du firar en födelsedag, uttrycker kärlek eller helt enkelt vill lysa upp någons dag, är våra noggrant utvalda arrangemang utformade för att sprida glädje.",
+        "paragraph3": "Vi erbjuder leverans i hela Stockholm och bekväm hämtning från vår butik i Rågsved.",
+        "browse_catalog": "Bläddra i vår katalog"
+    },
+    "contact": {
+        "title": "Kontakta oss",
+        "address_label": "Adress:",
+        "address_value": "Rågsved, Stockholm",
+        "email_label": "E-post:",
+        "phone_label": "Telefon:",
+        "hours_label": "Öppettider:",
+        "hours_value": "Mån\u2013Fre 08:00\u201318:00, Lör 10:00\u201316:00"
+    },
+    "loading": "Laddar...",
+    "errors": {
+        "load_products": "Det gick inte att ladda produkter. Försök igen senare.",
+        "load_collections": "Det gick inte att ladda kollektioner. Försök igen senare.",
+        "load_product": "Det gick inte att ladda produkten. Försök igen senare."
+    },
+    "filter": {
+        "favorite": "Favoriter",
+        "monobouquets": "Monobuketter",
+        "birthday": "Födelsedag",
+        "romantic": "Romantisk"
     }
 }

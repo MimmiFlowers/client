@@ -1,14 +1,18 @@
+import { useTranslation } from "react-i18next";
+
 const ContactPage = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="mx-auto max-w-3xl px-6 py-12">
-            <h1 className="mb-6 text-3xl font-bold">Contact Us</h1>
+            <h1 className="mb-6 text-3xl font-bold">{t("contact.title")}</h1>
             <div className="space-y-4 text-lg text-gray-700">
                 <p>
-                    <span className="font-semibold">Address:</span> Rågsved,
-                    Stockholm
+                    <span className="font-semibold">{t("contact.address_label")}</span>{" "}
+                    {t("contact.address_value")}
                 </p>
                 <p>
-                    <span className="font-semibold">Email:</span>{" "}
+                    <span className="font-semibold">{t("contact.email_label")}</span>{" "}
                     <a
                         href="mailto:info@mimmiflowers.se"
                         className="text-green-600 hover:underline"
@@ -17,7 +21,7 @@ const ContactPage = () => {
                     </a>
                 </p>
                 <p>
-                    <span className="font-semibold">Phone:</span>{" "}
+                    <span className="font-semibold">{t("contact.phone_label")}</span>{" "}
                     <a
                         href="tel:+46000000000"
                         className="text-green-600 hover:underline"
@@ -26,8 +30,8 @@ const ContactPage = () => {
                     </a>
                 </p>
                 <p>
-                    <span className="font-semibold">Opening hours:</span>{" "}
-                    Mon&ndash;Fri 08:00&ndash;18:00, Sat 10:00&ndash;16:00
+                    <span className="font-semibold">{t("contact.hours_label")}</span>{" "}
+                    {t("contact.hours_value")}
                 </p>
             </div>
         </div>

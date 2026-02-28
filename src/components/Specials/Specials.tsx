@@ -22,7 +22,7 @@ const Specials = ({ setting }: SpecialProps) => {
             );
             setProductsMini(response.data.data);
         } catch {
-            setError("Failed to load products. Please try again later.");
+            setError(t("errors.load_products"));
         } finally {
             setLoading(false);
         }
@@ -48,7 +48,7 @@ const Specials = ({ setting }: SpecialProps) => {
             <div className="my-4 flex w-full flex-row flex-wrap items-center justify-between gap-2">
                 {loading && (
                     <p className="w-full py-8 text-center text-gray-400">
-                        Loading...
+                        {t("loading")}
                     </p>
                 )}
                 {error && (

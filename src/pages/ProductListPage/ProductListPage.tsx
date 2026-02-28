@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import ProductFilter from "../../components/ProductFilter/ProductFilter";
 import ProductList from "../../components/ProductList/ProductList.tsx";
 import type { Product } from "../../types/types";
@@ -12,6 +13,7 @@ const ProductListPage = () => {
     const [error, setError] = useState("");
     const [searchParams, setSearchParams] = useSearchParams();
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+    const { t } = useTranslation();
 
     const fetchProducts = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
@@ -22,7 +24,7 @@ const ProductListPage = () => {
             const fetchedProducts = await axios.get(`${apiUrl}/data/products`);
             setProducts(fetchedProducts.data.products);
         } catch {
-            setError("Failed to load products. Please try again later.");
+            setError(t("errors.load_products"));
         } finally {
             setLoading(false);
         }
@@ -68,7 +70,7 @@ const ProductListPage = () => {
             />
             {loading && (
                 <p className="w-full py-8 text-center text-gray-400">
-                    Loading...
+                    {t("loading")}
                 </p>
             )}
             {error && (

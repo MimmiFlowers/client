@@ -24,7 +24,7 @@ const ProductPage = () => {
             const response = await api.get(`/data/products/${productId}`);
             setProduct(response.data);
         } catch {
-            setError("Failed to load product. Please try again later.");
+            setError(t("errors.load_product"));
         } finally {
             setLoading(false);
         }
@@ -58,7 +58,7 @@ const ProductPage = () => {
     if (loading) {
         return (
             <div className="flex h-screen w-screen items-center justify-center">
-                <p className="text-gray-400">Loading...</p>
+                <p className="text-gray-400">{t("loading")}</p>
             </div>
         );
     }
