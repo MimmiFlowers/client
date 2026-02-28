@@ -10,7 +10,7 @@ const CollectionCard = ({
 
     const handleRedirect = (e: React.MouseEvent) => {
         e.preventDefault();
-        navigate(`Collection/${collectionMini.id}`);
+        navigate(`/Catalog?collection=${collectionMini.id}`);
     };
 
     return (

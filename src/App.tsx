@@ -6,6 +6,10 @@ import ProductListPage from "./pages/ProductListPage/ProductListPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import CheckOutPage from "./pages/CheckOutPage/CheckOutPage";
 import SuccessPage from "./pages/SuccessPage/SuccessPage";
+import AboutPage from "./pages/AboutPage/AboutPage";
+import ContactPage from "./pages/ContactPage/ContactPage";
+import CancelPage from "./pages/CancelPage/CancelPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 const App = () => {
     return (
@@ -22,6 +26,13 @@ const App = () => {
                             path="/Success/:orderID"
                             element={<SuccessPage />}
                         />
+                        <Route path="/About" element={<AboutPage />} />
+                        <Route path="/Contact" element={<ContactPage />} />
+                        <Route
+                            path="/Cancel/:orderID"
+                            element={<CancelPage />}
+                        />
+                        <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </div>
                 <Footer />

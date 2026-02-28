@@ -7,7 +7,7 @@ const ProductCard = ({ productMini }: { productMini: ProductMini }) => {
 
     const handleRedirect = (e: React.MouseEvent) => {
         e.preventDefault();
-        navigate(`Catalog/${productMini.productID}`);
+        navigate(`/Catalog/${productMini.productID}`);
     };
 
     return (
