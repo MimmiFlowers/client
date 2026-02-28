@@ -24,7 +24,7 @@ const CollectionCard = ({
                 className="absolute h-full w-full object-cover object-center duration-500 hover:scale-110"
                 loading="lazy"
                 onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/fallback-image.jpg"; // Запасное изображение
+                    (e.target as HTMLImageElement).style.display = "none";
                 }}
             />
             <span className="absolute bottom-0 z-10 mb-4 text-5xl text-white drop-shadow-lg sm:text-3xl md:text-4xl">

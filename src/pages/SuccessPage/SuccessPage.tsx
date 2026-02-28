@@ -24,12 +24,8 @@ const SuccessPage = () => {
             <p className="mt-2 text-center">
                 We will process your order shortly.
             </p>
-            <div className="mt-6 flex justify-center">
-                <img
-                    src="/images/success.png"
-                    alt="Success"
-                    className="w-1/3"
-                />
+            <div className="mt-6 flex justify-center text-6xl">
+                &#10003;
             </div>
             <p className="mt-4 text-center">
                 If you have any questions, please contact our support team.
