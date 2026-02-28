@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useCart } from "../../contexts/CartContext";
 import BasketShopping3 from "../../icons/basketIcon";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import api, { registerReloadOnLanguageChange } from "../../instances/api";
+import api, { registerReloadOnLanguageChange } from "../../api/api";
 import type { Product } from "../../types/types";
 
 const ProductPage = () => {

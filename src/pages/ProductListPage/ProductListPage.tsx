@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import ProductFilter from "../../components/ProductFilter/ProductFilter";
 import ProductList from "../../components/ProductList/ProductList.tsx";
 import type { Product } from "../../types/types";
-import axios from "axios";
+import api from "../../api/api";
 
 const ProductListPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -16,12 +16,11 @@ const ProductListPage = () => {
     const { t } = useTranslation();
 
     const fetchProducts = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
         setLoading(true);
         setError("");
 
         try {
-            const fetchedProducts = await axios.get(`${apiUrl}/data/products`);
+            const fetchedProducts = await api.get("/data/products");
             setProducts(fetchedProducts.data.products);
         } catch {
             setError(t("errors.load_products"));

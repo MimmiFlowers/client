@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import ProductCard from "../ProductCard/ProductCard";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
+import api from "../../api/api";
 import type { SpecialProps, ProductMini } from "../../types/types";
 
 const Specials = ({ setting }: SpecialProps) => {
@@ -12,13 +12,12 @@ const Specials = ({ setting }: SpecialProps) => {
     const { t } = useTranslation();
 
     const fetchProductsMini = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
         setLoading(true);
         setError("");
 
         try {
-            const response = await axios.get(
-                `${apiUrl}/data/category/${setting.toLowerCase()}`,
+            const response = await api.get(
+                `/data/category/${setting.toLowerCase()}`,
             );
             setProductsMini(response.data.data);
         } catch {

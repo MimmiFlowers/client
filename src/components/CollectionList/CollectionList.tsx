@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
+import api from "../../api/api";
 import type { CollectionMini } from "../../types/types";
 import CollectionCard from "../CollectionCard/CollectionCard";
 
@@ -11,14 +11,12 @@ const CollectionList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const { t } = useTranslation();
-    const apiUrl = import.meta.env.VITE_API_URL;
-
     const fetchCollectionsMini = async () => {
         setLoading(true);
         setError("");
 
         try {
-            const response = await axios.get(`${apiUrl}/collections`);
+            const response = await api.get("/data/collections");
             setCollectionsMini(response.data.data);
         } catch {
             setError(t("errors.load_collections"));

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useCart } from "../../contexts/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import api from "../../api/api";
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
                 setSubmitError(result.error.message || t("checkout.errors.payment_redirect"));
             }
         } catch (error) {
-            if (axios.isAxiosError(error)) {
+            if (isAxiosError(error)) {
                 setSubmitError(
                     error.response?.data?.detail || t("checkout.errors.checkout_session"),
                 );
