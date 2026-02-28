@@ -21,9 +21,18 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+    const MAX_ITEM_QTY = 99;
+
     const [items, setItems] = useState<CartItem[]>(() => {
-        const stored = localStorage.getItem("cartItems");
-        return stored ? JSON.parse(stored) : [];
+        try {
+            const stored = localStorage.getItem("cartItems");
+            if (!stored) return [];
+            const parsed = JSON.parse(stored);
+            if (!Array.isArray(parsed)) return [];
+            return parsed;
+        } catch {
+            return [];
+        }
     });
 
     useEffect(() => {
@@ -34,11 +43,18 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         setItems((prev) => {
             const existing = prev.find((p) => p.id === item.id);
             if (existing) {
+                const newQty = Math.min(
+                    existing.quantity + (item.quantity || 1),
+                    MAX_ITEM_QTY,
+                );
                 return prev.map((p) =>
-                    p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p,
+                    p.id === item.id ? { ...p, quantity: newQty } : p,
                 );
             }
-            return [...prev, { ...item, quantity: 1 }];
+            return [
+                ...prev,
+                { ...item, quantity: Math.min(item.quantity || 1, MAX_ITEM_QTY) },
+            ];
         });
     };
 
@@ -49,7 +65,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const increase = (id: string) => {
         setItems((prev) =>
             prev.map((p) =>
-                p.id === id ? { ...p, quantity: p.quantity + 1 } : p,
+                p.id === id
+                    ? { ...p, quantity: Math.min(p.quantity + 1, MAX_ITEM_QTY) }
+                    : p,
             ),
         );
     };
