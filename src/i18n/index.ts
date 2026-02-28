@@ -18,4 +18,11 @@ i18n.use(LanguageDetector)
         },
     });
 
+// Keep <html lang="..."> in sync with the active language
+i18n.on("languageChanged", (lng: string) => {
+    document.documentElement.lang = lng;
+});
+// Set initial value
+document.documentElement.lang = i18n.language || "en";
+
 export default i18n;
