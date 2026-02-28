@@ -8,7 +8,7 @@ import api, { registerReloadOnLanguageChange } from "../../api/api";
 import type { Product } from "../../types/types";
 
 const ProductPage = () => {
-    const [product, setProduct] = useState<Product>({} as Product);
+    const [product, setProduct] = useState<Product | null>(null);
     const [subgroup, setSubgroup] = useState<string>("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -30,11 +30,11 @@ const ProductPage = () => {
         }
     };
 
-    const subgroupSetter = () => {
-        if (product.category) {
-            setSubgroup(product.category.toLowerCase());
-        } else if (product.collection) {
-            setSubgroup(product.collection.toLowerCase());
+    const subgroupSetter = (p: Product) => {
+        if (p.category) {
+            setSubgroup(p.category.toLowerCase());
+        } else if (p.collection) {
+            setSubgroup(p.collection.toLowerCase());
         } else {
             setSubgroup("subgroup");
         }
@@ -52,7 +52,9 @@ const ProductPage = () => {
     }, [id]);
 
     useEffect(() => {
-        product && subgroupSetter();
+        if (product) {
+            subgroupSetter(product);
+        }
     }, [product]);
 
     if (loading) {
@@ -63,10 +65,10 @@ const ProductPage = () => {
         );
     }
 
-    if (error) {
+    if (error || !product) {
         return (
             <div className="flex h-screen w-screen items-center justify-center">
-                <p className="text-red-500">{error}</p>
+                <p className="text-red-500">{error || t("errors.load_product")}</p>
             </div>
         );
     }

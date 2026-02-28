@@ -258,7 +258,7 @@ export default function CheckoutPage() {
                         min={
                             new Date(Date.now() + 24 * 60 * 60 * 1000)
                                 .toISOString()
-                                .split("T")[0]
+                                .split("T")[0] ?? ""
                         }
                     />
                     {errors.recipientDate && (
@@ -276,7 +276,8 @@ export default function CheckoutPage() {
                         disabled={pickup || orderForMyself}
                         value={recipient.time}
                         onChange={(e) => {
-                            const hour = parseInt(e.target.value.split(":")[0]);
+                            const hourStr = e.target.value.split(":")[0];
+                            const hour = hourStr != null ? parseInt(hourStr) : NaN;
                             if (hour >= 8 && hour <= 22) {
                                 setRecipient({
                                     ...recipient,

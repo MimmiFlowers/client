@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 import { CartProvider, useCart } from "../contexts/CartContext";
 import type { CartItem } from "../contexts/CartContext";
@@ -32,7 +32,7 @@ describe("CartContext", () => {
         const { result } = renderHook(() => useCart(), { wrapper });
         act(() => result.current.addItem(makeItem()));
         expect(result.current.items).toHaveLength(1);
-        expect(result.current.items[0].name).toBe("Rose Bouquet");
+        expect(result.current.items[0]!.name).toBe("Rose Bouquet");
         expect(result.current.count).toBe(1);
     });
 
@@ -41,19 +41,19 @@ describe("CartContext", () => {
         act(() => result.current.addItem(makeItem()));
         act(() => result.current.addItem(makeItem()));
         expect(result.current.items).toHaveLength(1);
-        expect(result.current.items[0].quantity).toBe(2);
+        expect(result.current.items[0]!.quantity).toBe(2);
     });
 
     it("respects the item.quantity property when adding", () => {
         const { result } = renderHook(() => useCart(), { wrapper });
         act(() => result.current.addItem(makeItem({ quantity: 5 })));
-        expect(result.current.items[0].quantity).toBe(5);
+        expect(result.current.items[0]!.quantity).toBe(5);
     });
 
     it("caps quantity at MAX_ITEM_QTY (99)", () => {
         const { result } = renderHook(() => useCart(), { wrapper });
         act(() => result.current.addItem(makeItem({ quantity: 100 })));
-        expect(result.current.items[0].quantity).toBe(99);
+        expect(result.current.items[0]!.quantity).toBe(99);
     });
 
     it("removes an item from the cart", () => {
@@ -67,14 +67,14 @@ describe("CartContext", () => {
         const { result } = renderHook(() => useCart(), { wrapper });
         act(() => result.current.addItem(makeItem()));
         act(() => result.current.increase("prod-1"));
-        expect(result.current.items[0].quantity).toBe(2);
+        expect(result.current.items[0]!.quantity).toBe(2);
     });
 
     it("decreases item quantity", () => {
         const { result } = renderHook(() => useCart(), { wrapper });
         act(() => result.current.addItem(makeItem({ quantity: 3 })));
         act(() => result.current.decrease("prod-1"));
-        expect(result.current.items[0].quantity).toBe(2);
+        expect(result.current.items[0]!.quantity).toBe(2);
     });
 
     it("removes item when quantity decreases to zero", () => {

@@ -24,7 +24,7 @@ describe("Checkout form validation", () => {
         it("accepts times between 08:00 and 22:00", () => {
             for (const hour of [8, 12, 17, 22]) {
                 const time = `${hour.toString().padStart(2, "0")}:00`;
-                const h = parseInt(time.split(":")[0]);
+                const h = parseInt(time.split(":")[0] ?? "");
                 expect(h >= 8 && h <= 22).toBe(true);
             }
         });
@@ -32,7 +32,7 @@ describe("Checkout form validation", () => {
         it("rejects times outside 08:00-22:00", () => {
             for (const hour of [0, 5, 7, 23]) {
                 const time = `${hour.toString().padStart(2, "0")}:00`;
-                const h = parseInt(time.split(":")[0]);
+                const h = parseInt(time.split(":")[0] ?? "");
                 expect(h >= 8 && h <= 22).toBe(false);
             }
         });
