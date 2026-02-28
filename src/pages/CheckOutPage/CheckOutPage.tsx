@@ -83,10 +83,8 @@ export default function CheckoutPage() {
             const stripe = await stripePromise;
             if (!stripe) return;
 
-            const orderID = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
             const orderData = {
-                orderID,
+                orderID: "placeholder", // Server generates the real orderID
                 customer,
                 recipient: pickup || orderForMyself ? null : recipient,
                 pickup,
