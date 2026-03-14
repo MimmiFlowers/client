@@ -10,7 +10,7 @@ import "./index.css";
 // Fail fast if required env vars are missing
 const requiredEnvVars = ["VITE_API_URL", "VITE_STRIPE_PUBLIC_KEY"] as const;
 for (const key of requiredEnvVars) {
-    if (!import.meta.env[key]) {
+    if (import.meta.env[key] === undefined) {
         throw new Error(
             `Missing required environment variable: ${key}. ` +
                 "Check your .env file for the current Vite mode.",
