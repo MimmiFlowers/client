@@ -49,7 +49,7 @@ function FormInput({
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 min={min}
-                className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
+                className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
                     error
                         ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
                         : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
@@ -98,13 +98,7 @@ function Toggle({
 }
 
 /* ── Section header with step number ── */
-function SectionHeader({
-    step,
-    title,
-}: {
-    step: number;
-    title: string;
-}) {
+function SectionHeader({ step, title }: { step: number; title: string }) {
     return (
         <div className="mb-5 flex items-center gap-3">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/40 text-xs font-semibold text-gray-700">
@@ -119,7 +113,7 @@ function SectionHeader({
 
 export default function CheckoutPage() {
     const { items, increase, decrease, removeItem } = useCart();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const [customer, setCustomer] = useState({
         firstName: "",
@@ -149,7 +143,8 @@ export default function CheckoutPage() {
     const total = subtotal + deliveryFee;
     const moms = total * 0.25;
 
-    const needsRecipient = !pickup && !orderForMyself;
+    const needsRecipient = !orderForMyself;
+    const needsAddress = !pickup;
 
     const validate = (): FormErrors => {
         const errs: FormErrors = {};
@@ -177,13 +172,18 @@ export default function CheckoutPage() {
                 );
             if (!recipient.phone.trim())
                 errs.recipientPhone = t("checkout.errors.recipient_phone");
+        }
+
+        if (needsAddress) {
             if (!recipient.address.trim())
                 errs.recipientAddress = t("checkout.errors.delivery_address");
-            if (!recipient.date)
-                errs.recipientDate = t("checkout.errors.delivery_date");
-            if (!recipient.time)
-                errs.recipientTime = t("checkout.errors.delivery_time");
         }
+
+        // Date and time are always required
+        if (!recipient.date)
+            errs.recipientDate = t("checkout.errors.delivery_date");
+        if (!recipient.time)
+            errs.recipientTime = t("checkout.errors.delivery_time");
 
         return errs;
     };
@@ -203,8 +203,24 @@ export default function CheckoutPage() {
 
             const orderData = {
                 orderID: "placeholder",
+                locale: i18n.language,
                 customer,
-                recipient: pickup || orderForMyself ? null : recipient,
+                recipient: {
+                    ...(needsRecipient
+                        ? {
+                              firstName: recipient.firstName,
+                              lastName: recipient.lastName,
+                              phone: recipient.phone,
+                          }
+                        : {
+                              firstName: customer.firstName,
+                              lastName: customer.lastName,
+                              phone: customer.phone,
+                          }),
+                    address: needsAddress ? recipient.address : "",
+                    date: recipient.date,
+                    time: recipient.time,
+                },
                 pickup,
                 orderForMyself,
                 items,
@@ -362,107 +378,110 @@ export default function CheckoutPage() {
                                 onChange={setPickup}
                                 label={t("checkout.pickup_myself")}
                             />
-                            {pickup && (
-                                <div className="ml-12 flex items-center gap-2 text-sm text-gray-500">
-                                    <svg
-                                        className="h-4 w-4 shrink-0 text-[#edc7f5]"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth={2}
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                        />
-                                    </svg>
-                                    <span>{t("checkout.pickup_address")}</span>
-                                </div>
-                            )}
                         </div>
                     </section>
 
                     {/* Step 2: Delivery / Recipient info */}
-                    <section
-                        className={`rounded-2xl bg-white/70 p-6 backdrop-blur-sm transition-opacity duration-300 sm:p-8 ${
-                            !needsRecipient ? "pointer-events-none opacity-40" : ""
-                        }`}
-                    >
+                    <section className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
                         <SectionHeader
                             step={2}
                             title={t("checkout.recipient_title")}
                         />
 
-                        {!needsRecipient && (
-                            <p className="mb-4 text-sm text-gray-400 italic">
-                                {pickup
-                                    ? t("checkout.pickup_skip_hint")
-                                    : t("checkout.self_order_skip_hint")}
-                            </p>
+                        {/* Recipient name & phone — hidden when ordering for yourself */}
+                        {needsRecipient && (
+                            <>
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <FormInput
+                                        id="recipient-firstName"
+                                        label={t("checkout.first_name")}
+                                        value={recipient.firstName}
+                                        onChange={(v) =>
+                                            setRecipient({
+                                                ...recipient,
+                                                firstName: v,
+                                            })
+                                        }
+                                        error={errors.recipientFirstName}
+                                    />
+                                    <FormInput
+                                        id="recipient-lastName"
+                                        label={t("checkout.last_name")}
+                                        value={recipient.lastName}
+                                        onChange={(v) =>
+                                            setRecipient({
+                                                ...recipient,
+                                                lastName: v,
+                                            })
+                                        }
+                                        error={errors.recipientLastName}
+                                    />
+                                </div>
+
+                                <div className="mt-4">
+                                    <FormInput
+                                        id="recipient-phone"
+                                        label={t("checkout.phone")}
+                                        value={recipient.phone}
+                                        onChange={(v) =>
+                                            setRecipient({
+                                                ...recipient,
+                                                phone: v,
+                                            })
+                                        }
+                                        error={errors.recipientPhone}
+                                    />
+                                </div>
+                            </>
                         )}
 
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <FormInput
-                                id="recipient-firstName"
-                                label={t("checkout.first_name")}
-                                value={recipient.firstName}
-                                onChange={(v) =>
-                                    setRecipient({
-                                        ...recipient,
-                                        firstName: v,
-                                    })
-                                }
-                                error={errors.recipientFirstName}
-                                disabled={!needsRecipient}
-                            />
-                            <FormInput
-                                id="recipient-lastName"
-                                label={t("checkout.last_name")}
-                                value={recipient.lastName}
-                                onChange={(v) =>
-                                    setRecipient({
-                                        ...recipient,
-                                        lastName: v,
-                                    })
-                                }
-                                error={errors.recipientLastName}
-                                disabled={!needsRecipient}
-                            />
-                        </div>
+                        {/* Delivery address — hidden when pickup */}
+                        {needsAddress && (
+                            <div className={needsRecipient ? "mt-4" : ""}>
+                                <FormInput
+                                    id="recipient-address"
+                                    label={t("checkout.delivery_address")}
+                                    value={recipient.address}
+                                    onChange={(v) =>
+                                        setRecipient({
+                                            ...recipient,
+                                            address: v,
+                                        })
+                                    }
+                                    error={errors.recipientAddress}
+                                />
+                            </div>
+                        )}
 
-                        <div className="mt-4">
-                            <FormInput
-                                id="recipient-phone"
-                                label={t("checkout.phone")}
-                                value={recipient.phone}
-                                onChange={(v) =>
-                                    setRecipient({ ...recipient, phone: v })
-                                }
-                                error={errors.recipientPhone}
-                                disabled={!needsRecipient}
-                            />
-                        </div>
+                        {/* Pickup address hint */}
+                        {pickup && (
+                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                                <svg
+                                    className="h-4 w-4 shrink-0 text-[#edc7f5]"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                                    />
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                                    />
+                                </svg>
+                                <span>{t("checkout.pickup_address")}</span>
+                            </div>
+                        )}
 
-                        <div className="mt-4">
-                            <FormInput
-                                id="recipient-address"
-                                label={t("checkout.delivery_address")}
-                                value={recipient.address}
-                                onChange={(v) =>
-                                    setRecipient({ ...recipient, address: v })
-                                }
-                                error={errors.recipientAddress}
-                                disabled={!needsRecipient}
-                            />
-                        </div>
-
-                        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {/* Date & Time — always visible */}
+                        <div
+                            className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${needsRecipient || needsAddress || pickup ? "mt-4" : ""}`}
+                        >
                             <FormInput
                                 id="recipient-date"
                                 label={t("checkout.delivery_date")}
@@ -471,7 +490,6 @@ export default function CheckoutPage() {
                                     setRecipient({ ...recipient, date: v })
                                 }
                                 error={errors.recipientDate}
-                                disabled={!needsRecipient}
                                 type="date"
                                 min={tomorrowISO}
                             />
@@ -486,7 +504,6 @@ export default function CheckoutPage() {
                                     id="recipient-time"
                                     type="time"
                                     value={recipient.time}
-                                    disabled={!needsRecipient}
                                     onChange={(e) => {
                                         const hourStr =
                                             e.target.value.split(":")[0];
@@ -512,7 +529,7 @@ export default function CheckoutPage() {
                                             }));
                                         }
                                     }}
-                                    className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
+                                    className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none ${
                                         errors.recipientTime
                                             ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
                                             : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
@@ -559,7 +576,7 @@ export default function CheckoutPage() {
                                                 onClick={() =>
                                                     removeItem(item.id)
                                                 }
-                                                className="shrink-0 text-gray-300 transition-colors hover:text-gray-500"
+                                                className="shrink-0 cursor-pointer text-gray-300 transition-colors hover:text-gray-500"
                                                 aria-label={`Remove ${item.name}`}
                                             >
                                                 <svg
@@ -583,7 +600,7 @@ export default function CheckoutPage() {
                                                     onClick={() =>
                                                         decrease(item.id)
                                                     }
-                                                    className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
                                                     aria-label="Decrease quantity"
                                                 >
                                                     -
@@ -595,7 +612,7 @@ export default function CheckoutPage() {
                                                     onClick={() =>
                                                         increase(item.id)
                                                     }
-                                                    className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
                                                     aria-label="Increase quantity"
                                                 >
                                                     +
@@ -644,7 +661,7 @@ export default function CheckoutPage() {
 
                         {/* Pay button */}
                         <button
-                            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 py-3.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+                            className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gray-900 py-3.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
                             onClick={handlePay}
                             disabled={isLoading || items.length === 0}
                         >
