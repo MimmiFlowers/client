@@ -141,7 +141,7 @@ export default function CheckoutPage() {
     );
     const deliveryFee = pickup ? 0 : 99;
     const total = subtotal + deliveryFee;
-    const moms = total * 0.25;
+    const moms = Math.round(total * 0.25);
 
     const needsRecipient = !orderForMyself;
     const needsAddress = !pickup;
