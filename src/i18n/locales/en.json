@@ -7,7 +7,8 @@
     "menu": {
         "catalog": "Catalog",
         "about": "About Us",
-        "contact": "Contact"
+        "contact": "Contact",
+        "language": "Language"
     },
     "buttons": {
         "add_to_cart": "Add to Cart",
@@ -44,6 +45,16 @@
     },
     "welcome": {
         "title": "Welcome!"
+    },
+    "banner": {
+        "slide1_title": "Welcome to Mimmi Flowers",
+        "slide1_subtitle": "Hand-crafted bouquets delivered across Stockholm",
+        "slide2_title": "Spring Collection",
+        "slide2_subtitle": "Fresh seasonal bouquets have arrived",
+        "slide2_cta": "Shop Season",
+        "slide3_title": "Free Delivery",
+        "slide3_subtitle": "On all orders over 500 kr",
+        "slide3_cta": "Browse Catalog"
     },
     "checkout": {
         "customer_title": "Information of the customer",
@@ -136,6 +147,40 @@
         "load_products": "Failed to load products. Please try again later.",
         "load_collections": "Failed to load collections. Please try again later.",
         "load_product": "Failed to load product. Please try again later."
+    },
+    "catalog": {
+        "title": "Our Catalog",
+        "filters": "Filters",
+        "clear_all": "Clear all",
+        "no_products": "No products match your filters",
+        "no_products_hint": "Try removing some filters to see more results",
+        "results_count": "{{count}} products",
+        "results_count_one": "{{count}} product",
+        "sort_label": "Sort by",
+        "sort_default": "Default",
+        "sort_price_asc": "Price: Low to High",
+        "sort_price_desc": "Price: High to Low",
+        "sort_name_asc": "Name: A \u2013 Z",
+        "collection_section": "Collection",
+        "category_section": "Category",
+        "collection": {
+            "mono bouquets": "Mono Bouquets",
+            "duo bouquets": "Duo Bouquets",
+            "author": "Author",
+            "boxes and baskets": "Boxes & Baskets",
+            "gifts": "Gifts",
+            "season": "Season"
+        },
+        "category": {
+            "favorite": "Favorite",
+            "season": "Season"
+        }
+    },
+    "footer": {
+        "tagline": "Hand-crafted bouquets for every occasion, delivered across Stockholm.",
+        "quick_links": "Quick Links",
+        "contact_title": "Contact",
+        "rights": "All rights reserved."
     },
     "filter": {
         "favorite": "Favorite",

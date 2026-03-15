@@ -16,56 +16,66 @@ const Header = () => {
     };
 
     return (
-        <header className="fixed z-10 flex h-[7vh] w-full items-center justify-between bg-[#edc7f5] px-4 shadow-lg">
+        <header className="fixed z-[50] flex h-16 w-full items-center justify-between bg-[#edc7f5]/90 px-4 shadow-sm backdrop-blur-md">
             <BurgerMenu />
+
+            {/* Logo — centered */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Link className="text-3xl font-bold uppercase" to="/">
+                <Link
+                    className="text-lg font-light uppercase tracking-[0.2em] text-gray-900 transition-opacity duration-300 hover:opacity-70 sm:text-xl md:text-2xl"
+                    to="/"
+                >
                     Mimmi Flowers
                 </Link>
             </div>
-            <ul className="flex items-center justify-between">
-                <div className="flex scale-120 items-center justify-center px-3 py-1">
+
+            {/* Right side: cart + language */}
+            <div className="flex items-center gap-3 sm:gap-4">
+                <div className="relative flex items-center justify-center">
                     <button
-                        className="cursor-pointer"
+                        className="cursor-pointer transition-opacity duration-300 hover:opacity-70"
                         onClick={() => setShowCart((prev) => !prev)}
                         aria-label={`Shopping cart, ${count} items`}
                         aria-expanded={showCart}
                     >
-                        <BasketShopping3 className="transition-transform duration-300 hover:scale-110" />
-                        <span className="absolute top-0 right-0 rounded-full bg-white px-1.5 py-0.5 text-xs font-bold text-black">
+                        <BasketShopping3 className="h-5 w-5 text-gray-900 sm:h-6 sm:w-6" />
+                    </button>
+                    {count > 0 && (
+                        <span className="absolute -top-2 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-gray-900 text-[10px] font-medium text-white">
                             {count}
                         </span>
-                    </button>
+                    )}
                     {showCart && (
                         <CartDropdown onClose={() => setShowCart(false)} />
                     )}
                 </div>
-                <ul className="ml-2">
+
+                {/* Language switcher — desktop only */}
+                <div className="hidden items-center gap-0.5 rounded-full bg-white/40 p-0.5 backdrop-blur-sm md:flex">
                     <button
-                        className={
+                        className={`cursor-pointer rounded-full px-3 py-1 text-xs font-medium tracking-wider transition-all duration-300 ${
                             i18n.language === "en"
-                                ? "cursor-pointer border-b-2 border-black px-3 py-1 font-semibold"
-                                : "cursor-pointer border-b-2 border-transparent px-3 py-1 text-gray-500 hover:text-black"
-                        }
+                                ? "bg-white text-gray-900 shadow-sm"
+                                : "text-gray-600 hover:text-gray-900"
+                        }`}
                         onClick={() => changeLanguage("en")}
                         aria-pressed={i18n.language === "en"}
                     >
                         EN
                     </button>
-                    <span className="font-semibold"> | </span>
                     <button
-                        className={
+                        className={`cursor-pointer rounded-full px-3 py-1 text-xs font-medium tracking-wider transition-all duration-300 ${
                             i18n.language === "sv"
-                                ? "cursor-pointer border-b-2 border-black px-3 py-1 font-semibold"
-                                : "cursor-pointer border-b-2 border-transparent px-3 py-1 text-gray-500 hover:text-black"
-                        }
+                                ? "bg-white text-gray-900 shadow-sm"
+                                : "text-gray-600 hover:text-gray-900"
+                        }`}
                         onClick={() => changeLanguage("sv")}
                         aria-pressed={i18n.language === "sv"}
                     >
                         SV
                     </button>
-                </ul>
-            </ul>
+                </div>
+            </div>
         </header>
     );
 };

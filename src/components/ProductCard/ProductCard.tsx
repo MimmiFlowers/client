@@ -17,22 +17,32 @@ const ProductCard = ({ productMini }: { productMini: ProductMini }) => {
 
     return (
         <div
-            className="flex w-[24%] flex-col items-center justify-center overflow-hidden transition duration-500 hover:cursor-pointer"
+            className="group cursor-pointer"
             onClick={handleRedirect}
             onKeyDown={handleKeyDown}
             role="button"
             tabIndex={0}
             aria-label={`${productMini.name}, ${productMini.price} kr`}
         >
-            <img
-                className="aspect-[3/4] w-[100%] transform rounded object-cover shadow-lg transition duration-500 hover:scale-105"
-                src={productMini.picture}
-                alt={productMini.name}
-            />
-            <p className="mt-3 text-center text-xl font-semibold uppercase">
-                {productMini.name}
-            </p>
-            <p className="text-center text-xl">{productMini.price}kr</p>
+            {/* Image container */}
+            <div className="overflow-hidden rounded-xl">
+                <img
+                    className="aspect-[3/4] w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    src={productMini.picture}
+                    alt={productMini.name}
+                    loading="lazy"
+                />
+            </div>
+
+            {/* Info */}
+            <div className="mt-3 px-0.5">
+                <p className="text-sm font-semibold uppercase leading-tight text-gray-900 sm:text-base">
+                    {productMini.name}
+                </p>
+                <p className="mt-0.5 text-sm text-gray-600 sm:text-base">
+                    {productMini.price.toLocaleString()} kr
+                </p>
+            </div>
         </div>
     );
 };

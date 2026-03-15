@@ -7,12 +7,18 @@ const LandingPage = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="flex h-full w-full flex-col items-center justify-center">
+        <div className="flex w-full flex-col items-center">
             <title>{t("seo.home_title")}</title>
             <TituleBlock />
+
+            {/* Product sections */}
             <Specials key={"Favorite"} setting={"Favorite"} />
             <Specials key={"Season"} setting={"Season"} />
+
+            {/* Collections */}
             <CollectionList />
+
+            {/* Bottom spacer handled by Footer mt-16 */}
         </div>
     );
 };

@@ -7,7 +7,8 @@
     "menu": {
         "catalog": "Katalog",
         "about": "Om Oss",
-        "contact": "Kontakta Oss"
+        "contact": "Kontakta Oss",
+        "language": "Språk"
     },
     "buttons": {
         "add_to_cart": "Lägg till i varukorgen",
@@ -44,6 +45,16 @@
     },
     "welcome": {
         "title": "Välkommen!"
+    },
+    "banner": {
+        "slide1_title": "Välkommen till Mimmi Flowers",
+        "slide1_subtitle": "Handgjorda buketter med leverans i hela Stockholm",
+        "slide2_title": "Vårkollektionen",
+        "slide2_subtitle": "Nya säsongsbuketter har anlänt",
+        "slide2_cta": "Handla Säsong",
+        "slide3_title": "Fri Leverans",
+        "slide3_subtitle": "På alla beställningar över 500 kr",
+        "slide3_cta": "Bläddra i Katalogen"
     },
     "checkout": {
         "customer_title": "Kundinformation",
@@ -137,10 +148,44 @@
         "load_collections": "Det gick inte att ladda kollektioner. Försök igen senare.",
         "load_product": "Det gick inte att ladda produkten. Försök igen senare."
     },
+    "catalog": {
+        "title": "V\u00e5r Katalog",
+        "filters": "Filter",
+        "clear_all": "Rensa alla",
+        "no_products": "Inga produkter matchar dina filter",
+        "no_products_hint": "F\u00f6rs\u00f6k ta bort n\u00e5gra filter f\u00f6r att se fler resultat",
+        "results_count": "{{count}} produkter",
+        "results_count_one": "{{count}} produkt",
+        "sort_label": "Sortera efter",
+        "sort_default": "Standard",
+        "sort_price_asc": "Pris: L\u00e5gt till H\u00f6gt",
+        "sort_price_desc": "Pris: H\u00f6gt till L\u00e5gt",
+        "sort_name_asc": "Namn: A \u2013 \u00d6",
+        "collection_section": "Kollektion",
+        "category_section": "Kategori",
+        "collection": {
+            "mono bouquets": "Monobuketter",
+            "duo bouquets": "Duobuketter",
+            "author": "F\u00f6rfattare",
+            "boxes and baskets": "L\u00e5dor & Korgar",
+            "gifts": "Presenter",
+            "season": "S\u00e4song"
+        },
+        "category": {
+            "favorite": "Favoriter",
+            "season": "S\u00e4song"
+        }
+    },
+    "footer": {
+        "tagline": "Handgjorda buketter f\u00f6r alla tillf\u00e4llen, med leverans i hela Stockholm.",
+        "quick_links": "Snabbl\u00e4nkar",
+        "contact_title": "Kontakt",
+        "rights": "Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna."
+    },
     "filter": {
         "favorite": "Favoriter",
         "monobouquets": "Monobuketter",
-        "birthday": "Födelsedag",
+        "birthday": "F\u00f6delsedag",
         "romantic": "Romantisk"
     }
 }

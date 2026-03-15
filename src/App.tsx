@@ -13,30 +13,28 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 const App = () => {
     return (
-        <div className="h-screen w-screen">
-            <div className="App__wrapper">
-                <Header />
-                <main className="Page-content translate-y-[7vh]">
-                    <Routes>
-                        <Route path="/" element={<LandingPage />} />
-                        <Route path="/Catalog" element={<ProductListPage />} />
-                        <Route path="/Catalog/:id" element={<ProductPage />} />
-                        <Route path="/Checkout" element={<CheckOutPage />} />
-                        <Route
-                            path="/Success/:orderID"
-                            element={<SuccessPage />}
-                        />
-                        <Route path="/About" element={<AboutPage />} />
-                        <Route path="/Contact" element={<ContactPage />} />
-                        <Route
-                            path="/Cancel/:orderID"
-                            element={<CancelPage />}
-                        />
-                        <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                </main>
-                <Footer />
-            </div>
+        <div className="flex min-h-screen w-full flex-col overflow-x-hidden">
+            <Header />
+            <main className="flex-1 pt-16">
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/Catalog" element={<ProductListPage />} />
+                    <Route path="/Catalog/:id" element={<ProductPage />} />
+                    <Route path="/Checkout" element={<CheckOutPage />} />
+                    <Route
+                        path="/Success/:orderID"
+                        element={<SuccessPage />}
+                    />
+                    <Route path="/About" element={<AboutPage />} />
+                    <Route path="/Contact" element={<ContactPage />} />
+                    <Route
+                        path="/Cancel/:orderID"
+                        element={<CancelPage />}
+                    />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+            </main>
+            <Footer />
         </div>
     );
 };

@@ -21,7 +21,7 @@ const CollectionCard = ({
 
     return (
         <div
-            className="relative flex aspect-4/3 w-[45%] cursor-pointer items-center justify-center overflow-hidden shadow-lg transition-transform"
+            className="group relative flex aspect-4/3 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl"
             onClick={handleRedirect}
             onKeyDown={handleKeyDown}
             role="button"
@@ -31,16 +31,20 @@ const CollectionCard = ({
             <img
                 src={collectionMini.picture}
                 alt={collectionMini.name || "Collection image"}
-                className="absolute h-full w-full object-cover object-center duration-500 hover:scale-110"
+                className="absolute h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
                 onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                 }}
             />
-            <span className="absolute bottom-0 z-10 mb-4 text-5xl text-white drop-shadow-lg sm:text-3xl md:text-4xl">
+
+            {/* Gradient overlay */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+
+            {/* Collection name */}
+            <span className="absolute bottom-5 z-10 text-sm font-light uppercase tracking-[0.2em] text-white drop-shadow-lg sm:text-base md:text-lg">
                 {collectionMini.name}
             </span>
-            <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-[60%] w-full bg-gradient-to-t from-black/50 to-transparent"></div>
         </div>
     );
 };

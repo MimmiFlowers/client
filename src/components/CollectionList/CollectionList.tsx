@@ -4,6 +4,10 @@ import api from "../../api/api";
 import type { CollectionMini } from "../../types/types";
 import CollectionCard from "../CollectionCard/CollectionCard";
 
+const SkeletonCollectionCard = () => (
+    <div className="aspect-4/3 w-full animate-pulse rounded-xl bg-gray-200" />
+);
+
 const CollectionList = () => {
     const [collectionsMini, setCollectionsMini] = useState<CollectionMini[]>(
         [],
@@ -11,6 +15,7 @@ const CollectionList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const { t } = useTranslation();
+
     const fetchCollectionsMini = async () => {
         setLoading(true);
         setError("");
@@ -30,16 +35,24 @@ const CollectionList = () => {
     }, []);
 
     return (
-        <div className="flex w-[85%] flex-col items-center justify-center">
-            <h2 className="my-4 text-4xl">{t("collections.title")}</h2>
-            <div className="my-4 flex w-[100%] flex-wrap justify-center gap-8">
-                {loading && (
-                    <p className="w-full py-8 text-center text-gray-400">
-                        {t("loading")}
-                    </p>
-                )}
+        <section className="w-[95%] sm:w-[90%] md:w-[80%]">
+            {/* Section title with hairline dividers */}
+            <div className="mt-14 mb-8 flex items-center gap-4">
+                <div className="h-px flex-1 bg-gray-200" />
+                <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-gray-500 sm:text-sm">
+                    {t("collections.title")}
+                </h2>
+                <div className="h-px flex-1 bg-gray-200" />
+            </div>
+
+            {/* Collection grid */}
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+                {loading &&
+                    Array.from({ length: 4 }).map((_, i) => (
+                        <SkeletonCollectionCard key={i} />
+                    ))}
                 {error && (
-                    <p className="w-full py-8 text-center text-red-500">
+                    <p className="col-span-full py-8 text-center text-sm text-red-400">
                         {error}
                     </p>
                 )}
@@ -52,7 +65,7 @@ const CollectionList = () => {
                         />
                     ))}
             </div>
-        </div>
+        </section>
     );
 };
 
