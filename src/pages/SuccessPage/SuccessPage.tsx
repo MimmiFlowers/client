@@ -31,26 +31,53 @@ const SuccessPage = () => {
             });
     }, [orderID]);
 
+    /* ── Loading state ── */
     if (state === "loading") {
         return (
-            <div className="mt-20 text-center">
+            <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
                 <title>{t("seo.success_title")}</title>
-                <p className="text-xl">{t("success.verifying")}</p>
+                <div className="mb-6 h-12 w-12 animate-spin rounded-full border-[3px] border-gray-200 border-t-[#edc7f5]" />
+                <p className="text-sm font-light tracking-wider text-gray-500 uppercase">
+                    {t("success.verifying")}
+                </p>
             </div>
         );
     }
 
+    /* ── Error state ── */
     if (state === "error") {
         return (
-            <div className="mt-20 text-center">
-                <h1 className="text-2xl font-bold">
-                    {t("success.error_title")}
-                </h1>
-                <p className="mt-4">
-                    {t("success.error_message")}
-                </p>
-                <div className="mt-6">
-                    <Link to="/" className="text-blue-500 hover:underline">
+            <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
+                <title>{t("seo.success_title")}</title>
+                <div className="mx-auto w-full max-w-md text-center">
+                    {/* Warning icon */}
+                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-amber-50">
+                        <svg
+                            className="h-8 w-8 text-amber-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={1.5}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                            />
+                        </svg>
+                    </div>
+
+                    <h1 className="mb-3 text-xl font-semibold text-gray-900">
+                        {t("success.error_title")}
+                    </h1>
+                    <p className="mb-8 text-sm leading-relaxed text-gray-500">
+                        {t("success.error_message")}
+                    </p>
+
+                    <Link
+                        to="/"
+                        className="inline-block rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                    >
                         {t("success.return_home")}
                     </Link>
                 </div>
@@ -58,26 +85,60 @@ const SuccessPage = () => {
         );
     }
 
+    /* ── Success state ── */
     return (
-        <div>
+        <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
             <title>{t("seo.success_title")}</title>
-            <h1 className="mt-10 text-center text-2xl font-bold">
-                {t("success.thank_you")}
-            </h1>
-            <p className="mt-4 text-center">
-                {t("success.order_id")}{" "}
-                <span className="font-semibold">{orderID}</span>
-            </p>
-            <p className="mt-2 text-center">
-                {t("success.processing")}
-            </p>
-            <div className="mt-6 flex justify-center text-6xl">&#10003;</div>
-            <p className="mt-4 text-center">
-                {t("success.questions")}
-            </p>
-            <p className="mt-2 text-center">{t("success.thanks_shopping")}</p>
-            <div className="mt-6 text-center">
-                <Link to="/" className="text-blue-500 hover:underline">
+            <div className="mx-auto w-full max-w-md text-center">
+                {/* Animated checkmark circle */}
+                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
+                    <svg
+                        className="h-10 w-10 text-green-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 13l4 4L19 7"
+                        />
+                    </svg>
+                </div>
+
+                <h1 className="mb-2 text-2xl font-semibold text-gray-900">
+                    {t("success.thank_you")}
+                </h1>
+
+                {/* Order ID badge */}
+                <div className="mx-auto mb-6 inline-block rounded-full bg-gray-100 px-5 py-2">
+                    <p className="text-xs text-gray-500">
+                        {t("success.order_id")}
+                    </p>
+                    <p className="font-mono text-sm font-semibold tracking-wider text-gray-900">
+                        {orderID}
+                    </p>
+                </div>
+
+                <p className="mb-1 text-sm text-gray-600">
+                    {t("success.processing")}
+                </p>
+                <p className="mb-8 text-sm text-gray-400">
+                    {t("success.questions")}
+                </p>
+
+                {/* Divider */}
+                <div className="mx-auto mb-6 h-px w-16 bg-gray-200" />
+
+                <p className="mb-6 text-xs font-light tracking-wider text-gray-400 uppercase">
+                    {t("success.thanks_shopping")}
+                </p>
+
+                <Link
+                    to="/"
+                    className="inline-block rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                >
                     {t("success.return_home")}
                 </Link>
             </div>
