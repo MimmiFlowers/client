@@ -24,7 +24,13 @@
         }
     },
     "product_page": {
-        "description": "Beskrivning"
+        "description": "Beskrivning",
+        "collection": "Kollektion",
+        "contents": "Inneh\u00e5ll",
+        "added_to_cart": "Tillagd!",
+        "free_delivery": "Fri leverans p\u00e5 best\u00e4llningar \u00f6ver 500 kr",
+        "you_may_also_like": "Du kanske ocks\u00e5 gillar",
+        "sku_label": "ART.NR"
     },
     "cart": {
         "your_cart": "Din varukorg",

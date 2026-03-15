@@ -24,7 +24,13 @@
         }
     },
     "product_page": {
-        "description": "Description"
+        "description": "Description",
+        "collection": "Collection",
+        "contents": "What's Inside",
+        "added_to_cart": "Added!",
+        "free_delivery": "Free delivery on orders over 500 kr",
+        "you_may_also_like": "You May Also Like",
+        "sku_label": "SKU"
     },
     "cart": {
         "your_cart": "Your Cart",
