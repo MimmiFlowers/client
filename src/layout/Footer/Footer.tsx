@@ -63,7 +63,7 @@ const Footer = () => {
                         <h4 className="text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
                             {t("footer.quick_links")}
                         </h4>
-                        <nav className="mt-4 flex flex-col items-center gap-2.5">
+                        <nav className="mt-4 flex flex-col items-center gap-2.5 sm:items-start">
                             <Link
                                 to="/Catalog"
                                 className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"

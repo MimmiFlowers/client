@@ -191,7 +191,10 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                     </div>
                     <button
                         className="mt-4 w-full cursor-pointer rounded-full bg-gray-900 py-2.5 text-xs font-medium uppercase tracking-wider text-white transition-opacity duration-300 hover:opacity-80"
-                        onClick={() => navigate("/Checkout")}
+                        onClick={() => {
+                            onClose();
+                            navigate("/Checkout");
+                        }}
                     >
                         {t("cart.checkout")}
                     </button>

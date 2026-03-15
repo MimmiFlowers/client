@@ -38,7 +38,7 @@ const Header = () => {
                         aria-label={`Shopping cart, ${count} items`}
                         aria-expanded={showCart}
                     >
-                        <BasketShopping3 className="h-5 w-5 text-gray-900 sm:h-6 sm:w-6" />
+                        <BasketShopping3 className="h-6 w-6 text-gray-900 sm:h-7 sm:w-7" />
                     </button>
                     {count > 0 && (
                         <span className="absolute -top-2 -right-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-gray-900 text-[10px] font-medium text-white">
