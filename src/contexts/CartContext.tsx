@@ -28,6 +28,10 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 // Cart expires after 7 days of inactivity
 const CART_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
+// Delivery fee constants — shared across CartDropdown & CheckOutPage
+export const FREE_DELIVERY_THRESHOLD = 999;
+export const DELIVERY_FEE = 99;
+
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const MAX_ITEM_QTY = 99;
 

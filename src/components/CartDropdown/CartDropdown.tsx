@@ -1,4 +1,5 @@
 import { useCart } from "../../contexts/CartContext";
+import { FREE_DELIVERY_THRESHOLD, DELIVERY_FEE } from "../../contexts/CartContext";
 import { useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -75,6 +76,10 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
         (acc, item) => acc + item.price * item.quantity,
         0,
     );
+
+    const isFreeDelivery = total >= FREE_DELIVERY_THRESHOLD;
+    const deliveryFee = isFreeDelivery ? 0 : DELIVERY_FEE;
+    const grandTotal = total + deliveryFee;
 
     return (
         <div
@@ -181,13 +186,32 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
 
             {items.length > 0 && (
                 <>
-                    <div className="mt-3 flex justify-between border-t border-gray-200/60 pt-3">
-                        <span className="text-sm font-medium uppercase tracking-wider text-gray-500">
-                            {t("cart.total")}
-                        </span>
-                        <span className="text-sm font-semibold text-gray-900">
-                            {total.toLocaleString()} kr
-                        </span>
+                    <div className="mt-3 space-y-1.5 border-t border-gray-200/60 pt-3">
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>{t("cart.subtotal")}</span>
+                            <span>{total.toLocaleString()} kr</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>{t("cart.delivery")}</span>
+                            <span>
+                                {isFreeDelivery
+                                    ? t("cart.free_delivery")
+                                    : `${DELIVERY_FEE} kr`}
+                            </span>
+                        </div>
+                        {!isFreeDelivery && (
+                            <p className="text-[10px] leading-tight text-gray-300">
+                                {t("cart.free_delivery_hint")}
+                            </p>
+                        )}
+                        <div className="flex justify-between border-t border-gray-200/60 pt-2">
+                            <span className="text-sm font-medium uppercase tracking-wider text-gray-500">
+                                {t("cart.total")}
+                            </span>
+                            <span className="text-sm font-semibold text-gray-900">
+                                {grandTotal.toLocaleString()} kr
+                            </span>
+                        </div>
                     </div>
                     <button
                         className="mt-4 w-full cursor-pointer rounded-full bg-gray-900 py-2.5 text-xs font-medium uppercase tracking-wider text-white transition-opacity duration-300 hover:opacity-80"

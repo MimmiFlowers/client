@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useCart } from "../../contexts/CartContext";
+import { FREE_DELIVERY_THRESHOLD, DELIVERY_FEE } from "../../contexts/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { Link } from "react-router";
 import api from "../../api/api";
@@ -130,7 +131,6 @@ export default function CheckoutPage() {
         time: "",
     });
     const [orderForMyself, setOrderForMyself] = useState(false);
-    const [pickup, setPickup] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState<FormErrors>({});
     const [submitError, setSubmitError] = useState("");
@@ -139,12 +139,11 @@ export default function CheckoutPage() {
         () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
         [items],
     );
-    const deliveryFee = pickup ? 0 : 99;
+    const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
     const total = subtotal + deliveryFee;
     const moms = Math.round(total * 0.25);
 
     const needsRecipient = !orderForMyself;
-    const needsAddress = !pickup;
 
     const validate = (): FormErrors => {
         const errs: FormErrors = {};
@@ -174,10 +173,8 @@ export default function CheckoutPage() {
                 errs.recipientPhone = t("checkout.errors.recipient_phone");
         }
 
-        if (needsAddress) {
-            if (!recipient.address.trim())
-                errs.recipientAddress = t("checkout.errors.delivery_address");
-        }
+        if (!recipient.address.trim())
+            errs.recipientAddress = t("checkout.errors.delivery_address");
 
         // Date and time are always required
         if (!recipient.date)
@@ -217,11 +214,11 @@ export default function CheckoutPage() {
                               lastName: customer.lastName,
                               phone: customer.phone,
                           }),
-                    address: needsAddress ? recipient.address : "",
+                    address: recipient.address,
                     date: recipient.date,
                     time: recipient.time,
                 },
-                pickup,
+                pickup: false,
                 orderForMyself,
                 items,
                 subtotal,
@@ -373,11 +370,6 @@ export default function CheckoutPage() {
                                 onChange={setOrderForMyself}
                                 label={t("checkout.order_for_myself")}
                             />
-                            <Toggle
-                                checked={pickup}
-                                onChange={setPickup}
-                                label={t("checkout.pickup_myself")}
-                            />
                         </div>
                     </section>
 
@@ -435,52 +427,25 @@ export default function CheckoutPage() {
                             </>
                         )}
 
-                        {/* Delivery address — hidden when pickup */}
-                        {needsAddress && (
-                            <div className={needsRecipient ? "mt-4" : ""}>
-                                <FormInput
-                                    id="recipient-address"
-                                    label={t("checkout.delivery_address")}
-                                    value={recipient.address}
-                                    onChange={(v) =>
-                                        setRecipient({
-                                            ...recipient,
-                                            address: v,
-                                        })
-                                    }
-                                    error={errors.recipientAddress}
-                                />
-                            </div>
-                        )}
-
-                        {/* Pickup address hint */}
-                        {pickup && (
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                                <svg
-                                    className="h-4 w-4 shrink-0 text-[#edc7f5]"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                    />
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                    />
-                                </svg>
-                                <span>{t("checkout.pickup_address")}</span>
-                            </div>
-                        )}
+                        {/* Delivery address */}
+                        <div className={needsRecipient ? "mt-4" : ""}>
+                            <FormInput
+                                id="recipient-address"
+                                label={t("checkout.delivery_address")}
+                                value={recipient.address}
+                                onChange={(v) =>
+                                    setRecipient({
+                                        ...recipient,
+                                        address: v,
+                                    })
+                                }
+                                error={errors.recipientAddress}
+                            />
+                        </div>
 
                         {/* Date & Time — always visible */}
                         <div
-                            className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${needsRecipient || needsAddress || pickup ? "mt-4" : ""}`}
+                            className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2"
                         >
                             <FormInput
                                 id="recipient-date"
@@ -633,12 +598,14 @@ export default function CheckoutPage() {
                                 <span>{t("checkout.subtotal")}</span>
                                 <span>{subtotal} kr</span>
                             </div>
-                            {!pickup && (
-                                <div className="flex justify-between text-sm text-gray-500">
-                                    <span>{t("checkout.delivery")}</span>
-                                    <span>{deliveryFee} kr</span>
-                                </div>
-                            )}
+                            <div className="flex justify-between text-sm text-gray-500">
+                                <span>{t("checkout.delivery")}</span>
+                                <span>
+                                    {subtotal >= FREE_DELIVERY_THRESHOLD
+                                        ? t("cart.free_delivery")
+                                        : `${deliveryFee} kr`}
+                                </span>
+                            </div>
                             <div className="flex justify-between text-sm text-gray-400">
                                 <span>{t("checkout.vat_included")}</span>
                                 <span>{moms.toFixed(2)} kr</span>

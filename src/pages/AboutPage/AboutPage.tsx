@@ -5,25 +5,99 @@ const AboutPage = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="mx-auto max-w-3xl px-6 py-12">
+        <div className="px-4 py-12">
             <title>{t("seo.about_title")}</title>
-            <h1 className="mb-6 text-3xl font-bold">{t("about.title")}</h1>
-            <p className="mb-4 text-lg leading-relaxed text-gray-700">
-                {t("about.paragraph1")}
-            </p>
-            <p className="mb-4 text-lg leading-relaxed text-gray-700">
-                {t("about.paragraph2")}
-            </p>
-            <p className="text-lg leading-relaxed text-gray-700">
-                {t("about.paragraph3")}
-            </p>
-            <div className="mt-8">
-                <Link
-                    to="/Catalog"
-                    className="rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700"
-                >
-                    {t("about.browse_catalog")}
-                </Link>
+
+            <div className="mx-auto w-[95%] max-w-5xl sm:w-[90%] md:w-[85%] lg:w-[80%]">
+                {/* Header */}
+                <div className="mb-12 text-center">
+                    <h1 className="mb-3 text-3xl font-light tracking-wide text-gray-900 sm:text-4xl">
+                        {t("about.title")}
+                    </h1>
+                    <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-500">
+                        {t("about.subtitle")}
+                    </p>
+                </div>
+
+                {/* Two-column layout */}
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                    {/* Left column — Our Story */}
+                    <div>
+                        <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            {t("about.our_story")}
+                        </h2>
+
+                        <div className="space-y-4">
+                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                                    {t("about.paragraph1")}
+                                </p>
+                            </div>
+
+                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                                    {t("about.paragraph2")}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right column — What We Offer + Delivery */}
+                    <div className="space-y-8">
+                        {/* What We Offer */}
+                        <div>
+                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                                {t("about.what_we_offer")}
+                            </h2>
+
+                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                                    {t("about.paragraph3")}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Delivery */}
+                        <div>
+                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                                {t("about.delivery_title")}
+                            </h2>
+
+                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                                <div className="flex items-start gap-4">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                        <svg
+                                            className="h-4.5 w-4.5 text-gray-600"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={1.5}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25V3.375c0-.621.504-1.125 1.125-1.125h9.75c.621 0 1.125.504 1.125 1.125v7.875m-12 3h12m3.75 0v-3.375c0-.621-.504-1.125-1.125-1.125H18M3.75 14.25h14.25"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <p className="text-sm leading-relaxed font-light text-gray-700">
+                                        {t("about.delivery_text")}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* CTA */}
+                <div className="mt-12 text-center">
+                    <Link
+                        to="/Catalog"
+                        className="inline-block rounded-full bg-gray-900 px-10 py-3 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                    >
+                        {t("about.browse_catalog")}
+                    </Link>
+                </div>
             </div>
         </div>
     );

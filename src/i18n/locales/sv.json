@@ -29,16 +29,21 @@
         "collection": "Kollektion",
         "contents": "Inneh\u00e5ll",
         "added_to_cart": "Tillagd!",
-        "free_delivery": "Fri leverans p\u00e5 best\u00e4llningar \u00f6ver 500 kr",
+        "free_delivery": "Fri leverans p\u00e5 best\u00e4llningar \u00f6ver 999 kr",
         "you_may_also_like": "Du kanske ocks\u00e5 gillar",
         "sku_label": "ART.NR"
     },
     "cart": {
         "your_cart": "Din varukorg",
-        "empty_cart": "Din varukorg är tom",
+        "empty_cart": "Din varukorg \u00e4r tom",
         "pp": "kr/st",
+        "subtotal": "Delsumma",
+        "delivery": "Leverans",
+        "delivery_fee": "{{fee}} kr",
+        "free_delivery": "Gratis",
+        "free_delivery_hint": "Fri leverans p\u00e5 best\u00e4llningar \u00f6ver 999 kr",
         "total": "Totalt",
-        "checkout": "Gå till kassan"
+        "checkout": "G\u00e5 till kassan"
     },
     "collections": {
         "title": "Våra Kollektioner"
@@ -48,12 +53,12 @@
     },
     "banner": {
         "slide1_title": "Välkommen till Mimmi Flowers",
-        "slide1_subtitle": "Handgjorda buketter med leverans i hela Stockholm",
+        "slide1_subtitle": "Handbundna buketter med leverans i hela Stockholm",
         "slide2_title": "Vårkollektionen",
         "slide2_subtitle": "Nya säsongsbuketter har anlänt",
         "slide2_cta": "Handla Säsong",
         "slide3_title": "Fri Leverans",
-        "slide3_subtitle": "På alla beställningar över 500 kr",
+        "slide3_subtitle": "P\u00e5 alla best\u00e4llningar \u00f6ver 999 kr",
         "slide3_cta": "Bläddra i Katalogen"
     },
     "checkout": {
@@ -67,7 +72,7 @@
         "email": "E-post",
         "order_for_myself": "Best\u00e4llningen \u00e4r till mig sj\u00e4lv",
         "pickup_myself": "Jag h\u00e4mtar best\u00e4llningen",
-        "pickup_address": "H\u00e4mtning: R\u00e5gsved, Stockholm",
+        "pickup_address": "H\u00e4mtning: Stockholm",
         "pickup_skip_hint": "Mottagaruppgifter beh\u00f6vs inte vid h\u00e4mtning.",
         "self_order_skip_hint": "Mottagaruppgifter beh\u00f6vs inte vid egen best\u00e4llning.",
         "delivery_address": "Leveransadress",
@@ -125,10 +130,15 @@
     },
     "about": {
         "title": "Om Mimmi Flowers",
-        "paragraph1": "Mimmi Flowers är en Stockholmsbaserad florist som skapar vackra, handgjorda buketter för alla tillfällen.",
-        "paragraph2": "Oavsett om du firar en födelsedag, uttrycker kärlek eller helt enkelt vill lysa upp någons dag, är våra noggrant utvalda arrangemang utformade för att sprida glädje.",
-        "paragraph3": "Vi erbjuder leverans i hela Stockholm och bekväm hämtning från vår butik i Rågsved.",
-        "browse_catalog": "Bläddra i vår katalog"
+        "subtitle": "Handbundna buketter f\u00f6r alla tillf\u00e4llen, levererade med omsorg i hela Stockholm.",
+        "our_story": "V\u00e5r historia",
+        "paragraph1": "Mimmi Flowers \u00e4r en Stockholmsbaserad florist som skapar vackra, handbundna buketter f\u00f6r alla tillf\u00e4llen.",
+        "paragraph2": "Oavsett om du firar en f\u00f6delsedag, uttrycker k\u00e4rlek eller helt enkelt vill lysa upp n\u00e5gons dag, \u00e4r v\u00e5ra noggrant utvalda arrangemang utformade f\u00f6r att sprida gl\u00e4dje.",
+        "what_we_offer": "Vad vi erbjuder",
+        "paragraph3": "Vi erbjuder leverans i hela Stockholm och bekv\u00e4m h\u00e4mtning fr\u00e5n v\u00e5r studio.",
+        "delivery_title": "Leverans",
+        "delivery_text": "Vi levererar i hela Stockholm med fri leverans p\u00e5 best\u00e4llningar \u00f6ver 999 kr.",
+        "browse_catalog": "Bl\u00e4ddra i v\u00e5r katalog"
     },
     "contact": {
         "title": "Kontakta oss",
@@ -193,7 +203,7 @@
         }
     },
     "footer": {
-        "tagline": "Handgjorda buketter f\u00f6r alla tillf\u00e4llen, med leverans i hela Stockholm.",
+        "tagline": "Handbundna buketter f\u00f6r alla tillf\u00e4llen, med leverans i hela Stockholm.",
         "quick_links": "Snabbl\u00e4nkar",
         "contact_title": "Kontakt",
         "rights": "Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna.",

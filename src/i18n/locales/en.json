@@ -29,7 +29,7 @@
         "collection": "Collection",
         "contents": "What's Inside",
         "added_to_cart": "Added!",
-        "free_delivery": "Free delivery on orders over 500 kr",
+        "free_delivery": "Free delivery on orders over 999 kr",
         "you_may_also_like": "You May Also Like",
         "sku_label": "SKU"
     },
@@ -37,6 +37,11 @@
         "your_cart": "Your Cart",
         "empty_cart": "Your cart is empty",
         "pp": "kr/pc",
+        "subtotal": "Subtotal",
+        "delivery": "Delivery",
+        "delivery_fee": "{{fee}} kr",
+        "free_delivery": "Free",
+        "free_delivery_hint": "Free delivery on orders over 999 kr",
         "total": "Total",
         "checkout": "Go to Checkout"
     },
@@ -48,12 +53,12 @@
     },
     "banner": {
         "slide1_title": "Welcome to Mimmi Flowers",
-        "slide1_subtitle": "Hand-crafted bouquets delivered across Stockholm",
+        "slide1_subtitle": "Hand-tied bouquets delivered across Stockholm",
         "slide2_title": "Spring Collection",
         "slide2_subtitle": "Fresh seasonal bouquets have arrived",
         "slide2_cta": "Shop Season",
         "slide3_title": "Free Delivery",
-        "slide3_subtitle": "On all orders over 500 kr",
+        "slide3_subtitle": "On all orders over 999 kr",
         "slide3_cta": "Browse Catalog"
     },
     "checkout": {
@@ -67,7 +72,7 @@
         "email": "Email",
         "order_for_myself": "This order is for myself",
         "pickup_myself": "I will pick up the order",
-        "pickup_address": "Pickup: Ragsved, Stockholm",
+        "pickup_address": "Pickup: Stockholm",
         "pickup_skip_hint": "Recipient details not needed for pickup orders.",
         "self_order_skip_hint": "Recipient details not needed for self orders.",
         "delivery_address": "Delivery address",
@@ -125,9 +130,14 @@
     },
     "about": {
         "title": "About Mimmi Flowers",
-        "paragraph1": "Mimmi Flowers is a Stockholm-based florist dedicated to creating beautiful, hand-crafted bouquets for every occasion.",
+        "subtitle": "Hand-tied bouquets for every occasion, delivered with care across Stockholm.",
+        "our_story": "Our Story",
+        "paragraph1": "Mimmi Flowers is a Stockholm-based florist dedicated to creating beautiful, hand-tied bouquets for every occasion.",
         "paragraph2": "Whether you are celebrating a birthday, expressing love, or simply brightening someone's day, our carefully curated arrangements are designed to bring joy.",
-        "paragraph3": "We offer delivery across Stockholm and convenient pickup from our location in Ragsved.",
+        "what_we_offer": "What We Offer",
+        "paragraph3": "We offer delivery across Stockholm and convenient pickup from our studio.",
+        "delivery_title": "Delivery",
+        "delivery_text": "We deliver across Stockholm with free delivery on orders over 999 kr.",
         "browse_catalog": "Browse our catalog"
     },
     "contact": {
@@ -193,7 +203,7 @@
         }
     },
     "footer": {
-        "tagline": "Hand-crafted bouquets for every occasion, delivered across Stockholm.",
+        "tagline": "Hand-tied bouquets for every occasion, delivered across Stockholm.",
         "quick_links": "Quick Links",
         "contact_title": "Contact",
         "rights": "All rights reserved.",
