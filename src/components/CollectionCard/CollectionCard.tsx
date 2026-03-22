@@ -9,7 +9,7 @@ const CollectionCard = ({
     const navigate = useNavigate();
 
     const handleRedirect = () => {
-        navigate(`/Catalog?collection=${collectionMini.id}`);
+        navigate(`/Catalog?collection=${encodeURIComponent(collectionMini.name.toLowerCase())}`);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

@@ -39,6 +39,11 @@ const ProductListPage = () => {
         return () => unregister();
     }, [fetchProducts]);
 
+    // Scroll to top on page load
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     // Sync URL params to filter state
     useEffect(() => {
         const filters = searchParams.getAll("filter");
