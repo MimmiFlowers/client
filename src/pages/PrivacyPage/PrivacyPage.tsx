@@ -7,7 +7,7 @@ const PrivacyPage = () => {
         <div className="px-4 py-12">
             <title>{t("seo.privacy_title")}</title>
 
-            <div className="mx-auto w-[95%] sm:w-[90%] md:w-[70%] lg:w-[60%] max-w-3xl">
+            <div className="mx-auto w-[95%] max-w-3xl sm:w-[90%] md:w-[70%] lg:w-[60%]">
                 {/* Header */}
                 <h1 className="mb-2 text-3xl font-light tracking-wide text-gray-900 sm:text-4xl">
                     {t("privacy.title")}
@@ -30,7 +30,9 @@ const PrivacyPage = () => {
                     </p>
                     <ul className="space-y-3 pl-1">
                         <li className="flex gap-3 text-sm leading-relaxed text-gray-600">
-                            <span className="mt-0.5 text-[#edc7f5]">&#9679;</span>
+                            <span className="mt-0.5 text-[#edc7f5]">
+                                &#9679;
+                            </span>
                             <div>
                                 <span className="font-medium text-gray-800">
                                     {t("privacy.storage_cart_title")}
@@ -40,7 +42,9 @@ const PrivacyPage = () => {
                             </div>
                         </li>
                         <li className="flex gap-3 text-sm leading-relaxed text-gray-600">
-                            <span className="mt-0.5 text-[#edc7f5]">&#9679;</span>
+                            <span className="mt-0.5 text-[#edc7f5]">
+                                &#9679;
+                            </span>
                             <div>
                                 <span className="font-medium text-gray-800">
                                     {t("privacy.storage_lang_title")}
@@ -109,15 +113,16 @@ const PrivacyPage = () => {
                     <p className="mb-4 text-sm leading-relaxed text-gray-600">
                         {t("privacy.contact_desc")}
                     </p>
-                    <address className="space-y-1 text-sm not-italic leading-relaxed text-gray-600">
+                    <address className="space-y-1 text-sm leading-relaxed text-gray-600 not-italic">
                         <p>{t("privacy.controller_name")}</p>
                         <p>{t("privacy.controller_address")}</p>
+                        <p>{t("privacy.controller_phone")}</p>
                         <p>{t("privacy.controller_email")}</p>
                     </address>
                 </section>
 
                 {/* Future note */}
-                <div className="rounded-2xl bg-white/70 backdrop-blur-sm px-6 py-5">
+                <div className="rounded-2xl bg-white/70 px-6 py-5 backdrop-blur-sm">
                     <p className="text-xs leading-relaxed text-gray-400">
                         {t("privacy.future_note")}
                     </p>

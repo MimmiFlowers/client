@@ -213,7 +213,8 @@
         "contact_title": "Contact",
         "contact_desc": "If you have questions about this privacy policy or your personal data, please contact us:",
         "controller_name": "Mimmi Flowers",
-        "controller_address": "R\u00e5gsved, Stockholm",
+        "controller_address": "Stockholm",
+        "controller_phone": "+46 76-006 78 38",
         "controller_email": "info@mimmiflowers.se",
         "future_note": "This policy will be updated if we introduce analytics or other data processing in the future. We encourage you to review this page periodically."
     },
