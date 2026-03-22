@@ -140,14 +140,15 @@
         "hours_value": "Mån\u2013Fre 08:00\u201318:00, Lör 10:00\u201316:00"
     },
     "seo": {
-        "home_title": "Mimmi Flowers — Blomsterleverans i Stockholm",
-        "catalog_title": "Katalog — Mimmi Flowers",
-        "checkout_title": "Kassan — Mimmi Flowers",
-        "about_title": "Om oss — Mimmi Flowers",
-        "contact_title": "Kontakt — Mimmi Flowers",
-        "success_title": "Beställning bekräftad — Mimmi Flowers",
-        "cancel_title": "Betalningen avbruten — Mimmi Flowers",
-        "not_found_title": "Sidan hittades inte — Mimmi Flowers"
+        "home_title": "Mimmi Flowers \u2014 Blomsterleverans i Stockholm",
+        "catalog_title": "Katalog \u2014 Mimmi Flowers",
+        "checkout_title": "Kassan \u2014 Mimmi Flowers",
+        "about_title": "Om oss \u2014 Mimmi Flowers",
+        "contact_title": "Kontakt \u2014 Mimmi Flowers",
+        "success_title": "Best\u00e4llning bekr\u00e4ftad \u2014 Mimmi Flowers",
+        "cancel_title": "Betalningen avbruten \u2014 Mimmi Flowers",
+        "not_found_title": "Sidan hittades inte \u2014 Mimmi Flowers",
+        "privacy_title": "Integritetspolicy \u2014 Mimmi Flowers"
     },
     "loading": "Laddar...",
     "errors": {
@@ -187,7 +188,34 @@
         "tagline": "Handgjorda buketter f\u00f6r alla tillf\u00e4llen, med leverans i hela Stockholm.",
         "quick_links": "Snabbl\u00e4nkar",
         "contact_title": "Kontakt",
-        "rights": "Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna."
+        "rights": "Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna.",
+        "privacy_policy": "Integritetspolicy"
+    },
+    "privacy": {
+        "title": "Integritetspolicy",
+        "last_updated": "Senast uppdaterad: mars 2026",
+        "intro": "Mimmi Flowers (\"vi\", \"oss\") respekterar din integritet. Denna policy f\u00f6rklarar vilka uppgifter vi samlar in, varf\u00f6r och hur vi hanterar dem n\u00e4r du anv\u00e4nder v\u00e5r webbplats.",
+        "what_we_store_title": "Vad vi lagrar",
+        "what_we_store_intro": "Vi anv\u00e4nder inga cookies. V\u00e5r webbplats lagrar en liten m\u00e4ngd data i din webbl\u00e4sares lokala lagring f\u00f6r att tillhandah\u00e5lla grundl\u00e4ggande funktionalitet:",
+        "storage_cart_title": "Varukorg",
+        "storage_cart_desc": "Dina valda produkter sparas s\u00e5 att de finns kvar om du st\u00e4nger webbl\u00e4saren. Varukorgsdata rensas automatiskt efter 7 dagars inaktivitet.",
+        "storage_lang_title": "Spr\u00e5kinst\u00e4llning",
+        "storage_lang_desc": "Ditt valda spr\u00e5k (engelska eller svenska) sparas s\u00e5 att webbplatsen visas p\u00e5 r\u00e4tt spr\u00e5k vid ditt n\u00e4sta bes\u00f6k.",
+        "why_title": "Varf\u00f6r vi lagrar dessa uppgifter",
+        "why_desc": "B\u00e5da ovanst\u00e5ende punkter \u00e4r strikt n\u00f6dv\u00e4ndiga f\u00f6r att webbplatsen ska fungera som f\u00f6rv\u00e4ntat. Vi anv\u00e4nder inga analys-, reklam- eller sp\u00e5rningstekniker.",
+        "payments_title": "Betalningar",
+        "payments_desc": "Betalningar hanteras s\u00e4kert av Stripe. N\u00e4r du g\u00e5r vidare till betalning omdirigeras du till Stripes kassasida. Vi lagrar inte dina kortuppgifter. Stripe kan s\u00e4tta egna cookies p\u00e5 stripe.com-dom\u00e4nen f\u00f6r bedr\u00e4geriskydd. F\u00f6r mer information, se",
+        "stripe_privacy_link": "Stripes integritetspolicy",
+        "personal_data_title": "Personuppgifter i best\u00e4llningar",
+        "personal_data_desc": "N\u00e4r du g\u00f6r en best\u00e4llning samlar vi in ditt namn, e-post, telefonnummer och leveransadress. Dessa uppgifter anv\u00e4nds enbart f\u00f6r att utf\u00f6ra din best\u00e4llning och skicka en bekr\u00e4ftelse via e-post. Vi delar inte denna information med tredje part ut\u00f6ver Stripe (f\u00f6r betalningshantering).",
+        "your_rights_title": "Dina r\u00e4ttigheter",
+        "your_rights_desc": "Enligt EU:s dataskyddsf\u00f6rordning (GDPR) har du r\u00e4tt att f\u00e5 tillg\u00e5ng till, r\u00e4tta eller radera dina personuppgifter. F\u00f6r att ut\u00f6va dessa r\u00e4ttigheter, kontakta oss via uppgifterna nedan.",
+        "contact_title": "Kontakt",
+        "contact_desc": "Om du har fr\u00e5gor om denna integritetspolicy eller dina personuppgifter, kontakta oss:",
+        "controller_name": "[F\u00f6retagsnamn]",
+        "controller_address": "[Adress]",
+        "controller_email": "[email@example.com]",
+        "future_note": "Denna policy kommer att uppdateras om vi inf\u00f6r analys eller annan databehandling i framtiden. Vi uppmuntrar dig att granska denna sida regelbundet."
     },
     "filter": {
         "favorite": "Favoriter",

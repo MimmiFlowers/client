@@ -147,7 +147,8 @@
         "contact_title": "Contact — Mimmi Flowers",
         "success_title": "Order Confirmed — Mimmi Flowers",
         "cancel_title": "Payment Cancelled — Mimmi Flowers",
-        "not_found_title": "Page Not Found — Mimmi Flowers"
+        "not_found_title": "Page Not Found — Mimmi Flowers",
+        "privacy_title": "Privacy Policy — Mimmi Flowers"
     },
     "loading": "Loading...",
     "errors": {
@@ -187,7 +188,34 @@
         "tagline": "Hand-crafted bouquets for every occasion, delivered across Stockholm.",
         "quick_links": "Quick Links",
         "contact_title": "Contact",
-        "rights": "All rights reserved."
+        "rights": "All rights reserved.",
+        "privacy_policy": "Privacy Policy"
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "last_updated": "Last updated: March 2026",
+        "intro": "Mimmi Flowers (\"we\", \"us\") respects your privacy. This policy explains what data we collect, why, and how we handle it when you use our website.",
+        "what_we_store_title": "What We Store",
+        "what_we_store_intro": "We do not use cookies. Our website stores a small amount of data in your browser's local storage to provide core functionality:",
+        "storage_cart_title": "Shopping cart",
+        "storage_cart_desc": "Your selected items are saved so they persist if you close the browser. Cart data is automatically cleared after 7 days of inactivity.",
+        "storage_lang_title": "Language preference",
+        "storage_lang_desc": "Your chosen language (English or Swedish) is remembered so the site displays in the correct language on your next visit.",
+        "why_title": "Why We Store This Data",
+        "why_desc": "Both items above are strictly necessary for the website to function as expected. We do not use any analytics, advertising, or tracking technologies.",
+        "payments_title": "Payments",
+        "payments_desc": "Payments are processed securely by Stripe. When you proceed to payment, you are redirected to Stripe's hosted checkout page. We do not store your card details. Stripe may set its own cookies on the stripe.com domain for fraud prevention. For more information, see",
+        "stripe_privacy_link": "Stripe's Privacy Policy",
+        "personal_data_title": "Personal Data in Orders",
+        "personal_data_desc": "When you place an order, we collect your name, email, phone number, and delivery address. This data is used solely to fulfil your order and send a confirmation email. We do not share this information with third parties other than Stripe (for payment processing).",
+        "your_rights_title": "Your Rights",
+        "your_rights_desc": "Under the EU General Data Protection Regulation (GDPR), you have the right to access, correct, or delete your personal data. To exercise these rights, contact us using the details below.",
+        "contact_title": "Contact",
+        "contact_desc": "If you have questions about this privacy policy or your personal data, please contact us:",
+        "controller_name": "[Company Name]",
+        "controller_address": "[Address]",
+        "controller_email": "[email@example.com]",
+        "future_note": "This policy will be updated if we introduce analytics or other data processing in the future. We encourage you to review this page periodically."
     },
     "filter": {
         "favorite": "Favorite",

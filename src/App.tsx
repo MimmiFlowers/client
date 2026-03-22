@@ -10,6 +10,7 @@ import AboutPage from "./pages/AboutPage/AboutPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import CancelPage from "./pages/CancelPage/CancelPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import PrivacyPage from "./pages/PrivacyPage/PrivacyPage";
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                     />
                     <Route path="/About" element={<AboutPage />} />
                     <Route path="/Contact" element={<ContactPage />} />
+                    <Route path="/Privacy" element={<PrivacyPage />} />
                     <Route
                         path="/Cancel/:orderID"
                         element={<CancelPage />}

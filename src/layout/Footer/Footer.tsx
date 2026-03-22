@@ -112,6 +112,13 @@ const Footer = () => {
                     <p className="text-center text-xs font-light tracking-wider text-gray-400">
                         &copy; {new Date().getFullYear()} Mimmi Flowers.{" "}
                         {t("footer.rights")}
+                        <span className="mx-2">&middot;</span>
+                        <Link
+                            to="/Privacy"
+                            className="text-gray-400 underline underline-offset-2 transition-colors duration-300 hover:text-gray-600"
+                        >
+                            {t("footer.privacy_policy")}
+                        </Link>
                     </p>
                 </div>
             </div>
