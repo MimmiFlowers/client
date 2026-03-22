@@ -212,9 +212,9 @@
         "your_rights_desc": "Enligt EU:s dataskyddsf\u00f6rordning (GDPR) har du r\u00e4tt att f\u00e5 tillg\u00e5ng till, r\u00e4tta eller radera dina personuppgifter. F\u00f6r att ut\u00f6va dessa r\u00e4ttigheter, kontakta oss via uppgifterna nedan.",
         "contact_title": "Kontakt",
         "contact_desc": "Om du har fr\u00e5gor om denna integritetspolicy eller dina personuppgifter, kontakta oss:",
-        "controller_name": "[F\u00f6retagsnamn]",
-        "controller_address": "[Adress]",
-        "controller_email": "[email@example.com]",
+        "controller_name": "Mimmi Flowers",
+        "controller_address": "R\u00e5gsved, Stockholm",
+        "controller_email": "info@mimmiflowers.se",
         "future_note": "Denna policy kommer att uppdateras om vi inf\u00f6r analys eller annan databehandling i framtiden. Vi uppmuntrar dig att granska denna sida regelbundet."
     },
     "filter": {

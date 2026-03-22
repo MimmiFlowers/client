@@ -95,10 +95,10 @@ const Footer = () => {
                                 {t("contact.address_value")}
                             </p>
                             <a
-                                href="mailto:mimmiflowers@mail.com"
+                                href="mailto:info@mimmiflowers.se"
                                 className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
                             >
-                                mimmiflowers@mail.com
+                                info@mimmiflowers.se
                             </a>
                             <p className="text-sm font-light text-gray-600">
                                 {t("contact.hours_value")}
