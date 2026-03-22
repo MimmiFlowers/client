@@ -1,0 +1,36 @@
+name: Deploy Client to Staging
+
+on:
+  push:
+    branches: [staging]
+
+concurrency:
+  group: staging-deploy-client
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.STG_SSH_HOST }}
+          username: ${{ secrets.STG_SSH_USER }}
+          key: ${{ secrets.STG_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            cd /opt/stg/client
+            git fetch origin staging
+            git reset --hard origin/staging
+
+            cd /opt/stg
+            docker compose -f docker-compose.stg.yml build client
+            docker compose -f docker-compose.stg.yml up -d client
+            docker compose -f docker-compose.stg.yml exec -T nginx nginx -s reload
+
+            # Reclaim disk space
+            docker image prune -f
+            docker builder prune -f --keep-storage=500MB
