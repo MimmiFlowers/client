@@ -132,12 +132,20 @@
     },
     "contact": {
         "title": "Kontakta oss",
-        "address_label": "Adress:",
-        "address_value": "Rågsved, Stockholm",
-        "email_label": "E-post:",
-        "phone_label": "Telefon:",
-        "hours_label": "Öppettider:",
-        "hours_value": "Mån\u2013Fre 08:00\u201318:00, Lör 10:00\u201316:00"
+        "subtitle": "Vi vill g\u00e4rna h\u00f6ra fr\u00e5n dig. Kontakta oss via e-post, telefon eller bes\u00f6k v\u00e5r studio i Stockholm.",
+        "address_label": "Adress",
+        "address_value": "Stockholm",
+        "email_label": "E-post",
+        "email_value": "info@mimmiflowers.se",
+        "phone_label": "Telefon",
+        "phone_value": "+46 76-006 78 38",
+        "phone_href": "tel:+46760067838",
+        "hours_label": "\u00d6ppettider",
+        "hours_value": "M\u00e5n\u2013Fre 08:00\u201318:00, L\u00f6r 10:00\u201316:00",
+        "visit_us": "Bes\u00f6k oss",
+        "get_in_touch": "H\u00f6r av dig",
+        "follow_us": "F\u00f6lj oss",
+        "follow_us_text": "H\u00e5ll dig inspirerad med v\u00e5ra senaste buketter och s\u00e4songsarrangemang."
     },
     "seo": {
         "home_title": "Mimmi Flowers \u2014 Blomsterleverans i Stockholm",

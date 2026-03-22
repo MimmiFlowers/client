@@ -95,10 +95,16 @@ const Footer = () => {
                                 {t("contact.address_value")}
                             </p>
                             <a
-                                href="mailto:info@mimmiflowers.se"
+                                href={`mailto:${t("contact.email_value")}`}
                                 className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
                             >
-                                info@mimmiflowers.se
+                                {t("contact.email_value")}
+                            </a>
+                            <a
+                                href={t("contact.phone_href")}
+                                className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
+                            >
+                                {t("contact.phone_value")}
                             </a>
                             <p className="text-sm font-light text-gray-600">
                                 {t("contact.hours_value")}
