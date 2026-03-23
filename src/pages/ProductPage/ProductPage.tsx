@@ -241,9 +241,9 @@ const ProductPage = () => {
                     <div className="my-5 h-px w-full bg-gray-200" />
 
                     {/* Quantity selector + Add to cart */}
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <div className="flex flex-row items-center gap-3">
                         {/* Quantity */}
-                        <div className="flex h-14 w-fit items-center rounded-xl border border-gray-300 bg-white sm:h-12">
+                        <div className="flex h-12 items-center rounded-xl border border-gray-300 bg-white">
                             <button
                                 onClick={() =>
                                     setQuantity((q) => Math.max(1, q - 1))
@@ -272,7 +272,7 @@ const ProductPage = () => {
                         {/* Add to cart button */}
                         <button
                             onClick={handleAddToCart}
-                            className={`flex h-14 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-xl text-base font-semibold uppercase tracking-wide shadow-lg transition-all duration-300 sm:h-12 sm:text-lg ${
+                            className={`flex h-12 min-w-0 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-xl text-sm font-semibold uppercase tracking-wide shadow-lg transition-all duration-300 sm:text-lg ${
                                 addedFeedback
                                     ? "bg-emerald-500 text-white shadow-emerald-200"
                                     : "bg-[#edc7f5] text-gray-900 hover:scale-[1.02] hover:bg-[#e4b4f0] hover:shadow-xl"
