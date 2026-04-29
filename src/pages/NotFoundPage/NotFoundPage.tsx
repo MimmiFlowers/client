@@ -9,7 +9,7 @@ const NotFoundPage = () => {
             <title>{t("seo.not_found_title")}</title>
             <div className="mx-auto w-full max-w-md text-center">
                 {/* Large 404 */}
-                <h1 className="mb-2 text-[7rem] leading-none font-extralight tracking-wider text-[#edc7f5]">
+                <h1 className="mb-2 text-[7rem] leading-none font-extralight tracking-wider text-[var(--color-leaf)]">
                     404
                 </h1>
 

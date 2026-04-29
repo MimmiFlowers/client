@@ -87,7 +87,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
             role="dialog"
             aria-modal="true"
             aria-label={t("cart.your_cart")}
-            className="fixed inset-x-0 top-16 z-50 mx-auto rounded-xl border border-gray-100 bg-[#FFF0F5] p-5 shadow-xl sm:absolute sm:inset-x-auto sm:top-10 sm:right-0 sm:mx-0 sm:w-80"
+            className="fixed inset-x-0 top-16 z-50 mx-auto rounded-xl border border-gray-100 bg-[var(--color-bg)] p-5 shadow-xl sm:absolute sm:inset-x-auto sm:top-10 sm:right-0 sm:mx-0 sm:w-80"
         >
             <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-gray-500">
                 {t("cart.your_cart")}

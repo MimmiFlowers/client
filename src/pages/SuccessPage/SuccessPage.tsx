@@ -36,7 +36,7 @@ const SuccessPage = () => {
         return (
             <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
                 <title>{t("seo.success_title")}</title>
-                <div className="mb-6 h-12 w-12 animate-spin rounded-full border-[3px] border-gray-200 border-t-[#edc7f5]" />
+                <div className="mb-6 h-12 w-12 animate-spin rounded-full border-[3px] border-gray-200 border-t-[var(--color-leaf)]" />
                 <p className="text-sm font-light tracking-wider text-gray-500 uppercase">
                     {t("success.verifying")}
                 </p>

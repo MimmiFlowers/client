@@ -32,7 +32,7 @@ const ContactPage = () => {
                                 href={`mailto:${t("contact.email_value")}`}
                                 className="group flex items-start gap-4 rounded-2xl bg-white/70 p-5 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-sm"
                             >
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/30">
                                     <svg
                                         className="h-4.5 w-4.5 text-gray-600 transition-colors duration-300 group-hover:text-gray-900"
                                         fill="none"
@@ -62,7 +62,7 @@ const ContactPage = () => {
                                 href={t("contact.phone_href")}
                                 className="group flex items-start gap-4 rounded-2xl bg-white/70 p-5 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-sm"
                             >
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/30">
                                     <svg
                                         className="h-4.5 w-4.5 text-gray-600 transition-colors duration-300 group-hover:text-gray-900"
                                         fill="none"
@@ -89,7 +89,7 @@ const ContactPage = () => {
 
                             {/* Hours card */}
                             <div className="flex items-start gap-4 rounded-2xl bg-white/70 p-5 backdrop-blur-sm">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/30">
                                     <svg
                                         className="h-4.5 w-4.5 text-gray-600"
                                         fill="none"
@@ -126,7 +126,7 @@ const ContactPage = () => {
 
                             <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
                                 <div className="flex items-start gap-4">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/30">
                                         <svg
                                             className="h-4.5 w-4.5 text-gray-600"
                                             fill="none"
@@ -175,7 +175,7 @@ const ContactPage = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="Instagram"
-                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edc7f5]/30 text-gray-500 transition-all duration-300 hover:bg-[#edc7f5]/50 hover:text-gray-800"
+                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-leaf)]/30 text-gray-500 transition-all duration-300 hover:bg-[var(--color-leaf)]/50 hover:text-gray-800"
                                     >
                                         <svg
                                             className="h-4.5 w-4.5"
@@ -190,7 +190,7 @@ const ContactPage = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="TikTok"
-                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edc7f5]/30 text-gray-500 transition-all duration-300 hover:bg-[#edc7f5]/50 hover:text-gray-800"
+                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-leaf)]/30 text-gray-500 transition-all duration-300 hover:bg-[var(--color-leaf)]/50 hover:text-gray-800"
                                     >
                                         <svg
                                             className="h-4.5 w-4.5"

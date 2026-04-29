@@ -65,7 +65,7 @@ const AboutPage = () => {
 
                             <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
                                 <div className="flex items-start gap-4">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/30">
                                         <svg
                                             className="h-4.5 w-4.5 text-gray-600"
                                             fill="none"

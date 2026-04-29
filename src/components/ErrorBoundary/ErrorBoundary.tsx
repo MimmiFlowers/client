@@ -35,7 +35,7 @@ class ErrorBoundary extends Component<Props, State> {
                         page.
                     </p>
                     <button
-                        className="rounded bg-[#edc7f5] px-6 py-2 text-black transition-transform hover:scale-105"
+                        className="rounded bg-[var(--color-leaf)] px-6 py-2 text-black transition-transform hover:scale-105"
                         onClick={() => window.location.reload()}
                     >
                         Refresh page
