@@ -60,7 +60,6 @@ const BurgerMenu: React.FC = () => {
 
     return (
         <>
-            {/* Invisible spacer — keeps header layout intact when button is portalled */}
             <div className="h-5 w-6" aria-hidden="true" />
 
             {/* Portal: burger button + backdrop + panel all rendered at document.body */}
@@ -70,23 +69,23 @@ const BurgerMenu: React.FC = () => {
                     <button
                         ref={buttonRef}
                         onClick={toggleMenu}
-                        className="fixed top-[18px] left-4 z-[80] flex h-5 w-6 cursor-pointer flex-col justify-between transition-opacity duration-300 hover:opacity-60"
+                        className="fixed top-[22px] left-5 z-[80] flex h-5 w-6 cursor-pointer flex-col justify-between transition-opacity duration-300 hover:opacity-60 sm:top-7 sm:left-10"
                         aria-label={isOpen ? "Close menu" : "Open menu"}
                         aria-expanded={isOpen}
                         aria-controls="burger-menu-panel"
                     >
                         <span
-                            className={`h-[1.5px] w-full rounded-full bg-gray-900 transition-all duration-300 ${
+                            className={`h-[1.5px] w-full rounded-full bg-[var(--color-ink)] transition-all duration-300 ${
                                 isOpen ? "translate-y-[7.5px] rotate-45" : ""
                             }`}
                         />
                         <span
-                            className={`h-[1.5px] w-full rounded-full bg-gray-900 transition-all duration-300 ${
+                            className={`h-[1.5px] w-full rounded-full bg-[var(--color-ink)] transition-all duration-300 ${
                                 isOpen ? "scale-x-0 opacity-0" : ""
                             }`}
                         />
                         <span
-                            className={`h-[1.5px] w-full rounded-full bg-gray-900 transition-all duration-300 ${
+                            className={`h-[1.5px] w-full rounded-full bg-[var(--color-ink)] transition-all duration-300 ${
                                 isOpen ? "-translate-y-[11px] -rotate-45" : ""
                             }`}
                         />
@@ -108,92 +107,74 @@ const BurgerMenu: React.FC = () => {
                         role="dialog"
                         aria-modal="true"
                         aria-label="Navigation menu"
-                        className={`fixed top-0 left-0 z-[70] flex h-screen flex-col bg-[#FFF0F5] shadow-xl transition-transform duration-300 ease-in-out ${
+                        className={`fixed top-0 left-0 z-[70] flex h-screen flex-col bg-[var(--color-bg)] shadow-2xl transition-transform duration-500 ease-out ${
                             isOpen ? "translate-x-0" : "-translate-x-full"
-                        } w-[50vw] md:w-[20vw] md:min-w-[200px]`}
+                        } w-[78vw] sm:w-[55vw] md:w-[28vw] md:min-w-[280px]`}
                     >
                         {/* Nav links — below header clearance */}
-                        <nav className="mt-20 flex flex-col px-8">
+                        <nav className="mt-24 flex flex-col px-10 sm:mt-28">
                             {navLinks.map((link, i) => (
                                 <Link
                                     key={link.to}
                                     to={link.to}
                                     onClick={closeMenu}
-                                    className={`group flex items-center py-3 text-sm font-light tracking-[0.15em] text-gray-700 uppercase transition-colors duration-300 hover:text-gray-900 ${
+                                    className={`group flex items-center justify-between py-5 font-display text-2xl tracking-tight text-[var(--color-ink)] transition-colors duration-300 hover:text-[var(--color-accent-deep)] sm:text-3xl ${
                                         i < navLinks.length - 1
-                                            ? "border-b border-gray-200/60"
+                                            ? "border-b border-[var(--color-line)]"
                                             : ""
                                     }`}
                                 >
-                                    <span className="mr-0 w-0 overflow-hidden text-[#edc7f5] transition-all duration-300 group-hover:mr-2 group-hover:w-3">
-                                        &rsaquo;
+                                    <span>
+                                        <span className="mr-3 text-[0.65rem] tracking-[0.32em] uppercase text-[var(--color-accent)] align-middle">
+                                            0{i + 1}
+                                        </span>
+                                        {link.label}
                                     </span>
-                                    {link.label}
+                                    <span className="text-[var(--color-accent)] transition-transform duration-300 group-hover:translate-x-1">
+                                        ›
+                                    </span>
                                 </Link>
                             ))}
                         </nav>
 
                         {/* Language switcher + social links — at bottom */}
-                        <div className="mt-auto border-t border-gray-200/60 p-6">
+                        <div className="mt-auto border-t border-[var(--color-line)] p-8">
                             <div className="md:hidden">
-                                <p className="mb-3 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                                <p className="mb-3 eyebrow">
                                     {t("menu.language")}
                                 </p>
-                                <div className="flex items-center gap-0.5 rounded-full bg-white/60 p-0.5">
+                                <div className="flex items-center gap-4 text-[0.7rem] tracking-[0.3em] uppercase">
                                     <button
-                                        className={`flex-1 cursor-pointer rounded-full py-1.5 text-xs font-medium tracking-wider transition-all duration-300 ${
+                                        className={`cursor-pointer transition-colors duration-300 ${
                                             i18n.language === "en"
-                                                ? "bg-white text-gray-900 shadow-sm"
-                                                : "text-gray-500 hover:text-gray-700"
+                                                ? "text-[var(--color-ink)] underline underline-offset-4 decoration-[var(--color-accent)]"
+                                                : "text-[var(--color-muted)] hover:text-[var(--color-ink)]"
                                         }`}
                                         onClick={() => changeLanguage("en")}
-                                        aria-pressed={i18n.language === "en"}
-                                    >
-                                        EN
-                                    </button>
+                                    >EN</button>
+                                    <span className="h-3 w-px bg-[var(--color-line)]" />
                                     <button
-                                        className={`flex-1 cursor-pointer rounded-full py-1.5 text-xs font-medium tracking-wider transition-all duration-300 ${
+                                        className={`cursor-pointer transition-colors duration-300 ${
                                             i18n.language === "sv"
-                                                ? "bg-white text-gray-900 shadow-sm"
-                                                : "text-gray-500 hover:text-gray-700"
+                                                ? "text-[var(--color-ink)] underline underline-offset-4 decoration-[var(--color-accent)]"
+                                                : "text-[var(--color-muted)] hover:text-[var(--color-ink)]"
                                         }`}
                                         onClick={() => changeLanguage("sv")}
-                                        aria-pressed={i18n.language === "sv"}
-                                    >
-                                        SV
-                                    </button>
+                                    >SV</button>
                                 </div>
                             </div>
 
                             {/* Social links */}
-                            <div className="mt-4 flex items-center justify-center gap-5 md:mt-0">
-                                <a
-                                    href="https://instagram.com/mimmi_flowers?igshid=MzMyNGUyNmU2YQ=="
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Instagram"
-                                    className="text-gray-400 transition-colors duration-300 hover:text-gray-700"
-                                >
-                                    <svg
-                                        className="h-4.5 w-4.5"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
+                            <div className="mt-6 flex items-center justify-start gap-5 md:mt-0">
+                                <a href="https://instagram.com/mimmi_flowers?igshid=MzMyNGUyNmU2YQ==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                                   className="text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-accent-deep)]">
+                                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                                     </svg>
                                 </a>
-                                <a
-                                    href="https://www.tiktok.com/@mimmi_flowers"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="TikTok"
-                                    className="text-gray-400 transition-colors duration-300 hover:text-gray-700"
-                                >
-                                    <svg
-                                        className="h-4.5 w-4.5"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
+                                <a href="https://www.tiktok.com/@mimmi_flowers" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+                                   className="text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-accent-deep)]">
+                                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.75a8.18 8.18 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.18z" />
                                     </svg>
                                 </a>

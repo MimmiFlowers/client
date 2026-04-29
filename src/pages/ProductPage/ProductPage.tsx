@@ -182,7 +182,7 @@ const ProductPage = () => {
                             </span>
                         )}
                         {product.category && (
-                            <span className="rounded-full bg-[#edc7f5]/40 px-3 py-1 text-xs uppercase tracking-wider text-gray-700">
+                            <span className="rounded-full bg-[var(--color-accent)]/40 px-3 py-1 text-xs uppercase tracking-wider text-gray-700">
                                 {product.category}
                             </span>
                         )}
@@ -229,7 +229,7 @@ const ProductPage = () => {
                                         key={item}
                                         className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-sm capitalize text-gray-700 shadow-sm ring-1 ring-gray-200"
                                     >
-                                        <span className="h-1.5 w-1.5 rounded-full bg-[#edc7f5]" />
+                                        <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
                                         {item}
                                     </span>
                                 ))}
@@ -275,7 +275,7 @@ const ProductPage = () => {
                             className={`flex h-14 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-xl text-base font-semibold uppercase tracking-wide shadow-lg transition-all duration-300 sm:h-12 sm:text-lg ${
                                 addedFeedback
                                     ? "bg-emerald-500 text-white shadow-emerald-200"
-                                    : "bg-[#edc7f5] text-gray-900 hover:scale-[1.02] hover:bg-[#e4b4f0] hover:shadow-xl"
+                                    : "bg-[var(--color-accent)] text-gray-900 hover:scale-[1.02] hover:bg-[#e4b4f0] hover:shadow-xl"
                             }`}
                         >
                             {addedFeedback ? (

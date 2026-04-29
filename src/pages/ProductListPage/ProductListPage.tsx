@@ -200,7 +200,7 @@ const ProductListPage = () => {
                     </svg>
                     {t("catalog.filters")}
                     {activeFilterCount > 0 && (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#edc7f5] text-xs font-bold text-gray-800">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-accent)] text-xs font-bold text-gray-800">
                             {activeFilterCount}
                         </span>
                     )}
@@ -250,7 +250,7 @@ const ProductListPage = () => {
 
             {/* Mobile filter drawer — panel */}
             <div
-                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[#FFF0F5] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[var(--color-bg)] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
                     mobileFiltersOpen
                         ? "translate-x-0"
                         : "-translate-x-full"

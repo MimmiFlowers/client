@@ -100,7 +100,7 @@ const ProductFilter = ({
                 <select
                     value={sort}
                     onChange={(e) => onSortChange(e.target.value)}
-                    className="w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-colors focus:border-[#edc7f5]"
+                    className="w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-colors focus:border-[var(--color-accent)]"
                 >
                     <option value="default">
                         {t("catalog.sort_default")}
@@ -140,14 +140,14 @@ const ProductFilter = ({
                                     onClick={() => toggleCollection(col)}
                                     className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200 ${
                                         active
-                                            ? "bg-[#edc7f5]/30 font-medium text-gray-900"
+                                            ? "bg-[var(--color-accent)]/30 font-medium text-gray-900"
                                             : "text-gray-600 hover:bg-gray-100"
                                     }`}
                                 >
                                     <span
                                         className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
                                             active
-                                                ? "border-[#edc7f5] bg-[#edc7f5]"
+                                                ? "border-[var(--color-accent)] bg-[var(--color-accent)]"
                                                 : "border-gray-300"
                                         }`}
                                     >
@@ -198,14 +198,14 @@ const ProductFilter = ({
                                     onClick={() => toggleCategory(cat)}
                                     className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200 ${
                                         active
-                                            ? "bg-[#edc7f5]/30 font-medium text-gray-900"
+                                            ? "bg-[var(--color-accent)]/30 font-medium text-gray-900"
                                             : "text-gray-600 hover:bg-gray-100"
                                     }`}
                                 >
                                     <span
                                         className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
                                             active
-                                                ? "border-[#edc7f5] bg-[#edc7f5]"
+                                                ? "border-[var(--color-accent)] bg-[var(--color-accent)]"
                                                 : "border-gray-300"
                                         }`}
                                     >

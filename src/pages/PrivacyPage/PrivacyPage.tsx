@@ -30,7 +30,7 @@ const PrivacyPage = () => {
                     </p>
                     <ul className="space-y-3 pl-1">
                         <li className="flex gap-3 text-sm leading-relaxed text-gray-600">
-                            <span className="mt-0.5 text-[#edc7f5]">
+                            <span className="mt-0.5 text-[var(--color-accent)]">
                                 &#9679;
                             </span>
                             <div>
@@ -42,7 +42,7 @@ const PrivacyPage = () => {
                             </div>
                         </li>
                         <li className="flex gap-3 text-sm leading-relaxed text-gray-600">
-                            <span className="mt-0.5 text-[#edc7f5]">
+                            <span className="mt-0.5 text-[var(--color-accent)]">
                                 &#9679;
                             </span>
                             <div>
@@ -77,7 +77,7 @@ const PrivacyPage = () => {
                             href="https://stripe.com/privacy"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-gray-900 underline underline-offset-2 transition-colors duration-300 hover:text-[#edc7f5]"
+                            className="text-gray-900 underline underline-offset-2 transition-colors duration-300 hover:text-[var(--color-accent)]"
                         >
                             {t("privacy.stripe_privacy_link")}
                         </a>

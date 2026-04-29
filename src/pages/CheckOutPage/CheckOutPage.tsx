@@ -53,7 +53,7 @@ function FormInput({
                 className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
                     error
                         ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                        : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
+                        : "border-gray-200 focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/30"
                 }`}
                 placeholder={label}
             />
@@ -84,7 +84,7 @@ function Toggle({
                 aria-checked={checked}
                 onClick={() => onChange(!checked)}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ${
-                    checked ? "bg-[#edc7f5]" : "bg-gray-200"
+                    checked ? "bg-[var(--color-accent)]" : "bg-gray-200"
                 }`}
             >
                 <span
@@ -102,7 +102,7 @@ function Toggle({
 function SectionHeader({ step, title }: { step: number; title: string }) {
     return (
         <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/40 text-xs font-semibold text-gray-700">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/40 text-xs font-semibold text-gray-700">
                 {step}
             </span>
             <h2 className="text-base font-semibold tracking-wide text-gray-900 uppercase">
@@ -497,7 +497,7 @@ export default function CheckoutPage() {
                                     className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none ${
                                         errors.recipientTime
                                             ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                                            : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
+                                            : "border-gray-200 focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/30"
                                     }`}
                                 />
                                 {errors.recipientTime && (

@@ -1,4 +1,32 @@
 @import "tailwindcss";
+@import "./assets/fonts/fonts.css";
+
+/* ============================================================
+   UIV2 — Editorial Noir
+   Ivory + deep aubergine + brushed gold. Magazine-style luxury.
+   ============================================================ */
+
+@theme {
+    /* Palette */
+    --color-bg: #f5f1ea;
+    --color-surface: #ffffff;
+    --color-fg: #1a1416;
+    --color-fg-soft: #4a3f3f;
+    --color-muted: #8a7e7c;
+    --color-line: #d9cfc1;
+    --color-accent: #b8956a;
+    --color-accent-deep: #8c6a47;
+    --color-ink: #1a1416;
+    --color-cream: #faf6ee;
+
+    /* Typography */
+    --font-display: "HattonMedium", "Cormorant Garamond", "Didot", "Bodoni 72", serif;
+    --font-body: "HattonUltralight", "HattonMedium", Georgia, serif;
+    --font-mono: "Iosevka", ui-monospace, monospace;
+
+    /* Motion */
+    --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
 @layer base {
     * {
@@ -11,22 +39,66 @@
     body,
     #root {
         height: 100%;
-        background-color: #FFF0F5;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
     }
 
     body {
         margin: 0;
-        font-family: "HattonMedium";
+        font-family: var(--font-body);
+        font-feature-settings: "ss01", "liga", "kern";
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        line-height: 1.5;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        letter-spacing: -0.02em;
+        line-height: 1.05;
     }
 
     a {
-        font-family: "HattonUltralight";
+        font-family: var(--font-body);
+        color: inherit;
     }
 
-    code {
-        font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+    ::selection {
+        background: var(--color-accent);
+        color: var(--color-cream);
     }
+}
+
+/* Editorial utilities */
+@utility eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+@utility hairline {
+    height: 1px;
+    background: var(--color-line);
+}
+
+@utility gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+}
+
+@utility serif-display {
+    font-family: var(--color-display, var(--font-display));
+    font-feature-settings: "ss01", "liga", "dlig";
+}
+
+/* Slow reveal */
+@keyframes fadeRise {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@utility reveal {
+    animation: fadeRise 1.1s var(--ease-cinema) both;
 }
