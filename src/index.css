@@ -1,32 +1,131 @@
 @import "tailwindcss";
 
-@layer base {
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+/* ───────────────────────────────────────────────
+   UIV2 — Modern Minimal Couture
+   Inspiration: Celine, Loewe, The Row, Jacquemus
+   Pure white · obsidian · signature blush
+   Ultra-clean grid, gallery-like, generous whitespace
+─────────────────────────────────────────────── */
 
-    html,
-    body,
-    #root {
+@theme {
+    /* ── Color palette ── */
+    --color-bg:           #ffffff;
+    --color-surface:      #fafafa;
+    --color-cream:        #f5f4f2;
+    --color-fg:           #0a0a0a;
+    --color-ink:          #0a0a0a;
+    --color-fg-soft:      #2a2a2a;
+    --color-muted:        #8a8a8a;
+    --color-line:         #e8e8e8;
+    --color-hairline:     #d4d4d4;
+    --color-accent:       #f3c9c9;   /* signature blush */
+    --color-accent-deep:  #d99a9a;   /* blush deep */
+    --color-blush:        #f3c9c9;
+    --color-obsidian:     #0a0a0a;
+
+    /* ── Typography ── */
+    --font-display: "HattonUltralight", "Times New Roman", serif;
+    --font-serif:   "HattonUltralight", "Times New Roman", serif;
+    --font-sans:    "HattonMedium", system-ui, sans-serif;
+    --font-body:    "HattonMedium", system-ui, sans-serif;
+
+    /* ── Tracking ── */
+    --tracking-couture: 0.32em;
+}
+
+@layer base {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
         height: 100%;
-        background-color: #FFF0F5;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
     }
 
     body {
         margin: 0;
-        font-family: "HattonMedium";
+        font-family: var(--font-body);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "ss01", "kern";
     }
 
-    a {
-        font-family: "HattonUltralight";
-    }
+    a { font-family: var(--font-display); }
+
+    ::selection { background: var(--color-obsidian); color: var(--color-bg); }
 
     code {
-        font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
     }
+}
+
+/* ── Couture utilities ── */
+@utility eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-fg);
+}
+
+@utility eyebrow-muted {
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+@utility hairline {
+    height: 1px;
+    background: var(--color-hairline);
+    width: 100%;
+}
+
+@utility hairline-ink {
+    height: 1px;
+    background: var(--color-obsidian);
+    width: 100%;
+}
+
+@utility couture-link {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 2px;
+    background-image: linear-gradient(var(--color-obsidian), var(--color-obsidian));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 400ms ease;
+}
+@utility couture-link-hover {
+    background-size: 0 1px;
+    background-position: 100% 100%;
+}
+
+@utility tile-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-cream);
+}
+
+@utility press-btn {
+    transition: transform 300ms ease, background 300ms ease, color 300ms ease;
+}
+
+/* ── Animations ── */
+@keyframes coutureFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@utility fade-up {
+    animation: coutureFade 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes coutureScale {
+    from { transform: scale(1.04); }
+    to   { transform: scale(1); }
+}
+@utility scale-in {
+    animation: coutureScale 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }

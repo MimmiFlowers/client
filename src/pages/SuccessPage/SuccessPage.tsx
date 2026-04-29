@@ -36,8 +36,8 @@ const SuccessPage = () => {
         return (
             <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
                 <title>{t("seo.success_title")}</title>
-                <div className="mb-6 h-12 w-12 animate-spin rounded-full border-[3px] border-gray-200 border-t-[#edc7f5]" />
-                <p className="text-sm font-light tracking-wider text-gray-500 uppercase">
+                <div className="mb-6 h-12 w-12 animate-spin rounded-full border-[3px] border-[var(--color-line)] border-t-[#edc7f5]" />
+                <p className="text-sm font-light tracking-wider text-[var(--color-muted)] uppercase">
                     {t("success.verifying")}
                 </p>
             </div>
@@ -67,16 +67,16 @@ const SuccessPage = () => {
                         </svg>
                     </div>
 
-                    <h1 className="mb-3 text-xl font-semibold text-gray-900">
+                    <h1 className="mb-3 text-xl font-semibold text-[var(--color-obsidian)]">
                         {t("success.error_title")}
                     </h1>
-                    <p className="mb-8 text-sm leading-relaxed text-gray-500">
+                    <p className="mb-8 text-sm leading-relaxed text-[var(--color-muted)]">
                         {t("success.error_message")}
                     </p>
 
                     <Link
                         to="/"
-                        className="inline-block rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                        className="inline-block rounded-full bg-[var(--color-obsidian)] px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
                     >
                         {t("success.return_home")}
                     </Link>
@@ -107,37 +107,37 @@ const SuccessPage = () => {
                     </svg>
                 </div>
 
-                <h1 className="mb-2 text-2xl font-semibold text-gray-900">
+                <h1 className="mb-2 text-2xl font-semibold text-[var(--color-obsidian)]">
                     {t("success.thank_you")}
                 </h1>
 
                 {/* Order ID badge */}
-                <div className="mx-auto mb-6 inline-block rounded-full bg-gray-100 px-5 py-2">
-                    <p className="text-xs text-gray-500">
+                <div className="mx-auto mb-6 inline-block rounded-full bg-[var(--color-cream)] px-5 py-2">
+                    <p className="text-xs text-[var(--color-muted)]">
                         {t("success.order_id")}
                     </p>
-                    <p className="font-mono text-sm font-semibold tracking-wider text-gray-900">
+                    <p className="font-mono text-sm font-semibold tracking-wider text-[var(--color-obsidian)]">
                         {orderID}
                     </p>
                 </div>
 
-                <p className="mb-1 text-sm text-gray-600">
+                <p className="mb-1 text-sm text-[var(--color-fg-soft)]">
                     {t("success.processing")}
                 </p>
-                <p className="mb-8 text-sm text-gray-400">
+                <p className="mb-8 text-sm text-[var(--color-muted)]">
                     {t("success.questions")}
                 </p>
 
                 {/* Divider */}
-                <div className="mx-auto mb-6 h-px w-16 bg-gray-200" />
+                <div className="mx-auto mb-6 h-px w-16 bg-[var(--color-line)]" />
 
-                <p className="mb-6 text-xs font-light tracking-wider text-gray-400 uppercase">
+                <p className="mb-6 text-xs font-light tracking-wider text-[var(--color-muted)] uppercase">
                     {t("success.thanks_shopping")}
                 </p>
 
                 <Link
                     to="/"
-                    className="inline-block rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                    className="inline-block rounded-full bg-[var(--color-obsidian)] px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
                 >
                     {t("success.return_home")}
                 </Link>

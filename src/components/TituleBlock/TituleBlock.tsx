@@ -29,7 +29,7 @@ const slides: Slide[] = [
     },
 ];
 
-const INTERVAL_MS = 6000;
+const INTERVAL_MS = 7000;
 
 const TituleBlock = () => {
     const { t } = useTranslation();
@@ -38,34 +38,28 @@ const TituleBlock = () => {
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
-    const goTo = useCallback((index: number) => {
-        setCurrent(index);
-    }, []);
+    const goTo = useCallback((index: number) => setCurrent(index), []);
+    const next = useCallback(
+        () => setCurrent((p) => (p + 1) % slides.length),
+        []
+    );
+    const prev = useCallback(
+        () => setCurrent((p) => (p - 1 + slides.length) % slides.length),
+        []
+    );
 
-    const next = useCallback(() => {
-        setCurrent((prev) => (prev + 1) % slides.length);
-    }, []);
-
-    const prev = useCallback(() => {
-        setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-    }, []);
-
-    // Auto-rotate
     useEffect(() => {
         if (paused) return;
         const timer = setInterval(next, INTERVAL_MS);
         return () => clearInterval(timer);
     }, [paused, next]);
 
-    // Swipe handlers
     const handleTouchStart = (e: React.TouchEvent) => {
         touchStartX.current = e.touches[0]?.clientX ?? 0;
     };
-
     const handleTouchMove = (e: React.TouchEvent) => {
         touchEndX.current = e.touches[0]?.clientX ?? 0;
     };
-
     const handleTouchEnd = () => {
         const diff = touchStartX.current - touchEndX.current;
         const threshold = 50;
@@ -74,97 +68,120 @@ const TituleBlock = () => {
     };
 
     return (
-        <div
-            className="relative h-[45vh] w-full overflow-hidden sm:h-[55vh] md:h-[70vh]"
+        <section
+            className="relative w-full bg-[var(--color-bg)]"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
             aria-roledescription="carousel"
-            aria-label="Promotional banners"
+            aria-label="Featured collections"
         >
-            {/* Slides track */}
-            <div
-                className="flex h-full transition-transform duration-700 ease-in-out"
-                style={{ transform: `translateX(-${current * 100}%)` }}
-            >
-                {slides.map((slide, index) => (
-                    <div
-                        key={index}
-                        className="relative flex h-full w-full flex-shrink-0 items-center justify-center"
-                        role="group"
-                        aria-roledescription="slide"
-                        aria-label={`Slide ${index + 1} of ${slides.length}`}
-                        aria-hidden={index !== current}
-                    >
-                        {/* Background image */}
-                        <img
-                            className="absolute h-full w-full object-cover blur-xs brightness-75"
-                            src={bannerMock}
-                            alt=""
-                            aria-hidden="true"
-                            draggable={false}
-                        />
+            {/* Top eyebrow row */}
+            <div className="flex items-center justify-between px-5 sm:px-8 lg:px-12 pt-6 sm:pt-10">
+                <span className="eyebrow-muted">— Maison · Stockholm</span>
+                <span className="eyebrow-muted hidden sm:inline">
+                    Édition&nbsp;{String(current + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+                </span>
+            </div>
 
-                        {/* Content overlay */}
-                        <div className="relative z-10 flex flex-col items-center px-6 text-center">
-                            <h2 className="text-3xl font-semibold text-white uppercase drop-shadow-lg sm:text-5xl md:text-7xl">
-                                {t(slide.titleKey)}
-                            </h2>
-                            <p className="mt-2 max-w-xl text-base font-light text-white/90 drop-shadow-md sm:mt-3 sm:text-lg md:mt-4 md:text-xl">
-                                {t(slide.subtitleKey)}
-                            </p>
-                            {slide.ctaKey && slide.ctaLink && (
+            {/* Two-column hero: oversized type left, image plate right */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 px-5 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-8 sm:pb-14">
+                {/* Type column */}
+                <div
+                    className="lg:col-span-5 flex flex-col justify-end"
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                >
+                    <div key={`text-${current}`} className="fade-up">
+                        <h1 className="font-display leading-[0.95] text-[var(--color-obsidian)] text-[clamp(2.75rem,8vw,6.5rem)]">
+                            {t(slides[current].titleKey)}
+                        </h1>
+                        <p className="mt-6 max-w-md text-[var(--color-fg-soft)] text-base sm:text-lg leading-relaxed">
+                            {t(slides[current].subtitleKey)}
+                        </p>
+
+                        <div className="mt-8 flex items-center gap-6">
+                            {slides[current].ctaKey && slides[current].ctaLink ? (
                                 <Link
-                                    to={slide.ctaLink}
-                                    className="mt-4 inline-block rounded-full bg-white/90 px-6 py-2 text-sm font-semibold text-black uppercase tracking-wide shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white sm:mt-5 sm:px-8 sm:py-2.5 sm:text-base md:mt-6"
+                                    to={slides[current].ctaLink!}
+                                    className="press-btn inline-flex items-center gap-3 bg-[var(--color-obsidian)] text-[var(--color-bg)] eyebrow px-7 py-4 hover:bg-[var(--color-fg-soft)]"
                                 >
-                                    {t(slide.ctaKey)}
+                                    {t(slides[current].ctaKey!)}
+                                    <span aria-hidden="true">→</span>
+                                </Link>
+                            ) : (
+                                <Link
+                                    to="/Catalog"
+                                    className="press-btn inline-flex items-center gap-3 bg-[var(--color-obsidian)] text-[var(--color-bg)] eyebrow px-7 py-4 hover:bg-[var(--color-fg-soft)]"
+                                >
+                                    Discover
+                                    <span aria-hidden="true">→</span>
                                 </Link>
                             )}
+                            <Link
+                                to="/About"
+                                className="eyebrow text-[var(--color-fg)] couture-link hover:[mask-image:linear-gradient(white,white)]"
+                            >
+                                The House
+                            </Link>
                         </div>
                     </div>
-                ))}
+
+                    {/* Slide indicators */}
+                    <div className="mt-12 flex items-center gap-3">
+                        {slides.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => goTo(index)}
+                                aria-label={`Go to slide ${index + 1}`}
+                                aria-current={index === current ? "true" : undefined}
+                                className="group flex flex-col items-start gap-2"
+                            >
+                                <span
+                                    className={`block h-px transition-all duration-500 ${
+                                        index === current
+                                            ? "w-12 bg-[var(--color-obsidian)]"
+                                            : "w-6 bg-[var(--color-hairline)] group-hover:bg-[var(--color-fg-soft)]"
+                                    }`}
+                                />
+                                <span
+                                    className={`eyebrow transition-opacity duration-300 ${
+                                        index === current ? "opacity-100" : "opacity-30"
+                                    }`}
+                                >
+                                    {String(index + 1).padStart(2, "0")}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Image plate */}
+                <div className="lg:col-span-7 relative">
+                    <div className="tile-frame aspect-[4/5] sm:aspect-[5/6] lg:aspect-[4/5] w-full">
+                        {slides.map((_, index) => (
+                            <img
+                                key={index}
+                                src={bannerMock}
+                                alt=""
+                                aria-hidden="true"
+                                draggable={false}
+                                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+                                    index === current ? "opacity-100 scale-in" : "opacity-0"
+                                }`}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Floating caption */}
+                    <div className="absolute -bottom-3 left-4 sm:left-8 bg-[var(--color-bg)] px-4 py-2">
+                        <span className="eyebrow-muted">Spring · Édition</span>
+                    </div>
+                </div>
             </div>
 
-            {/* Dot indicators */}
-            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5 sm:bottom-6">
-                {slides.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => goTo(index)}
-                        className={`h-2.5 rounded-full transition-all duration-300 ${
-                            index === current
-                                ? "w-7 bg-white"
-                                : "w-2.5 bg-white/50 hover:bg-white/80"
-                        }`}
-                        aria-label={`Go to slide ${index + 1}`}
-                        aria-current={index === current ? "true" : undefined}
-                    />
-                ))}
-            </div>
-
-            {/* Arrow buttons — desktop only */}
-            <button
-                onClick={prev}
-                className="absolute top-1/2 left-3 z-10 hidden -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/40 sm:left-4 md:block"
-                aria-label="Previous slide"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-            <button
-                onClick={next}
-                className="absolute top-1/2 right-3 z-10 hidden -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/40 sm:right-4 md:block"
-                aria-label="Next slide"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-        </div>
+            <div className="hairline" />
+        </section>
     );
 };
 

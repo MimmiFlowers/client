@@ -76,17 +76,17 @@ const BurgerMenu: React.FC = () => {
                         aria-controls="burger-menu-panel"
                     >
                         <span
-                            className={`h-[1.5px] w-full rounded-full bg-gray-900 transition-all duration-300 ${
+                            className={`h-[1.5px] w-full rounded-full bg-[var(--color-obsidian)] transition-all duration-300 ${
                                 isOpen ? "translate-y-[7.5px] rotate-45" : ""
                             }`}
                         />
                         <span
-                            className={`h-[1.5px] w-full rounded-full bg-gray-900 transition-all duration-300 ${
+                            className={`h-[1.5px] w-full rounded-full bg-[var(--color-obsidian)] transition-all duration-300 ${
                                 isOpen ? "scale-x-0 opacity-0" : ""
                             }`}
                         />
                         <span
-                            className={`h-[1.5px] w-full rounded-full bg-gray-900 transition-all duration-300 ${
+                            className={`h-[1.5px] w-full rounded-full bg-[var(--color-obsidian)] transition-all duration-300 ${
                                 isOpen ? "-translate-y-[11px] -rotate-45" : ""
                             }`}
                         />
@@ -108,9 +108,9 @@ const BurgerMenu: React.FC = () => {
                         role="dialog"
                         aria-modal="true"
                         aria-label="Navigation menu"
-                        className={`fixed top-0 left-0 z-[70] flex h-screen flex-col bg-[#FFF0F5] shadow-xl transition-transform duration-300 ease-in-out ${
+                        className={`fixed top-0 left-0 z-[70] flex h-screen flex-col bg-[var(--color-bg)] shadow-xl transition-transform duration-300 ease-in-out ${
                             isOpen ? "translate-x-0" : "-translate-x-full"
-                        } w-[50vw] md:w-[20vw] md:min-w-[200px]`}
+                        } w-[78vw] sm:w-[55vw] md:w-[28vw] md:min-w-[260px]`}
                     >
                         {/* Nav links — below header clearance */}
                         <nav className="mt-20 flex flex-col px-8">
@@ -119,13 +119,13 @@ const BurgerMenu: React.FC = () => {
                                     key={link.to}
                                     to={link.to}
                                     onClick={closeMenu}
-                                    className={`group flex items-center py-3 text-sm font-light tracking-[0.15em] text-gray-700 uppercase transition-colors duration-300 hover:text-gray-900 ${
+                                    className={`group flex items-center py-3 text-sm font-light tracking-[0.15em] text-[var(--color-fg-soft)] uppercase transition-colors duration-300 hover:text-[var(--color-obsidian)] ${
                                         i < navLinks.length - 1
-                                            ? "border-b border-gray-200/60"
+                                            ? "border-b border-[var(--color-line)]/60"
                                             : ""
                                     }`}
                                 >
-                                    <span className="mr-0 w-0 overflow-hidden text-[#edc7f5] transition-all duration-300 group-hover:mr-2 group-hover:w-3">
+                                    <span className="mr-0 w-0 overflow-hidden text-[var(--color-accent)] transition-all duration-300 group-hover:mr-2 group-hover:w-3">
                                         &rsaquo;
                                     </span>
                                     {link.label}
@@ -134,17 +134,17 @@ const BurgerMenu: React.FC = () => {
                         </nav>
 
                         {/* Language switcher + social links — at bottom */}
-                        <div className="mt-auto border-t border-gray-200/60 p-6">
+                        <div className="mt-auto border-t border-[var(--color-line)]/60 p-6">
                             <div className="md:hidden">
-                                <p className="mb-3 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                                <p className="mb-3 text-[10px] font-medium tracking-[0.2em] text-[var(--color-muted)] uppercase">
                                     {t("menu.language")}
                                 </p>
                                 <div className="flex items-center gap-0.5 rounded-full bg-white/60 p-0.5">
                                     <button
                                         className={`flex-1 cursor-pointer rounded-full py-1.5 text-xs font-medium tracking-wider transition-all duration-300 ${
                                             i18n.language === "en"
-                                                ? "bg-white text-gray-900 shadow-sm"
-                                                : "text-gray-500 hover:text-gray-700"
+                                                ? "bg-white text-[var(--color-obsidian)] shadow-sm"
+                                                : "text-[var(--color-muted)] hover:text-[var(--color-fg-soft)]"
                                         }`}
                                         onClick={() => changeLanguage("en")}
                                         aria-pressed={i18n.language === "en"}
@@ -154,8 +154,8 @@ const BurgerMenu: React.FC = () => {
                                     <button
                                         className={`flex-1 cursor-pointer rounded-full py-1.5 text-xs font-medium tracking-wider transition-all duration-300 ${
                                             i18n.language === "sv"
-                                                ? "bg-white text-gray-900 shadow-sm"
-                                                : "text-gray-500 hover:text-gray-700"
+                                                ? "bg-white text-[var(--color-obsidian)] shadow-sm"
+                                                : "text-[var(--color-muted)] hover:text-[var(--color-fg-soft)]"
                                         }`}
                                         onClick={() => changeLanguage("sv")}
                                         aria-pressed={i18n.language === "sv"}
@@ -172,7 +172,7 @@ const BurgerMenu: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Instagram"
-                                    className="text-gray-400 transition-colors duration-300 hover:text-gray-700"
+                                    className="text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-fg-soft)]"
                                 >
                                     <svg
                                         className="h-4.5 w-4.5"
@@ -187,7 +187,7 @@ const BurgerMenu: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="TikTok"
-                                    className="text-gray-400 transition-colors duration-300 hover:text-gray-700"
+                                    className="text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-fg-soft)]"
                                 >
                                     <svg
                                         className="h-4.5 w-4.5"

@@ -39,7 +39,7 @@ function FormInput({
         <div>
             <label
                 htmlFor={id}
-                className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+                className="mb-1.5 block text-xs font-medium tracking-wide text-[var(--color-muted)] uppercase"
             >
                 {label}
             </label>
@@ -50,10 +50,10 @@ function FormInput({
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 min={min}
-                className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
+                className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-[var(--color-obsidian)] transition-all duration-200 outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-[var(--color-muted)] ${
                     error
                         ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                        : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
+                        : "border-[var(--color-line)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[#edc7f5]/30"
                 }`}
                 placeholder={label}
             />
@@ -84,7 +84,7 @@ function Toggle({
                 aria-checked={checked}
                 onClick={() => onChange(!checked)}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ${
-                    checked ? "bg-[#edc7f5]" : "bg-gray-200"
+                    checked ? "bg-[var(--color-accent)]" : "bg-[var(--color-line)]"
                 }`}
             >
                 <span
@@ -93,7 +93,7 @@ function Toggle({
                     }`}
                 />
             </button>
-            <span className="text-sm text-gray-700">{label}</span>
+            <span className="text-sm text-[var(--color-fg-soft)]">{label}</span>
         </label>
     );
 }
@@ -102,10 +102,10 @@ function Toggle({
 function SectionHeader({ step, title }: { step: number; title: string }) {
     return (
         <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/40 text-xs font-semibold text-gray-700">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/40 text-xs font-semibold text-[var(--color-fg-soft)]">
                 {step}
             </span>
-            <h2 className="text-base font-semibold tracking-wide text-gray-900 uppercase">
+            <h2 className="text-base font-semibold tracking-wide text-[var(--color-obsidian)] uppercase">
                 {title}
             </h2>
         </div>
@@ -286,15 +286,15 @@ export default function CheckoutPage() {
                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                 </svg>
-                <p className="mb-2 text-lg font-medium text-gray-700">
+                <p className="mb-2 text-lg font-medium text-[var(--color-fg-soft)]">
                     {t("checkout.empty_cart")}
                 </p>
-                <p className="mb-6 text-sm text-gray-400">
+                <p className="mb-6 text-sm text-[var(--color-muted)]">
                     {t("checkout.empty_cart_hint")}
                 </p>
                 <Link
                     to="/Catalog"
-                    className="rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                    className="rounded-full bg-[var(--color-obsidian)] px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
                 >
                     {t("checkout.browse_catalog")}
                 </Link>
@@ -307,7 +307,7 @@ export default function CheckoutPage() {
             <title>{t("seo.checkout_title")}</title>
 
             {/* Page title */}
-            <h1 className="mb-8 text-center text-xl font-light tracking-[0.15em] text-gray-900 uppercase sm:text-2xl">
+            <h1 className="mb-8 text-center text-xl font-light tracking-[0.15em] text-[var(--color-obsidian)] uppercase sm:text-2xl">
                 {t("checkout.page_title")}
             </h1>
 
@@ -461,7 +461,7 @@ export default function CheckoutPage() {
                             <div>
                                 <label
                                     htmlFor="recipient-time"
-                                    className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+                                    className="mb-1.5 block text-xs font-medium tracking-wide text-[var(--color-muted)] uppercase"
                                 >
                                     {t("checkout.delivery_time")}
                                 </label>
@@ -494,10 +494,10 @@ export default function CheckoutPage() {
                                             }));
                                         }
                                     }}
-                                    className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none ${
+                                    className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-[var(--color-obsidian)] transition-all duration-200 outline-none ${
                                         errors.recipientTime
                                             ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                                            : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
+                                            : "border-[var(--color-line)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[#edc7f5]/30"
                                     }`}
                                 />
                                 {errors.recipientTime && (
@@ -508,7 +508,7 @@ export default function CheckoutPage() {
                                         {errors.recipientTime}
                                     </p>
                                 )}
-                                <p className="mt-1 text-[11px] text-gray-400">
+                                <p className="mt-1 text-[11px] text-[var(--color-muted)]">
                                     {t("checkout.delivery_time_range")}
                                 </p>
                             </div>
@@ -519,7 +519,7 @@ export default function CheckoutPage() {
                 {/* ── RIGHT: Order summary (sticky) ── */}
                 <aside className="lg:col-span-2">
                     <div className="sticky top-20 rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
-                        <h2 className="mb-5 text-base font-semibold tracking-wide text-gray-900 uppercase">
+                        <h2 className="mb-5 text-base font-semibold tracking-wide text-[var(--color-obsidian)] uppercase">
                             {t("checkout.cart_title")}
                         </h2>
 
@@ -534,14 +534,14 @@ export default function CheckoutPage() {
                                     />
                                     <div className="flex min-w-0 flex-1 flex-col justify-between">
                                         <div className="flex items-start justify-between gap-2">
-                                            <p className="truncate text-sm font-medium text-gray-900">
+                                            <p className="truncate text-sm font-medium text-[var(--color-obsidian)]">
                                                 {item.name}
                                             </p>
                                             <button
                                                 onClick={() =>
                                                     removeItem(item.id)
                                                 }
-                                                className="shrink-0 cursor-pointer text-gray-300 transition-colors hover:text-gray-500"
+                                                className="shrink-0 cursor-pointer text-gray-300 transition-colors hover:text-[var(--color-muted)]"
                                                 aria-label={`Remove ${item.name}`}
                                             >
                                                 <svg
@@ -565,25 +565,25 @@ export default function CheckoutPage() {
                                                     onClick={() =>
                                                         decrease(item.id)
                                                     }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-muted)] transition-colors hover:border-gray-400 hover:text-[var(--color-fg-soft)]"
                                                     aria-label="Decrease quantity"
                                                 >
                                                     -
                                                 </button>
-                                                <span className="min-w-[1.25rem] text-center text-sm text-gray-700">
+                                                <span className="min-w-[1.25rem] text-center text-sm text-[var(--color-fg-soft)]">
                                                     {item.quantity}
                                                 </span>
                                                 <button
                                                     onClick={() =>
                                                         increase(item.id)
                                                     }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-muted)] transition-colors hover:border-gray-400 hover:text-[var(--color-fg-soft)]"
                                                     aria-label="Increase quantity"
                                                 >
                                                     +
                                                 </button>
                                             </div>
-                                            <span className="text-sm font-medium text-gray-900">
+                                            <span className="text-sm font-medium text-[var(--color-obsidian)]">
                                                 {item.price * item.quantity} kr
                                             </span>
                                         </div>
@@ -594,11 +594,11 @@ export default function CheckoutPage() {
 
                         {/* Totals */}
                         <div className="mt-6 space-y-2 border-t border-gray-100 pt-5">
-                            <div className="flex justify-between text-sm text-gray-500">
+                            <div className="flex justify-between text-sm text-[var(--color-muted)]">
                                 <span>{t("checkout.subtotal")}</span>
                                 <span>{subtotal} kr</span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-500">
+                            <div className="flex justify-between text-sm text-[var(--color-muted)]">
                                 <span>{t("checkout.delivery")}</span>
                                 <span>
                                     {subtotal >= FREE_DELIVERY_THRESHOLD
@@ -606,11 +606,11 @@ export default function CheckoutPage() {
                                         : `${deliveryFee} kr`}
                                 </span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-400">
+                            <div className="flex justify-between text-sm text-[var(--color-muted)]">
                                 <span>{t("checkout.vat_included")}</span>
                                 <span>{moms.toFixed(2)} kr</span>
                             </div>
-                            <div className="flex justify-between border-t border-gray-100 pt-3 text-base font-semibold text-gray-900">
+                            <div className="flex justify-between border-t border-gray-100 pt-3 text-base font-semibold text-[var(--color-obsidian)]">
                                 <span>{t("checkout.total")}</span>
                                 <span>{total} kr</span>
                             </div>
@@ -628,7 +628,7 @@ export default function CheckoutPage() {
 
                         {/* Pay button */}
                         <button
-                            className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gray-900 py-3.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+                            className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[var(--color-obsidian)] py-3.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
                             onClick={handlePay}
                             disabled={isLoading || items.length === 0}
                         >
@@ -676,7 +676,7 @@ export default function CheckoutPage() {
                         </button>
 
                         {/* Trust signal */}
-                        <p className="mt-4 text-center text-[11px] text-gray-400">
+                        <p className="mt-4 text-center text-[11px] text-[var(--color-muted)]">
                             <svg
                                 className="mr-1 inline h-3 w-3"
                                 fill="none"
