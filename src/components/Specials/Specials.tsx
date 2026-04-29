@@ -7,10 +7,10 @@ import type { SpecialProps, ProductMini } from "../../types/types";
 
 const SkeletonCard = () => (
     <div className="animate-pulse">
-        <div className="aspect-[3/4] w-full rounded-xl bg-gray-200" />
-        <div className="mt-3 px-0.5">
-            <div className="h-4 w-3/4 rounded bg-gray-200" />
-            <div className="mt-2 h-3.5 w-1/3 rounded bg-gray-200" />
+        <div className="ribbon-frame aspect-[3/4] w-full" />
+        <div className="mt-5 space-y-2 mx-auto">
+            <div className="h-4 w-2/3 mx-auto bg-[var(--color-line)]" />
+            <div className="h-3 w-1/3 mx-auto bg-[var(--color-line)]" />
         </div>
     </div>
 );
@@ -24,10 +24,9 @@ const Specials = ({ setting }: SpecialProps) => {
     const fetchProductsMini = async () => {
         setLoading(true);
         setError("");
-
         try {
             const response = await api.get(
-                `/data/category/${setting.toLowerCase()}`,
+                `/data/category/${setting.toLowerCase()}`
             );
             setProductsMini(response.data.data);
         } catch {
@@ -42,33 +41,32 @@ const Specials = ({ setting }: SpecialProps) => {
     }, []);
 
     return (
-        <section className="w-[95%] sm:w-[90%] md:w-[80%]">
-            {/* Section title with hairline dividers */}
-            <div className="mt-10 mb-8 flex items-center gap-4">
-                <div className="h-px flex-1 bg-gray-200" />
-                <div className="flex items-center gap-3">
-                    <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-gray-500 sm:text-sm">
-                        {t(`specials.${setting.toLowerCase()}`)}
-                    </h2>
-                    <span className="text-gray-300">&middot;</span>
-                    <Link
-                        to={`/Catalog?filter=${setting.toLowerCase()}`}
-                        className="text-xs font-light text-gray-400 uppercase tracking-wider transition-colors duration-300 hover:text-gray-700"
-                    >
-                        {t("specials.show_all")}
-                    </Link>
-                </div>
-                <div className="h-px flex-1 bg-gray-200" />
+        <section className="w-full px-5 sm:px-8 lg:px-12 py-20 sm:py-24">
+            {/* Centered header with ornament */}
+            <div className="mb-14 text-center">
+                <span className="ornament block text-xs text-[var(--color-gold)] mb-4 flicker">
+                    ✦
+                </span>
+                <h2 className="font-display italic text-[var(--color-burgundy)] text-3xl sm:text-4xl lg:text-5xl">
+                    {t(`specials.${setting.toLowerCase()}`)}
+                </h2>
+                <div className="mt-5 mx-auto max-w-xs gold-rule" />
+                <Link
+                    to={`/Catalog?filter=${setting.toLowerCase()}`}
+                    className="mt-6 inline-flex items-center gap-3 eyebrow text-[var(--color-burgundy)] transition-all duration-500 hover:tracking-[0.5em] hover:text-[var(--color-gold-deep)]"
+                >
+                    {t("specials.show_all")}
+                    <span aria-hidden="true">→</span>
+                </Link>
             </div>
 
-            {/* Product grid */}
-            <div className="grid w-full grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
+            <div className="grid w-full grid-cols-2 gap-x-5 gap-y-14 sm:gap-x-8 md:grid-cols-4 lg:gap-x-10 max-w-6xl mx-auto">
                 {loading &&
                     Array.from({ length: 4 }).map((_, i) => (
                         <SkeletonCard key={i} />
                     ))}
                 {error && (
-                    <p className="col-span-full py-8 text-center text-sm text-red-400">
+                    <p className="col-span-full py-8 text-center text-sm text-[var(--color-burgundy)]">
                         {error}
                     </p>
                 )}

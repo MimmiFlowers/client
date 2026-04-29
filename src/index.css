@@ -1,32 +1,163 @@
 @import "tailwindcss";
 
-@layer base {
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+/* ───────────────────────────────────────────────
+   UIV2 — Romantic Soirée
+   Inspiration: candlelit Parisian boutique, antique mirrors,
+   silk ribbon, gold leaf, hand-poured wax seal
+   Champagne · dusty rose · burgundy · gold leaf
+─────────────────────────────────────────────── */
 
-    html,
-    body,
-    #root {
+@theme {
+    --color-bg:           #f7ecdf;
+    --color-surface:      #fbf3e9;
+    --color-cream:        #f1e3d2;
+    --color-fg:           #4a1c2c;
+    --color-ink:          #4a1c2c;
+    --color-fg-soft:      #6b2a3e;
+    --color-muted:        #a07a72;
+    --color-line:         #e2c9b3;
+    --color-hairline:     #c9a78c;
+    --color-rose:         #d9a4a0;
+    --color-rose-deep:    #b97278;
+    --color-burgundy:     #6b1f30;
+    --color-burgundy-deep:#4a1424;
+    --color-gold:         #b8893b;
+    --color-gold-deep:    #8a6324;
+    --color-gold-light:   #d8b86a;
+    --color-accent:       #b8893b;
+    --color-accent-deep:  #6b1f30;
+    --color-blush:        #d9a4a0;
+
+    --font-display: "HattonUltralight", "Didot", "Bodoni 72", "Times New Roman", serif;
+    --font-serif:   "HattonUltralight", "Didot", "Times New Roman", serif;
+    --font-sans:    "HattonMedium", system-ui, sans-serif;
+    --font-body:    "HattonMedium", system-ui, sans-serif;
+}
+
+@layer base {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, #root {
         height: 100%;
-        background-color: #FFF0F5;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
+        background-image:
+            radial-gradient(ellipse at top left, rgba(216, 184, 106, 0.10), transparent 55%),
+            radial-gradient(ellipse at bottom right, rgba(217, 164, 160, 0.18), transparent 60%);
+        background-attachment: fixed;
     }
 
     body {
         margin: 0;
-        font-family: "HattonMedium";
+        font-family: var(--font-body);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "liga", "kern";
     }
 
-    a {
-        font-family: "HattonUltralight";
-    }
+    a { font-family: var(--font-display); }
+
+    ::selection { background: var(--color-burgundy); color: var(--color-bg); }
 
     code {
-        font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
     }
+}
+
+@utility eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+}
+
+@utility eyebrow-burgundy {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--color-burgundy);
+}
+
+@utility gold-rule {
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--color-gold) 20%,
+        var(--color-gold-light) 50%,
+        var(--color-gold) 80%,
+        transparent 100%
+    );
+    width: 100%;
+}
+
+@utility gold-hairline {
+    height: 1px;
+    background: var(--color-gold);
+    width: 100%;
+}
+
+@utility ornament {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    letter-spacing: 0.6em;
+}
+
+@utility ribbon-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-cream);
+    box-shadow:
+        0 1px 0 var(--color-gold) inset,
+        0 -1px 0 var(--color-gold) inset,
+        1px 0 0 var(--color-gold) inset,
+        -1px 0 0 var(--color-gold) inset,
+        0 22px 60px -28px rgba(74, 28, 44, 0.35);
+}
+
+@utility wax-seal-btn {
+    background: var(--color-burgundy);
+    color: var(--color-bg);
+    transition: transform 350ms ease, background 400ms ease, box-shadow 400ms ease, letter-spacing 400ms ease;
+    box-shadow:
+        0 12px 30px -10px rgba(74, 20, 36, 0.55),
+        inset 0 0 0 1px var(--color-gold);
+}
+
+@keyframes candleFlicker {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.92; }
+}
+@utility flicker {
+    animation: candleFlicker 5s ease-in-out infinite;
+}
+
+@keyframes ribbonReveal {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@utility ribbon-reveal {
+    animation: ribbonReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+}
+@utility gold-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--color-gold) 0%,
+        var(--color-gold-light) 25%,
+        var(--color-gold) 50%,
+        var(--color-gold-light) 75%,
+        var(--color-gold) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 6s ease-in-out infinite;
 }

@@ -171,11 +171,11 @@ const ProductListPage = () => {
             {/* Page title */}
             <div className="mx-auto mt-4 w-[95%] sm:w-[90%] md:mt-6 md:w-[75%]">
                 <div className="flex items-center gap-4">
-                    <div className="h-px flex-1 bg-gray-200" />
+                    <div className="h-px flex-1 bg-[var(--color-line)]" />
                     <h1 className="text-center text-2xl font-semibold uppercase tracking-wider text-gray-800 sm:text-3xl md:text-4xl">
                         {t("catalog.title")}
                     </h1>
-                    <div className="h-px flex-1 bg-gray-200" />
+                    <div className="h-px flex-1 bg-[var(--color-line)]" />
                 </div>
             </div>
 
@@ -183,7 +183,7 @@ const ProductListPage = () => {
             <div className="mx-auto mt-4 flex w-[95%] sm:w-[90%] md:hidden">
                 <button
                     onClick={() => setMobileFiltersOpen(true)}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-[var(--color-hairline)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--color-fg-soft)] shadow-sm transition-colors hover:bg-gray-50"
                 >
                     <svg
                         className="h-4 w-4"
@@ -200,7 +200,7 @@ const ProductListPage = () => {
                     </svg>
                     {t("catalog.filters")}
                     {activeFilterCount > 0 && (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#edc7f5] text-xs font-bold text-gray-800">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-rose)] text-xs font-bold text-gray-800">
                             {activeFilterCount}
                         </span>
                     )}
@@ -250,20 +250,20 @@ const ProductListPage = () => {
 
             {/* Mobile filter drawer — panel */}
             <div
-                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[#FFF0F5] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[var(--color-bg)] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
                     mobileFiltersOpen
                         ? "translate-x-0"
                         : "-translate-x-full"
                 }`}
             >
                 {/* Drawer header */}
-                <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+                <div className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-4">
                     <h2 className="text-lg font-semibold uppercase tracking-wider text-gray-800">
                         {t("catalog.filters")}
                     </h2>
                     <button
                         onClick={() => setMobileFiltersOpen(false)}
-                        className="cursor-pointer rounded-lg p-1 text-gray-500 transition-colors hover:text-black"
+                        className="cursor-pointer rounded-lg p-1 text-[var(--color-muted)] transition-colors hover:text-black"
                         aria-label="Close filters"
                     >
                         <svg
@@ -305,9 +305,9 @@ const CatalogSkeleton = () => (
     <div className="grid w-full animate-pulse grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
             <div key={i}>
-                <div className="aspect-[3/4] w-full rounded-xl bg-gray-200" />
-                <div className="mt-3 h-4 w-3/4 rounded bg-gray-200" />
-                <div className="mt-1.5 h-4 w-1/3 rounded bg-gray-200" />
+                <div className="aspect-[3/4] w-full rounded-xl bg-[var(--color-line)]" />
+                <div className="mt-3 h-4 w-3/4 rounded bg-[var(--color-line)]" />
+                <div className="mt-1.5 h-4 w-1/3 rounded bg-[var(--color-line)]" />
             </div>
         ))}
     </div>

@@ -30,12 +30,12 @@ class ErrorBoundary extends Component<Props, State> {
                     <h1 className="mb-4 text-2xl font-bold">
                         Something went wrong
                     </h1>
-                    <p className="mb-6 text-gray-600">
+                    <p className="mb-6 text-[var(--color-fg-soft)]">
                         An unexpected error occurred. Please try refreshing the
                         page.
                     </p>
                     <button
-                        className="rounded bg-[#edc7f5] px-6 py-2 text-black transition-transform hover:scale-105"
+                        className="rounded bg-[var(--color-rose)] px-6 py-2 text-black transition-transform hover:scale-105"
                         onClick={() => window.location.reload()}
                     >
                         Refresh page

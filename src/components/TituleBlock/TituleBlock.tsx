@@ -29,7 +29,7 @@ const slides: Slide[] = [
     },
 ];
 
-const INTERVAL_MS = 6000;
+const INTERVAL_MS = 7000;
 
 const TituleBlock = () => {
     const { t } = useTranslation();
@@ -38,34 +38,28 @@ const TituleBlock = () => {
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
-    const goTo = useCallback((index: number) => {
-        setCurrent(index);
-    }, []);
+    const goTo = useCallback((index: number) => setCurrent(index), []);
+    const next = useCallback(
+        () => setCurrent((p) => (p + 1) % slides.length),
+        []
+    );
+    const prev = useCallback(
+        () => setCurrent((p) => (p - 1 + slides.length) % slides.length),
+        []
+    );
 
-    const next = useCallback(() => {
-        setCurrent((prev) => (prev + 1) % slides.length);
-    }, []);
-
-    const prev = useCallback(() => {
-        setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-    }, []);
-
-    // Auto-rotate
     useEffect(() => {
         if (paused) return;
         const timer = setInterval(next, INTERVAL_MS);
         return () => clearInterval(timer);
     }, [paused, next]);
 
-    // Swipe handlers
     const handleTouchStart = (e: React.TouchEvent) => {
         touchStartX.current = e.touches[0]?.clientX ?? 0;
     };
-
     const handleTouchMove = (e: React.TouchEvent) => {
         touchEndX.current = e.touches[0]?.clientX ?? 0;
     };
-
     const handleTouchEnd = () => {
         const diff = touchStartX.current - touchEndX.current;
         const threshold = 50;
@@ -74,97 +68,136 @@ const TituleBlock = () => {
     };
 
     return (
-        <div
-            className="relative h-[45vh] w-full overflow-hidden sm:h-[55vh] md:h-[70vh]"
+        <section
+            className="relative w-full"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             aria-roledescription="carousel"
-            aria-label="Promotional banners"
+            aria-label="Featured collections"
         >
-            {/* Slides track */}
-            <div
-                className="flex h-full transition-transform duration-700 ease-in-out"
-                style={{ transform: `translateX(-${current * 100}%)` }}
-            >
+            {/* Image plate with ornate frame */}
+            <div className="relative h-[58vh] sm:h-[70vh] md:h-[82vh] w-full overflow-hidden">
                 {slides.map((slide, index) => (
                     <div
                         key={index}
-                        className="relative flex h-full w-full flex-shrink-0 items-center justify-center"
                         role="group"
                         aria-roledescription="slide"
                         aria-label={`Slide ${index + 1} of ${slides.length}`}
                         aria-hidden={index !== current}
+                        className={`absolute inset-0 transition-opacity duration-1000 ${
+                            index === current ? "opacity-100" : "opacity-0 pointer-events-none"
+                        }`}
                     >
-                        {/* Background image */}
                         <img
-                            className="absolute h-full w-full object-cover blur-xs brightness-75"
                             src={bannerMock}
                             alt=""
                             aria-hidden="true"
                             draggable={false}
+                            className="absolute inset-0 h-full w-full object-cover"
+                        />
+                        {/* Candlelit veil */}
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                background:
+                                    "radial-gradient(ellipse at 50% 60%, rgba(74,20,36,0.15) 0%, rgba(74,20,36,0.55) 75%, rgba(34,12,18,0.78) 100%)",
+                            }}
                         />
 
-                        {/* Content overlay */}
-                        <div className="relative z-10 flex flex-col items-center px-6 text-center">
-                            <h2 className="text-3xl font-semibold text-white uppercase drop-shadow-lg sm:text-5xl md:text-7xl">
-                                {t(slide.titleKey)}
-                            </h2>
-                            <p className="mt-2 max-w-xl text-base font-light text-white/90 drop-shadow-md sm:mt-3 sm:text-lg md:mt-4 md:text-xl">
-                                {t(slide.subtitleKey)}
-                            </p>
-                            {slide.ctaKey && slide.ctaLink && (
-                                <Link
-                                    to={slide.ctaLink}
-                                    className="mt-4 inline-block rounded-full bg-white/90 px-6 py-2 text-sm font-semibold text-black uppercase tracking-wide shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white sm:mt-5 sm:px-8 sm:py-2.5 sm:text-base md:mt-6"
-                                >
-                                    {t(slide.ctaKey)}
-                                </Link>
-                            )}
-                        </div>
+                        {/* Gold ornate border */}
+                        <div className="pointer-events-none absolute inset-4 sm:inset-8 border border-[var(--color-gold)]/55" />
+                        <div className="pointer-events-none absolute inset-5 sm:inset-9 border border-[var(--color-gold)]/25" />
+
+                        {/* Corner ornaments */}
+                        <span className="ornament absolute top-4 left-1/2 -translate-x-1/2 sm:top-8 text-base text-[var(--color-gold-light)] flicker">✦ ✦ ✦</span>
+                        <span className="ornament absolute bottom-4 left-1/2 -translate-x-1/2 sm:bottom-8 text-base text-[var(--color-gold-light)] flicker">✦ ✦ ✦</span>
+
+                        {/* Content */}
+                        {index === current && (
+                            <div className="ribbon-reveal relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+                                <span className="eyebrow text-[var(--color-gold-light)] mb-5">
+                                    — Maison · Édition —
+                                </span>
+
+                                <h1 className="font-display italic text-[var(--color-bg)] leading-[1.02] text-[clamp(2.5rem,7vw,5.5rem)] max-w-4xl drop-shadow-[0_2px_30px_rgba(74,20,36,0.55)]">
+                                    {t(slide.titleKey)}
+                                </h1>
+
+                                <div className="mt-6 flex items-center gap-3 max-w-md w-full">
+                                    <span className="h-px flex-1 bg-[var(--color-gold-light)]/55" />
+                                    <span className="ornament text-xs text-[var(--color-gold-light)]">✦</span>
+                                    <span className="h-px flex-1 bg-[var(--color-gold-light)]/55" />
+                                </div>
+
+                                <p className="mt-6 max-w-xl text-base sm:text-lg text-[var(--color-bg)]/90 leading-relaxed font-display italic">
+                                    {t(slide.subtitleKey)}
+                                </p>
+
+                                {slide.ctaKey && slide.ctaLink ? (
+                                    <Link
+                                        to={slide.ctaLink}
+                                        className="mt-9 inline-flex items-center gap-3 wax-seal-btn eyebrow text-[var(--color-bg)] px-9 py-4 hover:[background:var(--color-burgundy-deep)] hover:tracking-[0.42em]"
+                                    >
+                                        {t(slide.ctaKey)}
+                                        <span aria-hidden="true">→</span>
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        to="/Catalog"
+                                        className="mt-9 inline-flex items-center gap-3 wax-seal-btn eyebrow text-[var(--color-bg)] px-9 py-4 hover:[background:var(--color-burgundy-deep)] hover:tracking-[0.42em]"
+                                    >
+                                        Enter the Salon
+                                        <span aria-hidden="true">→</span>
+                                    </Link>
+                                )}
+                            </div>
+                        )}
                     </div>
                 ))}
+
+                {/* Dots — gold seals */}
+                <div className="absolute bottom-10 sm:bottom-14 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+                    {slides.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => goTo(index)}
+                            className={`transition-all duration-500 ${
+                                index === current
+                                    ? "h-2.5 w-8 bg-[var(--color-gold-light)]"
+                                    : "h-2.5 w-2.5 rounded-full bg-[var(--color-gold-light)]/40 hover:bg-[var(--color-gold-light)]/70"
+                            }`}
+                            aria-label={`Go to slide ${index + 1}`}
+                            aria-current={index === current ? "true" : undefined}
+                        />
+                    ))}
+                </div>
+
+                {/* Arrows */}
+                <button
+                    onClick={prev}
+                    className="absolute top-1/2 left-3 sm:left-6 z-20 hidden -translate-y-1/2 cursor-pointer h-11 w-11 rounded-full border border-[var(--color-gold-light)]/60 text-[var(--color-gold-light)] bg-[var(--color-burgundy)]/30 backdrop-blur-sm transition-all duration-300 hover:bg-[var(--color-burgundy)]/60 hover:scale-110 md:flex md:items-center md:justify-center"
+                    aria-label="Previous slide"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button
+                    onClick={next}
+                    className="absolute top-1/2 right-3 sm:right-6 z-20 hidden -translate-y-1/2 cursor-pointer h-11 w-11 rounded-full border border-[var(--color-gold-light)]/60 text-[var(--color-gold-light)] bg-[var(--color-burgundy)]/30 backdrop-blur-sm transition-all duration-300 hover:bg-[var(--color-burgundy)]/60 hover:scale-110 md:flex md:items-center md:justify-center"
+                    aria-label="Next slide"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.4}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
             </div>
 
-            {/* Dot indicators */}
-            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5 sm:bottom-6">
-                {slides.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => goTo(index)}
-                        className={`h-2.5 rounded-full transition-all duration-300 ${
-                            index === current
-                                ? "w-7 bg-white"
-                                : "w-2.5 bg-white/50 hover:bg-white/80"
-                        }`}
-                        aria-label={`Go to slide ${index + 1}`}
-                        aria-current={index === current ? "true" : undefined}
-                    />
-                ))}
-            </div>
-
-            {/* Arrow buttons — desktop only */}
-            <button
-                onClick={prev}
-                className="absolute top-1/2 left-3 z-10 hidden -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/40 sm:left-4 md:block"
-                aria-label="Previous slide"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-            <button
-                onClick={next}
-                className="absolute top-1/2 right-3 z-10 hidden -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/40 sm:right-4 md:block"
-                aria-label="Next slide"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-        </div>
+            <div className="gold-rule" />
+        </section>
     );
 };
 
