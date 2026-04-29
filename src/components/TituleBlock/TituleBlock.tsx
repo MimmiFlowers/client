@@ -67,6 +67,8 @@ const TituleBlock = () => {
         else if (diff < -threshold) prev();
     };
 
+    const slide = slides[current] ?? slides[0]!;
+
     return (
         <section
             className="relative w-full bg-[var(--color-bg)]"
@@ -94,19 +96,19 @@ const TituleBlock = () => {
                 >
                     <div key={`text-${current}`} className="fade-up">
                         <h1 className="font-display leading-[0.95] text-[var(--color-obsidian)] text-[clamp(2.75rem,8vw,6.5rem)]">
-                            {t(slides[current].titleKey)}
+                            {t(slide.titleKey)}
                         </h1>
                         <p className="mt-6 max-w-md text-[var(--color-fg-soft)] text-base sm:text-lg leading-relaxed">
-                            {t(slides[current].subtitleKey)}
+                            {t(slide.subtitleKey)}
                         </p>
 
                         <div className="mt-8 flex items-center gap-6">
-                            {slides[current].ctaKey && slides[current].ctaLink ? (
+                            {slide.ctaKey && slide.ctaLink ? (
                                 <Link
-                                    to={slides[current].ctaLink!}
+                                    to={slide.ctaLink}
                                     className="press-btn inline-flex items-center gap-3 bg-[var(--color-obsidian)] text-[var(--color-bg)] eyebrow px-7 py-4 hover:bg-[var(--color-fg-soft)]"
                                 >
-                                    {t(slides[current].ctaKey!)}
+                                    {t(slide.ctaKey)}
                                     <span aria-hidden="true">→</span>
                                 </Link>
                             ) : (
