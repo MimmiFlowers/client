@@ -12,7 +12,7 @@ const PrivacyPage = () => {
                 <h1 className="mb-2 text-3xl font-light tracking-wide text-[var(--color-fg)] sm:text-4xl">
                     {t("privacy.title")}
                 </h1>
-                <p className="mb-10 text-xs tracking-wider text-[var(--color-muted)]">
+                <p className="mb-10 text-sm tracking-wider text-[var(--color-muted)]">
                     {t("privacy.last_updated")}
                 </p>
 
@@ -123,7 +123,7 @@ const PrivacyPage = () => {
 
                 {/* Future note */}
                 <div className="rounded-2xl bg-[var(--color-surface)]/70 px-6 py-5 backdrop-blur-sm">
-                    <p className="text-xs leading-relaxed text-[var(--color-muted)]">
+                    <p className="text-sm leading-relaxed text-[var(--color-muted)]">
                         {t("privacy.future_note")}
                     </p>
                 </div>

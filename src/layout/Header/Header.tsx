@@ -44,21 +44,21 @@ const Header = () => {
             <BurgerMenu />
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Link to="/" className="group flex flex-col items-center text-[var(--color-ink)]">
-                    <LeafSprig className="mb-1 h-5 w-5 text-[var(--color-leaf)] transition-transform duration-500 group-hover:rotate-3 sm:h-6 sm:w-6" />
-                    <span className="font-display text-[1.05rem] tracking-[0.32em] uppercase sm:text-[1.2rem] md:text-[1.35rem] transition-opacity duration-300 group-hover:opacity-70">
+                <Link to="/" className="group flex flex-row items-center gap-2.5 text-[var(--color-ink)] sm:gap-3">
+                    <LeafSprig className="h-5 w-5 text-[var(--color-gold)] transition-transform duration-500 group-hover:rotate-3 sm:h-6 sm:w-6" />
+                    <span className="font-display text-[1.15rem] tracking-[0.32em] uppercase whitespace-nowrap transition-opacity duration-300 group-hover:opacity-70 sm:text-[1.35rem] md:text-[1.5rem]">
                         Mimmi Flowers
                     </span>
                 </Link>
             </div>
 
             <div className="flex items-center gap-4 sm:gap-6">
-                <div className="hidden items-center gap-3 text-[0.82rem] tracking-[0.28em] uppercase md:flex">
+                <div className="hidden items-center gap-3 text-[0.95rem] tracking-[0.28em] uppercase md:flex">
                     <button
                         className={`cursor-pointer transition-colors duration-300 ${
                             i18n.language === "en"
                                 ? "text-[var(--color-ink)]"
-                                : "text-[var(--color-muted)] hover:text-[var(--color-leaf-deep)]"
+                                : "text-[var(--color-muted)] hover:text-[var(--color-burgundy)]"
                         }`}
                         onClick={() => i18n.changeLanguage("en")}
                     >EN</button>
@@ -67,7 +67,7 @@ const Header = () => {
                         className={`cursor-pointer transition-colors duration-300 ${
                             i18n.language === "sv"
                                 ? "text-[var(--color-ink)]"
-                                : "text-[var(--color-muted)] hover:text-[var(--color-leaf-deep)]"
+                                : "text-[var(--color-muted)] hover:text-[var(--color-burgundy)]"
                         }`}
                         onClick={() => i18n.changeLanguage("sv")}
                     >SV</button>
@@ -80,10 +80,10 @@ const Header = () => {
                         aria-label={`Shopping cart, ${count} items`}
                         aria-expanded={showCart}
                     >
-                        <BasketShopping3 className="h-5 w-5 sm:h-6 sm:w-6" />
+                        <BasketShopping3 className="h-6 w-6 sm:h-7 sm:w-7" />
                     </button>
                     {count > 0 && (
-                        <span className="pointer-events-none absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--color-leaf-deep)] px-1 text-[10px] font-medium text-[var(--color-cream)]">
+                        <span className="pointer-events-none absolute -top-1.5 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-burgundy)] px-1 text-[11px] font-medium text-[var(--color-cream)]">
                             {count}
                         </span>
                     )}

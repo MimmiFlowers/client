@@ -177,12 +177,12 @@ const ProductPage = () => {
                     {/* Collection & category badges */}
                     <div className="mb-3 flex flex-wrap gap-2">
                         {product.collection && (
-                            <span className="rounded-full border border-[var(--color-line)] px-3 py-1 text-xs uppercase tracking-wider text-[var(--color-fg-soft)]">
+                            <span className="rounded-full border border-[var(--color-line)] px-3 py-1 text-sm uppercase tracking-wider text-[var(--color-fg-soft)]">
                                 {product.collection}
                             </span>
                         )}
                         {product.category && (
-                            <span className="rounded-full bg-[var(--color-leaf)]/40 px-3 py-1 text-xs uppercase tracking-wider text-[var(--color-fg)]">
+                            <span className="rounded-full bg-[var(--color-leaf)]/40 px-3 py-1 text-sm uppercase tracking-wider text-[var(--color-fg)]">
                                 {product.category}
                             </span>
                         )}
@@ -194,7 +194,7 @@ const ProductPage = () => {
                     </h1>
 
                     {/* SKU */}
-                    <p className="mt-1.5 text-xs tracking-wide text-[var(--color-muted)] uppercase">
+                    <p className="mt-1.5 text-sm tracking-wide text-[var(--color-muted)] uppercase">
                         {t("product_page.sku_label")}: {product.sku}
                     </p>
 

@@ -43,7 +43,7 @@ const CollectionCard = ({
 
             {/* Caption */}
             <div className="absolute right-7 bottom-7 left-7 text-[var(--color-cream)]">
-                <p className="text-[0.8rem] tracking-[0.34em] uppercase text-[var(--color-gold-light)] italic">
+                <p className="text-[0.95rem] tracking-[0.34em] uppercase text-[var(--color-gold-light)] italic">
                     A composition of
                 </p>
                 <h3 className="mt-2 font-display text-3xl leading-tight tracking-tight italic text-[var(--color-cream)] drop-shadow-[0_1px_8px_rgba(58,20,34,0.7)] sm:text-4xl">
@@ -51,7 +51,7 @@ const CollectionCard = ({
                 </h3>
                 <div className="mt-4 flex items-center gap-3">
                     <span className="h-px w-10 bg-[var(--color-gold-light)]" />
-                    <span className="text-[0.82rem] tracking-[0.26em] uppercase text-[var(--color-gold-light)]">
+                    <span className="text-[0.95rem] tracking-[0.26em] uppercase text-[var(--color-gold-light)]">
                         Explore
                     </span>
                 </div>

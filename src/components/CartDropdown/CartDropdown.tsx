@@ -89,7 +89,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
             aria-label={t("cart.your_cart")}
             className="fixed inset-x-0 top-16 z-50 mx-auto rounded-xl border border-[var(--color-line)] bg-[var(--color-bg)] p-5 shadow-xl sm:absolute sm:inset-x-auto sm:top-10 sm:right-0 sm:mx-0 sm:w-80"
         >
-            <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-[var(--color-fg-soft)]">
+            <h3 className="text-sm font-medium uppercase tracking-[0.15em] text-[var(--color-fg-soft)]">
                 {t("cart.your_cart")}
             </h3>
 
@@ -144,24 +144,24 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                                 >
                                     {item.name}
                                 </p>
-                                <p className="mt-0.5 text-xs font-light text-[var(--color-muted)]">
+                                <p className="mt-0.5 text-sm font-light text-[var(--color-muted)]">
                                     {item.price} {t("cart.pp")}
                                 </p>
                                 <div className="mt-1.5 flex items-center gap-1">
                                     <button
                                         onClick={() => decrease(item.id)}
                                         aria-label={`Decrease quantity of ${item.name}`}
-                                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-fg-soft)] transition-colors duration-300 hover:border-gray-400 hover:text-[var(--color-fg)]"
+                                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-sm text-[var(--color-fg-soft)] transition-colors duration-300 hover:border-gray-400 hover:text-[var(--color-fg)]"
                                     >
                                         &minus;
                                     </button>
-                                    <span className="w-6 text-center text-xs font-medium text-[var(--color-fg)]">
+                                    <span className="w-6 text-center text-sm font-medium text-[var(--color-fg)]">
                                         {item.quantity}
                                     </span>
                                     <button
                                         onClick={() => increase(item.id)}
                                         aria-label={`Increase quantity of ${item.name}`}
-                                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-fg-soft)] transition-colors duration-300 hover:border-gray-400 hover:text-[var(--color-fg)]"
+                                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-sm text-[var(--color-fg-soft)] transition-colors duration-300 hover:border-gray-400 hover:text-[var(--color-fg)]"
                                     >
                                         +
                                     </button>
@@ -174,7 +174,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                                 <button
                                     onClick={() => removeItem(item.id)}
                                     aria-label={`Remove ${item.name} from cart`}
-                                    className="cursor-pointer text-xs font-light text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-rose-deep)]"
+                                    className="cursor-pointer text-sm font-light text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-rose-deep)]"
                                 >
                                     {t("buttons.cancel")}
                                 </button>
@@ -187,11 +187,11 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
             {items.length > 0 && (
                 <>
                     <div className="mt-3 space-y-1.5 border-t border-[var(--color-line)]/60 pt-3">
-                        <div className="flex justify-between text-xs text-[var(--color-muted)]">
+                        <div className="flex justify-between text-sm text-[var(--color-muted)]">
                             <span>{t("cart.subtotal")}</span>
                             <span>{total.toLocaleString()} kr</span>
                         </div>
-                        <div className="flex justify-between text-xs text-[var(--color-muted)]">
+                        <div className="flex justify-between text-sm text-[var(--color-muted)]">
                             <span>{t("cart.delivery")}</span>
                             <span>
                                 {isFreeDelivery
@@ -214,7 +214,7 @@ export const CartDropdown: React.FC<Props> = ({ onClose }) => {
                         </div>
                     </div>
                     <button
-                        className="mt-4 w-full cursor-pointer rounded-full bg-gray-900 py-2.5 text-xs font-medium uppercase tracking-wider text-white transition-opacity duration-300 hover:opacity-80"
+                        className="mt-4 w-full cursor-pointer rounded-full bg-gray-900 py-2.5 text-sm font-medium uppercase tracking-wider text-white transition-opacity duration-300 hover:opacity-80"
                         onClick={() => {
                             onClose();
                             navigate("/Checkout");

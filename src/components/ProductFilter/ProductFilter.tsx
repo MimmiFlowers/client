@@ -94,7 +94,7 @@ const ProductFilter = ({
 
             {/* Sort */}
             <div className="mb-6">
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--color-fg-soft)]">
+                <label className="mb-2 block text-sm font-semibold uppercase tracking-wider text-[var(--color-fg-soft)]">
                     {t("catalog.sort_label")}
                 </label>
                 <select

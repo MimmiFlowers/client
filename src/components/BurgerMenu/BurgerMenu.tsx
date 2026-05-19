@@ -141,7 +141,7 @@ const BurgerMenu: React.FC = () => {
                                 </p>
                                 <div className="flex items-center gap-0.5 rounded-full bg-[var(--color-surface)]/60 p-0.5">
                                     <button
-                                        className={`flex-1 cursor-pointer rounded-full py-1.5 text-xs font-medium tracking-wider transition-all duration-300 ${
+                                        className={`flex-1 cursor-pointer rounded-full py-1.5 text-sm font-medium tracking-wider transition-all duration-300 ${
                                             i18n.language === "en"
                                                 ? "bg-[var(--color-surface)] text-[var(--color-ink)] shadow-sm"
                                                 : "text-[var(--color-muted)] hover:text-[var(--color-fg)]"
@@ -152,7 +152,7 @@ const BurgerMenu: React.FC = () => {
                                         EN
                                     </button>
                                     <button
-                                        className={`flex-1 cursor-pointer rounded-full py-1.5 text-xs font-medium tracking-wider transition-all duration-300 ${
+                                        className={`flex-1 cursor-pointer rounded-full py-1.5 text-sm font-medium tracking-wider transition-all duration-300 ${
                                             i18n.language === "sv"
                                                 ? "bg-[var(--color-surface)] text-[var(--color-ink)] shadow-sm"
                                                 : "text-[var(--color-muted)] hover:text-[var(--color-fg)]"

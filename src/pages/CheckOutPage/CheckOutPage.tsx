@@ -39,7 +39,7 @@ function FormInput({
         <div>
             <label
                 htmlFor={id}
-                className="mb-1.5 block text-xs font-medium tracking-wide text-[var(--color-fg-soft)] uppercase"
+                className="mb-1.5 block text-sm font-medium tracking-wide text-[var(--color-fg-soft)] uppercase"
             >
                 {label}
             </label>
@@ -58,7 +58,7 @@ function FormInput({
                 placeholder={label}
             />
             {error && (
-                <p className="mt-1 text-xs text-[var(--color-rose-deep)]" role="alert">
+                <p className="mt-1 text-sm text-[var(--color-rose-deep)]" role="alert">
                     {error}
                 </p>
             )}
@@ -102,7 +102,7 @@ function Toggle({
 function SectionHeader({ step, title }: { step: number; title: string }) {
     return (
         <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/40 text-xs font-semibold text-[var(--color-fg)]">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/40 text-sm font-semibold text-[var(--color-fg)]">
                 {step}
             </span>
             <h2 className="text-base font-semibold tracking-wide text-[var(--color-fg)] uppercase">
@@ -461,7 +461,7 @@ export default function CheckoutPage() {
                             <div>
                                 <label
                                     htmlFor="recipient-time"
-                                    className="mb-1.5 block text-xs font-medium tracking-wide text-[var(--color-fg-soft)] uppercase"
+                                    className="mb-1.5 block text-sm font-medium tracking-wide text-[var(--color-fg-soft)] uppercase"
                                 >
                                     {t("checkout.delivery_time")}
                                 </label>
@@ -502,7 +502,7 @@ export default function CheckoutPage() {
                                 />
                                 {errors.recipientTime && (
                                     <p
-                                        className="mt-1 text-xs text-[var(--color-rose-deep)]"
+                                        className="mt-1 text-sm text-[var(--color-rose-deep)]"
                                         role="alert"
                                     >
                                         {errors.recipientTime}
@@ -565,7 +565,7 @@ export default function CheckoutPage() {
                                                     onClick={() =>
                                                         decrease(item.id)
                                                     }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-fg-soft)] transition-colors hover:border-gray-400 hover:text-[var(--color-fg)]"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-sm text-[var(--color-fg-soft)] transition-colors hover:border-gray-400 hover:text-[var(--color-fg)]"
                                                     aria-label="Decrease quantity"
                                                 >
                                                     -
@@ -577,7 +577,7 @@ export default function CheckoutPage() {
                                                     onClick={() =>
                                                         increase(item.id)
                                                     }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-fg-soft)] transition-colors hover:border-gray-400 hover:text-[var(--color-fg)]"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-sm text-[var(--color-fg-soft)] transition-colors hover:border-gray-400 hover:text-[var(--color-fg)]"
                                                     aria-label="Increase quantity"
                                                 >
                                                     +

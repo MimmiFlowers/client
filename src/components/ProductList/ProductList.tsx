@@ -59,7 +59,7 @@ const ProductList = ({ products }: { products: Product[] }) => {
                         />
                         {/* Collection badge overlay */}
                         {product.collection && (
-                            <span className="absolute top-3 left-3 rounded-full bg-[var(--color-surface)]/85 px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-[var(--color-fg)] shadow-sm backdrop-blur-sm">
+                            <span className="absolute top-3 left-3 rounded-full bg-[var(--color-surface)]/85 px-2.5 py-1 text-sm font-medium uppercase tracking-wider text-[var(--color-fg)] shadow-sm backdrop-blur-sm">
                                 {product.collection}
                             </span>
                         )}

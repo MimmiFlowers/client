@@ -9,7 +9,7 @@ const SkeletonCard = () => (
     <div className="animate-pulse">
         <div
             className="aspect-[3/4] w-full bg-[var(--color-line)]/50"
-            style={{ borderRadius: "22% 14% 22% 14% / 18% 22% 18% 22%" }}
+            style={{ borderRadius: "18% 12% 18% 12% / 14% 18% 14% 18%" }}
         />
         <div className="mt-4 flex justify-between gap-3">
             <div className="h-4 w-32 rounded bg-[var(--color-line)]/50" />
@@ -62,7 +62,7 @@ const Specials = ({ setting }: SpecialProps) => {
                 </h2>
                 <Link
                     to={`/Catalog?filter=${setting.toLowerCase()}`}
-                    className="group mt-5 inline-flex items-center gap-2 text-[0.82rem] tracking-[0.28em] uppercase text-[var(--color-accent-deep)]"
+                    className="group mt-5 inline-flex items-center gap-2 text-[0.95rem] tracking-[0.28em] uppercase text-[var(--color-accent-deep)]"
                 >
                     <span className="wavy-underline pb-1.5">
                         {t("specials.show_all")}

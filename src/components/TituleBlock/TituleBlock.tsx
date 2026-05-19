@@ -138,7 +138,7 @@ const TituleBlock = () => {
                                 {slide.ctaKey && slide.ctaLink ? (
                                     <Link
                                         to={slide.ctaLink}
-                                        className="mt-10 inline-flex items-center gap-3 wax-seal-btn px-9 py-4 text-[0.82rem] tracking-[0.32em] uppercase font-medium hover:[background:var(--color-burgundy-deep)] hover:tracking-[0.4em]"
+                                        className="mt-10 inline-flex items-center gap-3 wax-seal-btn px-9 py-4 text-[0.95rem] tracking-[0.32em] uppercase font-medium hover:[background:var(--color-burgundy-deep)] hover:tracking-[0.4em]"
                                     >
                                         {t(slide.ctaKey)}
                                         <span aria-hidden="true">→</span>
@@ -146,7 +146,7 @@ const TituleBlock = () => {
                                 ) : (
                                     <Link
                                         to="/Catalog"
-                                        className="mt-10 inline-flex items-center gap-3 wax-seal-btn px-9 py-4 text-[0.82rem] tracking-[0.32em] uppercase font-medium hover:[background:var(--color-burgundy-deep)] hover:tracking-[0.4em]"
+                                        className="mt-10 inline-flex items-center gap-3 wax-seal-btn px-9 py-4 text-[0.95rem] tracking-[0.32em] uppercase font-medium hover:[background:var(--color-burgundy-deep)] hover:tracking-[0.4em]"
                                     >
                                         {t("banner.default_cta", "Enter the Salon")}
                                         <span aria-hidden="true">→</span>

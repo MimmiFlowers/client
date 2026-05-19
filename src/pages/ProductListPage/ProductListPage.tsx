@@ -200,7 +200,7 @@ const ProductListPage = () => {
                     </svg>
                     {t("catalog.filters")}
                     {activeFilterCount > 0 && (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-leaf)] text-xs font-bold text-[var(--color-fg)]">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-leaf)] text-sm font-bold text-[var(--color-fg)]">
                             {activeFilterCount}
                         </span>
                     )}

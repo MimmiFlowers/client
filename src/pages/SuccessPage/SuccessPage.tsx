@@ -113,7 +113,7 @@ const SuccessPage = () => {
 
                 {/* Order ID badge */}
                 <div className="mx-auto mb-6 inline-block rounded-full bg-[var(--color-cream)] px-5 py-2">
-                    <p className="text-xs text-[var(--color-fg-soft)]">
+                    <p className="text-sm text-[var(--color-fg-soft)]">
                         {t("success.order_id")}
                     </p>
                     <p className="font-mono text-sm font-semibold tracking-wider text-[var(--color-fg)]">
@@ -131,7 +131,7 @@ const SuccessPage = () => {
                 {/* Divider */}
                 <div className="mx-auto mb-6 h-px w-16 bg-gray-200" />
 
-                <p className="mb-6 text-xs font-light tracking-wider text-[var(--color-muted)] uppercase">
+                <p className="mb-6 text-sm font-light tracking-wider text-[var(--color-muted)] uppercase">
                     {t("success.thanks_shopping")}
                 </p>
 
