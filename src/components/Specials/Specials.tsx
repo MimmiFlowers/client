@@ -7,7 +7,10 @@ import type { SpecialProps, ProductMini } from "../../types/types";
 
 const SkeletonCard = () => (
     <div className="animate-pulse">
-        <div className="aspect-[3/4] w-full rounded-tl-[35%] rounded-tr-2xl rounded-br-[35%] rounded-bl-2xl bg-[var(--color-line)]/50" />
+        <div
+            className="aspect-[3/4] w-full bg-[var(--color-line)]/50"
+            style={{ borderRadius: "22% 14% 22% 14% / 18% 22% 18% 22%" }}
+        />
         <div className="mt-4 flex justify-between gap-3">
             <div className="h-4 w-32 rounded bg-[var(--color-line)]/50" />
             <div className="h-4 w-12 rounded bg-[var(--color-line)]/50" />

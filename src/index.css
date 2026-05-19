@@ -78,7 +78,7 @@
         font-family: var(--font-display);
         letter-spacing: -0.012em;
         line-height: 1.08;
-        color: var(--color-fg);
+        /* color inherits from parent so headings work on both light & dark backgrounds */
     }
 
     a { font-family: var(--font-body); color: inherit; }

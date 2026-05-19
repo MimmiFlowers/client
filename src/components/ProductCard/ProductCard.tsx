@@ -25,32 +25,35 @@ const ProductCard = ({ productMini }: { productMini: ProductMini }) => {
             tabIndex={0}
             aria-label={`${productMini.name}, ${productMini.price} kr`}
         >
-            {/* Asymmetric organic frame */}
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-tl-[35%] rounded-tr-2xl rounded-br-[35%] rounded-bl-2xl bg-[var(--color-surface)]">
+            {/* Asymmetric organic frame — image clipped by border-radius */}
+            <div
+                className="relative aspect-[3/4] w-full overflow-hidden bg-[var(--color-surface)] transition-[border-radius,box-shadow] duration-700 ease-out"
+                style={{
+                    borderRadius: hovered
+                        ? "22% 14% 22% 14% / 18% 22% 18% 22%"
+                        : "22% 14% 22% 14% / 18% 22% 18% 22%",
+                    boxShadow: hovered
+                        ? "0 20px 50px -22px rgba(58,20,34,0.45), inset 0 0 0 1px rgba(184,137,59,0.35)"
+                        : "0 10px 30px -18px rgba(58,20,34,0.25), inset 0 0 0 1px rgba(184,137,59,0.15)",
+                }}
+            >
                 <img
-                    className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[1100ms] ease-out group-hover:scale-[1.06]"
+                    className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-[1100ms] ease-out group-hover:scale-[1.05]"
                     src={productMini.picture}
                     alt={productMini.name}
                     loading="lazy"
                 />
+
                 {/* Warm overlay on hover */}
                 <div
-                    className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--color-ink)]/30 to-transparent transition-opacity duration-700 ${
+                    className={`pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--color-burgundy-deep)]/45 via-[var(--color-burgundy)]/10 to-transparent transition-opacity duration-700 ${
                         hovered ? "opacity-100" : "opacity-0"
                     }`}
                 />
 
-                {/* Sage badge */}
-                <div className="absolute top-4 left-4 flex items-center gap-1.5 rounded-full bg-[var(--color-cream)]/95 px-3 py-1 backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-leaf)]" />
-                    <span className="text-[0.78rem] tracking-[0.24em] uppercase text-[var(--color-leaf-deep)]">
-                        Fresh
-                    </span>
-                </div>
-
-                {/* Quick view */}
+                {/* Quick view — placed safely inside the curve */}
                 <div
-                    className={`absolute inset-x-4 bottom-4 flex items-center justify-center rounded-full bg-[var(--color-cream)]/95 px-4 py-2.5 text-[0.82rem] tracking-[0.26em] uppercase text-[var(--color-accent-deep)] backdrop-blur-md transition-all duration-500 ${
+                    className={`absolute inset-x-8 bottom-8 flex items-center justify-center rounded-full bg-[var(--color-cream)]/95 px-4 py-2.5 text-[0.82rem] tracking-[0.26em] uppercase text-[var(--color-burgundy)] backdrop-blur-md shadow-md transition-all duration-500 ${
                         hovered ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                     }`}
                 >
@@ -58,14 +61,22 @@ const ProductCard = ({ productMini }: { productMini: ProductMini }) => {
                 </div>
             </div>
 
+            {/* "Fresh" badge — OUTSIDE the clipped frame so it's never cut */}
+            <div className="relative -mt-3 ml-5 inline-flex items-center gap-1.5 rounded-full bg-[var(--color-cream)] px-3.5 py-1.5 shadow-sm ring-1 ring-[var(--color-gold)]/40 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-gold)]" />
+                <span className="text-[0.78rem] tracking-[0.24em] uppercase text-[var(--color-burgundy)]">
+                    Fresh
+                </span>
+            </div>
+
             {/* Info */}
             <div className="mt-4 flex items-baseline justify-between gap-3 px-1">
-                <p className="font-display text-base leading-tight text-[var(--color-ink)] wavy-underline sm:text-lg">
+                <p className="font-display text-lg leading-tight text-[var(--color-ink)] wavy-underline sm:text-xl">
                     {productMini.name}
                 </p>
-                <p className="shrink-0 text-base text-[var(--color-accent-deep)] font-display sm:text-lg">
+                <p className="shrink-0 text-lg text-[var(--color-burgundy)] font-display sm:text-xl">
                     {productMini.price.toLocaleString()}
-                    <span className="ml-1 text-xs tracking-widest text-[var(--color-muted)]">kr</span>
+                    <span className="ml-1 text-sm tracking-widest text-[var(--color-muted)]">kr</span>
                 </p>
             </div>
         </div>

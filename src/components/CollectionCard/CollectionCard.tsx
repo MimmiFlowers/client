@@ -39,19 +39,19 @@ const CollectionCard = ({
                 }}
             />
 
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--color-ink)]/80 via-[var(--color-ink)]/15 to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--color-burgundy-deep)]/85 via-[var(--color-burgundy)]/30 to-transparent" />
 
             {/* Caption */}
             <div className="absolute right-7 bottom-7 left-7 text-[var(--color-cream)]">
-                <p className="text-[0.8rem] tracking-[0.34em] uppercase text-[var(--color-cream)]/75 italic">
+                <p className="text-[0.8rem] tracking-[0.34em] uppercase text-[var(--color-gold-light)] italic">
                     A composition of
                 </p>
-                <h3 className="mt-2 font-display text-3xl leading-tight tracking-tight italic sm:text-4xl">
+                <h3 className="mt-2 font-display text-3xl leading-tight tracking-tight italic text-[var(--color-cream)] drop-shadow-[0_1px_8px_rgba(58,20,34,0.7)] sm:text-4xl">
                     {collectionMini.name}
                 </h3>
                 <div className="mt-4 flex items-center gap-3">
-                    <span className="h-px w-10 bg-[var(--color-blush)]" />
-                    <span className="text-[0.82rem] tracking-[0.26em] uppercase text-[var(--color-blush)]">
+                    <span className="h-px w-10 bg-[var(--color-gold-light)]" />
+                    <span className="text-[0.82rem] tracking-[0.26em] uppercase text-[var(--color-gold-light)]">
                         Explore
                     </span>
                 </div>
