@@ -10,7 +10,7 @@ const ProductList = ({ products }: { products: Product[] }) => {
         return (
             <div className="flex flex-col items-center justify-center py-20">
                 <svg
-                    className="mb-4 h-16 w-16 text-gray-300"
+                    className="mb-4 h-16 w-16 text-[var(--color-muted)]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -22,10 +22,10 @@ const ProductList = ({ products }: { products: Product[] }) => {
                         d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                     />
                 </svg>
-                <p className="text-lg font-medium text-gray-600">
+                <p className="text-lg font-medium text-[var(--color-fg-soft)]">
                     {t("catalog.no_products")}
                 </p>
-                <p className="mt-1 text-sm text-gray-400">
+                <p className="mt-1 text-sm text-[var(--color-muted)]">
                     {t("catalog.no_products_hint")}
                 </p>
             </div>
@@ -59,7 +59,7 @@ const ProductList = ({ products }: { products: Product[] }) => {
                         />
                         {/* Collection badge overlay */}
                         {product.collection && (
-                            <span className="absolute top-3 left-3 rounded-full bg-white/85 px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-gray-700 shadow-sm backdrop-blur-sm">
+                            <span className="absolute top-3 left-3 rounded-full bg-[var(--color-surface)]/85 px-2.5 py-1 text-xs font-medium uppercase tracking-wider text-[var(--color-fg)] shadow-sm backdrop-blur-sm">
                                 {product.collection}
                             </span>
                         )}
@@ -67,10 +67,10 @@ const ProductList = ({ products }: { products: Product[] }) => {
 
                     {/* Info */}
                     <div className="mt-3 px-0.5">
-                        <p className="text-sm font-semibold uppercase leading-tight text-gray-900 sm:text-base">
+                        <p className="text-sm font-semibold uppercase leading-tight text-[var(--color-fg)] sm:text-base">
                             {product.name}
                         </p>
-                        <p className="mt-0.5 text-sm text-gray-600 sm:text-base">
+                        <p className="mt-0.5 text-sm text-[var(--color-fg-soft)] sm:text-base">
                             {product.price.toLocaleString()} kr
                         </p>
                     </div>

@@ -11,10 +11,10 @@ const AboutPage = () => {
             <div className="mx-auto w-[95%] max-w-5xl sm:w-[90%] md:w-[85%] lg:w-[80%]">
                 {/* Header */}
                 <div className="mb-12 text-center">
-                    <h1 className="mb-3 text-3xl font-light tracking-wide text-gray-900 sm:text-4xl">
+                    <h1 className="mb-3 text-3xl font-light tracking-wide text-[var(--color-fg)] sm:text-4xl">
                         {t("about.title")}
                     </h1>
-                    <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-500">
+                    <p className="mx-auto max-w-lg text-sm leading-relaxed text-[var(--color-fg-soft)]">
                         {t("about.subtitle")}
                     </p>
                 </div>
@@ -23,19 +23,19 @@ const AboutPage = () => {
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {/* Left column — Our Story */}
                     <div>
-                        <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                        <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-[var(--color-muted)] uppercase">
                             {t("about.our_story")}
                         </h2>
 
                         <div className="space-y-4">
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                            <div className="rounded-2xl bg-[var(--color-surface)]/70 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-[var(--color-fg)]">
                                     {t("about.paragraph1")}
                                 </p>
                             </div>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                            <div className="rounded-2xl bg-[var(--color-surface)]/70 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-[var(--color-fg)]">
                                     {t("about.paragraph2")}
                                 </p>
                             </div>
@@ -46,12 +46,12 @@ const AboutPage = () => {
                     <div className="space-y-8">
                         {/* What We Offer */}
                         <div>
-                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-[var(--color-muted)] uppercase">
                                 {t("about.what_we_offer")}
                             </h2>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                            <div className="rounded-2xl bg-[var(--color-surface)]/70 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-[var(--color-fg)]">
                                     {t("about.paragraph3")}
                                 </p>
                             </div>
@@ -59,15 +59,15 @@ const AboutPage = () => {
 
                         {/* Delivery */}
                         <div>
-                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-[var(--color-muted)] uppercase">
                                 {t("about.delivery_title")}
                             </h2>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                            <div className="rounded-2xl bg-[var(--color-surface)]/70 p-6 backdrop-blur-sm">
                                 <div className="flex items-start gap-4">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-leaf)]/30">
                                         <svg
-                                            className="h-4.5 w-4.5 text-gray-600"
+                                            className="h-4.5 w-4.5 text-[var(--color-fg-soft)]"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -80,7 +80,7 @@ const AboutPage = () => {
                                             />
                                         </svg>
                                     </div>
-                                    <p className="text-sm leading-relaxed font-light text-gray-700">
+                                    <p className="text-sm leading-relaxed font-light text-[var(--color-fg)]">
                                         {t("about.delivery_text")}
                                     </p>
                                 </div>

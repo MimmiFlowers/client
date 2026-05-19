@@ -1,32 +1,266 @@
 @import "tailwindcss";
+@import "./assets/fonts/fonts.css";
+
+/* ============================================================
+   UIV2 — Botanical Soirée  (hybrid variant)
+   Colors:  champagne · burgundy · dusty rose · gold leaf
+   Shapes:  organic, hand-drawn, blob curves, paper grain
+   Goal:    luxury feel + WCAG-AAA contrast + readable type
+   ============================================================ */
+
+@theme {
+    /* ---- Palette (from Romantic Soirée, contrast-tuned) ---- */
+    --color-bg:            #f7ecdf;   /* champagne */
+    --color-surface:       #fbf3e9;
+    --color-cream:         #f1e3d2;
+    --color-fg:            #3a1422;   /* deep burgundy ink (~10.8:1 on bg) */
+    --color-ink:           #3a1422;
+    --color-fg-soft:       #5a1f30;
+    --color-muted:         #7a4452;   /* darker than soirée's #a07a72 for readability */
+    --color-line:          #d8b89b;
+    --color-hairline:      #b8893b;
+    --color-rose:          #d9a4a0;
+    --color-rose-deep:     #a85a60;
+    --color-burgundy:      #5a1828;
+    --color-burgundy-deep: #3a1422;
+    --color-gold:          #b8893b;
+    --color-gold-deep:     #7a5a22;   /* darker for legible eyebrow text */
+    --color-gold-light:    #d8b86a;
+    --color-accent:        #b8893b;
+    --color-accent-deep:   #5a1828;
+    --color-leaf:          #b8893b;   /* alias so legacy leaf-rule references gold */
+    --color-leaf-deep:     #7a5a22;
+    --color-blush:         #d9a4a0;
+
+    /* ---- Typography (Hatton from local fonts) ---- */
+    --font-display: "HattonMedium", "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    --font-serif:   "HattonUltralight", "HattonMedium", Georgia, serif;
+    --font-body:    "HattonMedium", Georgia, serif;
+    --font-sans:    "HattonMedium", system-ui, sans-serif;
+    --font-script:  "HattonMedium", cursive;
+
+    --ease-organic: cubic-bezier(0.22, 1, 0.36, 1);
+}
 
 @layer base {
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html,
-    body,
-    #root {
+    html, body, #root {
         height: 100%;
-        background-color: #FFF0F5;
+        background-color: var(--color-bg);
+        color: var(--color-fg);
     }
 
+    /* Champagne paper: candlelight vignettes + soft grain */
     body {
         margin: 0;
-        font-family: "HattonMedium";
+        font-family: var(--font-body);
+        font-size: 17px;
+        line-height: 1.6;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "liga", "kern";
+        background-image:
+            radial-gradient(ellipse at top left, rgba(216, 184, 106, 0.10), transparent 55%),
+            radial-gradient(ellipse at bottom right, rgba(217, 164, 160, 0.16), transparent 60%),
+            radial-gradient(rgba(122, 90, 34, 0.05) 1px, transparent 1px),
+            radial-gradient(rgba(168, 90, 96, 0.035) 1px, transparent 1px);
+        background-size: auto, auto, 3px 3px, 7px 7px;
+        background-position: 0 0, 0 0, 0 0, 1.5px 1.5px;
+        background-attachment: fixed, fixed, scroll, scroll;
     }
 
-    a {
-        font-family: "HattonUltralight";
+    @media (max-width: 640px) {
+        body { font-size: 16px; }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        letter-spacing: -0.012em;
+        line-height: 1.08;
+        color: var(--color-fg);
+    }
+
+    a { font-family: var(--font-body); color: inherit; }
+
+    ::selection {
+        background: var(--color-burgundy);
+        color: var(--color-bg);
     }
 
     code {
-        font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
     }
+}
+
+/* ─────────── Eyebrow / labels (high contrast, larger) ─────────── */
+
+@utility eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+    font-weight: 500;
+}
+
+@utility eyebrow-burgundy {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-burgundy);
+    font-weight: 500;
+}
+
+/* ─────────── Rules & ornaments ─────────── */
+
+@utility leaf-rule {
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    height: 1px;
+}
+
+@utility gold-rule {
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--color-gold) 20%,
+        var(--color-gold-light) 50%,
+        var(--color-gold) 80%,
+        transparent 100%
+    );
+    width: 100%;
+}
+
+@utility gold-hairline {
+    height: 1px;
+    background: var(--color-gold);
+    width: 100%;
+}
+
+@utility ornament {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    letter-spacing: 0.6em;
+}
+
+/* ─────────── Hand-drawn wavy underline (organic, gold) ─────────── */
+
+@utility wavy-underline {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 6'><path d='M0 3 Q15 0 30 3 T60 3' fill='none' stroke='%23b8893b' stroke-width='1.6'/></svg>");
+    background-repeat: repeat-x;
+    background-position: 0 100%;
+    background-size: 60px 6px;
+    padding-bottom: 8px;
+}
+
+/* ─────────── Organic frames ─────────── */
+
+@utility tile-frame {
+    position: relative;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 28px 36px 30px 40px / 36px 28px 38px 30px;
+    box-shadow:
+        0 1px 0 rgba(184, 137, 59, 0.25) inset,
+        0 22px 50px -28px rgba(58, 20, 34, 0.30);
+    transition: transform 600ms var(--ease-organic), box-shadow 600ms var(--ease-organic);
+}
+
+@utility tile-frame-hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 1px 0 rgba(184, 137, 59, 0.45) inset,
+        0 32px 70px -30px rgba(58, 20, 34, 0.42);
+}
+
+@utility ribbon-frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-cream);
+    border-radius: 32px 40px 34px 44px / 40px 32px 42px 34px;
+    box-shadow:
+        0 1px 0 var(--color-gold) inset,
+        0 -1px 0 var(--color-gold) inset,
+        1px 0 0 var(--color-gold) inset,
+        -1px 0 0 var(--color-gold) inset,
+        0 24px 60px -28px rgba(58, 20, 34, 0.35);
+}
+
+/* ─────────── Buttons ─────────── */
+
+@utility wax-seal-btn {
+    background: var(--color-burgundy);
+    color: var(--color-bg);
+    border-radius: 999px;
+    transition: transform 350ms var(--ease-organic), background 400ms ease, box-shadow 400ms ease, letter-spacing 400ms ease;
+    box-shadow:
+        0 12px 30px -10px rgba(58, 20, 34, 0.55),
+        inset 0 0 0 1px var(--color-gold);
+}
+
+@utility organic-btn {
+    background: var(--color-burgundy);
+    color: var(--color-bg);
+    border-radius: 28px 36px 30px 40px / 36px 28px 38px 30px;
+    box-shadow:
+        0 10px 28px -10px rgba(58, 20, 34, 0.55),
+        inset 0 0 0 1px var(--color-gold);
+    transition: transform 350ms var(--ease-organic), box-shadow 350ms ease, background 400ms ease;
+}
+
+/* ─────────── Animations ─────────── */
+
+@keyframes growIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@utility grow-in {
+    animation: growIn 1s var(--ease-organic) both;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-2deg); }
+    50%      { transform: rotate(2deg); }
+}
+@utility sway {
+    animation: sway 6s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+@keyframes candleFlicker {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.93; }
+}
+@utility flicker {
+    animation: candleFlicker 5s ease-in-out infinite;
+}
+
+@keyframes ribbonReveal {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@utility ribbon-reveal {
+    animation: ribbonReveal 900ms var(--ease-organic) both;
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+}
+@utility gold-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--color-gold) 0%,
+        var(--color-gold-light) 25%,
+        var(--color-gold) 50%,
+        var(--color-gold-light) 75%,
+        var(--color-gold) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 6s ease-in-out infinite;
 }

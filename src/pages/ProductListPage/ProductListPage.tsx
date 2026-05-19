@@ -172,7 +172,7 @@ const ProductListPage = () => {
             <div className="mx-auto mt-4 w-[95%] sm:w-[90%] md:mt-6 md:w-[75%]">
                 <div className="flex items-center gap-4">
                     <div className="h-px flex-1 bg-gray-200" />
-                    <h1 className="text-center text-2xl font-semibold uppercase tracking-wider text-gray-800 sm:text-3xl md:text-4xl">
+                    <h1 className="text-center text-2xl font-semibold uppercase tracking-wider text-[var(--color-fg)] sm:text-3xl md:text-4xl">
                         {t("catalog.title")}
                     </h1>
                     <div className="h-px flex-1 bg-gray-200" />
@@ -183,7 +183,7 @@ const ProductListPage = () => {
             <div className="mx-auto mt-4 flex w-[95%] sm:w-[90%] md:hidden">
                 <button
                     onClick={() => setMobileFiltersOpen(true)}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-2.5 text-sm font-medium text-[var(--color-fg)] shadow-sm transition-colors hover:bg-[var(--color-surface)]"
                 >
                     <svg
                         className="h-4 w-4"
@@ -200,7 +200,7 @@ const ProductListPage = () => {
                     </svg>
                     {t("catalog.filters")}
                     {activeFilterCount > 0 && (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#edc7f5] text-xs font-bold text-gray-800">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-leaf)] text-xs font-bold text-[var(--color-fg)]">
                             {activeFilterCount}
                         </span>
                     )}
@@ -229,7 +229,7 @@ const ProductListPage = () => {
                 <div className="min-w-0 flex-1">
                     {loading && <CatalogSkeleton />}
                     {error && (
-                        <p className="w-full py-16 text-center text-red-500">
+                        <p className="w-full py-16 text-center text-[var(--color-rose-deep)]">
                             {error}
                         </p>
                     )}
@@ -250,20 +250,20 @@ const ProductListPage = () => {
 
             {/* Mobile filter drawer — panel */}
             <div
-                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[#FFF0F5] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[var(--color-bg)] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
                     mobileFiltersOpen
                         ? "translate-x-0"
                         : "-translate-x-full"
                 }`}
             >
                 {/* Drawer header */}
-                <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
-                    <h2 className="text-lg font-semibold uppercase tracking-wider text-gray-800">
+                <div className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-4">
+                    <h2 className="text-lg font-semibold uppercase tracking-wider text-[var(--color-fg)]">
                         {t("catalog.filters")}
                     </h2>
                     <button
                         onClick={() => setMobileFiltersOpen(false)}
-                        className="cursor-pointer rounded-lg p-1 text-gray-500 transition-colors hover:text-black"
+                        className="cursor-pointer rounded-lg p-1 text-[var(--color-fg-soft)] transition-colors hover:text-black"
                         aria-label="Close filters"
                     >
                         <svg

@@ -56,7 +56,7 @@ const ProductFilter = ({
 
     const Chevron = ({ open }: { open: boolean }) => (
         <svg
-            className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            className={`h-4 w-4 text-[var(--color-muted)] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -74,7 +74,7 @@ const ProductFilter = ({
         <div className="flex flex-col">
             {/* Results count + clear */}
             <div className="mb-5 flex items-center justify-between">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-[var(--color-fg-soft)]">
                     {t(
                         resultCount === 1
                             ? "catalog.results_count_one"
@@ -85,7 +85,7 @@ const ProductFilter = ({
                 {hasFilters && (
                     <button
                         onClick={onClearAll}
-                        className="cursor-pointer text-sm text-gray-500 underline transition-colors hover:text-black"
+                        className="cursor-pointer text-sm text-[var(--color-fg-soft)] underline transition-colors hover:text-black"
                     >
                         {t("catalog.clear_all")}
                     </button>
@@ -94,13 +94,13 @@ const ProductFilter = ({
 
             {/* Sort */}
             <div className="mb-6">
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--color-fg-soft)]">
                     {t("catalog.sort_label")}
                 </label>
                 <select
                     value={sort}
                     onChange={(e) => onSortChange(e.target.value)}
-                    className="w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-colors focus:border-[#edc7f5]"
+                    className="w-full cursor-pointer rounded-lg border border-[var(--color-line)] bg-[var(--color-surface)] px-3 py-2.5 text-sm text-[var(--color-fg)] outline-none transition-colors focus:border-[var(--color-leaf)]"
                 >
                     <option value="default">
                         {t("catalog.sort_default")}
@@ -125,7 +125,7 @@ const ProductFilter = ({
                     onClick={() => setCollectionOpen(!collectionOpen)}
                     className="flex w-full cursor-pointer items-center justify-between"
                 >
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-700">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--color-fg)]">
                         {t("catalog.collection_section")}
                     </h3>
                     <Chevron open={collectionOpen} />
@@ -140,15 +140,15 @@ const ProductFilter = ({
                                     onClick={() => toggleCollection(col)}
                                     className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200 ${
                                         active
-                                            ? "bg-[#edc7f5]/30 font-medium text-gray-900"
-                                            : "text-gray-600 hover:bg-gray-100"
+                                            ? "bg-[var(--color-leaf)]/30 font-medium text-[var(--color-fg)]"
+                                            : "text-[var(--color-fg-soft)] hover:bg-[var(--color-cream)]"
                                     }`}
                                 >
                                     <span
                                         className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
                                             active
-                                                ? "border-[#edc7f5] bg-[#edc7f5]"
-                                                : "border-gray-300"
+                                                ? "border-[var(--color-leaf)] bg-[var(--color-leaf)]"
+                                                : "border-[var(--color-line)]"
                                         }`}
                                     >
                                         {active && (
@@ -183,7 +183,7 @@ const ProductFilter = ({
                     onClick={() => setCategoryOpen(!categoryOpen)}
                     className="flex w-full cursor-pointer items-center justify-between"
                 >
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-700">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--color-fg)]">
                         {t("catalog.category_section")}
                     </h3>
                     <Chevron open={categoryOpen} />
@@ -198,15 +198,15 @@ const ProductFilter = ({
                                     onClick={() => toggleCategory(cat)}
                                     className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200 ${
                                         active
-                                            ? "bg-[#edc7f5]/30 font-medium text-gray-900"
-                                            : "text-gray-600 hover:bg-gray-100"
+                                            ? "bg-[var(--color-leaf)]/30 font-medium text-[var(--color-fg)]"
+                                            : "text-[var(--color-fg-soft)] hover:bg-[var(--color-cream)]"
                                     }`}
                                 >
                                     <span
                                         className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
                                             active
-                                                ? "border-[#edc7f5] bg-[#edc7f5]"
-                                                : "border-gray-300"
+                                                ? "border-[var(--color-leaf)] bg-[var(--color-leaf)]"
+                                                : "border-[var(--color-line)]"
                                         }`}
                                     >
                                         {active && (

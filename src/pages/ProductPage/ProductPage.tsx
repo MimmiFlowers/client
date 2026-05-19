@@ -131,7 +131,7 @@ const ProductPage = () => {
     if (error || !product) {
         return (
             <div className="flex min-h-[60vh] w-full items-center justify-center">
-                <p className="text-red-500">
+                <p className="text-[var(--color-rose-deep)]">
                     {error || t("errors.load_product")}
                 </p>
             </div>
@@ -177,29 +177,29 @@ const ProductPage = () => {
                     {/* Collection & category badges */}
                     <div className="mb-3 flex flex-wrap gap-2">
                         {product.collection && (
-                            <span className="rounded-full border border-gray-300 px-3 py-1 text-xs uppercase tracking-wider text-gray-600">
+                            <span className="rounded-full border border-[var(--color-line)] px-3 py-1 text-xs uppercase tracking-wider text-[var(--color-fg-soft)]">
                                 {product.collection}
                             </span>
                         )}
                         {product.category && (
-                            <span className="rounded-full bg-[#edc7f5]/40 px-3 py-1 text-xs uppercase tracking-wider text-gray-700">
+                            <span className="rounded-full bg-[var(--color-leaf)]/40 px-3 py-1 text-xs uppercase tracking-wider text-[var(--color-fg)]">
                                 {product.category}
                             </span>
                         )}
                     </div>
 
                     {/* Product name */}
-                    <h1 className="text-3xl leading-tight font-semibold tracking-tight text-gray-900 sm:text-4xl md:text-[2.75rem]">
+                    <h1 className="text-3xl leading-tight font-semibold tracking-tight text-[var(--color-fg)] sm:text-4xl md:text-[2.75rem]">
                         {product.name}
                     </h1>
 
                     {/* SKU */}
-                    <p className="mt-1.5 text-xs tracking-wide text-gray-400 uppercase">
+                    <p className="mt-1.5 text-xs tracking-wide text-[var(--color-muted)] uppercase">
                         {t("product_page.sku_label")}: {product.sku}
                     </p>
 
                     {/* Price */}
-                    <p className="mt-4 text-3xl font-light tracking-tight text-gray-900 sm:text-4xl">
+                    <p className="mt-4 text-3xl font-light tracking-tight text-[var(--color-fg)] sm:text-4xl">
                         {product.price.toLocaleString()}{" "}
                         <span className="text-2xl">kr</span>
                     </p>
@@ -209,10 +209,10 @@ const ProductPage = () => {
 
                     {/* Description */}
                     <div>
-                        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-[var(--color-fg-soft)]">
                             {t("product_page.description")}
                         </h2>
-                        <p className="leading-relaxed text-gray-700 sm:text-lg">
+                        <p className="leading-relaxed text-[var(--color-fg)] sm:text-lg">
                             {product.description}
                         </p>
                     </div>
@@ -220,16 +220,16 @@ const ProductPage = () => {
                     {/* Flower contents */}
                     {product.contents && product.contents.length > 0 && (
                         <div className="mt-5">
-                            <h2 className="mb-2.5 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                            <h2 className="mb-2.5 text-sm font-semibold uppercase tracking-wider text-[var(--color-fg-soft)]">
                                 {t("product_page.contents")}
                             </h2>
                             <div className="flex flex-wrap gap-2">
                                 {product.contents.map((item) => (
                                     <span
                                         key={item}
-                                        className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-sm capitalize text-gray-700 shadow-sm ring-1 ring-gray-200"
+                                        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3.5 py-1.5 text-sm capitalize text-[var(--color-fg)] shadow-sm ring-1 ring-gray-200"
                                     >
-                                        <span className="h-1.5 w-1.5 rounded-full bg-[#edc7f5]" />
+                                        <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-leaf)]" />
                                         {item}
                                     </span>
                                 ))}
@@ -243,18 +243,18 @@ const ProductPage = () => {
                     {/* Quantity selector + Add to cart */}
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                         {/* Quantity */}
-                        <div className="flex h-14 w-fit items-center rounded-xl border border-gray-300 bg-white sm:h-12">
+                        <div className="flex h-14 w-fit items-center rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)] sm:h-12">
                             <button
                                 onClick={() =>
                                     setQuantity((q) => Math.max(1, q - 1))
                                 }
                                 disabled={quantity <= 1}
-                                className="flex h-full w-11 cursor-pointer items-center justify-center text-lg text-gray-600 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
+                                className="flex h-full w-11 cursor-pointer items-center justify-center text-lg text-[var(--color-fg-soft)] transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
                                 aria-label="Decrease quantity"
                             >
                                 &minus;
                             </button>
-                            <span className="flex h-full w-10 items-center justify-center border-x border-gray-300 text-center font-medium">
+                            <span className="flex h-full w-10 items-center justify-center border-x border-[var(--color-line)] text-center font-medium">
                                 {quantity}
                             </span>
                             <button
@@ -262,7 +262,7 @@ const ProductPage = () => {
                                     setQuantity((q) => Math.min(99, q + 1))
                                 }
                                 disabled={quantity >= 99}
-                                className="flex h-full w-11 cursor-pointer items-center justify-center text-lg text-gray-600 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
+                                className="flex h-full w-11 cursor-pointer items-center justify-center text-lg text-[var(--color-fg-soft)] transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
                                 aria-label="Increase quantity"
                             >
                                 +
@@ -275,7 +275,7 @@ const ProductPage = () => {
                             className={`flex h-14 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-xl text-base font-semibold uppercase tracking-wide shadow-lg transition-all duration-300 sm:h-12 sm:text-lg ${
                                 addedFeedback
                                     ? "bg-emerald-500 text-white shadow-emerald-200"
-                                    : "bg-[#edc7f5] text-gray-900 hover:scale-[1.02] hover:bg-[#e4b4f0] hover:shadow-xl"
+                                    : "bg-[var(--color-burgundy)] text-[var(--color-bg)] hover:scale-[1.02] hover:bg-[var(--color-burgundy-deep)] hover:shadow-xl"
                             }`}
                         >
                             {addedFeedback ? (
@@ -305,7 +305,7 @@ const ProductPage = () => {
                     </div>
 
                     {/* Delivery info */}
-                    <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
+                    <div className="mt-4 flex items-center gap-2 text-sm text-[var(--color-fg-soft)]">
                         <svg
                             className="h-4 w-4 flex-shrink-0"
                             fill="none"
@@ -329,7 +329,7 @@ const ProductPage = () => {
                 <section className="mx-auto mt-16 w-[95%] sm:w-[90%] md:mt-20 md:w-[75%]">
                     <div className="mb-8 flex items-center gap-4">
                         <div className="h-px flex-1 bg-gray-200" />
-                        <h2 className="text-center text-xl font-semibold uppercase tracking-wider text-gray-800 sm:text-2xl">
+                        <h2 className="text-center text-xl font-semibold uppercase tracking-wider text-[var(--color-fg)] sm:text-2xl">
                             {t("product_page.you_may_also_like")}
                         </h2>
                         <div className="h-px flex-1 bg-gray-200" />
@@ -362,7 +362,7 @@ const ProductPage = () => {
                                 <p className="mt-2.5 text-center text-sm font-semibold uppercase sm:text-base">
                                     {rp.name}
                                 </p>
-                                <p className="text-center text-sm text-gray-600 sm:text-base">
+                                <p className="text-center text-sm text-[var(--color-fg-soft)] sm:text-base">
                                     {rp.price.toLocaleString()} kr
                                 </p>
                             </div>

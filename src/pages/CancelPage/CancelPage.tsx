@@ -12,7 +12,7 @@ const CancelPage = () => {
                 {/* X circle icon */}
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
                     <svg
-                        className="h-8 w-8 text-red-400"
+                        className="h-8 w-8 text-[var(--color-rose-deep)]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -26,17 +26,17 @@ const CancelPage = () => {
                     </svg>
                 </div>
 
-                <h1 className="mb-3 text-xl font-semibold text-gray-900">
+                <h1 className="mb-3 text-xl font-semibold text-[var(--color-fg)]">
                     {t("cancel.title")}
                 </h1>
 
                 {orderID && (
-                    <p className="mb-2 text-sm text-gray-500">
+                    <p className="mb-2 text-sm text-[var(--color-fg-soft)]">
                         {t("cancel.order_not_completed", { orderID })}
                     </p>
                 )}
 
-                <p className="mb-8 text-sm leading-relaxed text-gray-400">
+                <p className="mb-8 text-sm leading-relaxed text-[var(--color-muted)]">
                     {t("cancel.not_processed")}
                 </p>
 
@@ -50,7 +50,7 @@ const CancelPage = () => {
                 <div className="mt-4">
                     <Link
                         to="/"
-                        className="text-sm text-gray-400 transition-colors duration-300 hover:text-gray-600"
+                        className="text-sm text-[var(--color-muted)] transition-colors duration-300 hover:text-[var(--color-fg-soft)]"
                     >
                         {t("success.return_home")}
                     </Link>

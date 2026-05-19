@@ -5,13 +5,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
     return (
         <nav
             aria-label="Breadcrumb"
-            className="mx-auto mt-6 flex w-[95%] flex-wrap items-center gap-1.5 text-sm text-gray-500 sm:w-[90%] sm:text-base md:mt-8 md:w-[75%]"
+            className="mx-auto mt-6 flex w-[95%] flex-wrap items-center gap-1.5 text-sm text-[var(--color-fg-soft)] sm:w-[90%] sm:text-base md:mt-8 md:w-[75%]"
         >
             {items.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-1.5">
                     {idx > 0 && (
                         <svg
-                            className="h-3.5 w-3.5 flex-shrink-0 text-gray-400"
+                            className="h-3.5 w-3.5 flex-shrink-0 text-[var(--color-muted)]"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -32,7 +32,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
                             {item.label}
                         </Link>
                     ) : (
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-[var(--color-fg)]">
                             {item.label}
                         </span>
                     )}

@@ -9,15 +9,15 @@ const NotFoundPage = () => {
             <title>{t("seo.not_found_title")}</title>
             <div className="mx-auto w-full max-w-md text-center">
                 {/* Large 404 */}
-                <h1 className="mb-2 text-[7rem] leading-none font-extralight tracking-wider text-[#edc7f5]">
+                <h1 className="mb-2 text-[7rem] leading-none font-extralight tracking-wider text-[var(--color-leaf)]">
                     404
                 </h1>
 
-                <h2 className="mb-3 text-xl font-semibold text-gray-900">
+                <h2 className="mb-3 text-xl font-semibold text-[var(--color-fg)]">
                     {t("not_found.title")}
                 </h2>
 
-                <p className="mb-8 text-sm leading-relaxed text-gray-400">
+                <p className="mb-8 text-sm leading-relaxed text-[var(--color-muted)]">
                     {t("not_found.message")}
                 </p>
 
