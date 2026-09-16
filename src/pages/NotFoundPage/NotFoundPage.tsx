@@ -15,7 +15,7 @@ const NotFoundPage = () => {
             <title>{t("seo.not_found_title")}</title>
             <StatusLayout
                 visual={
-                    <span className="price font-display text-[8rem] leading-none font-medium tracking-[-0.04em] text-primary-deep sm:text-[12rem]">
+                    <span className="price font-display text-[8rem] leading-none font-medium tracking-[-0.04em] text-accent-ink sm:text-[12rem]">
                         404
                     </span>
                 }

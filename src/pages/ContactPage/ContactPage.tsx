@@ -39,9 +39,8 @@ const ContactPage = () => {
             <title>{t("seo.contact_title")}</title>
 
             <header className="container-luxe pt-10 md:pt-16">
-                <p className="eyebrow animate-rise">{t("contact.get_in_touch")}</p>
                 <h1
-                    className="mt-5 animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-[6.5rem]"
+                    className="animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-[6rem]"
                     style={{ animationDelay: "100ms" }}
                 >
                     {t("contact.title")}

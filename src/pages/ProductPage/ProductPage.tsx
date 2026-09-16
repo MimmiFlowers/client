@@ -162,8 +162,10 @@ const ProductPage = () => {
         <button
             type="button"
             onClick={handleAddToCart}
-            className={`group flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-3 rounded-full font-medium tracking-[0.16em] uppercase transition-[background-color,transform] duration-500 ease-luxe active:scale-[0.98] ${
-                size === "lg" ? "h-14 text-[12px]" : "h-12 text-[11px]"
+            className={`group flex cursor-pointer items-center justify-center gap-3 rounded-full font-medium whitespace-nowrap uppercase transition-[background-color,transform] duration-500 ease-luxe active:scale-[0.98] ${
+                size === "lg"
+                    ? "h-14 min-w-0 flex-1 text-[12px] tracking-[0.16em]"
+                    : "h-12 shrink-0 px-5 text-[11px] tracking-[0.1em]"
             } ${
                 addedFeedback
                     ? "bg-success text-blush"
@@ -177,7 +179,9 @@ const ProductPage = () => {
                 </>
             ) : (
                 <>
-                    <BagIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5" />
+                    {size === "lg" && (
+                        <BagIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5" />
+                    )}
                     {t("buttons.add_to_cart")}
                 </>
             )}
@@ -211,7 +215,7 @@ const ProductPage = () => {
             <div className="container-luxe mt-6 grid gap-10 md:mt-10 lg:grid-cols-12 lg:gap-16">
                 {/* Image */}
                 <div className="lg:col-span-7">
-                    <div className="relative aspect-[4/5] animate-fade overflow-hidden rounded-[2px] bg-blush-deep">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-blush-deep">
                         <img
                             className="h-full w-full object-cover"
                             src={product.picture}
@@ -224,25 +228,22 @@ const ProductPage = () => {
                 {/* Details */}
                 <div className="lg:col-span-5">
                     <div className="lg:sticky lg:top-36">
-                        <p
-                            className="eyebrow flex animate-rise flex-wrap items-center gap-3"
-                            style={{ animationDelay: "60ms" }}
-                        >
-                            {product.collection && <span>{product.collection}</span>}
-                            {product.collection && product.category && (
-                                <span className="h-px w-6 bg-line-strong" />
-                            )}
-                            {product.category && (
-                                <span className="text-ink">{product.category}</span>
-                            )}
-                        </p>
-
                         <h1
-                            className="mt-4 animate-rise font-display text-[2.9rem] leading-[0.98] font-medium tracking-[-0.025em] sm:text-6xl"
+                            className="animate-rise font-display text-[2.9rem] leading-[0.98] font-medium tracking-[-0.025em] sm:text-6xl"
                             style={{ animationDelay: "120ms" }}
                         >
                             {product.name}
                         </h1>
+                        {(product.collection || product.category) && (
+                            <p
+                                className="mt-3 animate-rise text-sm text-ink-soft"
+                                style={{ animationDelay: "150ms" }}
+                            >
+                                {[product.collection, product.category]
+                                    .filter(Boolean)
+                                    .join(" · ")}
+                            </p>
+                        )}
 
                         <div
                             className="mt-5 flex animate-rise items-baseline justify-between gap-4 border-b border-line pb-6"
@@ -373,15 +374,16 @@ const ProductPage = () => {
                 </section>
             )}
 
-            {/* Mobile sticky buy bar */}
+            {/* Mobile sticky buy bar (footer reserves room for it, see index.css) */}
             <div
+                data-sticky-buy-bar
                 className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 backdrop-blur-xl transition-transform duration-500 ease-luxe lg:hidden ${
                     buyVisible ? "translate-y-full" : "translate-y-0"
                 }`}
                 inert={buyVisible}
             >
                 <div className="container-luxe flex items-center gap-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                         <p className="truncate font-display text-lg leading-tight">
                             {product.name}
                         </p>

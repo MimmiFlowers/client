@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import bannerMock from "../../assets/images/bannerMock.jpg";
+import banner480 from "../../assets/images/banner-480.webp";
+import banner960 from "../../assets/images/banner-960.webp";
 import { ArrowRightIcon } from "../Icons/Icons";
 
 /** Circular text seal that slowly turns next to the hero image. */
@@ -41,15 +42,8 @@ const TituleBlock = () => {
             <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
                 {/* Copy */}
                 <div className="lg:col-span-7">
-                    <p
-                        className="eyebrow flex animate-rise items-center gap-3"
-                        style={{ animationDelay: "80ms" }}
-                    >
-                        <span className="h-px w-8 bg-muted" />
-                        {t("home.hero_eyebrow")}
-                    </p>
                     <h1
-                        className="mt-6 animate-rise font-display text-[3.4rem] leading-[0.95] font-medium tracking-[-0.03em] text-ink sm:text-[5rem] lg:text-[5.75rem] xl:text-[6.75rem]"
+                        className="animate-rise font-display text-[3.4rem] leading-[0.95] font-medium tracking-[-0.03em] text-ink sm:text-[5rem] lg:text-[5.75rem] xl:text-[6rem]"
                         style={{ animationDelay: "160ms" }}
                     >
                         {t("home.hero_title")}
@@ -86,24 +80,26 @@ const TituleBlock = () => {
                 </div>
 
                 {/* Image */}
-                <div
-                    className="relative mx-auto w-full max-w-[34rem] animate-rise lg:col-span-5 lg:col-start-8"
-                    style={{ animationDelay: "200ms" }}
-                >
+                <div className="relative mx-auto w-full max-w-[34rem] lg:col-span-5 lg:col-start-8">
                     <div className="relative aspect-[4/5] overflow-hidden rounded-t-full bg-blush-deep">
                         <img
-                            src={bannerMock}
+                            src={banner960}
+                            srcSet={`${banner480} 480w, ${banner960} 960w`}
+                            sizes="(min-width: 1024px) 34rem, 100vw"
                             alt={t("home.hero_caption")}
                             width={960}
                             height={1280}
                             fetchPriority="high"
-                            className="h-full w-full animate-fade object-cover"
+                            className="h-full w-full object-cover"
                         />
                         <div className="pointer-events-none absolute inset-0 rounded-t-full ring-1 ring-ink/5 ring-inset" />
                     </div>
 
                     {/* Caption card */}
-                    <div className="absolute -bottom-6 left-4 max-w-[15rem] bg-surface/95 px-5 py-4 shadow-soft sm:left-[-2rem]">
+                    <div
+                        className="absolute -bottom-6 left-4 max-w-[15rem] animate-rise bg-surface/95 px-5 py-4 shadow-soft sm:left-[-2rem]"
+                        style={{ animationDelay: "320ms" }}
+                    >
                         <p className="eyebrow">{t("banner.slide3_title")}</p>
                         <p className="mt-1 font-display text-lg leading-snug">
                             {t("banner.slide3_subtitle")}

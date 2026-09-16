@@ -1,25 +1,10 @@
 @layer base {
-  /* PP Hatton — display serif. One family, three real weights. */
+  /* PP Hatton — display serif. Only Medium 500 is used; the browser maps
+     400/500 requests to it. Preloaded from main.tsx. */
   @font-face {
     font-family: "Hatton";
-    src: url("./Hatton/PP-Hatton-Ultralight-200.otf") format("opentype");
-    font-weight: 200;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Hatton";
-    src: url("./Hatton/PP-Hatton-Medium-500.otf") format("opentype");
+    src: url("./Hatton/PP-Hatton-Medium-500.woff2") format("woff2");
     font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Hatton";
-    src: url("./Hatton/PP Hatton Bold 700.otf") format("opentype");
-    font-weight: 700;
     font-style: normal;
     font-display: swap;
   }

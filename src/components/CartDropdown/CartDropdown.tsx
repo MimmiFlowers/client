@@ -166,7 +166,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                         </p>
 
                                         <div className="mt-auto flex items-center justify-between pt-3">
-                                            <div className="flex h-9 items-center rounded-full border border-line-strong">
+                                            <div className="flex h-11 items-center rounded-full border border-line-strong">
                                                 <button
                                                     type="button"
                                                     onClick={() =>
@@ -176,7 +176,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                                         "cart.decrease",
                                                         { name: item.name },
                                                     )}
-                                                    className="flex h-full w-9 cursor-pointer items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                                                    className="flex h-full w-11 cursor-pointer items-center justify-center text-ink-soft transition-colors hover:text-ink"
                                                 >
                                                     <MinusIcon className="h-3.5 w-3.5" />
                                                 </button>
@@ -192,7 +192,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                                         "cart.increase",
                                                         { name: item.name },
                                                     )}
-                                                    className="flex h-full w-9 cursor-pointer items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                                                    className="flex h-full w-11 cursor-pointer items-center justify-center text-ink-soft transition-colors hover:text-ink"
                                                 >
                                                     <PlusIcon className="h-3.5 w-3.5" />
                                                 </button>
@@ -202,7 +202,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                                 onClick={() =>
                                                     removeItem(item.id)
                                                 }
-                                                className="min-h-9 cursor-pointer text-xs text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-danger"
+                                                className="-mr-2 min-h-11 cursor-pointer px-2 text-xs text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-danger"
                                             >
                                                 {t("cart.remove")}
                                             </button>

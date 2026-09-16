@@ -44,14 +44,9 @@ const CollectionList = () => {
                 <div className="lg:col-span-5">
                     <div className="lg:sticky lg:top-36">
                         <Reveal>
-                            <p className="eyebrow flex items-center gap-3">
-                                <span className="price text-ink">03</span>
-                                <span className="h-px w-8 bg-line-strong" />
-                                {t("catalog.collection_section")}
-                            </p>
                             <h2
                                 id="collections-title"
-                                className="mt-4 font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+                                className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
                             >
                                 {t("collections.title")}
                             </h2>

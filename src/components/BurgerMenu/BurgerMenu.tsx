@@ -18,7 +18,11 @@ const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t } = useTranslation();
     const close = () => setIsOpen(false);
-    const panelRef = useOverlay<HTMLDivElement>(isOpen, close);
+    const panelRef = useOverlay<HTMLDivElement>(
+        isOpen,
+        close,
+        "(min-width: 1024px)",
+    );
 
     const links = [{ to: "/", key: "breadcrumbs.home" }, ...navLinks];
 
@@ -66,7 +70,7 @@ const BurgerMenu = () => {
                     </div>
 
                     <nav
-                        aria-label="Mobile"
+                        aria-label={t("nav.main")}
                         className="container-luxe flex flex-1 flex-col justify-center gap-1 overflow-y-auto py-10"
                     >
                         {links.map((link, i) => (
@@ -88,13 +92,8 @@ const BurgerMenu = () => {
                                     } ${isActive ? "text-ink" : "text-ink-soft"}`
                                 }
                             >
-                                <span className="flex items-baseline gap-4">
-                                    <span className="price text-[11px] text-muted">
-                                        0{i + 1}
-                                    </span>
-                                    <span className="font-display text-[2.6rem] leading-none font-medium tracking-[-0.02em]">
-                                        {t(link.key)}
-                                    </span>
+                                <span className="font-display text-[2.6rem] leading-none font-medium tracking-[-0.02em]">
+                                    {t(link.key)}
                                 </span>
                                 <ArrowRightIcon className="h-5 w-5 -translate-x-2 opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:opacity-100" />
                             </NavLink>

@@ -1,7 +1,5 @@
 export interface SpecialProps {
     setting: string;
-    /** Editorial section number shown before the eyebrow, e.g. "01". */
-    index?: string;
 }
 
 export interface ProductMini {

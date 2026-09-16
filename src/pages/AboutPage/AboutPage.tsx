@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import bannerMock from "../../assets/images/bannerMock.jpg";
+import banner480 from "../../assets/images/banner-480.webp";
+import banner960 from "../../assets/images/banner-960.webp";
 import Reveal from "../../components/Reveal/Reveal";
 import { ArrowRightIcon } from "../../components/Icons/Icons";
 
@@ -18,9 +19,8 @@ const AboutPage = () => {
             <title>{t("seo.about_title")}</title>
 
             <header className="container-luxe pt-10 md:pt-16">
-                <p className="eyebrow animate-rise">Mimmi Flowers</p>
                 <h1
-                    className="mt-5 max-w-5xl animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-[6.5rem]"
+                    className="max-w-5xl animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-[6rem]"
                     style={{ animationDelay: "100ms" }}
                 >
                     {t("about.title")}
@@ -36,9 +36,12 @@ const AboutPage = () => {
             <div className="container-luxe mt-16 grid gap-12 md:mt-24 lg:grid-cols-12 lg:gap-16">
                 <div className="lg:col-span-5">
                     <div className="lg:sticky lg:top-36">
-                        <div className="aspect-[4/5] animate-fade overflow-hidden rounded-t-full bg-blush-deep">
+                        <div className="aspect-[4/5] overflow-hidden rounded-t-full bg-blush-deep">
                             <img
-                                src={bannerMock}
+                                src={banner960}
+                                srcSet={`${banner480} 480w, ${banner960} 960w`}
+                                sizes="(min-width: 1024px) 40vw, 100vw"
+                                loading="lazy"
                                 alt={t("home.hero_caption")}
                                 className="h-full w-full object-cover"
                             />
@@ -47,15 +50,12 @@ const AboutPage = () => {
                 </div>
 
                 <div className="lg:col-span-7">
-                    {chapters.map((chapter, i) => (
+                    {chapters.map((chapter) => (
                         <Reveal
                             as="section"
                             key={chapter.title}
-                            className="grid gap-4 border-t border-line py-10 first:border-t-0 first:pt-0 sm:grid-cols-[5rem_1fr] md:py-14"
+                            className="border-t border-line py-10 first:border-t-0 first:pt-0 md:py-14"
                         >
-                            <span className="price font-display text-4xl text-primary-deep">
-                                0{i + 1}
-                            </span>
                             <div>
                                 <h2 className="font-display text-3xl leading-tight sm:text-4xl">
                                     {chapter.title}

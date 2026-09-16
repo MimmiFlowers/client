@@ -54,7 +54,7 @@ const LandingPage = () => {
                 </ul>
             </section>
 
-            <Specials key="Favorite" setting="Favorite" index="01" />
+            <Specials key="Favorite" setting="Favorite" />
 
             {/* Story */}
             <section className="mt-24 bg-blush-deep py-20 md:mt-36 md:py-32">
@@ -62,7 +62,9 @@ const LandingPage = () => {
                     <p className="eyebrow lg:col-span-3">{t("about.our_story")}</p>
                     <div className="lg:col-span-8">
                         <p className="font-display text-[1.9rem] leading-[1.15] tracking-[-0.015em] text-ink sm:text-[2.6rem] lg:text-[3.2rem]">
-                            <span className="text-primary-deep">“</span>
+                            <span className="text-accent-ink" aria-hidden="true">
+                                “
+                            </span>
                             {t("about.paragraph1")}
                         </p>
                         <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-ink-soft">
@@ -81,7 +83,7 @@ const LandingPage = () => {
                 </Reveal>
             </section>
 
-            <Specials key="Season" setting="Season" index="02" />
+            <Specials key="Season" setting="Season" />
 
             <CollectionList />
         </div>

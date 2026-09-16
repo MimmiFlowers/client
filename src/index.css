@@ -16,7 +16,9 @@
     --color-primary-deep: #e4b4f0;
     --color-ink: #231c20;
     --color-ink-soft: #54474e;
-    --color-muted: #8c7d85;
+    --color-muted: #6f626a;
+    --color-field: #8f7b86;
+    --color-accent-ink: #7d5389;
     --color-line: #ead5de;
     --color-line-strong: #d9bfcb;
     --color-danger: #a8324f;
@@ -69,7 +71,7 @@
 @layer base {
     html {
         -webkit-text-size-adjust: 100%;
-        scroll-behavior: smooth;
+        scrollbar-color: var(--color-line-strong) var(--color-blush);
         background-color: var(--color-blush);
     }
 
@@ -83,6 +85,8 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         -webkit-tap-highlight-color: transparent;
+        caret-color: var(--color-ink);
+        accent-color: var(--color-ink);
     }
 
     /* Paper grain: fixed, non-interactive, never on a scrolling layer. */
@@ -130,17 +134,22 @@
         scroll-margin-top: 9rem;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        html {
-            scroll-behavior: auto;
+    /* Leave room under the footer for the product page's mobile buy bar. */
+    @media (max-width: 1023.98px) {
+        body:has([data-sticky-buy-bar]) footer {
+            padding-bottom: calc(5rem + env(safe-area-inset-bottom));
         }
+    }
 
+    @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
         *::after {
             animation-duration: 0.01ms !important;
+            animation-delay: 0ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
+            transition-delay: 0ms !important;
         }
     }
 }

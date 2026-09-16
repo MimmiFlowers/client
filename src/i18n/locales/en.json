@@ -263,7 +263,6 @@
         "romantic": "Romantic"
     },
     "home": {
-        "hero_eyebrow": "Florist in Stockholm",
         "hero_title": "Flowers, tied by hand.",
         "hero_caption": "This week in the studio",
         "promise_1_title": "Tied by hand",
@@ -273,6 +272,11 @@
         "promise_3_title": "Free delivery from 999 kr",
         "promise_3_text": "Delivery costs 99 kr and is free on orders of 999 kr or more.",
         "story_cta": "About the studio",
-        "collections_text": "Find the right bouquet by style, from single-variety bunches to gift boxes."
+        "collections_text": "Find the right bouquet by style, from single-variety bunches to gift boxes.",
+        "hero_eyebrow": "Florist in Stockholm"
+    },
+    "nav": {
+        "main": "Main",
+        "breadcrumb": "Breadcrumb"
     }
 }

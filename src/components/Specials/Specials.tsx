@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import api from "../../api/api";
 import type { SpecialProps, ProductMini } from "../../types/types";
 
-const Specials = ({ setting, index }: SpecialProps) => {
+const Specials = ({ setting }: SpecialProps) => {
     const [productsMini, setProductsMini] = useState<ProductMini[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -48,14 +48,9 @@ const Specials = ({ setting, index }: SpecialProps) => {
         <section className="mt-24 md:mt-36" aria-labelledby={`specials-${key}`}>
             <Reveal className="container-luxe flex items-end justify-between gap-6">
                 <div>
-                    <p className="eyebrow flex items-center gap-3">
-                        {index && <span className="price text-ink">{index}</span>}
-                        <span className="h-px w-8 bg-line-strong" />
-                        {t(`specials.${key}`)}
-                    </p>
                     <h2
                         id={`specials-${key}`}
-                        className="mt-4 font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+                        className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
                     >
                         {t(`specials.${key}_title`)}
                     </h2>

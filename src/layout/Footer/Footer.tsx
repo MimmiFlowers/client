@@ -104,7 +104,9 @@ const Footer = () => {
                         &copy; {new Date().getFullYear()} Mimmi Flowers.{" "}
                         {t("footer.rights")}
                     </p>
-                    <p className="tracking-[0.12em] uppercase">Stockholm</p>
+                    <p className="tracking-[0.12em] uppercase">
+                        {t("contact.address_value")}
+                    </p>
                 </div>
             </div>
         </footer>

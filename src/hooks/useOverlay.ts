@@ -10,6 +10,8 @@ const FOCUSABLE =
 export function useOverlay<T extends HTMLElement>(
     open: boolean,
     onClose: () => void,
+    /** Close automatically once this media query matches (panel is CSS-hidden there). */
+    closeWhenMatches?: string,
 ) {
     const panelRef = useRef<T>(null);
     const onCloseRef = useRef(onClose);
@@ -49,13 +51,23 @@ export function useOverlay<T extends HTMLElement>(
         };
 
         document.addEventListener("keydown", handleKeyDown);
+
+        const query = closeWhenMatches
+            ? window.matchMedia?.(closeWhenMatches)
+            : undefined;
+        const handleQuery = (e: MediaQueryListEvent) => {
+            if (e.matches) onCloseRef.current();
+        };
+        query?.addEventListener("change", handleQuery);
+
         return () => {
             window.clearTimeout(focusFirst);
             document.removeEventListener("keydown", handleKeyDown);
+            query?.removeEventListener("change", handleQuery);
             document.body.style.overflow = previousOverflow;
             opener?.focus?.();
         };
-    }, [open]);
+    }, [open, closeWhenMatches]);
 
     return panelRef;
 }

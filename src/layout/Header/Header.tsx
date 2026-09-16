@@ -52,7 +52,7 @@ const Header = () => {
                         <div className="flex items-center">
                             <BurgerMenu />
                             <nav
-                                aria-label="Main"
+                                aria-label={t("nav.main")}
                                 className="hidden items-center gap-9 lg:flex"
                             >
                                 {navLinks.map((link) => (

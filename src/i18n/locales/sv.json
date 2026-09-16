@@ -263,7 +263,6 @@
         "romantic": "Romantisk"
     },
     "home": {
-        "hero_eyebrow": "Florist i Stockholm",
         "hero_title": "Blommor, bundna för hand.",
         "hero_caption": "Veckans blommor i ateljén",
         "promise_1_title": "Bundna för hand",
@@ -273,6 +272,11 @@
         "promise_3_title": "Fri leverans från 999 kr",
         "promise_3_text": "Leveransen kostar 99 kr och är gratis för beställningar från 999 kr.",
         "story_cta": "Om ateljén",
-        "collections_text": "Hitta rätt bukett efter stil, från enkla buketter till presentlådor."
+        "collections_text": "Hitta rätt bukett efter stil, från enkla buketter till presentlådor.",
+        "hero_eyebrow": "Florist i Stockholm"
+    },
+    "nav": {
+        "main": "Huvudmeny",
+        "breadcrumb": "Brödsmulor"
     }
 }

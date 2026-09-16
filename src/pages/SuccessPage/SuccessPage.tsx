@@ -101,7 +101,7 @@ const SuccessPage = () => {
                         <CheckIcon className="h-10 w-10" strokeWidth={1} />
                     </span>
                 }
-                eyebrow={t("success.thanks_shopping")}
+                note={t("success.thanks_shopping")}
                 title={t("success.thank_you")}
                 actions={homeAction}
             >

@@ -150,11 +150,15 @@ const ProductListPage = () => {
         selectedCollections.length + selectedCategories.length;
 
     const closeFilters = useCallback(() => setMobileFiltersOpen(false), []);
-    const sheetRef = useOverlay<HTMLDivElement>(mobileFiltersOpen, closeFilters);
+    const sheetRef = useOverlay<HTMLDivElement>(
+        mobileFiltersOpen,
+        closeFilters,
+        "(min-width: 1024px)",
+    );
 
     const activeChips = [
         ...selectedCollections.map((value) => ({
-            value,
+            id: `collection:${value}`,
             label: t(`catalog.collection.${value}`, { defaultValue: value }),
             remove: () =>
                 handleCollectionChange(
@@ -162,7 +166,7 @@ const ProductListPage = () => {
                 ),
         })),
         ...selectedCategories.map((value) => ({
-            value,
+            id: `category:${value}`,
             label: t(`catalog.category.${value}`, { defaultValue: value }),
             remove: () =>
                 handleCategoryChange(
@@ -242,7 +246,7 @@ const ProductListPage = () => {
                 <div className="no-scrollbar container-luxe flex gap-2 overflow-x-auto pt-5 lg:hidden">
                     {activeChips.map((chip) => (
                         <button
-                            key={chip.value + chip.label}
+                            key={chip.id}
                             type="button"
                             onClick={chip.remove}
                             className="flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-line-strong bg-surface py-1 pr-2.5 pl-4 text-[13px]"

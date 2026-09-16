@@ -30,7 +30,7 @@ const inputClass = (error?: string) =>
     `h-13 w-full rounded-xl border bg-surface px-4 text-[16px] text-ink transition-[border-color,box-shadow] duration-300 outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
         error
             ? "border-danger focus:ring-4 focus:ring-danger/10"
-            : "border-line-strong hover:border-muted focus:border-ink focus:ring-4 focus:ring-primary/50"
+            : "border-field hover:border-ink-soft focus:border-ink focus:ring-4 focus:ring-primary/50"
     }`;
 
 /* ── Reusable styled input ── */
@@ -132,15 +132,18 @@ function SectionHeader({ step, title }: { step: number; title: string }) {
 
     return (
         <div className="mb-8 flex items-baseline gap-4 border-b border-line pb-5">
-            <span className="price font-display text-[2.5rem] leading-none text-primary-deep">
+            <span
+                className="price font-display text-[2.5rem] leading-none text-accent-ink"
+                aria-hidden="true"
+            >
                 0{step}
             </span>
-            <div>
-                <p className="eyebrow">{t("checkout.step_of", { step })}</p>
-                <h2 className="mt-1 font-display text-2xl leading-tight sm:text-3xl">
-                    {title}
-                </h2>
-            </div>
+            <h2 className="font-display text-2xl leading-tight sm:text-3xl">
+                <span className="sr-only">
+                    {t("checkout.step_of", { step })}:{" "}
+                </span>
+                {title}
+            </h2>
         </div>
     );
 }
@@ -327,7 +330,7 @@ export default function CheckoutPage() {
                             <button
                                 type="button"
                                 onClick={() => removeItem(item.id)}
-                                className="-mt-2.5 -mr-2.5 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center text-muted transition-colors hover:text-danger"
+                                className="-mt-3 -mr-3 flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center text-muted transition-colors hover:text-danger"
                                 aria-label={`${t("cart.remove")} ${item.name}`}
                             >
                                 <CloseIcon className="h-4 w-4" />
