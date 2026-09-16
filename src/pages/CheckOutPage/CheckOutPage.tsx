@@ -5,6 +5,17 @@ import { FREE_DELIVERY_THRESHOLD, DELIVERY_FEE } from "../../contexts/CartContex
 import { loadStripe } from "@stripe/stripe-js";
 import { Link } from "react-router";
 import api from "../../api/api";
+import {
+    AlertIcon,
+    ArrowRightIcon,
+    BagIcon,
+    ChevronDownIcon,
+    CloseIcon,
+    FlowerOutline,
+    LockIcon,
+    MinusIcon,
+    PlusIcon,
+} from "../../components/Icons/Icons";
 import { isAxiosError } from "axios";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -14,6 +25,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 interface FormErrors {
     [key: string]: string;
 }
+
+const inputClass = (error?: string) =>
+    `h-13 w-full rounded-xl border bg-surface px-4 text-[16px] text-ink transition-[border-color,box-shadow] duration-300 outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
+        error
+            ? "border-danger focus:ring-4 focus:ring-danger/10"
+            : "border-line-strong hover:border-muted focus:border-ink focus:ring-4 focus:ring-primary/50"
+    }`;
 
 /* ── Reusable styled input ── */
 function FormInput({
@@ -25,6 +43,8 @@ function FormInput({
     disabled,
     type = "text",
     min,
+    autoComplete,
+    inputMode,
 }: {
     id: string;
     label: string;
@@ -34,12 +54,14 @@ function FormInput({
     disabled?: boolean;
     type?: string;
     min?: string;
+    autoComplete?: string;
+    inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
 }) {
     return (
         <div>
             <label
                 htmlFor={id}
-                className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+                className="mb-2 block text-[11px] font-medium tracking-[0.16em] text-ink-soft uppercase"
             >
                 {label}
             </label>
@@ -50,15 +72,19 @@ function FormInput({
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 min={min}
-                className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
-                    error
-                        ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                        : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
-                }`}
-                placeholder={label}
+                autoComplete={autoComplete}
+                inputMode={inputMode}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? `${id}-error` : undefined}
+                className={inputClass(error)}
             />
             {error && (
-                <p className="mt-1 text-xs text-red-500" role="alert">
+                <p
+                    id={`${id}-error`}
+                    className="mt-2 flex items-center gap-1.5 text-[13px] text-danger"
+                    role="alert"
+                >
+                    <AlertIcon className="h-3.5 w-3.5 shrink-0" />
                     {error}
                 </p>
             )}
@@ -77,37 +103,44 @@ function Toggle({
     label: string;
 }) {
     return (
-        <label className="flex cursor-pointer items-center gap-3">
-            <button
-                type="button"
-                role="switch"
-                aria-checked={checked}
-                onClick={() => onChange(!checked)}
-                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ${
-                    checked ? "bg-[#edc7f5]" : "bg-gray-200"
+        <button
+            type="button"
+            role="switch"
+            aria-checked={checked}
+            onClick={() => onChange(!checked)}
+            className="flex min-h-11 w-full cursor-pointer items-center justify-between gap-4 text-left"
+        >
+            <span className="text-[15px] text-ink">{label}</span>
+            <span
+                className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-300 ${
+                    checked ? "bg-ink" : "bg-line-strong"
                 }`}
             >
                 <span
-                    className={`pointer-events-none inline-block h-4 w-4 translate-y-0.5 rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 ${
-                        checked ? "translate-x-4.5" : "translate-x-0.5"
+                    className={`inline-block h-5 w-5 rounded-full bg-surface shadow-soft transition-transform duration-500 ease-luxe ${
+                        checked ? "translate-x-6" : "translate-x-1"
                     }`}
                 />
-            </button>
-            <span className="text-sm text-gray-700">{label}</span>
-        </label>
+            </span>
+        </button>
     );
 }
 
 /* ── Section header with step number ── */
 function SectionHeader({ step, title }: { step: number; title: string }) {
+    const { t } = useTranslation();
+
     return (
-        <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/40 text-xs font-semibold text-gray-700">
-                {step}
+        <div className="mb-8 flex items-baseline gap-4 border-b border-line pb-5">
+            <span className="price font-display text-[2.5rem] leading-none text-primary-deep">
+                0{step}
             </span>
-            <h2 className="text-base font-semibold tracking-wide text-gray-900 uppercase">
-                {title}
-            </h2>
+            <div>
+                <p className="eyebrow">{t("checkout.step_of", { step })}</p>
+                <h2 className="mt-1 font-display text-2xl leading-tight sm:text-3xl">
+                    {title}
+                </h2>
+            </div>
         </div>
     );
 }
@@ -189,7 +222,16 @@ export default function CheckoutPage() {
         setSubmitError("");
         const validationErrors = validate();
         setErrors(validationErrors);
-        if (Object.keys(validationErrors).length > 0) return;
+        const firstError = Object.keys(validationErrors)[0];
+        if (firstError) {
+            // "customerFirstName" -> "#customer-firstName"; the pay button can be far below.
+            const fieldId = firstError.replace(
+                /^(customer|recipient)(\w)/,
+                (_, group: string, c: string) => `${group}-${c.toLowerCase()}`,
+            );
+            document.getElementById(fieldId)?.focus();
+            return;
+        }
 
         if (items.length === 0) return;
 
@@ -268,60 +310,128 @@ export default function CheckoutPage() {
             .toISOString()
             .split("T")[0] ?? "";
 
+    const summaryItems = (
+        <ul className="divide-y divide-line">
+            {items.map((item) => (
+                <li key={item.id} className="flex gap-4 py-4 first:pt-0">
+                    <img
+                        src={item.picture}
+                        alt=""
+                        className="h-20 w-16 shrink-0 rounded-[2px] bg-blush-deep object-cover"
+                    />
+                    <div className="flex min-w-0 flex-1 flex-col">
+                        <div className="flex items-start justify-between gap-3">
+                            <p className="font-display text-[17px] leading-tight">
+                                {item.name}
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => removeItem(item.id)}
+                                className="-mt-2.5 -mr-2.5 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center text-muted transition-colors hover:text-danger"
+                                aria-label={`${t("cart.remove")} ${item.name}`}
+                            >
+                                <CloseIcon className="h-4 w-4" />
+                            </button>
+                        </div>
+                        <div className="mt-auto flex items-center justify-between pt-2">
+                            <div className="flex h-8 items-center rounded-full border border-line-strong">
+                                <button
+                                    type="button"
+                                    onClick={() => decrease(item.id)}
+                                    className="flex h-full w-8 cursor-pointer items-center justify-center text-ink-soft hover:text-ink"
+                                    aria-label={t("cart.decrease", {
+                                        name: item.name,
+                                    })}
+                                >
+                                    <MinusIcon className="h-3 w-3" />
+                                </button>
+                                <span className="price w-5 text-center text-[13px]">
+                                    {item.quantity}
+                                </span>
+                                <button
+                                    type="button"
+                                    onClick={() => increase(item.id)}
+                                    className="flex h-full w-8 cursor-pointer items-center justify-center text-ink-soft hover:text-ink"
+                                    aria-label={t("cart.increase", {
+                                        name: item.name,
+                                    })}
+                                >
+                                    <PlusIcon className="h-3 w-3" />
+                                </button>
+                            </div>
+                            <span className="price text-sm">
+                                {(item.price * item.quantity).toLocaleString(
+                                    "sv-SE",
+                                )}{" "}
+                                kr
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            ))}
+        </ul>
+    );
+
+    const formatKr = (n: number) => `${n.toLocaleString("sv-SE")} kr`;
+
     /* ── Empty cart state ── */
     if (items.length === 0) {
         return (
-            <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
+            <div className="container-luxe flex min-h-[65dvh] flex-col items-center justify-center py-16 text-center">
                 <title>{t("seo.checkout_title")}</title>
-                <svg
-                    className="mb-6 h-16 w-16 text-gray-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1}
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                    />
-                </svg>
-                <p className="mb-2 text-lg font-medium text-gray-700">
+                <FlowerOutline className="h-20 w-20" />
+                <h1 className="mt-8 font-display text-4xl sm:text-5xl">
                     {t("checkout.empty_cart")}
-                </p>
-                <p className="mb-6 text-sm text-gray-400">
+                </h1>
+                <p className="mt-3 max-w-xs text-[15px] text-ink-soft">
                     {t("checkout.empty_cart_hint")}
                 </p>
                 <Link
                     to="/Catalog"
-                    className="rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                    className="group mt-10 inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-[12px] font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
                 >
                     {t("checkout.browse_catalog")}
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
+                        <ArrowRightIcon className="h-4 w-4" />
+                    </span>
                 </Link>
             </div>
         );
     }
 
     return (
-        <div className="mx-auto w-[95%] py-8 sm:w-[90%] md:w-[85%] lg:w-[80%]">
+        <div className="container-luxe pt-8 md:pt-12">
             <title>{t("seo.checkout_title")}</title>
 
-            {/* Page title */}
-            <h1 className="mb-8 text-center text-xl font-light tracking-[0.15em] text-gray-900 uppercase sm:text-2xl">
+            <h1 className="animate-rise font-display text-[3rem] leading-none font-medium tracking-[-0.03em] sm:text-7xl">
                 {t("checkout.page_title")}
             </h1>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+            {/* Mobile: collapsible summary */}
+            <details className="group mt-8 rounded-2xl border border-line bg-surface lg:hidden">
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 [&::-webkit-details-marker]:hidden">
+                    <span className="flex items-center gap-2 text-[13px] text-ink">
+                        <BagIcon className="h-4 w-4" />
+                        {t("checkout.show_summary")}
+                        <ChevronDownIcon className="h-4 w-4 transition-transform duration-300 group-open:rotate-180" />
+                    </span>
+                    <span className="price font-display text-xl">
+                        {formatKr(total)}
+                    </span>
+                </summary>
+                <div className="border-t border-line px-5 py-5">{summaryItems}</div>
+            </details>
+
+            <div className="mt-8 grid grid-cols-1 gap-10 md:mt-12 lg:grid-cols-12 lg:gap-16">
                 {/* ── LEFT: Form sections ── */}
-                <div className="space-y-6 lg:col-span-3">
-                    {/* Step 1: Customer info */}
-                    <section className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
+                <div className="space-y-14 lg:col-span-7">
+                    <section>
                         <SectionHeader
                             step={1}
                             title={t("checkout.customer_title")}
                         />
 
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                             <FormInput
                                 id="customer-firstName"
                                 label={t("checkout.first_name")}
@@ -330,6 +440,7 @@ export default function CheckoutPage() {
                                     setCustomer({ ...customer, firstName: v })
                                 }
                                 error={errors.customerFirstName}
+                                autoComplete="given-name"
                             />
                             <FormInput
                                 id="customer-lastName"
@@ -339,10 +450,8 @@ export default function CheckoutPage() {
                                     setCustomer({ ...customer, lastName: v })
                                 }
                                 error={errors.customerLastName}
+                                autoComplete="family-name"
                             />
-                        </div>
-
-                        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <FormInput
                                 id="customer-phone"
                                 label={t("checkout.phone")}
@@ -351,6 +460,8 @@ export default function CheckoutPage() {
                                     setCustomer({ ...customer, phone: v })
                                 }
                                 error={errors.customerPhone}
+                                type="tel"
+                                autoComplete="tel"
                             />
                             <FormInput
                                 id="customer-email"
@@ -360,11 +471,12 @@ export default function CheckoutPage() {
                                     setCustomer({ ...customer, email: v })
                                 }
                                 error={errors.customerEmail}
+                                inputMode="email"
+                                autoComplete="email"
                             />
                         </div>
 
-                        {/* Toggles */}
-                        <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
+                        <div className="mt-6 rounded-xl bg-blush-deep/60 px-5 py-2">
                             <Toggle
                                 checked={orderForMyself}
                                 onChange={setOrderForMyself}
@@ -373,17 +485,15 @@ export default function CheckoutPage() {
                         </div>
                     </section>
 
-                    {/* Step 2: Delivery / Recipient info */}
-                    <section className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
+                    <section>
                         <SectionHeader
                             step={2}
                             title={t("checkout.recipient_title")}
                         />
 
-                        {/* Recipient name & phone — hidden when ordering for yourself */}
-                        {needsRecipient && (
-                            <>
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            {needsRecipient && (
+                                <>
                                     <FormInput
                                         id="recipient-firstName"
                                         label={t("checkout.first_name")}
@@ -408,45 +518,40 @@ export default function CheckoutPage() {
                                         }
                                         error={errors.recipientLastName}
                                     />
-                                </div>
+                                    <div className="sm:col-span-2">
+                                        <FormInput
+                                            id="recipient-phone"
+                                            label={t("checkout.phone")}
+                                            value={recipient.phone}
+                                            onChange={(v) =>
+                                                setRecipient({
+                                                    ...recipient,
+                                                    phone: v,
+                                                })
+                                            }
+                                            error={errors.recipientPhone}
+                                            type="tel"
+                                        />
+                                    </div>
+                                </>
+                            )}
 
-                                <div className="mt-4">
-                                    <FormInput
-                                        id="recipient-phone"
-                                        label={t("checkout.phone")}
-                                        value={recipient.phone}
-                                        onChange={(v) =>
-                                            setRecipient({
-                                                ...recipient,
-                                                phone: v,
-                                            })
-                                        }
-                                        error={errors.recipientPhone}
-                                    />
-                                </div>
-                            </>
-                        )}
+                            <div className="sm:col-span-2">
+                                <FormInput
+                                    id="recipient-address"
+                                    label={t("checkout.delivery_address")}
+                                    value={recipient.address}
+                                    onChange={(v) =>
+                                        setRecipient({
+                                            ...recipient,
+                                            address: v,
+                                        })
+                                    }
+                                    error={errors.recipientAddress}
+                                    autoComplete="street-address"
+                                />
+                            </div>
 
-                        {/* Delivery address */}
-                        <div className={needsRecipient ? "mt-4" : ""}>
-                            <FormInput
-                                id="recipient-address"
-                                label={t("checkout.delivery_address")}
-                                value={recipient.address}
-                                onChange={(v) =>
-                                    setRecipient({
-                                        ...recipient,
-                                        address: v,
-                                    })
-                                }
-                                error={errors.recipientAddress}
-                            />
-                        </div>
-
-                        {/* Date & Time — always visible */}
-                        <div
-                            className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2"
-                        >
                             <FormInput
                                 id="recipient-date"
                                 label={t("checkout.delivery_date")}
@@ -461,7 +566,7 @@ export default function CheckoutPage() {
                             <div>
                                 <label
                                     htmlFor="recipient-time"
-                                    className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+                                    className="mb-2 block text-[11px] font-medium tracking-[0.16em] text-ink-soft uppercase"
                                 >
                                     {t("checkout.delivery_time")}
                                 </label>
@@ -469,6 +574,8 @@ export default function CheckoutPage() {
                                     id="recipient-time"
                                     type="time"
                                     value={recipient.time}
+                                    aria-invalid={Boolean(errors.recipientTime)}
+                                    aria-describedby="recipient-time-hint"
                                     onChange={(e) => {
                                         const hourStr =
                                             e.target.value.split(":")[0];
@@ -494,202 +601,99 @@ export default function CheckoutPage() {
                                             }));
                                         }
                                     }}
-                                    className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none ${
-                                        errors.recipientTime
-                                            ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                                            : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
-                                    }`}
+                                    className={inputClass(errors.recipientTime)}
                                 />
-                                {errors.recipientTime && (
+                                {errors.recipientTime ? (
                                     <p
-                                        className="mt-1 text-xs text-red-500"
+                                        id="recipient-time-hint"
+                                        className="mt-2 flex items-center gap-1.5 text-[13px] text-danger"
                                         role="alert"
                                     >
+                                        <AlertIcon className="h-3.5 w-3.5 shrink-0" />
                                         {errors.recipientTime}
                                     </p>
+                                ) : (
+                                    <p
+                                        id="recipient-time-hint"
+                                        className="mt-2 text-[13px] text-muted"
+                                    >
+                                        {t("checkout.delivery_time_range")}
+                                    </p>
                                 )}
-                                <p className="mt-1 text-[11px] text-gray-400">
-                                    {t("checkout.delivery_time_range")}
-                                </p>
                             </div>
                         </div>
                     </section>
                 </div>
 
                 {/* ── RIGHT: Order summary (sticky) ── */}
-                <aside className="lg:col-span-2">
-                    <div className="sticky top-20 rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
-                        <h2 className="mb-5 text-base font-semibold tracking-wide text-gray-900 uppercase">
+                <aside className="lg:col-span-5">
+                    <div className="rounded-[1.75rem] bg-surface p-6 shadow-soft sm:p-8 lg:sticky lg:top-36">
+                        <h2 className="hidden font-display text-2xl lg:block">
                             {t("checkout.cart_title")}
                         </h2>
-
-                        {/* Cart items */}
-                        <div className="space-y-4">
-                            {items.map((item) => (
-                                <div key={item.id} className="flex gap-3">
-                                    <img
-                                        src={item.picture}
-                                        alt={item.name}
-                                        className="h-16 w-16 shrink-0 rounded-lg object-cover"
-                                    />
-                                    <div className="flex min-w-0 flex-1 flex-col justify-between">
-                                        <div className="flex items-start justify-between gap-2">
-                                            <p className="truncate text-sm font-medium text-gray-900">
-                                                {item.name}
-                                            </p>
-                                            <button
-                                                onClick={() =>
-                                                    removeItem(item.id)
-                                                }
-                                                className="shrink-0 cursor-pointer text-gray-300 transition-colors hover:text-gray-500"
-                                                aria-label={`Remove ${item.name}`}
-                                            >
-                                                <svg
-                                                    className="h-4 w-4"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                    strokeWidth={1.5}
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M6 18L18 6M6 6l12 12"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={() =>
-                                                        decrease(item.id)
-                                                    }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
-                                                    aria-label="Decrease quantity"
-                                                >
-                                                    -
-                                                </button>
-                                                <span className="min-w-[1.25rem] text-center text-sm text-gray-700">
-                                                    {item.quantity}
-                                                </span>
-                                                <button
-                                                    onClick={() =>
-                                                        increase(item.id)
-                                                    }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
-                                                    aria-label="Increase quantity"
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
-                                            <span className="text-sm font-medium text-gray-900">
-                                                {item.price * item.quantity} kr
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="hidden lg:mt-6 lg:block">
+                            {summaryItems}
                         </div>
 
-                        {/* Totals */}
-                        <div className="mt-6 space-y-2 border-t border-gray-100 pt-5">
-                            <div className="flex justify-between text-sm text-gray-500">
-                                <span>{t("checkout.subtotal")}</span>
-                                <span>{subtotal} kr</span>
+                        <dl className="space-y-2.5 text-sm lg:mt-6 lg:border-t lg:border-line lg:pt-6">
+                            <div className="flex justify-between text-ink-soft">
+                                <dt>{t("checkout.subtotal")}</dt>
+                                <dd className="price">{formatKr(subtotal)}</dd>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-500">
-                                <span>{t("checkout.delivery")}</span>
-                                <span>
+                            <div className="flex justify-between text-ink-soft">
+                                <dt>{t("checkout.delivery")}</dt>
+                                <dd className="price">
                                     {subtotal >= FREE_DELIVERY_THRESHOLD
                                         ? t("cart.free_delivery")
-                                        : `${deliveryFee} kr`}
-                                </span>
+                                        : formatKr(deliveryFee)}
+                                </dd>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-400">
-                                <span>{t("checkout.vat_included")}</span>
-                                <span>{moms.toFixed(2)} kr</span>
+                            <div className="flex justify-between text-muted">
+                                <dt>{t("checkout.vat_included")}</dt>
+                                <dd className="price">{moms.toFixed(2)} kr</dd>
                             </div>
-                            <div className="flex justify-between border-t border-gray-100 pt-3 text-base font-semibold text-gray-900">
-                                <span>{t("checkout.total")}</span>
-                                <span>{total} kr</span>
+                            <div className="flex items-baseline justify-between border-t border-line pt-4">
+                                <dt className="eyebrow text-ink">
+                                    {t("checkout.total")}
+                                </dt>
+                                <dd className="price font-display text-3xl">
+                                    {formatKr(total)}
+                                </dd>
                             </div>
-                        </div>
+                        </dl>
 
-                        {/* Error */}
                         {submitError && (
                             <div
-                                className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+                                className="mt-5 flex gap-2.5 rounded-xl bg-danger/8 px-4 py-3 text-sm text-danger"
                                 role="alert"
                             >
+                                <AlertIcon className="mt-0.5 h-4 w-4 shrink-0" />
                                 {submitError}
                             </div>
                         )}
 
-                        {/* Pay button */}
                         <button
-                            className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gray-900 py-3.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+                            type="button"
+                            className="mt-6 flex h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-full bg-ink text-[12px] font-medium tracking-[0.18em] text-blush uppercase transition-[background-color,transform] duration-300 hover:bg-ink-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                             onClick={handlePay}
                             disabled={isLoading || items.length === 0}
+                            aria-busy={isLoading}
                         >
                             {isLoading ? (
                                 <>
-                                    <svg
-                                        className="h-4 w-4 animate-spin"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                        />
-                                        <path
-                                            className="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                        />
-                                    </svg>
+                                    <span className="h-4 w-4 animate-spin rounded-full border-[1.5px] border-blush/30 border-t-blush" />
                                     {t("checkout.processing")}
                                 </>
                             ) : (
                                 <>
-                                    <svg
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth={1.5}
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                                        />
-                                    </svg>
+                                    <LockIcon className="h-4 w-4" />
                                     {t("checkout.pay")}
                                 </>
                             )}
                         </button>
 
-                        {/* Trust signal */}
-                        <p className="mt-4 text-center text-[11px] text-gray-400">
-                            <svg
-                                className="mr-1 inline h-3 w-3"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                                />
-                            </svg>
+                        <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-muted">
+                            <LockIcon className="h-3.5 w-3.5" />
                             {t("checkout.secure_payment")}
                         </p>
                     </div>

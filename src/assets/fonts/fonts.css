@@ -1,17 +1,26 @@
 @layer base {
+  /* PP Hatton — display serif. One family, three real weights. */
   @font-face {
-    font-family: "HattonMedium";
-    src:
-      local("HattonMedium"),
-      url("./Hatton/PP-Hatton-Medium-500.otf") format("truetype");
-    font-weight: 500;
+    font-family: "Hatton";
+    src: url("./Hatton/PP-Hatton-Ultralight-200.otf") format("opentype");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
   }
 
   @font-face {
-    font-family: "HattonUltralight";
-    src:
-      local("HattonUltralight"),
-      url("./Hatton/PP-Hatton-Ultralight-200.otf") format("truetype");
-    font-weight: 200;
+    font-family: "Hatton";
+    src: url("./Hatton/PP-Hatton-Medium-500.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Hatton";
+    src: url("./Hatton/PP Hatton Bold 700.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
   }
 }

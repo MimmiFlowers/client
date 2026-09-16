@@ -3,6 +3,16 @@ import { useCart } from "../../contexts/CartContext";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../../api/api";
+import StatusLayout from "../../components/StatusLayout/StatusLayout";
+import {
+    primaryActionClass,
+    secondaryActionClass,
+} from "../../components/StatusLayout/actionStyles";
+import {
+    AlertIcon,
+    ArrowRightIcon,
+    CheckIcon,
+} from "../../components/Icons/Icons";
 
 type VerifyState = "loading" | "verified" | "error";
 
@@ -31,15 +41,25 @@ const SuccessPage = () => {
             });
     }, [orderID]);
 
+    const homeAction = (
+        <Link to="/" className={primaryActionClass}>
+            {t("success.return_home")}
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
+                <ArrowRightIcon className="h-4 w-4" />
+            </span>
+        </Link>
+    );
+
     /* ── Loading state ── */
     if (state === "loading") {
         return (
-            <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
+            <div
+                className="container-luxe flex min-h-[70dvh] flex-col items-center justify-center text-center"
+                aria-busy="true"
+            >
                 <title>{t("seo.success_title")}</title>
-                <div className="mb-6 h-12 w-12 animate-spin rounded-full border-[3px] border-gray-200 border-t-[#edc7f5]" />
-                <p className="text-sm font-light tracking-wider text-gray-500 uppercase">
-                    {t("success.verifying")}
-                </p>
+                <span className="h-14 w-14 animate-spin rounded-full border border-line-strong border-t-ink" />
+                <p className="eyebrow mt-8">{t("success.verifying")}</p>
             </div>
         );
     }
@@ -47,102 +67,54 @@ const SuccessPage = () => {
     /* ── Error state ── */
     if (state === "error") {
         return (
-            <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
+            <>
                 <title>{t("seo.success_title")}</title>
-                <div className="mx-auto w-full max-w-md text-center">
-                    {/* Warning icon */}
-                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-amber-50">
-                        <svg
-                            className="h-8 w-8 text-amber-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={1.5}
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                            />
-                        </svg>
-                    </div>
-
-                    <h1 className="mb-3 text-xl font-semibold text-gray-900">
-                        {t("success.error_title")}
-                    </h1>
-                    <p className="mb-8 text-sm leading-relaxed text-gray-500">
-                        {t("success.error_message")}
-                    </p>
-
-                    <Link
-                        to="/"
-                        className="inline-block rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
-                    >
-                        {t("success.return_home")}
-                    </Link>
-                </div>
-            </div>
+                <StatusLayout
+                    visual={
+                        <span className="flex h-20 w-20 items-center justify-center rounded-full border border-line-strong text-ink">
+                            <AlertIcon className="h-8 w-8" />
+                        </span>
+                    }
+                    title={t("success.error_title")}
+                    actions={
+                        <>
+                            {homeAction}
+                            <Link to="/Contact" className={secondaryActionClass}>
+                                {t("menu.contact")}
+                            </Link>
+                        </>
+                    }
+                >
+                    <p>{t("success.error_message")}</p>
+                </StatusLayout>
+            </>
         );
     }
 
     /* ── Success state ── */
     return (
-        <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
+        <>
             <title>{t("seo.success_title")}</title>
-            <div className="mx-auto w-full max-w-md text-center">
-                {/* Animated checkmark circle */}
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
-                    <svg
-                        className="h-10 w-10 text-green-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M5 13l4 4L19 7"
-                        />
-                    </svg>
-                </div>
-
-                <h1 className="mb-2 text-2xl font-semibold text-gray-900">
-                    {t("success.thank_you")}
-                </h1>
-
-                {/* Order ID badge */}
-                <div className="mx-auto mb-6 inline-block rounded-full bg-gray-100 px-5 py-2">
-                    <p className="text-xs text-gray-500">
-                        {t("success.order_id")}
-                    </p>
-                    <p className="font-mono text-sm font-semibold tracking-wider text-gray-900">
+            <StatusLayout
+                visual={
+                    <span className="flex h-24 w-24 items-center justify-center rounded-full bg-primary text-ink">
+                        <CheckIcon className="h-10 w-10" strokeWidth={1} />
+                    </span>
+                }
+                eyebrow={t("success.thanks_shopping")}
+                title={t("success.thank_you")}
+                actions={homeAction}
+            >
+                <div className="mx-auto mb-6 inline-flex flex-col items-center rounded-2xl border border-line bg-surface px-8 py-4">
+                    <span className="eyebrow">{t("success.order_id")}</span>
+                    <span className="price mt-1.5 font-display text-2xl tracking-[0.04em] text-ink">
                         {orderID}
-                    </p>
+                    </span>
                 </div>
-
-                <p className="mb-1 text-sm text-gray-600">
-                    {t("success.processing")}
-                </p>
-                <p className="mb-8 text-sm text-gray-400">
-                    {t("success.questions")}
-                </p>
-
-                {/* Divider */}
-                <div className="mx-auto mb-6 h-px w-16 bg-gray-200" />
-
-                <p className="mb-6 text-xs font-light tracking-wider text-gray-400 uppercase">
-                    {t("success.thanks_shopping")}
-                </p>
-
-                <Link
-                    to="/"
-                    className="inline-block rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
-                >
-                    {t("success.return_home")}
-                </Link>
-            </div>
-        </div>
+                <p>{t("success.processing")}</p>
+                <p className="text-muted">{t("success.questions")}</p>
+            </StatusLayout>
+        </>
     );
 };
 

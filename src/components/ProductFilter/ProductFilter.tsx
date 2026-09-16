@@ -1,5 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { CheckIcon, ChevronDownIcon } from "../Icons/Icons";
+import {
+    categoryOptions,
+    collectionOptions,
+    sortOptions,
+} from "./filterOptions";
 
 type Props = {
     selectedCollections: string[];
@@ -10,18 +15,73 @@ type Props = {
     onSortChange: (sort: string) => void;
     resultCount: number;
     onClearAll: () => void;
+    /** The mobile sheet shows sort in the toolbar instead. */
+    showSort?: boolean;
 };
 
-const collectionOptions = [
-    "mono bouquets",
-    "duo bouquets",
-    "author",
-    "boxes and baskets",
-    "gifts",
-    "season",
-];
+export const SortSelect = ({
+    id,
+    value,
+    onChange,
+    className = "",
+}: {
+    id: string;
+    value: string;
+    onChange: (sort: string) => void;
+    className?: string;
+}) => {
+    const { t } = useTranslation();
 
-const categoryOptions = ["favorite", "season"];
+    return (
+        <div className={`relative ${className}`}>
+            <select
+                id={id}
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="min-h-11 w-full cursor-pointer appearance-none rounded-none border-b border-line-strong bg-transparent pr-7 text-[15px] text-ink transition-colors outline-none focus:border-ink"
+            >
+                {sortOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                        {t(o.key)}
+                    </option>
+                ))}
+            </select>
+            <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-0 h-4 w-4 -translate-y-1/2 text-ink" />
+        </div>
+    );
+};
+
+const Option = ({
+    active,
+    label,
+    onClick,
+}: {
+    active: boolean;
+    label: string;
+    onClick: () => void;
+}) => (
+    <li>
+        <button
+            type="button"
+            onClick={onClick}
+            aria-pressed={active}
+            className={`group flex min-h-11 w-full cursor-pointer items-center gap-3 text-left text-[15px] transition-colors duration-300 ${
+                active ? "text-ink" : "text-ink-soft hover:text-ink"
+            }`}
+        >
+            <span
+                className={`flex h-[1.1rem] w-[1.1rem] shrink-0 items-center justify-center rounded-[3px] border transition-all duration-300 ${
+                    active
+                        ? "border-ink bg-ink text-blush"
+                        : "border-line-strong group-hover:border-ink"
+                }`}
+            >
+                {active && <CheckIcon className="h-3 w-3" strokeWidth={2} />}
+            </span>
+            {label}
+        </button>
+    </li>
+);
 
 const ProductFilter = ({
     selectedCollections,
@@ -32,49 +92,22 @@ const ProductFilter = ({
     onSortChange,
     resultCount,
     onClearAll,
+    showSort = true,
 }: Props) => {
     const { t } = useTranslation();
-    const [collectionOpen, setCollectionOpen] = useState(true);
-    const [categoryOpen, setCategoryOpen] = useState(true);
 
     const hasFilters =
         selectedCollections.length > 0 || selectedCategories.length > 0;
 
-    const toggleCollection = (col: string) => {
-        const updated = selectedCollections.includes(col)
-            ? selectedCollections.filter((c) => c !== col)
-            : [...selectedCollections, col];
-        onCollectionChange(updated);
-    };
-
-    const toggleCategory = (cat: string) => {
-        const updated = selectedCategories.includes(cat)
-            ? selectedCategories.filter((c) => c !== cat)
-            : [...selectedCategories, cat];
-        onCategoryChange(updated);
-    };
-
-    const Chevron = ({ open }: { open: boolean }) => (
-        <svg
-            className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-        >
-            <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 9l-7 7-7-7"
-            />
-        </svg>
-    );
+    const toggle = (list: string[], value: string) =>
+        list.includes(value)
+            ? list.filter((v) => v !== value)
+            : [...list, value];
 
     return (
         <div className="flex flex-col">
-            {/* Results count + clear */}
-            <div className="mb-5 flex items-center justify-between">
-                <p className="text-sm text-gray-500">
+            <div className="flex min-h-11 items-center justify-between border-b border-line pb-4">
+                <p className="price text-sm text-muted">
                     {t(
                         resultCount === 1
                             ? "catalog.results_count_one"
@@ -84,154 +117,66 @@ const ProductFilter = ({
                 </p>
                 {hasFilters && (
                     <button
+                        type="button"
                         onClick={onClearAll}
-                        className="cursor-pointer text-sm text-gray-500 underline transition-colors hover:text-black"
+                        className="min-h-11 cursor-pointer text-[12px] tracking-[0.12em] text-ink uppercase underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
                     >
                         {t("catalog.clear_all")}
                     </button>
                 )}
             </div>
 
-            {/* Sort */}
-            <div className="mb-6">
-                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    {t("catalog.sort_label")}
-                </label>
-                <select
-                    value={sort}
-                    onChange={(e) => onSortChange(e.target.value)}
-                    className="w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-colors focus:border-[#edc7f5]"
-                >
-                    <option value="default">
-                        {t("catalog.sort_default")}
-                    </option>
-                    <option value="price_asc">
-                        {t("catalog.sort_price_asc")}
-                    </option>
-                    <option value="price_desc">
-                        {t("catalog.sort_price_desc")}
-                    </option>
-                    <option value="name_asc">
-                        {t("catalog.sort_name_asc")}
-                    </option>
-                </select>
-            </div>
+            {showSort && (
+                <div className="border-b border-line py-6">
+                    <label htmlFor="catalog-sort" className="eyebrow block">
+                        {t("catalog.sort_label")}
+                    </label>
+                    <SortSelect
+                        id="catalog-sort"
+                        value={sort}
+                        onChange={onSortChange}
+                        className="mt-3"
+                    />
+                </div>
+            )}
 
-            <div className="h-px w-full bg-gray-200" />
+            <fieldset className="border-b border-line py-6">
+                <legend className="eyebrow float-left mb-3 w-full">
+                    {t("catalog.collection_section")}
+                </legend>
+                <ul className="clear-both">
+                    {collectionOptions.map((col) => (
+                        <Option
+                            key={col}
+                            active={selectedCollections.includes(col)}
+                            label={t(`catalog.collection.${col}`)}
+                            onClick={() =>
+                                onCollectionChange(
+                                    toggle(selectedCollections, col),
+                                )
+                            }
+                        />
+                    ))}
+                </ul>
+            </fieldset>
 
-            {/* Collection filters */}
-            <div className="py-5">
-                <button
-                    onClick={() => setCollectionOpen(!collectionOpen)}
-                    className="flex w-full cursor-pointer items-center justify-between"
-                >
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-700">
-                        {t("catalog.collection_section")}
-                    </h3>
-                    <Chevron open={collectionOpen} />
-                </button>
-                {collectionOpen && (
-                    <div className="mt-3 flex flex-col gap-1.5">
-                        {collectionOptions.map((col) => {
-                            const active = selectedCollections.includes(col);
-                            return (
-                                <button
-                                    key={col}
-                                    onClick={() => toggleCollection(col)}
-                                    className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200 ${
-                                        active
-                                            ? "bg-[#edc7f5]/30 font-medium text-gray-900"
-                                            : "text-gray-600 hover:bg-gray-100"
-                                    }`}
-                                >
-                                    <span
-                                        className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
-                                            active
-                                                ? "border-[#edc7f5] bg-[#edc7f5]"
-                                                : "border-gray-300"
-                                        }`}
-                                    >
-                                        {active && (
-                                            <svg
-                                                className="h-3 w-3 text-white"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth={3}
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M5 13l4 4L19 7"
-                                                />
-                                            </svg>
-                                        )}
-                                    </span>
-                                    {t(`catalog.collection.${col}`)}
-                                </button>
-                            );
-                        })}
-                    </div>
-                )}
-            </div>
-
-            <div className="h-px w-full bg-gray-200" />
-
-            {/* Category filters */}
-            <div className="py-5">
-                <button
-                    onClick={() => setCategoryOpen(!categoryOpen)}
-                    className="flex w-full cursor-pointer items-center justify-between"
-                >
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-700">
-                        {t("catalog.category_section")}
-                    </h3>
-                    <Chevron open={categoryOpen} />
-                </button>
-                {categoryOpen && (
-                    <div className="mt-3 flex flex-col gap-1.5">
-                        {categoryOptions.map((cat) => {
-                            const active = selectedCategories.includes(cat);
-                            return (
-                                <button
-                                    key={cat}
-                                    onClick={() => toggleCategory(cat)}
-                                    className={`flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-all duration-200 ${
-                                        active
-                                            ? "bg-[#edc7f5]/30 font-medium text-gray-900"
-                                            : "text-gray-600 hover:bg-gray-100"
-                                    }`}
-                                >
-                                    <span
-                                        className={`flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border transition-colors ${
-                                            active
-                                                ? "border-[#edc7f5] bg-[#edc7f5]"
-                                                : "border-gray-300"
-                                        }`}
-                                    >
-                                        {active && (
-                                            <svg
-                                                className="h-3 w-3 text-white"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                                strokeWidth={3}
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M5 13l4 4L19 7"
-                                                />
-                                            </svg>
-                                        )}
-                                    </span>
-                                    {t(`catalog.category.${cat}`)}
-                                </button>
-                            );
-                        })}
-                    </div>
-                )}
-            </div>
+            <fieldset className="py-6">
+                <legend className="eyebrow float-left mb-3 w-full">
+                    {t("catalog.category_section")}
+                </legend>
+                <ul className="clear-both">
+                    {categoryOptions.map((cat) => (
+                        <Option
+                            key={cat}
+                            active={selectedCategories.includes(cat)}
+                            label={t(`catalog.category.${cat}`)}
+                            onClick={() =>
+                                onCategoryChange(toggle(selectedCategories, cat))
+                            }
+                        />
+                    ))}
+                </ul>
+            </fieldset>
         </div>
     );
 };

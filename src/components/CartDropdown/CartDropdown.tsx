@@ -1,229 +1,269 @@
-import { useCart } from "../../contexts/CartContext";
-import { FREE_DELIVERY_THRESHOLD, DELIVERY_FEE } from "../../contexts/CartContext";
-import { useEffect, useRef, useCallback } from "react";
-import { useNavigate } from "react-router";
+import { createPortal } from "react-dom";
+import { Link, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import {
+    useCart,
+    FREE_DELIVERY_THRESHOLD,
+    DELIVERY_FEE,
+} from "../../contexts/CartContext";
+import { useOverlay } from "../../hooks/useOverlay";
+import {
+    ArrowRightIcon,
+    BagIcon,
+    CheckIcon,
+    CloseIcon,
+    MinusIcon,
+    PlusIcon,
+} from "../Icons/Icons";
 
 interface Props {
+    open: boolean;
     onClose: () => void;
 }
 
-export const CartDropdown: React.FC<Props> = ({ onClose }) => {
+/** Slide-over shopping bag. Full width on phones, 28rem panel from sm: up. */
+export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
     const { items, increase, decrease, removeItem } = useCart();
-    const ref = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     const { t } = useTranslation();
-
-    const handleKeyDown = useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === "Escape") {
-                onClose();
-                return;
-            }
-
-            if (e.key === "Tab" && ref.current) {
-                const focusable = ref.current.querySelectorAll<HTMLElement>(
-                    'a, button, [tabindex]:not([tabindex="-1"])',
-                );
-                if (focusable.length === 0) return;
-
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-                if (!first || !last) return;
-
-                if (e.shiftKey && document.activeElement === first) {
-                    e.preventDefault();
-                    last.focus();
-                } else if (!e.shiftKey && document.activeElement === last) {
-                    e.preventDefault();
-                    first.focus();
-                }
-            }
-        },
-        [onClose],
-    );
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const path = event.composedPath();
-            if (ref.current && !path.includes(ref.current)) {
-                setTimeout(() => {
-                    onClose();
-                }, 200);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        document.addEventListener("keydown", handleKeyDown);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [onClose, handleKeyDown]);
-
-    const handleRedirect = (e: React.MouseEvent, id: string) => {
-        e.preventDefault();
-        navigate(`/Catalog/${id}`);
-    };
-
-    const handleRedirectKeyDown = (e: React.KeyboardEvent, id: string) => {
-        if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            navigate(`/Catalog/${id}`);
-        }
-    };
+    const panelRef = useOverlay<HTMLDivElement>(open, onClose);
 
     const total = items.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0,
     );
-
     const isFreeDelivery = total >= FREE_DELIVERY_THRESHOLD;
-    const deliveryFee = isFreeDelivery ? 0 : DELIVERY_FEE;
-    const grandTotal = total + deliveryFee;
+    const grandTotal = total + (isFreeDelivery ? 0 : DELIVERY_FEE);
+    const progress = Math.min(100, (total / FREE_DELIVERY_THRESHOLD) * 100);
 
-    return (
+    return createPortal(
         <div
-            ref={ref}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t("cart.your_cart")}
-            className="fixed inset-x-0 top-16 z-50 mx-auto rounded-xl border border-gray-100 bg-[#FFF0F5] p-5 shadow-xl sm:absolute sm:inset-x-auto sm:top-10 sm:right-0 sm:mx-0 sm:w-80"
+            className={`fixed inset-0 z-50 ${open ? "" : "pointer-events-none"}`}
+            inert={!open}
         >
-            <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-gray-500">
-                {t("cart.your_cart")}
-            </h3>
+            {/* Scrim */}
+            <div
+                className={`absolute inset-0 bg-ink/30 transition-opacity duration-500 ease-luxe ${
+                    open ? "opacity-100" : "opacity-0"
+                }`}
+                onClick={onClose}
+                aria-hidden="true"
+            />
 
-            <div className="mt-4 flex max-h-64 flex-col gap-3 overflow-y-auto">
+            {/* Panel */}
+            <div
+                ref={panelRef}
+                role="dialog"
+                aria-modal="true"
+                aria-label={t("cart.your_cart")}
+                className={`absolute inset-y-0 right-0 flex w-full flex-col bg-surface transition-[transform,visibility] duration-700 ease-drawer sm:max-w-[28rem] ${
+                    open
+                        ? "visible translate-x-0 shadow-lift"
+                        : "invisible translate-x-full"
+                }`}
+            >
+                {/* Head */}
+                <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5 sm:h-20 sm:px-8">
+                    <h2 className="font-display text-2xl font-medium">
+                        {t("cart.your_cart")}
+                        {items.length > 0 && (
+                            <span className="price ml-2 align-top font-sans text-xs text-muted">
+                                ({items.reduce((n, i) => n + i.quantity, 0)})
+                            </span>
+                        )}
+                    </h2>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        aria-label={t("cart.close")}
+                        className="-mr-2.5 flex h-11 w-11 cursor-pointer items-center justify-center text-ink transition-transform duration-500 ease-luxe hover:rotate-90"
+                    >
+                        <CloseIcon className="h-6 w-6" />
+                    </button>
+                </div>
+
                 {items.length === 0 ? (
-                    <div className="flex flex-col items-center py-6">
-                        <svg
-                            className="mb-2 h-10 w-10 text-gray-300"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={1}
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                            />
-                        </svg>
-                        <p className="text-sm font-light text-gray-400">
+                    <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
+                        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-blush text-muted">
+                            <BagIcon className="h-8 w-8" />
+                        </span>
+                        <p className="mt-6 font-display text-2xl">
                             {t("cart.empty_cart")}
                         </p>
+                        <p className="mt-2 max-w-60 text-sm text-muted">
+                            {t("checkout.empty_cart_hint")}
+                        </p>
+                        <Link
+                            to="/Catalog"
+                            onClick={onClose}
+                            className="group mt-8 inline-flex items-center gap-3 border-b border-ink pb-1 text-[12px] font-medium tracking-[0.16em] uppercase"
+                        >
+                            {t("checkout.browse_catalog")}
+                            <ArrowRightIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:translate-x-1" />
+                        </Link>
                     </div>
                 ) : (
-                    items.map((item, i) => (
-                        <div
-                            key={item.id}
-                            className={`flex items-center gap-3 pb-3 ${
-                                i < items.length - 1 ? "border-b border-gray-100" : ""
-                            }`}
-                        >
-                            <img
-                                src={item.picture}
-                                alt={item.name}
-                                onClick={(e) => handleRedirect(e, item.id)}
-                                onKeyDown={(e) =>
-                                    handleRedirectKeyDown(e, item.id)
-                                }
-                                role="button"
-                                tabIndex={0}
-                                className="h-14 w-14 cursor-pointer rounded-lg object-cover object-center transition-opacity duration-300 hover:opacity-80"
-                            />
-                            <div className="flex-1">
-                                <p
-                                    onClick={(e) => handleRedirect(e, item.id)}
-                                    onKeyDown={(e) =>
-                                        handleRedirectKeyDown(e, item.id)
-                                    }
-                                    role="button"
-                                    tabIndex={0}
-                                    className="cursor-pointer text-sm font-medium leading-tight text-gray-900 transition-opacity duration-300 hover:opacity-70"
-                                >
-                                    {item.name}
-                                </p>
-                                <p className="mt-0.5 text-xs font-light text-gray-400">
-                                    {item.price} {t("cart.pp")}
-                                </p>
-                                <div className="mt-1.5 flex items-center gap-1">
-                                    <button
-                                        onClick={() => decrease(item.id)}
-                                        aria-label={`Decrease quantity of ${item.name}`}
-                                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors duration-300 hover:border-gray-400 hover:text-gray-900"
-                                    >
-                                        &minus;
-                                    </button>
-                                    <span className="w-6 text-center text-xs font-medium text-gray-700">
-                                        {item.quantity}
-                                    </span>
-                                    <button
-                                        onClick={() => increase(item.id)}
-                                        aria-label={`Increase quantity of ${item.name}`}
-                                        className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors duration-300 hover:border-gray-400 hover:text-gray-900"
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-end gap-1">
-                                <p className="text-sm font-medium text-gray-900">
-                                    {item.price * item.quantity} kr
-                                </p>
-                                <button
-                                    onClick={() => removeItem(item.id)}
-                                    aria-label={`Remove ${item.name} from cart`}
-                                    className="cursor-pointer text-xs font-light text-gray-400 transition-colors duration-300 hover:text-red-400"
-                                >
-                                    {t("buttons.cancel")}
-                                </button>
+                    <>
+                        {/* Free delivery progress */}
+                        <div className="shrink-0 border-b border-line px-5 py-4 sm:px-8">
+                            <p className="flex items-center gap-2 text-[13px] text-ink-soft">
+                                {isFreeDelivery && (
+                                    <CheckIcon className="h-4 w-4 text-success" />
+                                )}
+                                {isFreeDelivery
+                                    ? t("cart.free_delivery_unlocked")
+                                    : t("cart.free_delivery_progress", {
+                                          amount: (
+                                              FREE_DELIVERY_THRESHOLD - total
+                                          ).toLocaleString("sv-SE"),
+                                      })}
+                            </p>
+                            <div className="mt-3 h-[3px] overflow-hidden rounded-full bg-blush-deep">
+                                <div
+                                    className="h-full origin-left rounded-full bg-primary-deep transition-transform duration-700 ease-luxe"
+                                    style={{
+                                        transform: `scaleX(${progress / 100})`,
+                                    }}
+                                />
                             </div>
                         </div>
-                    ))
+
+                        {/* Items */}
+                        <ul className="flex-1 divide-y divide-line overflow-y-auto overscroll-contain px-5 sm:px-8">
+                            {items.map((item) => (
+                                <li key={item.id} className="flex gap-4 py-5">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            onClose();
+                                            navigate(`/Catalog/${item.id}`);
+                                        }}
+                                        className="block h-28 w-22 shrink-0 cursor-pointer overflow-hidden rounded-[2px] bg-blush-deep"
+                                        aria-label={item.name}
+                                    >
+                                        <img
+                                            src={item.picture}
+                                            alt=""
+                                            className="h-full w-full object-cover transition-transform duration-700 ease-luxe hover:scale-105"
+                                        />
+                                    </button>
+
+                                    <div className="flex min-w-0 flex-1 flex-col">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <p className="font-display text-lg leading-tight">
+                                                {item.name}
+                                            </p>
+                                            <p className="price shrink-0 text-sm">
+                                                {(
+                                                    item.price * item.quantity
+                                                ).toLocaleString("sv-SE")}{" "}
+                                                kr
+                                            </p>
+                                        </div>
+                                        <p className="price mt-1 text-xs text-muted">
+                                            {item.price.toLocaleString("sv-SE")}{" "}
+                                            {t("cart.pp")}
+                                        </p>
+
+                                        <div className="mt-auto flex items-center justify-between pt-3">
+                                            <div className="flex h-9 items-center rounded-full border border-line-strong">
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        decrease(item.id)
+                                                    }
+                                                    aria-label={t(
+                                                        "cart.decrease",
+                                                        { name: item.name },
+                                                    )}
+                                                    className="flex h-full w-9 cursor-pointer items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                                                >
+                                                    <MinusIcon className="h-3.5 w-3.5" />
+                                                </button>
+                                                <span className="price w-6 text-center text-sm">
+                                                    {item.quantity}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        increase(item.id)
+                                                    }
+                                                    aria-label={t(
+                                                        "cart.increase",
+                                                        { name: item.name },
+                                                    )}
+                                                    className="flex h-full w-9 cursor-pointer items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                                                >
+                                                    <PlusIcon className="h-3.5 w-3.5" />
+                                                </button>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    removeItem(item.id)
+                                                }
+                                                className="min-h-9 cursor-pointer text-xs text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-danger"
+                                            >
+                                                {t("cart.remove")}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Totals */}
+                        <div className="shrink-0 border-t border-line bg-surface px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8 sm:pb-8">
+                            <dl className="space-y-2 text-sm">
+                                <div className="flex justify-between text-ink-soft">
+                                    <dt>{t("cart.subtotal")}</dt>
+                                    <dd className="price">
+                                        {total.toLocaleString("sv-SE")} kr
+                                    </dd>
+                                </div>
+                                <div className="flex justify-between text-ink-soft">
+                                    <dt>{t("cart.delivery")}</dt>
+                                    <dd className="price">
+                                        {isFreeDelivery
+                                            ? t("cart.free_delivery")
+                                            : `${DELIVERY_FEE} kr`}
+                                    </dd>
+                                </div>
+                                <div className="flex items-baseline justify-between pt-2">
+                                    <dt className="eyebrow text-ink">
+                                        {t("cart.total")}
+                                    </dt>
+                                    <dd className="price font-display text-2xl">
+                                        {grandTotal.toLocaleString("sv-SE")} kr
+                                    </dd>
+                                </div>
+                            </dl>
+
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    onClose();
+                                    navigate("/Checkout");
+                                }}
+                                className="group mt-5 flex h-14 w-full cursor-pointer items-center justify-between rounded-full bg-ink pr-2 pl-7 text-[12px] font-medium tracking-[0.18em] text-blush uppercase transition-transform duration-300 active:scale-[0.98]"
+                            >
+                                {t("cart.checkout")}
+                                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-0.5">
+                                    <ArrowRightIcon className="h-4 w-4" />
+                                </span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="mt-2 flex min-h-11 w-full cursor-pointer items-center justify-center text-[12px] tracking-[0.12em] text-muted uppercase transition-colors hover:text-ink"
+                            >
+                                {t("cart.continue_shopping")}
+                            </button>
+                        </div>
+                    </>
                 )}
             </div>
-
-            {items.length > 0 && (
-                <>
-                    <div className="mt-3 space-y-1.5 border-t border-gray-200/60 pt-3">
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>{t("cart.subtotal")}</span>
-                            <span>{total.toLocaleString()} kr</span>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-400">
-                            <span>{t("cart.delivery")}</span>
-                            <span>
-                                {isFreeDelivery
-                                    ? t("cart.free_delivery")
-                                    : `${DELIVERY_FEE} kr`}
-                            </span>
-                        </div>
-                        {!isFreeDelivery && (
-                            <p className="text-[10px] leading-tight text-gray-300">
-                                {t("cart.free_delivery_hint")}
-                            </p>
-                        )}
-                        <div className="flex justify-between border-t border-gray-200/60 pt-2">
-                            <span className="text-sm font-medium uppercase tracking-wider text-gray-500">
-                                {t("cart.total")}
-                            </span>
-                            <span className="text-sm font-semibold text-gray-900">
-                                {grandTotal.toLocaleString()} kr
-                            </span>
-                        </div>
-                    </div>
-                    <button
-                        className="mt-4 w-full cursor-pointer rounded-full bg-gray-900 py-2.5 text-xs font-medium uppercase tracking-wider text-white transition-opacity duration-300 hover:opacity-80"
-                        onClick={() => {
-                            onClose();
-                            navigate("/Checkout");
-                        }}
-                    >
-                        {t("cart.checkout")}
-                    </button>
-                </>
-            )}
-        </div>
+        </div>,
+        document.body,
     );
 };

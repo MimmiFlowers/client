@@ -1,7 +1,12 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
-import ProductFilter from "../../components/ProductFilter/ProductFilter";
+import ProductFilter, {
+    SortSelect,
+} from "../../components/ProductFilter/ProductFilter";
+import { ProductCardSkeleton } from "../../components/ProductCard/ProductCard";
+import { CloseIcon, FiltersIcon } from "../../components/Icons/Icons";
+import { useOverlay } from "../../hooks/useOverlay";
 import ProductList from "../../components/ProductList/ProductList";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import api, { registerReloadOnLanguageChange } from "../../api/api";
@@ -141,26 +146,46 @@ const ProductListPage = () => {
         return result;
     }, [products, selectedCollections, selectedCategories, sort]);
 
-    // Lock body scroll when mobile filters open
-    useEffect(() => {
-        if (mobileFiltersOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-        return () => {
-            document.body.style.overflow = "";
-        };
-    }, [mobileFiltersOpen]);
-
     const activeFilterCount =
         selectedCollections.length + selectedCategories.length;
 
+    const closeFilters = useCallback(() => setMobileFiltersOpen(false), []);
+    const sheetRef = useOverlay<HTMLDivElement>(mobileFiltersOpen, closeFilters);
+
+    const activeChips = [
+        ...selectedCollections.map((value) => ({
+            value,
+            label: t(`catalog.collection.${value}`, { defaultValue: value }),
+            remove: () =>
+                handleCollectionChange(
+                    selectedCollections.filter((c) => c !== value),
+                ),
+        })),
+        ...selectedCategories.map((value) => ({
+            value,
+            label: t(`catalog.category.${value}`, { defaultValue: value }),
+            remove: () =>
+                handleCategoryChange(
+                    selectedCategories.filter((c) => c !== value),
+                ),
+        })),
+    ];
+
+    const filterProps = {
+        selectedCollections,
+        selectedCategories,
+        onCollectionChange: handleCollectionChange,
+        onCategoryChange: handleCategoryChange,
+        sort,
+        onSortChange: setSort,
+        resultCount: filteredProducts.length,
+        onClearAll: handleClearAll,
+    };
+
     return (
-        <div className="flex w-full flex-col pb-12 md:pb-16">
+        <div className="w-full">
             <title>{t("seo.catalog_title")}</title>
 
-            {/* Breadcrumb */}
             <Breadcrumb
                 items={[
                     { label: t("breadcrumbs.home"), to: "/" },
@@ -168,132 +193,142 @@ const ProductListPage = () => {
                 ]}
             />
 
-            {/* Page title */}
-            <div className="mx-auto mt-4 w-[95%] sm:w-[90%] md:mt-6 md:w-[75%]">
-                <div className="flex items-center gap-4">
-                    <div className="h-px flex-1 bg-gray-200" />
-                    <h1 className="text-center text-2xl font-semibold uppercase tracking-wider text-gray-800 sm:text-3xl md:text-4xl">
+            {/* Title */}
+            <header className="container-luxe mt-6 md:mt-10">
+                <div className="flex flex-col gap-4 border-b border-line pb-8 md:flex-row md:items-end md:justify-between md:pb-12">
+                    <h1 className="animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-8xl">
                         {t("catalog.title")}
                     </h1>
-                    <div className="h-px flex-1 bg-gray-200" />
+                    <p
+                        className="max-w-sm animate-rise text-[15px] leading-relaxed text-ink-soft md:text-right"
+                        style={{ animationDelay: "120ms" }}
+                    >
+                        {t("catalog.subtitle")}
+                    </p>
+                </div>
+            </header>
+
+            {/* Mobile toolbar */}
+            <div className="sticky top-24 z-30 border-b md:top-28 border-line bg-blush/90 backdrop-blur-xl lg:hidden">
+                <div className="container-luxe flex h-14 items-center justify-between gap-4">
+                    <button
+                        type="button"
+                        onClick={() => setMobileFiltersOpen(true)}
+                        aria-expanded={mobileFiltersOpen}
+                        className="flex min-h-11 cursor-pointer items-center gap-2.5 text-[12px] font-medium tracking-[0.16em] uppercase"
+                    >
+                        <FiltersIcon className="h-5 w-5" />
+                        {t("catalog.filters")}
+                        {activeFilterCount > 0 && (
+                            <span className="price flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] tracking-normal">
+                                {activeFilterCount}
+                            </span>
+                        )}
+                    </button>
+                    <label className="sr-only" htmlFor="catalog-sort-mobile">
+                        {t("catalog.sort_label")}
+                    </label>
+                    <SortSelect
+                        id="catalog-sort-mobile"
+                        value={sort}
+                        onChange={setSort}
+                        className="w-44 [&_select]:border-0 [&_select]:text-right [&_select]:text-[13px]"
+                    />
                 </div>
             </div>
 
-            {/* Mobile filter toggle button */}
-            <div className="mx-auto mt-4 flex w-[95%] sm:w-[90%] md:hidden">
-                <button
-                    onClick={() => setMobileFiltersOpen(true)}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
-                >
-                    <svg
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-                        />
-                    </svg>
-                    {t("catalog.filters")}
-                    {activeFilterCount > 0 && (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#edc7f5] text-xs font-bold text-gray-800">
-                            {activeFilterCount}
-                        </span>
-                    )}
-                </button>
-            </div>
+            {/* Active filters (mobile) */}
+            {activeChips.length > 0 && (
+                <div className="no-scrollbar container-luxe flex gap-2 overflow-x-auto pt-5 lg:hidden">
+                    {activeChips.map((chip) => (
+                        <button
+                            key={chip.value + chip.label}
+                            type="button"
+                            onClick={chip.remove}
+                            className="flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-line-strong bg-surface py-1 pr-2.5 pl-4 text-[13px]"
+                        >
+                            {chip.label}
+                            <CloseIcon className="h-3.5 w-3.5" />
+                        </button>
+                    ))}
+                </div>
+            )}
 
-            {/* Main content: sidebar + grid */}
-            <div className="mx-auto mt-6 flex w-[95%] gap-8 sm:w-[90%] md:w-[75%] lg:gap-12">
+            <div className="container-luxe mt-8 grid gap-10 md:mt-12 lg:grid-cols-12 lg:gap-12">
                 {/* Desktop sidebar */}
-                <aside className="hidden w-60 flex-shrink-0 md:block">
-                    <div className="sticky top-20">
-                        <ProductFilter
-                            selectedCollections={selectedCollections}
-                            selectedCategories={selectedCategories}
-                            onCollectionChange={handleCollectionChange}
-                            onCategoryChange={handleCategoryChange}
-                            sort={sort}
-                            onSortChange={setSort}
-                            resultCount={filteredProducts.length}
-                            onClearAll={handleClearAll}
-                        />
+                <aside className="hidden lg:col-span-3 lg:block">
+                    <div className="sticky top-36">
+                        <ProductFilter {...filterProps} />
                     </div>
                 </aside>
 
-                {/* Product grid */}
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 lg:col-span-9">
                     {loading && <CatalogSkeleton />}
                     {error && (
-                        <p className="w-full py-16 text-center text-red-500">
+                        <p className="py-16 text-center text-danger" role="alert">
                             {error}
                         </p>
                     )}
                     {!loading && !error && (
-                        <ProductList products={filteredProducts} />
+                        <ProductList
+                            products={filteredProducts}
+                            onClearAll={handleClearAll}
+                        />
                     )}
                 </div>
             </div>
 
-            {/* Mobile filter drawer — backdrop */}
-            {mobileFiltersOpen && (
+            {/* Mobile filter sheet */}
+            <div
+                className={`fixed inset-0 z-50 lg:hidden ${mobileFiltersOpen ? "" : "pointer-events-none"}`}
+                inert={!mobileFiltersOpen}
+            >
                 <div
-                    className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-xs transition-opacity md:hidden"
-                    onClick={() => setMobileFiltersOpen(false)}
+                    className={`absolute inset-0 bg-ink/30 transition-opacity duration-500 ${
+                        mobileFiltersOpen ? "opacity-100" : "opacity-0"
+                    }`}
+                    onClick={closeFilters}
                     aria-hidden="true"
                 />
-            )}
-
-            {/* Mobile filter drawer — panel */}
-            <div
-                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[#FFF0F5] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
-                    mobileFiltersOpen
-                        ? "translate-x-0"
-                        : "-translate-x-full"
-                }`}
-            >
-                {/* Drawer header */}
-                <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
-                    <h2 className="text-lg font-semibold uppercase tracking-wider text-gray-800">
-                        {t("catalog.filters")}
-                    </h2>
-                    <button
-                        onClick={() => setMobileFiltersOpen(false)}
-                        className="cursor-pointer rounded-lg p-1 text-gray-500 transition-colors hover:text-black"
-                        aria-label="Close filters"
-                    >
-                        <svg
-                            className="h-6 w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
+                <div
+                    ref={sheetRef}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={t("catalog.filters")}
+                    className={`absolute inset-x-0 bottom-0 flex max-h-[88dvh] flex-col rounded-t-[1.75rem] bg-surface transition-[transform,visibility] duration-700 ease-drawer ${
+                        mobileFiltersOpen
+                            ? "visible translate-y-0"
+                            : "invisible translate-y-full"
+                    }`}
+                >
+                    <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-line-strong" />
+                    <div className="flex items-center justify-between px-5 pt-3 pb-2">
+                        <h2 className="font-display text-2xl">
+                            {t("catalog.filters")}
+                        </h2>
+                        <button
+                            type="button"
+                            onClick={closeFilters}
+                            className="-mr-2.5 flex h-11 w-11 cursor-pointer items-center justify-center"
+                            aria-label={t("catalog.close_filters")}
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
-                    </button>
-                </div>
-
-                {/* Drawer content */}
-                <div className="flex-1 overflow-y-auto px-5 py-4">
-                    <ProductFilter
-                        selectedCollections={selectedCollections}
-                        selectedCategories={selectedCategories}
-                        onCollectionChange={handleCollectionChange}
-                        onCategoryChange={handleCategoryChange}
-                        sort={sort}
-                        onSortChange={setSort}
-                        resultCount={filteredProducts.length}
-                        onClearAll={handleClearAll}
-                    />
+                            <CloseIcon className="h-6 w-6" />
+                        </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto overscroll-contain px-5">
+                        <ProductFilter {...filterProps} showSort={false} />
+                    </div>
+                    <div className="border-t border-line px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+                        <button
+                            type="button"
+                            onClick={closeFilters}
+                            className="price flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-ink text-[12px] font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
+                        >
+                            {t("catalog.show_results", {
+                                count: filteredProducts.length,
+                            })}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -302,13 +337,9 @@ const ProductListPage = () => {
 
 /** Skeleton grid shown while products are loading */
 const CatalogSkeleton = () => (
-    <div className="grid w-full animate-pulse grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-14 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i}>
-                <div className="aspect-[3/4] w-full rounded-xl bg-gray-200" />
-                <div className="mt-3 h-4 w-3/4 rounded bg-gray-200" />
-                <div className="mt-1.5 h-4 w-1/3 rounded bg-gray-200" />
-            </div>
+            <ProductCardSkeleton key={i} />
         ))}
     </div>
 );

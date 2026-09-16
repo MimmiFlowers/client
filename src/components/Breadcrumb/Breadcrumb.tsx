@@ -3,41 +3,30 @@ import type { BreadcrumbProps } from "../../types/types";
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
     return (
-        <nav
-            aria-label="Breadcrumb"
-            className="mx-auto mt-6 flex w-[95%] flex-wrap items-center gap-1.5 text-sm text-gray-500 sm:w-[90%] sm:text-base md:mt-8 md:w-[75%]"
-        >
-            {items.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-1.5">
-                    {idx > 0 && (
-                        <svg
-                            className="h-3.5 w-3.5 flex-shrink-0 text-gray-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
-                    )}
-                    {item.to ? (
-                        <Link
-                            to={item.to}
-                            className="transition-colors duration-200 hover:text-black hover:underline"
-                        >
-                            {item.label}
-                        </Link>
-                    ) : (
-                        <span className="font-medium text-gray-900">
-                            {item.label}
-                        </span>
-                    )}
-                </div>
-            ))}
+        <nav aria-label="Breadcrumb" className="container-luxe pt-6 md:pt-10">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium tracking-[0.16em] text-muted uppercase">
+                {items.map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                        {idx > 0 && (
+                            <span className="text-line-strong" aria-hidden="true">
+                                /
+                            </span>
+                        )}
+                        {item.to ? (
+                            <Link
+                                to={item.to}
+                                className="py-1 transition-colors duration-300 hover:text-ink"
+                            >
+                                {item.label}
+                            </Link>
+                        ) : (
+                            <span aria-current="page" className="py-1 text-ink">
+                                {item.label}
+                            </span>
+                        )}
+                    </li>
+                ))}
+            </ol>
         </nav>
     );
 };

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { useTranslation } from "react-i18next";
 import Header from "./layout/Header/Header";
 import Footer from "./layout/Footer/Footer";
 import LandingPage from "./pages/LandingPage/LandingPage";
@@ -13,10 +14,18 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import PrivacyPage from "./pages/PrivacyPage/PrivacyPage";
 
 const App = () => {
+    const { t } = useTranslation();
+
     return (
-        <div className="flex min-h-screen w-full flex-col overflow-x-hidden">
+        <div className="relative flex min-h-dvh w-full flex-col overflow-x-clip">
+            <a
+                href="#main"
+                className="fixed top-2 left-2 z-[60] -translate-y-24 rounded-full bg-ink px-5 py-3 text-sm text-blush focus:translate-y-0"
+            >
+                {t("menu.skip_to_content")}
+            </a>
             <Header />
-            <main className="flex-1 pt-16">
+            <main id="main" className="flex-1 pt-24 md:pt-28">
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/Catalog" element={<ProductListPage />} />

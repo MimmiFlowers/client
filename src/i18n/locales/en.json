@@ -2,13 +2,19 @@
     "specials": {
         "favorite": "Favorite",
         "season": "Season",
-        "show_all": "Show All"
+        "show_all": "Show All",
+        "favorite_title": "Most loved",
+        "season_title": "In season now"
     },
     "menu": {
         "catalog": "Catalog",
         "about": "About Us",
         "contact": "Contact",
-        "language": "Language"
+        "language": "Language",
+        "open": "Open menu",
+        "close": "Close menu",
+        "skip_to_content": "Skip to content",
+        "title": "Menu"
     },
     "buttons": {
         "add_to_cart": "Add to Cart",
@@ -31,7 +37,8 @@
         "added_to_cart": "Added!",
         "free_delivery": "Free delivery on orders over 999 kr",
         "you_may_also_like": "You May Also Like",
-        "sku_label": "SKU"
+        "sku_label": "SKU",
+        "quantity": "Quantity"
     },
     "cart": {
         "your_cart": "Your Cart",
@@ -43,7 +50,15 @@
         "free_delivery": "Free",
         "free_delivery_hint": "Free delivery on orders over 999 kr",
         "total": "Total",
-        "checkout": "Go to Checkout"
+        "checkout": "Go to Checkout",
+        "open": "Shopping bag, {{count}} items",
+        "close": "Close shopping bag",
+        "remove": "Remove",
+        "continue_shopping": "Continue shopping",
+        "free_delivery_progress": "Add {{amount}} kr more for free delivery",
+        "free_delivery_unlocked": "Your order qualifies for free delivery",
+        "decrease": "Decrease quantity of {{name}}",
+        "increase": "Increase quantity of {{name}}"
     },
     "collections": {
         "title": "Our Collections"
@@ -104,7 +119,9 @@
             "payment_redirect": "Payment redirect failed",
             "checkout_session": "Failed to create checkout session. Please try again.",
             "unexpected": "An unexpected error occurred. Please try again."
-        }
+        },
+        "show_summary": "Show order summary",
+        "step_of": "Step {{step}}"
     },
     "success": {
         "verifying": "Verifying your order...",
@@ -151,7 +168,7 @@
         "phone_value": "+46 76-006 78 38",
         "phone_href": "tel:+46760067838",
         "hours_label": "Opening Hours",
-        "hours_value": "Mon\u2013Fri 08:00\u201318:00, Sat 10:00\u201316:00",
+        "hours_value": "Mon–Fri 08:00–18:00, Sat 10:00–16:00",
         "visit_us": "Visit Us",
         "get_in_touch": "Get in Touch",
         "follow_us": "Follow Us",
@@ -186,7 +203,7 @@
         "sort_default": "Default",
         "sort_price_asc": "Price: Low to High",
         "sort_price_desc": "Price: High to Low",
-        "sort_name_asc": "Name: A \u2013 Z",
+        "sort_name_asc": "Name: A – Z",
         "collection_section": "Collection",
         "category_section": "Category",
         "collection": {
@@ -200,7 +217,10 @@
         "category": {
             "favorite": "Favorite",
             "season": "Season"
-        }
+        },
+        "subtitle": "Hand-tied bouquets, boxes and gifts, delivered across Stockholm.",
+        "show_results": "Show {{count}} results",
+        "close_filters": "Close filters"
     },
     "footer": {
         "tagline": "Hand-tied bouquets for every occasion, delivered across Stockholm.",
@@ -241,5 +261,18 @@
         "monobouquets": "Monobouquets",
         "birthday": "Birthday",
         "romantic": "Romantic"
+    },
+    "home": {
+        "hero_eyebrow": "Florist in Stockholm",
+        "hero_title": "Flowers, tied by hand.",
+        "hero_caption": "This week in the studio",
+        "promise_1_title": "Tied by hand",
+        "promise_1_text": "Our florists arrange every bouquet stem by stem in Stockholm.",
+        "promise_2_title": "Delivered to the door",
+        "promise_2_text": "Pick a date and a time between 08:00 and 22:00 anywhere in Stockholm.",
+        "promise_3_title": "Free delivery from 999 kr",
+        "promise_3_text": "Delivery costs 99 kr and is free on orders of 999 kr or more.",
+        "story_cta": "About the studio",
+        "collections_text": "Find the right bouquet by style, from single-variety bunches to gift boxes."
     }
 }
