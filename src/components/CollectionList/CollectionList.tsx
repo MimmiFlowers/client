@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import api from "../../api/api";
 import type { CollectionMini } from "../../types/types";
 import CollectionCard from "../CollectionCard/CollectionCard";
 import Reveal from "../Reveal/Reveal";
+import { ArrowRightIcon } from "../Icons/Icons";
 
 const CollectionList = () => {
     const [collectionsMini, setCollectionsMini] = useState<CollectionMini[]>(
@@ -11,7 +13,6 @@ const CollectionList = () => {
     );
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [active, setActive] = useState(0);
     const { t } = useTranslation();
 
     const fetchCollectionsMini = async () => {
@@ -32,75 +33,59 @@ const CollectionList = () => {
         fetchCollectionsMini();
     }, []);
 
-    const preview = collectionsMini[active];
-
     return (
         <section
-            className="container-luxe mt-24 md:mt-36"
+            className="mt-24 bg-blush-deep py-20 md:mt-36 md:py-28"
             aria-labelledby="collections-title"
         >
-            <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-                {/* Intro + live preview */}
-                <div className="lg:col-span-5">
-                    <div className="lg:sticky lg:top-36">
-                        <Reveal>
-                            <h2
-                                id="collections-title"
-                                className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
-                            >
-                                {t("collections.title")}
-                            </h2>
-                            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-ink-soft">
-                                {t("home.collections_text")}
-                            </p>
-                        </Reveal>
-
-                        <div className="mt-10 hidden aspect-[4/5] max-w-[17rem] overflow-hidden rounded-t-full bg-blush-deep lg:block">
-                            {preview && (
-                                <img
-                                    key={preview.name}
-                                    src={preview.picture}
-                                    alt=""
-                                    loading="lazy"
-                                    className="h-full w-full animate-fade object-cover"
-                                />
-                            )}
-                        </div>
-                    </div>
+            <Reveal className="container-luxe flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+                <div>
+                    <h2
+                        id="collections-title"
+                        className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+                    >
+                        {t("collections.title")}
+                    </h2>
+                    <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ink-soft">
+                        {t("home.collections_text")}
+                    </p>
                 </div>
+                <Link
+                    to="/Catalog"
+                    className="group inline-flex min-h-11 items-center gap-3 text-[12px] font-medium tracking-[0.16em] text-ink uppercase"
+                >
+                    <span className="border-b border-ink/30 pb-1 transition-colors duration-300 group-hover:border-ink">
+                        {t("specials.show_all")}
+                    </span>
+                    <ArrowRightIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:translate-x-1" />
+                </Link>
+            </Reveal>
 
-                {/* Index */}
-                <div className="lg:col-span-7">
-                    {error && (
-                        <p className="py-8 text-sm text-danger" role="alert">
-                            {error}
-                        </p>
-                    )}
-                    <div className="border-t border-line">
-                        {loading &&
-                            Array.from({ length: 5 }).map((_, i) => (
-                                <div
-                                    key={i}
-                                    className="flex items-center gap-5 border-b border-line py-7"
-                                    aria-hidden="true"
-                                >
-                                    <div className="h-8 w-2/3 animate-shimmer rounded-full bg-blush-deep" />
-                                </div>
-                            ))}
-                        {!loading &&
-                            !error &&
-                            collectionsMini.map((collectionMini, i) => (
-                                <Reveal key={collectionMini.name} delay={i * 60}>
-                                    <CollectionCard
-                                        collectionMini={collectionMini}
-                                        position={i + 1}
-                                        onActivate={() => setActive(i)}
-                                    />
-                                </Reveal>
-                            ))}
-                    </div>
-                </div>
-            </div>
+            {error ? (
+                <p className="container-luxe mt-10 text-sm text-danger" role="alert">
+                    {error}
+                </p>
+            ) : (
+                <Reveal
+                    delay={120}
+                    className="container-luxe mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-3 sm:gap-5"
+                >
+                    {loading
+                        ? Array.from({ length: 6 }).map((_, i) => (
+                              <div
+                                  key={i}
+                                  className="aspect-[4/5] animate-shimmer rounded-[2px] bg-blush"
+                                  aria-hidden="true"
+                              />
+                          ))
+                        : collectionsMini.map((collectionMini) => (
+                              <CollectionCard
+                                  key={collectionMini.name}
+                                  collectionMini={collectionMini}
+                              />
+                          ))}
+                </Reveal>
+            )}
         </section>
     );
 };

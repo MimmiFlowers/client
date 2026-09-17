@@ -74,7 +74,11 @@
         "slide2_cta": "Shop Season",
         "slide3_title": "Free Delivery",
         "slide3_subtitle": "On all orders over 999 kr",
-        "slide3_cta": "Browse Catalog"
+        "slide3_cta": "Browse Catalog",
+        "aria_label": "Highlights",
+        "previous": "Previous slide",
+        "next": "Next slide",
+        "go_to_slide": "Go to slide {{n}}"
     },
     "checkout": {
         "page_title": "Checkout",
@@ -264,7 +268,6 @@
     },
     "home": {
         "hero_title": "Flowers, tied by hand.",
-        "hero_caption": "This week in the studio",
         "promise_1_title": "Tied by hand",
         "promise_1_text": "Our florists arrange every bouquet stem by stem in Stockholm.",
         "promise_2_title": "Delivered to the door",
@@ -273,7 +276,8 @@
         "promise_3_text": "Delivery costs 99 kr and is free on orders of 999 kr or more.",
         "story_cta": "About the studio",
         "collections_text": "Find the right bouquet by style, from single-variety bunches to gift boxes.",
-        "hero_eyebrow": "Florist in Stockholm"
+        "hero_eyebrow": "Florist in Stockholm",
+        "hero_caption": "Hand-tied bouquets in the Mimmi Flowers studio"
     },
     "nav": {
         "main": "Main",

@@ -74,7 +74,11 @@
         "slide2_cta": "Handla Säsong",
         "slide3_title": "Fri Leverans",
         "slide3_subtitle": "På alla beställningar över 999 kr",
-        "slide3_cta": "Bläddra i Katalogen"
+        "slide3_cta": "Bläddra i Katalogen",
+        "aria_label": "Höjdpunkter",
+        "previous": "Föregående bild",
+        "next": "Nästa bild",
+        "go_to_slide": "Gå till bild {{n}}"
     },
     "checkout": {
         "page_title": "Kassan",
@@ -264,7 +268,6 @@
     },
     "home": {
         "hero_title": "Blommor, bundna för hand.",
-        "hero_caption": "Veckans blommor i ateljén",
         "promise_1_title": "Bundna för hand",
         "promise_1_text": "Våra florister binder varje bukett, stjälk för stjälk, i Stockholm.",
         "promise_2_title": "Levererat till dörren",
@@ -273,7 +276,8 @@
         "promise_3_text": "Leveransen kostar 99 kr och är gratis för beställningar från 999 kr.",
         "story_cta": "Om ateljén",
         "collections_text": "Hitta rätt bukett efter stil, från enkla buketter till presentlådor.",
-        "hero_eyebrow": "Florist i Stockholm"
+        "hero_eyebrow": "Florist i Stockholm",
+        "hero_caption": "Handbundna buketter i Mimmi Flowers ateljé"
     },
     "nav": {
         "main": "Huvudmeny",
