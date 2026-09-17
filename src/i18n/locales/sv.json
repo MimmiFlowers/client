@@ -61,7 +61,17 @@
         "increase": "Öka antal av {{name}}"
     },
     "collections": {
-        "title": "Våra Kollektioner"
+        "title": "Våra Kollektioner",
+        "view": "Visa",
+        "from_price": "Från {{price}} kr",
+        "desc": {
+            "season": "Plockade när säsongen är som bäst",
+            "mono bouquets": "En sort, arrangerad i mängd",
+            "duo bouquets": "Två blomsorter i balans",
+            "author": "Signaturarbeten från våra florister",
+            "boxes and baskets": "Arrangerade i hattaskar och korgar",
+            "gifts": "Blommor med något extra"
+        }
     },
     "welcome": {
         "title": "Välkommen!"

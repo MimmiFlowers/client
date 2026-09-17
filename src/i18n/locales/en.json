@@ -61,7 +61,17 @@
         "increase": "Increase quantity of {{name}}"
     },
     "collections": {
-        "title": "Our Collections"
+        "title": "Our Collections",
+        "view": "View",
+        "from_price": "From {{price}} kr",
+        "desc": {
+            "season": "Picked at the height of the season",
+            "mono bouquets": "One variety, arranged in quantity",
+            "duo bouquets": "Two kinds of flower in balance",
+            "author": "Signature work from our florists",
+            "boxes and baskets": "Arranged in hat boxes and baskets",
+            "gifts": "Flowers with something extra"
+        }
     },
     "welcome": {
         "title": "Welcome!"

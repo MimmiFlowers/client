@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import api from "../../api/api";
-import type { CollectionMini } from "../../types/types";
+import type { CollectionMini, Product } from "../../types/types";
 import CollectionCard from "../CollectionCard/CollectionCard";
 import Reveal from "../Reveal/Reveal";
 import { ArrowRightIcon } from "../Icons/Icons";
@@ -11,6 +11,7 @@ const CollectionList = () => {
     const [collectionsMini, setCollectionsMini] = useState<CollectionMini[]>(
         [],
     );
+    const [fromPrices, setFromPrices] = useState<Record<string, number>>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const { t } = useTranslation();
@@ -29,8 +30,25 @@ const CollectionList = () => {
         }
     };
 
+    /** "From N kr" per collection. Non-critical: stays hidden if it fails. */
+    const fetchFromPrices = async () => {
+        try {
+            const response = await api.get("/data/products");
+            const lowest: Record<string, number> = {};
+            for (const product of (response.data.products ?? []) as Product[]) {
+                const key = product.collection?.toLowerCase();
+                if (!key) continue;
+                lowest[key] = Math.min(lowest[key] ?? Infinity, product.price);
+            }
+            setFromPrices(lowest);
+        } catch {
+            // No price line, nothing else changes.
+        }
+    };
+
     useEffect(() => {
         fetchCollectionsMini();
+        fetchFromPrices();
     }, []);
 
     return (
@@ -68,13 +86,13 @@ const CollectionList = () => {
             ) : (
                 <Reveal
                     delay={120}
-                    className="container-luxe mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-3 sm:gap-5"
+                    className="container-luxe mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:gap-6"
                 >
                     {loading
-                        ? Array.from({ length: 6 }).map((_, i) => (
+                        ? Array.from({ length: 4 }).map((_, i) => (
                               <div
                                   key={i}
-                                  className="aspect-[4/5] animate-shimmer rounded-[2px] bg-blush"
+                                  className="aspect-[16/10] animate-shimmer rounded-[2px] bg-blush sm:aspect-[3/2]"
                                   aria-hidden="true"
                               />
                           ))
@@ -82,6 +100,11 @@ const CollectionList = () => {
                               <CollectionCard
                                   key={collectionMini.name}
                                   collectionMini={collectionMini}
+                                  fromPrice={
+                                      fromPrices[
+                                          collectionMini.name.toLowerCase()
+                                      ]
+                                  }
                               />
                           ))}
                 </Reveal>
