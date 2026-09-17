@@ -4,13 +4,10 @@ import TituleBlock from "../../components/TituleBlock/TituleBlock";
 import Specials from "../../components/Specials/Specials";
 import CollectionList from "../../components/CollectionList/CollectionList";
 import Reveal from "../../components/Reveal/Reveal";
-import { SOCIAL_LINKS } from "../../layout/navigation";
 import {
     ArrowRightIcon,
     GiftIcon,
     HandIcon,
-    InstagramIcon,
-    TikTokIcon,
     TruckIcon,
 } from "../../components/Icons/Icons";
 
@@ -86,40 +83,6 @@ const LandingPage = () => {
                             </span>
                             <ArrowRightIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:translate-x-1" />
                         </Link>
-                    </div>
-                </Reveal>
-            </section>
-
-            {/* Follow */}
-            <section className="container-luxe mt-24 md:mt-32">
-                <Reveal className="flex flex-col items-start gap-8 border-t border-line pt-12 sm:flex-row sm:items-end sm:justify-between md:pt-16">
-                    <div>
-                        <h2 className="font-display text-[2rem] leading-tight tracking-[-0.02em] sm:text-4xl">
-                            {t("contact.follow_us")}
-                        </h2>
-                        <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink-soft">
-                            {t("contact.follow_us_text")}
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <a
-                            href={SOCIAL_LINKS.instagram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Instagram"
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
-                        >
-                            <InstagramIcon />
-                        </a>
-                        <a
-                            href={SOCIAL_LINKS.tiktok}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="TikTok"
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
-                        >
-                            <TikTokIcon className="h-[1.1rem] w-[1.1rem]" />
-                        </a>
                     </div>
                 </Reveal>
             </section>

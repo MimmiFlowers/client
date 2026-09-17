@@ -23,24 +23,24 @@ const Footer = () => {
                         <p className="mt-6 max-w-xs text-[15px] leading-relaxed text-ink-soft">
                             {t("footer.tagline")}
                         </p>
-                        <div className="mt-6 -ml-3 flex items-center">
+                        <div className="mt-7 flex items-center gap-3">
                             <a
                                 href={SOCIAL_LINKS.instagram}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"
-                                className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors duration-300 hover:text-ink"
+                                className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
                             >
-                                <InstagramIcon />
+                                <InstagramIcon className="h-[1.35rem] w-[1.35rem]" />
                             </a>
                             <a
                                 href={SOCIAL_LINKS.tiktok}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="TikTok"
-                                className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors duration-300 hover:text-ink"
+                                className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
                             >
-                                <TikTokIcon className="h-[1.1rem] w-[1.1rem]" />
+                                <TikTokIcon className="h-[1.2rem] w-[1.2rem]" />
                             </a>
                         </div>
                     </div>
