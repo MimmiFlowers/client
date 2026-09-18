@@ -8,6 +8,7 @@
     },
     "menu": {
         "catalog": "Katalog",
+        "wreath": "Bygg en julkrans",
         "about": "Om Oss",
         "contact": "Kontakta Oss",
         "language": "Språk",
@@ -197,7 +198,8 @@
         "success_title": "Beställning bekräftad — Mimmi Flowers",
         "cancel_title": "Betalningen avbruten — Mimmi Flowers",
         "not_found_title": "Sidan hittades inte — Mimmi Flowers",
-        "privacy_title": "Integritetspolicy — Mimmi Flowers"
+        "privacy_title": "Integritetspolicy — Mimmi Flowers",
+        "wreath_title": "Bygg din julkrans — Mimmi Flowers"
     },
     "loading": "Laddar...",
     "errors": {
@@ -287,10 +289,44 @@
         "story_cta": "Om ateljén",
         "collections_text": "Hitta rätt bukett efter stil, från enkla buketter till presentlådor.",
         "hero_eyebrow": "Florist i Stockholm",
-        "hero_caption": "Handbundna buketter i Mimmi Flowers ateljé"
+        "hero_caption": "Handbundna buketter i Mimmi Flowers ateljé",
+        "wreath_title": "Designa din egen julkrans",
+        "wreath_text": "Välj storlek, grönska, band och dina favoritdekorationer. Vi binder den för hand och levererar hem till dörren.",
+        "wreath_cta": "Börja bygga"
     },
     "nav": {
         "main": "Huvudmeny",
         "breadcrumb": "Brödsmulor"
+    },
+    "wreath": {
+        "title": "Bygg din egen julkrans",
+        "intro": "Välj storlek och material, lägg till ett band om du vill, och tryck sedan på en dekoration och på en plats på kransen för att placera den. Vi binder kransen för hand precis som du har designat den.",
+        "step_size": "Storlek",
+        "step_material": "Material",
+        "step_band": "Band",
+        "step_decorations": "Dekorationer",
+        "size_meta": "{{cm}} cm · {{slots}} platser",
+        "band_none": "Inget band",
+        "included": "Ingår",
+        "plus_price": "+{{price}} kr",
+        "each": "{{price}} kr/st",
+        "stage_label": "Förhandsvisning av kransen",
+        "slot_empty": "Plats {{n}}, tom",
+        "slot_filled": "Plats {{n}}, {{name}}",
+        "tray_hint": "Tryck på en dekoration nedan och sedan på en plats på kransen. Du kan också dra den till kransen.",
+        "armed_hint": "{{name}} vald. Tryck på en plats på kransen för att placera den, eller tryck på dekorationen igen för att avmarkera.",
+        "placed": "{{name}} placerad på plats {{n}}.",
+        "removed": "Plats {{n}} tömd.",
+        "remove_from_slot": "Ta bort {{name}} från plats {{n}}",
+        "dropped_notice": "{{count}} dekoration(er) togs bort eftersom den mindre kransen har färre platser.",
+        "summary_base": "Krans",
+        "summary_band": "Band",
+        "summary_decorations": "Dekorationer",
+        "total": "Totalt",
+        "cart_name": "Egen julkrans",
+        "image_warning": "Vi kunde inte skapa en bild av din krans, men dina val har sparats och butiken får hela listan.",
+        "load_error": "Det gick inte att ladda kransbyggaren. Försök igen senare.",
+        "retry": "Försök igen",
+        "submit_error": "Kransen kunde inte läggas i varukorgen. Försök igen."
     }
 }

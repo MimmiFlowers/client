@@ -1,6 +1,7 @@
 /** Primary navigation, shared by the desktop header, mobile menu and footer. */
 export const navLinks = [
     { to: "/Catalog", key: "menu.catalog" },
+    { to: "/Wreath", key: "menu.wreath" },
     { to: "/About", key: "menu.about" },
     { to: "/Contact", key: "menu.contact" },
 ] as const;

@@ -8,6 +8,7 @@
     },
     "menu": {
         "catalog": "Catalog",
+        "wreath": "Wreath builder",
         "about": "About Us",
         "contact": "Contact",
         "language": "Language",
@@ -197,7 +198,8 @@
         "success_title": "Order Confirmed — Mimmi Flowers",
         "cancel_title": "Payment Cancelled — Mimmi Flowers",
         "not_found_title": "Page Not Found — Mimmi Flowers",
-        "privacy_title": "Privacy Policy — Mimmi Flowers"
+        "privacy_title": "Privacy Policy — Mimmi Flowers",
+        "wreath_title": "Build your Christmas wreath — Mimmi Flowers"
     },
     "loading": "Loading...",
     "errors": {
@@ -287,10 +289,44 @@
         "story_cta": "About the studio",
         "collections_text": "Find the right bouquet by style, from single-variety bunches to gift boxes.",
         "hero_eyebrow": "Florist in Stockholm",
-        "hero_caption": "Hand-tied bouquets in the Mimmi Flowers studio"
+        "hero_caption": "Hand-tied bouquets in the Mimmi Flowers studio",
+        "wreath_title": "Design your own Christmas wreath",
+        "wreath_text": "Pick the size, the greenery, a band and your favourite decorations. We tie it by hand and deliver it to your door.",
+        "wreath_cta": "Start building"
     },
     "nav": {
         "main": "Main",
         "breadcrumb": "Breadcrumb"
+    },
+    "wreath": {
+        "title": "Build your Christmas wreath",
+        "intro": "Choose the size and material, add a band if you like, then tap a decoration and tap a spot on the wreath to place it. We make it by hand exactly as you designed it.",
+        "step_size": "Size",
+        "step_material": "Material",
+        "step_band": "Band",
+        "step_decorations": "Decorations",
+        "size_meta": "{{cm}} cm · {{slots}} spots",
+        "band_none": "No band",
+        "included": "Included",
+        "plus_price": "+{{price}} kr",
+        "each": "{{price}} kr each",
+        "stage_label": "Wreath preview",
+        "slot_empty": "Spot {{n}}, empty",
+        "slot_filled": "Spot {{n}}, {{name}}",
+        "tray_hint": "Tap a decoration below, then tap a spot on the wreath. You can also drag it onto the wreath.",
+        "armed_hint": "{{name}} selected. Tap a spot on the wreath to place it, or tap the decoration again to deselect.",
+        "placed": "{{name}} placed in spot {{n}}.",
+        "removed": "Spot {{n}} cleared.",
+        "remove_from_slot": "Remove {{name}} from spot {{n}}",
+        "dropped_notice": "{{count}} decoration(s) were removed because the smaller wreath has fewer spots.",
+        "summary_base": "Wreath",
+        "summary_band": "Band",
+        "summary_decorations": "Decorations",
+        "total": "Total",
+        "cart_name": "Custom Christmas wreath",
+        "image_warning": "We could not create a picture of your wreath, but your choices were saved and the shop will receive the full list.",
+        "load_error": "Failed to load the wreath builder. Please try again later.",
+        "retry": "Try again",
+        "submit_error": "Could not add the wreath to your cart. Please try again."
     }
 }

@@ -12,6 +12,7 @@ import ContactPage from "./pages/ContactPage/ContactPage";
 import CancelPage from "./pages/CancelPage/CancelPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import PrivacyPage from "./pages/PrivacyPage/PrivacyPage";
+import WreathBuilderPage from "./pages/WreathBuilderPage/WreathBuilderPage";
 
 const App = () => {
     const { t } = useTranslation();
@@ -30,6 +31,7 @@ const App = () => {
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/Catalog" element={<ProductListPage />} />
                     <Route path="/Catalog/:id" element={<ProductPage />} />
+                    <Route path="/Wreath" element={<WreathBuilderPage />} />
                     <Route path="/Checkout" element={<CheckOutPage />} />
                     <Route
                         path="/Success/:orderID"
