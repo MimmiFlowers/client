@@ -276,6 +276,7 @@ export default function CheckoutPage() {
                 name: item.name,
                 price: Number(item.price) * 100,
                 quantity: item.quantity,
+                designID: item.designID,
             }));
 
             const response = await api.post("/stripe/create_checkout_session", {
@@ -336,6 +337,13 @@ export default function CheckoutPage() {
                                 <CloseIcon className="h-4 w-4" />
                             </button>
                         </div>
+                        {item.details && (
+                            <ul className="mt-1 space-y-0.5 text-xs leading-snug text-muted">
+                                {item.details.map((line) => (
+                                    <li key={line}>{line}</li>
+                                ))}
+                            </ul>
+                        )}
                         <div className="mt-auto flex items-center justify-between pt-2">
                             <div className="flex h-8 items-center rounded-full border border-line-strong">
                                 <button

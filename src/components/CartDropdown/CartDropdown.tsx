@@ -136,7 +136,11 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                         type="button"
                                         onClick={() => {
                                             onClose();
-                                            navigate(`/Catalog/${item.id}`);
+                                            navigate(
+                                                item.designID
+                                                    ? "/Wreath"
+                                                    : `/Catalog/${item.id}`,
+                                            );
                                         }}
                                         className="block h-28 w-22 shrink-0 cursor-pointer overflow-hidden rounded-[2px] bg-blush-deep"
                                         aria-label={item.name}
@@ -164,6 +168,13 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                             {item.price.toLocaleString("sv-SE")}{" "}
                                             {t("cart.pp")}
                                         </p>
+                                        {item.details && (
+                                            <ul className="mt-1 space-y-0.5 text-xs leading-snug text-muted">
+                                                {item.details.map((line) => (
+                                                    <li key={line}>{line}</li>
+                                                ))}
+                                            </ul>
+                                        )}
 
                                         <div className="mt-auto flex items-center justify-between pt-3">
                                             <div className="flex h-11 items-center rounded-full border border-line-strong">

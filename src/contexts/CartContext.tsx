@@ -6,6 +6,10 @@ export interface CartItem {
     picture: string;
     price: number;
     quantity: number;
+    /** Custom wreath: the stored design the server prices at checkout. */
+    designID?: string;
+    /** Extra lines shown under the name (e.g. wreath options). */
+    details?: string[];
 }
 
 interface StoredCart {

@@ -137,4 +137,42 @@ describe("CartContext", () => {
             renderHook(() => useCart());
         }).toThrow("useCart must be used within CartProvider");
     });
+
+    it("keeps two different custom wreaths as separate lines", () => {
+        const { result } = renderHook(() => useCart(), { wrapper });
+        act(() =>
+            result.current.addItem(
+                makeItem({
+                    id: "wreath-a",
+                    name: "Custom wreath",
+                    designID: "a",
+                    details: ["Small 25 cm · Fir"],
+                }),
+            ),
+        );
+        act(() =>
+            result.current.addItem(
+                makeItem({
+                    id: "wreath-b",
+                    name: "Custom wreath",
+                    designID: "b",
+                    details: ["Large 45 cm · Moss"],
+                }),
+            ),
+        );
+        expect(result.current.items).toHaveLength(2);
+        expect(result.current.items[0]!.designID).toBe("a");
+        expect(result.current.items[1]!.details).toEqual([
+            "Large 45 cm · Moss",
+        ]);
+    });
+
+    it("merges the same wreath design into one line with quantity 2", () => {
+        const { result } = renderHook(() => useCart(), { wrapper });
+        const wreath = makeItem({ id: "wreath-a", designID: "a" });
+        act(() => result.current.addItem(wreath));
+        act(() => result.current.addItem(wreath));
+        expect(result.current.items).toHaveLength(1);
+        expect(result.current.items[0]!.quantity).toBe(2);
+    });
 });
