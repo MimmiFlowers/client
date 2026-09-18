@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import TituleBlock from "../../components/TituleBlock/TituleBlock";
 import Specials from "../../components/Specials/Specials";
 import CollectionList from "../../components/CollectionList/CollectionList";
+import WreathPromo from "../../components/WreathPromo/WreathPromo";
 import Reveal from "../../components/Reveal/Reveal";
 import {
     ArrowRightIcon,
@@ -31,6 +32,8 @@ const LandingPage = () => {
             <Specials key="Season" setting="Season" />
 
             <CollectionList />
+
+            <WreathPromo />
 
             {/* Promises */}
             <section className="container-luxe mt-24 md:mt-32">
