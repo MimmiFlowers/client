@@ -132,6 +132,7 @@ export const useDragToSlot = (
         const cancel = () => {
             startRef.current = null;
             draggingRef.current = false;
+            endedDragRef.current = false;
             setGhost(null);
         };
 

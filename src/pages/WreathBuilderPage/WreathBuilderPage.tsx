@@ -204,6 +204,9 @@ const WreathBuilderPage = () => {
                 // Stay under the server's 500 KB cap (base64 is ~4/3 of the bytes).
                 if (image && image.length > 660_000)
                     image = await renderWreathPng(stageRef.current, 560);
+                // Still too big at 560px: post the design without a picture
+                // rather than let the server reject the whole order.
+                if (image && image.length > 660_000) image = null;
             }
             if (!image) setImageWarning(true);
             const response = await api.post<WreathDesignResponse>(
