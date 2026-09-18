@@ -59,6 +59,16 @@ describe("wreathReducer", () => {
         expect(d.dropped).toBe(2);
     });
 
+    it("clears the dropped notice on the next non-size interaction", () => {
+        let d = initialDesign(OPTIONS);
+        d = wreathReducer(d, { type: "setSize", code: "m", slotCount: 8 });
+        d = wreathReducer(d, { type: "place", slot: 7, code: "star" });
+        d = wreathReducer(d, { type: "setSize", code: "s", slotCount: 6 });
+        expect(d.dropped).toBe(1);
+        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        expect(d.dropped).toBe(0);
+    });
+
     it("is a no-op when the same size is chosen again", () => {
         const d = wreathReducer(initialDesign(OPTIONS), {
             type: "place",

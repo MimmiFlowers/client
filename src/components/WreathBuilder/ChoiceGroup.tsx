@@ -10,54 +10,59 @@ export interface Choice {
 
 interface Props {
     label: string;
+    /** Shared radio-group name; must be unique within the page. */
+    name: string;
     choices: Choice[];
     value: string | null;
     onChange: (code: string) => void;
 }
 
-const ChoiceGroup = ({ label, choices, value, onChange }: Props) => (
-    <div
-        role="radiogroup"
-        aria-label={label}
-        className="grid grid-cols-2 gap-3 sm:grid-cols-3"
-    >
-        {choices.map((choice) => {
-            const checked = choice.code === value;
-            return (
-                <button
-                    key={choice.code}
-                    type="button"
-                    role="radio"
-                    aria-checked={checked}
-                    onClick={() => onChange(choice.code)}
-                    className={`bg-surface flex min-h-11 cursor-pointer flex-col items-start gap-2 rounded-xl border p-3 text-left transition-[border-color,box-shadow] duration-300 ${
-                        checked
-                            ? "border-ink ring-primary/50 ring-4"
-                            : "border-line-strong hover:border-ink-soft"
-                    }`}
-                >
-                    {choice.image && (
-                        <img
-                            src={choice.image}
-                            alt=""
-                            className="h-14 w-14 object-contain"
+/*
+ * Real radios: the browser gives us arrow-key roving, form semantics and the
+ * checked state for free. The card is a sibling *after* the input so Tailwind's
+ * peer-* variants (a `~` combinator) can reach it from the label.
+ */
+const ChoiceGroup = ({ label, name, choices, value, onChange }: Props) => (
+    <fieldset>
+        <legend className="sr-only">{label}</legend>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {choices.map((choice) => {
+                const checked = choice.code === value;
+                return (
+                    <label key={choice.code} className="cursor-pointer">
+                        <input
+                            type="radio"
+                            name={name}
+                            value={choice.code}
+                            checked={checked}
+                            onChange={() => onChange(choice.code)}
+                            className="peer sr-only"
                         />
-                    )}
-                    <span className="text-[15px] leading-tight">
-                        {choice.name}
-                    </span>
-                    {choice.meta && (
-                        <span className="text-muted text-xs">
-                            {choice.meta}
+                        <span className="bg-surface border-line-strong peer-not-checked:hover:border-ink-soft peer-checked:border-ink peer-checked:ring-primary/50 peer-focus-visible:outline-ink flex min-h-11 flex-col items-start gap-2 rounded-xl border p-3 text-left transition-[border-color,box-shadow] duration-300 peer-checked:ring-4 peer-focus-visible:outline peer-focus-visible:outline-[1.5px] peer-focus-visible:outline-offset-3">
+                            {choice.image && (
+                                <img
+                                    src={choice.image}
+                                    alt=""
+                                    className="h-14 w-14 object-contain"
+                                />
+                            )}
+                            <span className="text-[15px] leading-tight">
+                                {choice.name}
+                            </span>
+                            {choice.meta && (
+                                <span className="text-muted text-xs">
+                                    {choice.meta}
+                                </span>
+                            )}
+                            <span className="price text-ink-soft text-xs">
+                                {choice.priceLabel}
+                            </span>
                         </span>
-                    )}
-                    <span className="price text-ink-soft text-xs">
-                        {choice.priceLabel}
-                    </span>
-                </button>
-            );
-        })}
-    </div>
+                    </label>
+                );
+            })}
+        </div>
+    </fieldset>
 );
 
 export default ChoiceGroup;

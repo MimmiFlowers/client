@@ -6,6 +6,9 @@
  * inlined as a data URL first. Assets therefore MUST be same-origin (or CORS
  * enabled) or the fetch — and the export — fails. Returns null on any failure;
  * the caller then submits the design without a picture.
+ *
+ * Everything not marked `data-export-hide` must be self-contained (no CSS
+ * variables, no page CSS): the export renders in a standalone document.
  */
 const toDataUrl = async (href: string): Promise<string> => {
     const response = await fetch(href);
@@ -39,7 +42,6 @@ export const renderWreathPng = async (
             .forEach((el) => el.remove());
         clone.setAttribute("width", String(size));
         clone.setAttribute("height", String(size));
-        clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 
         const cache = new Map<string, string>();
         for (const image of Array.from(clone.querySelectorAll("image"))) {
@@ -58,7 +60,16 @@ export const renderWreathPng = async (
             new Blob([xml], { type: "image/svg+xml;charset=utf-8" }),
         );
         try {
-            const img = await loadImage(url);
+            // A decode that never settles would hang the add-to-cart button.
+            const img = await Promise.race([
+                loadImage(url),
+                new Promise<never>((_, reject) =>
+                    setTimeout(
+                        () => reject(new Error("SVG decode timed out")),
+                        10_000,
+                    ),
+                ),
+            ]);
             const canvas = document.createElement("canvas");
             canvas.width = size;
             canvas.height = size;

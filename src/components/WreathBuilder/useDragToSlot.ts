@@ -3,7 +3,6 @@ import type { PointerEvent as ReactPointerEvent, RefObject } from "react";
 import type { WreathDecoration } from "./types";
 import {
     DROP_RADIUS,
-    STAGE,
     nearestSlot,
     slotPositions,
     slotRadius,
@@ -30,6 +29,10 @@ const DRAG_THRESHOLD_PX = 8;
  * Drag a tray decoration onto the stage. Works for mouse, pen and touch
  * (tray buttons use `touch-none`). A movement under 8px stays a tap, which the
  * button's onClick handles; a real drag suppresses that click via consumeDragClick().
+ *
+ * Contract: the stage must be rendered with its natural aspect (no forced
+ * height); the ghost is rendered by the page as `fixed` with
+ * `pointer-events-none`; `onDrop` may change identity freely.
  */
 export const useDragToSlot = (
     stageRef: RefObject<SVGSVGElement | null>,
@@ -41,12 +44,19 @@ export const useDragToSlot = (
     const startRef = useRef<DragStart | null>(null);
     const draggingRef = useRef(false);
     const endedDragRef = useRef(false);
+    const onDropRef = useRef(onDrop);
+
+    useEffect(() => {
+        onDropRef.current = onDrop;
+    }, [onDrop]);
 
     const onPointerDown = useCallback(
         (
             decoration: WreathDecoration,
             event: ReactPointerEvent<HTMLButtonElement>,
         ) => {
+            // A second simultaneous pointer must not hijack the drag in flight.
+            if (startRef.current) return;
             if (event.pointerType === "mouse" && event.button !== 0) return;
             startRef.current = {
                 code: decoration.code,
@@ -55,6 +65,10 @@ export const useDragToSlot = (
                 y: event.clientY,
                 pointerId: event.pointerId,
             };
+            // A drag that ended over the stage sends its click to a common
+            // ancestor, so consumeDragClick() never runs — clear the flag here
+            // or the next tray tap is swallowed.
+            endedDragRef.current = false;
             draggingRef.current = false;
         },
         [],
@@ -99,17 +113,20 @@ export const useDragToSlot = (
             setGhost(null);
             const svg = stageRef.current;
             if (!svg) return;
-            const rect = svg.getBoundingClientRect();
-            const point = {
-                x: ((event.clientX - rect.left) / rect.width) * STAGE,
-                y: ((event.clientY - rect.top) / rect.height) * STAGE,
-            };
+            // The CTM maps client pixels to the viewBox exactly, whatever the
+            // element's own box does.
+            const ctm = svg.getScreenCTM();
+            if (!ctm) return;
+            const pt = new DOMPoint(
+                event.clientX,
+                event.clientY,
+            ).matrixTransform(ctm.inverse());
             const slot = nearestSlot(
                 slotPositions(slotCount, slotRadius(ring)),
-                point,
+                { x: pt.x, y: pt.y },
                 DROP_RADIUS,
             );
-            if (slot !== null) onDrop(slot, start.code);
+            if (slot !== null) onDropRef.current(slot, start.code);
         };
 
         const cancel = () => {
@@ -121,12 +138,15 @@ export const useDragToSlot = (
         window.addEventListener("pointermove", move, { passive: false });
         window.addEventListener("pointerup", up);
         window.addEventListener("pointercancel", cancel);
+        // The pointer can be released outside the window; blur is the only hint.
+        window.addEventListener("blur", cancel);
         return () => {
             window.removeEventListener("pointermove", move);
             window.removeEventListener("pointerup", up);
             window.removeEventListener("pointercancel", cancel);
+            window.removeEventListener("blur", cancel);
         };
-    }, [stageRef, slotCount, ring, onDrop]);
+    }, [stageRef, slotCount, ring]);
 
     return { ghost, onPointerDown, consumeDragClick };
 };

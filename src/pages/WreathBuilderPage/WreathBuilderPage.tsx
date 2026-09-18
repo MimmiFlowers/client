@@ -387,6 +387,7 @@ const WreathBuilderPage = () => {
                             <Step n={1} title={t("wreath.step_size")} />
                             <ChoiceGroup
                                 label={t("wreath.step_size")}
+                                name="wreath-size"
                                 choices={sizeChoices}
                                 value={design.sizeCode}
                                 onChange={(code) => {
@@ -408,6 +409,7 @@ const WreathBuilderPage = () => {
                             <Step n={2} title={t("wreath.step_material")} />
                             <ChoiceGroup
                                 label={t("wreath.step_material")}
+                                name="wreath-material"
                                 choices={materialChoices}
                                 value={design.materialCode}
                                 onChange={(code) =>
@@ -421,6 +423,7 @@ const WreathBuilderPage = () => {
                             <Step n={3} title={t("wreath.step_band")} />
                             <ChoiceGroup
                                 label={t("wreath.step_band")}
+                                name="wreath-band"
                                 choices={bandChoices}
                                 value={design.bandCode ?? ""}
                                 onChange={(code) =>

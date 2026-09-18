@@ -8,7 +8,8 @@ export interface WreathDesignState {
     placements: (string | null)[];
     /**
      * Decorations discarded by the last size change, for a one-off notice.
-     * Reset by the next `place`; the page just renders it while > 0.
+     * Cleared by the next interaction of any kind other than another `setSize`;
+     * the page just renders it while > 0.
      */
     dropped: number;
 }
@@ -55,9 +56,9 @@ export const wreathReducer = (
             };
         }
         case "setMaterial":
-            return { ...state, materialCode: action.code };
+            return { ...state, materialCode: action.code, dropped: 0 };
         case "setBand":
-            return { ...state, bandCode: action.code };
+            return { ...state, bandCode: action.code, dropped: 0 };
         case "place": {
             if (action.slot < 0 || action.slot >= state.placements.length)
                 return state;
@@ -70,7 +71,7 @@ export const wreathReducer = (
                 return state;
             const placements = [...state.placements];
             placements[action.slot] = null;
-            return { ...state, placements };
+            return { ...state, placements, dropped: 0 };
         }
     }
 };

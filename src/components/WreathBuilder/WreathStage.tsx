@@ -91,7 +91,7 @@ const WreathStage = ({
                         aria-label={label}
                         aria-pressed={selected}
                         data-slot={slot}
-                        className="cursor-pointer"
+                        className="[&:focus-visible>circle]:stroke-ink cursor-pointer outline-none [&:focus-visible>circle]:[stroke-width:3]"
                         onClick={() => onSlotTap(slot)}
                         onKeyDown={onKey(slot)}
                     >
@@ -110,7 +110,7 @@ const WreathStage = ({
                             cy={p.y}
                             r={half + 4}
                             fill={decoration ? "none" : "var(--color-surface)"}
-                            fillOpacity={0.6}
+                            fillOpacity={decoration ? undefined : 0.6}
                             stroke={
                                 selected
                                     ? "var(--color-ink)"
