@@ -5,32 +5,35 @@ const Footer = () => {
     const { t } = useTranslation();
 
     return (
-        <footer className="mt-16 w-full bg-[#edc7f5]/30">
-            {/* Top divider */}
-            <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+        <footer className="mt-24 w-full bg-[var(--color-primary-deep)] text-[var(--color-bg)]">
+            {/* Top brass rule */}
+            <div className="gold-rule" />
 
-            <div className="mx-auto w-[95%] py-12 sm:w-[90%] md:w-[80%]">
+            <div className="mx-auto w-[95%] py-16 sm:w-[90%] md:w-[80%]">
                 <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3">
                     {/* Brand column */}
                     <div className="flex flex-col items-center sm:items-start">
                         <Link
                             to="/"
-                            className="text-lg font-light tracking-[0.2em] text-gray-900 uppercase"
+                            className="font-[var(--font-display)] text-2xl tracking-[0.08em] text-[var(--color-bg)] uppercase"
                         >
                             Mimmi Flowers
                         </Link>
-                        <p className="mt-3 text-center text-sm leading-relaxed font-light text-gray-500 sm:text-left">
+                        <p className="eyebrow mt-2 !text-[var(--color-gold-soft)]">
+                            Stockholm Atelier
+                        </p>
+                        <p className="mt-4 max-w-xs text-center text-sm leading-relaxed font-light text-[var(--color-bg)]/70 sm:text-left">
                             {t("footer.tagline")}
                         </p>
 
                         {/* Social icons */}
-                        <div className="mt-5 flex items-center gap-4">
+                        <div className="mt-6 flex items-center gap-4">
                             <a
                                 href="https://instagram.com/mimmi_flowers?igshid=MzMyNGUyNmU2YQ=="
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"
-                                className="text-gray-400 transition-colors duration-300 hover:text-gray-700"
+                                className="text-[var(--color-bg)]/55 transition-colors duration-300 hover:text-[var(--color-gold-soft)]"
                             >
                                 <svg
                                     className="h-4.5 w-4.5"
@@ -45,7 +48,7 @@ const Footer = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="TikTok"
-                                className="text-gray-400 transition-colors duration-300 hover:text-gray-700"
+                                className="text-[var(--color-bg)]/55 transition-colors duration-300 hover:text-[var(--color-gold-soft)]"
                             >
                                 <svg
                                     className="h-4.5 w-4.5"
@@ -60,25 +63,25 @@ const Footer = () => {
 
                     {/* Quick links column */}
                     <div className="flex flex-col items-center sm:items-start">
-                        <h4 className="text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                        <h4 className="eyebrow !text-[var(--color-gold-soft)]">
                             {t("footer.quick_links")}
                         </h4>
-                        <nav className="mt-4 flex flex-col items-center gap-2.5 sm:items-start">
+                        <nav className="mt-5 flex flex-col items-center gap-3 sm:items-start">
                             <Link
                                 to="/Catalog"
-                                className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
+                                className="text-sm font-light text-[var(--color-bg)]/75 transition-colors duration-300 hover:text-[var(--color-bg)]"
                             >
                                 {t("menu.catalog")}
                             </Link>
                             <Link
                                 to="/About"
-                                className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
+                                className="text-sm font-light text-[var(--color-bg)]/75 transition-colors duration-300 hover:text-[var(--color-bg)]"
                             >
                                 {t("menu.about")}
                             </Link>
                             <Link
                                 to="/Contact"
-                                className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
+                                className="text-sm font-light text-[var(--color-bg)]/75 transition-colors duration-300 hover:text-[var(--color-bg)]"
                             >
                                 {t("menu.contact")}
                             </Link>
@@ -87,26 +90,26 @@ const Footer = () => {
 
                     {/* Contact column */}
                     <div className="flex flex-col items-center sm:items-start">
-                        <h4 className="text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                        <h4 className="eyebrow !text-[var(--color-gold-soft)]">
                             {t("footer.contact_title")}
                         </h4>
-                        <div className="mt-4 flex flex-col gap-2 text-center sm:text-left">
-                            <p className="text-sm font-light text-gray-600">
+                        <div className="mt-5 flex flex-col gap-2.5 text-center sm:text-left">
+                            <p className="text-sm font-light text-[var(--color-bg)]/75">
                                 {t("contact.address_value")}
                             </p>
                             <a
                                 href={`mailto:${t("contact.email_value")}`}
-                                className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
+                                className="text-sm font-light text-[var(--color-bg)]/75 transition-colors duration-300 hover:text-[var(--color-bg)]"
                             >
                                 {t("contact.email_value")}
                             </a>
                             <a
                                 href={t("contact.phone_href")}
-                                className="text-sm font-light text-gray-600 transition-colors duration-300 hover:text-gray-900"
+                                className="text-sm font-light text-[var(--color-bg)]/75 transition-colors duration-300 hover:text-[var(--color-bg)]"
                             >
                                 {t("contact.phone_value")}
                             </a>
-                            <p className="text-sm font-light text-gray-600">
+                            <p className="text-sm font-light text-[var(--color-bg)]/75">
                                 {t("contact.hours_value")}
                             </p>
                         </div>
@@ -114,14 +117,14 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="mt-10 border-t border-gray-200/60 pt-6">
-                    <p className="text-center text-xs font-light tracking-wider text-gray-400">
+                <div className="mt-12 border-t border-[var(--color-bg)]/15 pt-6">
+                    <p className="text-center text-xs font-light tracking-wider text-[var(--color-bg)]/55">
                         &copy; {new Date().getFullYear()} Mimmi Flowers.{" "}
                         {t("footer.rights")}
                         <span className="mx-2">&middot;</span>
                         <Link
                             to="/Privacy"
-                            className="text-gray-400 underline underline-offset-2 transition-colors duration-300 hover:text-gray-600"
+                            className="text-[var(--color-bg)]/55 underline underline-offset-2 transition-colors duration-300 hover:text-[var(--color-gold-soft)]"
                         >
                             {t("footer.privacy_policy")}
                         </Link>

@@ -14,6 +14,8 @@ const slides: Slide[] = [
     {
         titleKey: "banner.slide1_title",
         subtitleKey: "banner.slide1_subtitle",
+        ctaKey: "banner.slide3_cta",
+        ctaLink: "/Catalog",
     },
     {
         titleKey: "banner.slide2_title",
@@ -75,7 +77,7 @@ const TituleBlock = () => {
 
     return (
         <div
-            className="relative h-[45vh] w-full overflow-hidden sm:h-[55vh] md:h-[70vh]"
+            className="relative h-[62vh] max-h-[760px] min-h-[460px] w-full overflow-hidden sm:h-[70vh] md:h-[82vh]"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onTouchStart={handleTouchStart}
@@ -86,7 +88,7 @@ const TituleBlock = () => {
         >
             {/* Slides track */}
             <div
-                className="flex h-full transition-transform duration-700 ease-in-out"
+                className="flex h-full transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
                 style={{ transform: `translateX(-${current * 100}%)` }}
             >
                 {slides.map((slide, index) => (
@@ -98,29 +100,55 @@ const TituleBlock = () => {
                         aria-label={`Slide ${index + 1} of ${slides.length}`}
                         aria-hidden={index !== current}
                     >
-                        {/* Background image */}
+                        {/* Background image — slow Ken-Burns drift */}
                         <img
-                            className="absolute h-full w-full object-cover blur-xs brightness-75"
+                            className="absolute h-full w-full scale-105 object-cover"
                             src={bannerMock}
                             alt=""
                             aria-hidden="true"
                             draggable={false}
                         />
 
+                        {/* Editorial scrim: bottom gradient + soft center vignette for legibility */}
+                        <div
+                            className="pointer-events-none absolute inset-0"
+                            style={{
+                                background:
+                                    "linear-gradient(180deg, rgba(20,26,21,0.42) 0%, rgba(20,26,21,0.20) 40%, rgba(20,26,21,0.58) 100%)",
+                            }}
+                        />
+                        <div
+                            className="pointer-events-none absolute inset-0"
+                            style={{
+                                background:
+                                    "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(20,26,21,0.40) 0%, transparent 70%)",
+                            }}
+                        />
+                        {/* thin brass frame */}
+                        <div className="pointer-events-none absolute inset-4 border border-[rgba(204,176,132,0.45)] sm:inset-6 md:inset-8" />
+
                         {/* Content overlay */}
-                        <div className="relative z-10 flex flex-col items-center px-6 text-center">
-                            <h2 className="text-3xl font-semibold text-white uppercase drop-shadow-lg sm:text-5xl md:text-7xl">
+                        <div
+                            className={`relative z-10 flex max-w-3xl flex-col items-center px-6 text-center ${
+                                index === current ? "fade-up" : "opacity-0"
+                            }`}
+                        >
+                            <span className="mb-4 text-[0.7rem] font-semibold tracking-[0.42em] text-[#e8d9bd] uppercase sm:text-xs">
+                                Stockholm · Florist
+                            </span>
+                            <h2 className="font-[var(--font-display)] text-4xl leading-[1.05] font-medium tracking-[0.01em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)] sm:text-6xl md:text-[5.25rem]">
                                 {t(slide.titleKey)}
                             </h2>
-                            <p className="mt-2 max-w-xl text-base font-light text-white/90 drop-shadow-md sm:mt-3 sm:text-lg md:mt-4 md:text-xl">
+                            <p className="mt-5 max-w-xl text-base font-light text-white/90 drop-shadow-md sm:text-lg md:text-xl">
                                 {t(slide.subtitleKey)}
                             </p>
                             {slide.ctaKey && slide.ctaLink && (
                                 <Link
                                     to={slide.ctaLink}
-                                    className="mt-4 inline-block rounded-full bg-white/90 px-6 py-2 text-sm font-semibold text-black uppercase tracking-wide shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white sm:mt-5 sm:px-8 sm:py-2.5 sm:text-base md:mt-6"
+                                    className="ui-label mt-8 inline-flex items-center gap-2 rounded-full border border-white/70 px-8 py-3 text-xs text-white backdrop-blur-[2px] transition-all duration-500 hover:border-white hover:bg-white hover:text-[var(--color-ink)] sm:text-sm"
                                 >
                                     {t(slide.ctaKey)}
+                                    <span aria-hidden="true">&rarr;</span>
                                 </Link>
                             )}
                         </div>
@@ -129,15 +157,15 @@ const TituleBlock = () => {
             </div>
 
             {/* Dot indicators */}
-            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5 sm:bottom-6">
+            <div className="absolute bottom-7 left-1/2 z-10 flex -translate-x-1/2 gap-2.5 sm:bottom-10">
                 {slides.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => goTo(index)}
-                        className={`h-2.5 rounded-full transition-all duration-300 ${
+                        className={`h-[3px] rounded-full transition-all duration-500 ${
                             index === current
-                                ? "w-7 bg-white"
-                                : "w-2.5 bg-white/50 hover:bg-white/80"
+                                ? "w-10 bg-[#e8d9bd]"
+                                : "w-5 bg-white/40 hover:bg-white/70"
                         }`}
                         aria-label={`Go to slide ${index + 1}`}
                         aria-current={index === current ? "true" : undefined}
@@ -148,19 +176,19 @@ const TituleBlock = () => {
             {/* Arrow buttons — desktop only */}
             <button
                 onClick={prev}
-                className="absolute top-1/2 left-3 z-10 hidden -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/40 sm:left-4 md:block"
+                className="absolute top-1/2 left-5 z-10 hidden -translate-y-1/2 cursor-pointer text-white/70 transition-all duration-300 hover:text-white md:block"
                 aria-label="Previous slide"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.25}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
             <button
                 onClick={next}
-                className="absolute top-1/2 right-3 z-10 hidden -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-2 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/40 sm:right-4 md:block"
+                className="absolute top-1/2 right-5 z-10 hidden -translate-y-1/2 cursor-pointer text-white/70 transition-all duration-300 hover:text-white md:block"
                 aria-label="Next slide"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.25}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
             </button>

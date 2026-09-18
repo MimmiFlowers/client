@@ -106,22 +106,22 @@ const ProductPage = () => {
             <div className="mx-auto w-[95%] animate-pulse sm:w-[90%] md:w-[75%]">
                 {/* Breadcrumb skeleton */}
                 <div className="mt-6 flex gap-2 md:mt-8">
-                    <div className="h-4 w-12 rounded bg-gray-200" />
-                    <div className="h-4 w-16 rounded bg-gray-200" />
-                    <div className="h-4 w-24 rounded bg-gray-200" />
+                    <div className="h-4 w-12 rounded bg-[var(--color-cream)]" />
+                    <div className="h-4 w-16 rounded bg-[var(--color-cream)]" />
+                    <div className="h-4 w-24 rounded bg-[var(--color-cream)]" />
                 </div>
                 <div className="mt-6 flex flex-col gap-8 md:mt-8 md:flex-row">
                     {/* Image skeleton */}
-                    <div className="aspect-[3/4] w-full rounded-2xl bg-gray-200 md:w-[55%]" />
+                    <div className="aspect-[3/4] w-full rounded-2xl bg-[var(--color-cream)] md:w-[55%]" />
                     {/* Info skeleton */}
                     <div className="flex w-full flex-col gap-4 md:w-[45%]">
-                        <div className="h-5 w-24 rounded bg-gray-200" />
-                        <div className="h-10 w-3/4 rounded bg-gray-200" />
-                        <div className="h-8 w-28 rounded bg-gray-200" />
-                        <div className="h-px w-full bg-gray-200" />
-                        <div className="h-4 w-full rounded bg-gray-200" />
-                        <div className="h-4 w-5/6 rounded bg-gray-200" />
-                        <div className="h-4 w-2/3 rounded bg-gray-200" />
+                        <div className="h-5 w-24 rounded bg-[var(--color-cream)]" />
+                        <div className="h-10 w-3/4 rounded bg-[var(--color-cream)]" />
+                        <div className="h-8 w-28 rounded bg-[var(--color-cream)]" />
+                        <div className="h-px w-full bg-[var(--color-cream)]" />
+                        <div className="h-4 w-full rounded bg-[var(--color-cream)]" />
+                        <div className="h-4 w-5/6 rounded bg-[var(--color-cream)]" />
+                        <div className="h-4 w-2/3 rounded bg-[var(--color-cream)]" />
                     </div>
                 </div>
             </div>
@@ -175,61 +175,61 @@ const ProductPage = () => {
                 {/* Product info */}
                 <div className="flex w-full flex-col md:w-[45%] md:py-4">
                     {/* Collection & category badges */}
-                    <div className="mb-3 flex flex-wrap gap-2">
+                    <div className="mb-4 flex flex-wrap gap-2">
                         {product.collection && (
-                            <span className="rounded-full border border-gray-300 px-3 py-1 text-xs uppercase tracking-wider text-gray-600">
+                            <span className="ui-label rounded-full border border-[var(--color-line)] px-3 py-1 text-[0.6rem] text-[var(--color-fg-mid)]">
                                 {product.collection}
                             </span>
                         )}
                         {product.category && (
-                            <span className="rounded-full bg-[#edc7f5]/40 px-3 py-1 text-xs uppercase tracking-wider text-gray-700">
+                            <span className="ui-label rounded-full bg-[var(--color-primary-tint)] px-3 py-1 text-[0.6rem] text-[var(--color-primary)]">
                                 {product.category}
                             </span>
                         )}
                     </div>
 
                     {/* Product name */}
-                    <h1 className="text-3xl leading-tight font-semibold tracking-tight text-gray-900 sm:text-4xl md:text-[2.75rem]">
+                    <h1 className="font-[var(--font-display)] text-4xl leading-[1.08] font-medium tracking-[0.01em] text-[var(--color-ink)] sm:text-5xl md:text-[3rem]">
                         {product.name}
                     </h1>
 
                     {/* SKU */}
-                    <p className="mt-1.5 text-xs tracking-wide text-gray-400 uppercase">
+                    <p className="mt-2 text-xs tracking-[0.18em] text-[var(--color-muted)] uppercase">
                         {t("product_page.sku_label")}: {product.sku}
                     </p>
 
                     {/* Price */}
-                    <p className="mt-4 text-3xl font-light tracking-tight text-gray-900 sm:text-4xl">
+                    <p className="mt-5 font-[var(--font-display)] text-3xl font-medium tracking-tight text-[var(--color-ink)] sm:text-4xl">
                         {product.price.toLocaleString()}{" "}
-                        <span className="text-2xl">kr</span>
+                        <span className="text-xl text-[var(--color-muted)]">kr</span>
                     </p>
 
                     {/* Divider */}
-                    <div className="my-5 h-px w-full bg-gray-200" />
+                    <div className="gold-rule my-6 max-w-[180px]" />
 
                     {/* Description */}
                     <div>
-                        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                        <h2 className="eyebrow mb-2.5">
                             {t("product_page.description")}
                         </h2>
-                        <p className="leading-relaxed text-gray-700 sm:text-lg">
+                        <p className="leading-relaxed text-[var(--color-fg-mid)] sm:text-lg">
                             {product.description}
                         </p>
                     </div>
 
                     {/* Flower contents */}
                     {product.contents && product.contents.length > 0 && (
-                        <div className="mt-5">
-                            <h2 className="mb-2.5 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                        <div className="mt-6">
+                            <h2 className="eyebrow mb-3">
                                 {t("product_page.contents")}
                             </h2>
                             <div className="flex flex-wrap gap-2">
                                 {product.contents.map((item) => (
                                     <span
                                         key={item}
-                                        className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-sm capitalize text-gray-700 shadow-sm ring-1 ring-gray-200"
+                                        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-surface)] px-3.5 py-1.5 text-sm capitalize text-[var(--color-fg-mid)] ring-1 ring-[var(--color-line)]"
                                     >
-                                        <span className="h-1.5 w-1.5 rounded-full bg-[#edc7f5]" />
+                                        <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-gold)]" />
                                         {item}
                                     </span>
                                 ))}
@@ -238,23 +238,23 @@ const ProductPage = () => {
                     )}
 
                     {/* Divider */}
-                    <div className="my-5 h-px w-full bg-gray-200" />
+                    <div className="my-6 h-px w-full bg-[var(--color-line)]" />
 
                     {/* Quantity selector + Add to cart */}
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                         {/* Quantity */}
-                        <div className="flex h-14 w-fit items-center rounded-xl border border-gray-300 bg-white sm:h-12">
+                        <div className="flex h-14 w-fit items-center rounded-full border border-[var(--color-line)] bg-[var(--color-surface)] sm:h-12">
                             <button
                                 onClick={() =>
                                     setQuantity((q) => Math.max(1, q - 1))
                                 }
                                 disabled={quantity <= 1}
-                                className="flex h-full w-11 cursor-pointer items-center justify-center text-lg text-gray-600 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
+                                className="flex h-full w-12 cursor-pointer items-center justify-center text-lg text-[var(--color-fg-mid)] transition-colors hover:text-[var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-30"
                                 aria-label="Decrease quantity"
                             >
                                 &minus;
                             </button>
-                            <span className="flex h-full w-10 items-center justify-center border-x border-gray-300 text-center font-medium">
+                            <span className="flex h-full w-10 items-center justify-center border-x border-[var(--color-line)] text-center font-medium text-[var(--color-ink)]">
                                 {quantity}
                             </span>
                             <button
@@ -262,7 +262,7 @@ const ProductPage = () => {
                                     setQuantity((q) => Math.min(99, q + 1))
                                 }
                                 disabled={quantity >= 99}
-                                className="flex h-full w-11 cursor-pointer items-center justify-center text-lg text-gray-600 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-30"
+                                className="flex h-full w-12 cursor-pointer items-center justify-center text-lg text-[var(--color-fg-mid)] transition-colors hover:text-[var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-30"
                                 aria-label="Increase quantity"
                             >
                                 +
@@ -272,10 +272,10 @@ const ProductPage = () => {
                         {/* Add to cart button */}
                         <button
                             onClick={handleAddToCart}
-                            className={`flex h-14 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-xl text-base font-semibold uppercase tracking-wide shadow-lg transition-all duration-300 sm:h-12 sm:text-lg ${
+                            className={`ui-label flex h-14 flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-full text-sm shadow-lg transition-all duration-300 sm:h-12 ${
                                 addedFeedback
-                                    ? "bg-emerald-500 text-white shadow-emerald-200"
-                                    : "bg-[#edc7f5] text-gray-900 hover:scale-[1.02] hover:bg-[#e4b4f0] hover:shadow-xl"
+                                    ? "bg-[var(--color-primary-soft)] text-white"
+                                    : "bg-[var(--color-primary)] text-[var(--color-bg)] hover:-translate-y-0.5 hover:bg-[var(--color-primary-deep)] hover:shadow-xl"
                             }`}
                         >
                             {addedFeedback ? (
@@ -305,7 +305,7 @@ const ProductPage = () => {
                     </div>
 
                     {/* Delivery info */}
-                    <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
+                    <div className="mt-4 flex items-center gap-2 text-sm text-[var(--color-muted)]">
                         <svg
                             className="h-4 w-4 flex-shrink-0"
                             fill="none"
@@ -328,11 +328,11 @@ const ProductPage = () => {
             {related.length > 0 && (
                 <section className="mx-auto mt-16 w-[95%] sm:w-[90%] md:mt-20 md:w-[75%]">
                     <div className="mb-8 flex items-center gap-4">
-                        <div className="h-px flex-1 bg-gray-200" />
-                        <h2 className="text-center text-xl font-semibold uppercase tracking-wider text-gray-800 sm:text-2xl">
+                        <div className="h-px flex-1 bg-[var(--color-line)]" />
+                        <h2 className="text-center font-[var(--font-display)] text-2xl tracking-[0.01em] text-[var(--color-ink)] sm:text-3xl">
                             {t("product_page.you_may_also_like")}
                         </h2>
-                        <div className="h-px flex-1 bg-gray-200" />
+                        <div className="h-px flex-1 bg-[var(--color-line)]" />
                     </div>
                     <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
                         {related.map((rp) => (
@@ -359,10 +359,10 @@ const ProductPage = () => {
                                         className="aspect-[3/4] w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
-                                <p className="mt-2.5 text-center text-sm font-semibold uppercase sm:text-base">
+                                <p className="mt-3 text-center font-[var(--font-display)] text-[0.95rem] tracking-[0.01em] text-[var(--color-ink)] sm:text-base">
                                     {rp.name}
                                 </p>
-                                <p className="text-center text-sm text-gray-600 sm:text-base">
+                                <p className="text-center text-sm text-[var(--color-fg-mid)] sm:text-base">
                                     {rp.price.toLocaleString()} kr
                                 </p>
                             </div>

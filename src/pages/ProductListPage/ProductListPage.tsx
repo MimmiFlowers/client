@@ -163,29 +163,31 @@ const ProductListPage = () => {
                 ]}
             />
 
-            {/* Page title */}
-            <div className="mx-auto mt-4 w-[95%] sm:w-[90%] md:mt-6 md:w-[75%]">
-                <div className="flex items-center gap-4">
-                    <div className="h-px flex-1 bg-gray-200" />
-                    <h1 className="text-center text-2xl font-semibold uppercase tracking-wider text-gray-800 sm:text-3xl md:text-4xl">
-                        {t("catalog.title")}
-                    </h1>
-                    <div className="h-px flex-1 bg-gray-200" />
+            {/* Page title — editorial */}
+            <div className="mx-auto mt-6 flex w-[95%] flex-col items-center text-center sm:w-[90%] md:mt-8 md:w-[75%]">
+                <span className="eyebrow">The Collection</span>
+                <h1 className="mt-3 font-[var(--font-display)] text-3xl tracking-[0.01em] text-[var(--color-ink)] sm:text-4xl md:text-5xl">
+                    {t("catalog.title")}
+                </h1>
+                <div className="mt-5 flex items-center gap-3">
+                    <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                    <span className="ornament">&#10022;</span>
+                    <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
                 </div>
             </div>
 
             {/* Mobile filter toggle button */}
-            <div className="mx-auto mt-4 flex w-[95%] sm:w-[90%] md:hidden">
+            <div className="mx-auto mt-6 flex w-[95%] sm:w-[90%] md:hidden">
                 <button
                     onClick={() => setMobileFiltersOpen(true)}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+                    className="ui-label flex cursor-pointer items-center gap-2 rounded-full border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-2.5 text-xs text-[var(--color-fg-mid)] transition-colors hover:border-[var(--color-primary)]"
                 >
                     <svg
                         className="h-4 w-4"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        strokeWidth={2}
+                        strokeWidth={1.75}
                     >
                         <path
                             strokeLinecap="round"
@@ -195,7 +197,7 @@ const ProductListPage = () => {
                     </svg>
                     {t("catalog.filters")}
                     {activeFilterCount > 0 && (
-                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#edc7f5] text-xs font-bold text-gray-800">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[var(--color-primary)] text-xs font-bold text-[var(--color-bg)]">
                             {activeFilterCount}
                         </span>
                     )}
@@ -245,20 +247,20 @@ const ProductListPage = () => {
 
             {/* Mobile filter drawer — panel */}
             <div
-                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[#FFF0F5] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
+                className={`fixed top-0 left-0 z-[70] flex h-full w-[80vw] max-w-xs flex-col bg-[var(--color-bg)] shadow-2xl transition-transform duration-300 ease-in-out md:hidden ${
                     mobileFiltersOpen
                         ? "translate-x-0"
                         : "-translate-x-full"
                 }`}
             >
                 {/* Drawer header */}
-                <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
-                    <h2 className="text-lg font-semibold uppercase tracking-wider text-gray-800">
+                <div className="flex items-center justify-between border-b border-[var(--color-line)] px-5 py-4">
+                    <h2 className="font-[var(--font-display)] text-xl tracking-wide text-[var(--color-ink)]">
                         {t("catalog.filters")}
                     </h2>
                     <button
                         onClick={() => setMobileFiltersOpen(false)}
-                        className="cursor-pointer rounded-lg p-1 text-gray-500 transition-colors hover:text-black"
+                        className="cursor-pointer rounded-lg p-1 text-[var(--color-muted)] transition-colors hover:text-[var(--color-ink)]"
                         aria-label="Close filters"
                     >
                         <svg
@@ -300,9 +302,9 @@ const CatalogSkeleton = () => (
     <div className="grid w-full animate-pulse grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
             <div key={i}>
-                <div className="aspect-[3/4] w-full rounded-xl bg-gray-200" />
-                <div className="mt-3 h-4 w-3/4 rounded bg-gray-200" />
-                <div className="mt-1.5 h-4 w-1/3 rounded bg-gray-200" />
+                <div className="aspect-[3/4] w-full rounded-lg bg-[var(--color-cream)]" />
+                <div className="mt-3 h-4 w-3/4 rounded bg-[var(--color-cream)]" />
+                <div className="mt-1.5 h-4 w-1/3 rounded bg-[var(--color-cream)]" />
             </div>
         ))}
     </div>

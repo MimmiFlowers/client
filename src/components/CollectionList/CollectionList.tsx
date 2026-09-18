@@ -5,7 +5,7 @@ import type { CollectionMini } from "../../types/types";
 import CollectionCard from "../CollectionCard/CollectionCard";
 
 const SkeletonCollectionCard = () => (
-    <div className="aspect-4/3 w-full animate-pulse rounded-xl bg-gray-200" />
+    <div className="aspect-4/3 w-full animate-pulse rounded-lg bg-[var(--color-cream)]" />
 );
 
 const CollectionList = () => {
@@ -36,13 +36,17 @@ const CollectionList = () => {
 
     return (
         <section className="w-[95%] sm:w-[90%] md:w-[80%]">
-            {/* Section title with hairline dividers */}
-            <div className="mt-14 mb-8 flex items-center gap-4">
-                <div className="h-px flex-1 bg-gray-200" />
-                <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-gray-500 sm:text-sm">
+            {/* Editorial section header */}
+            <div className="mt-20 mb-9 flex flex-col items-center text-center sm:mt-24">
+                <span className="eyebrow">Curated</span>
+                <h2 className="mt-3 font-[var(--font-display)] text-3xl tracking-[0.01em] text-[var(--color-ink)] sm:text-4xl">
                     {t("collections.title")}
                 </h2>
-                <div className="h-px flex-1 bg-gray-200" />
+                <div className="mt-5 flex items-center gap-3">
+                    <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                    <span className="ornament">&#10022;</span>
+                    <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                </div>
             </div>
 
             {/* Collection grid */}

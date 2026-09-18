@@ -1,4 +1,64 @@
 @import "tailwindcss";
+@import "./assets/fonts/fonts.css";
+
+/* ============================================================
+   Mimmi Flowers — UIV3 "Atelier Luxe"
+   A warm, editorial luxury identity for a Stockholm florist.
+
+   Canvas   · warm bone / ivory paper
+   Ink      · deep eucalyptus-forest charcoal
+   Accent   · brushed brass + dusty blush
+   Type     · Hatton (display) · refined system sans (UI)
+   Goals    · calm whitespace, confident type, WCAG-AA contrast
+   ============================================================ */
+
+@theme {
+    /* ---- Surfaces ---- */
+    --color-bg:            #f5f1ea;   /* warm bone — page canvas */
+    --color-surface:       #ffffff;   /* cards / panels */
+    --color-surface-2:     #fbf8f3;   /* subtle raised surface */
+    --color-cream:         #ece4d8;   /* tonal block */
+
+    /* ---- Ink / text ---- */
+    --color-ink:           #1e261f;   /* deep forest charcoal (~13:1 on bg) */
+    --color-fg:            #28332a;
+    --color-fg-soft:       #46524b;   /* softer body / labels */
+    --color-fg-mid:        #4a564b;
+    --color-muted:         #8a8579;   /* secondary / captions */
+
+    /* ---- Lines ---- */
+    --color-line:          #e3dccf;   /* hairline */
+
+    /* ---- Brand: eucalyptus ---- */
+    --color-primary:       #38493c;   /* deep eucalyptus — buttons, ink */
+    --color-primary-deep:  #283429;
+    --color-primary-soft:  #5d6f5f;
+    --color-primary-tint:  #e7ebe4;   /* soft fill */
+
+    /* ---- Accent: brushed brass ---- */
+    --color-gold:          #a98b5d;
+    --color-gold-deep:     #846a40;   /* legible eyebrow text on light bg */
+    --color-gold-soft:     #ccb084;
+
+    /* ---- Accent: dusty blush ---- */
+    --color-blush:         #d8bfb8;
+    --color-blush-deep:    #a96a64;   /* error / sale */
+    --color-blush-soft:    #efe2dd;
+
+    /* legacy aliases (older components reference these) */
+    --color-rose:          #d8bfb8;
+    --color-rose-deep:     #a96a64;
+    --color-leaf:          #38493c;
+    --color-leaf-deep:     #283429;
+
+    /* ---- Typography ---- */
+    --font-display: "HattonMedium", "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    --font-light:   "HattonUltralight", "HattonMedium", Georgia, serif;
+    --font-body:    "HattonMedium", Georgia, serif;
+    --font-sans:    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
 
 @layer base {
     * {
@@ -11,22 +71,192 @@
     body,
     #root {
         height: 100%;
-        background-color: #FFF0F5;
+        background-color: var(--color-bg);
+        color: var(--color-ink);
     }
 
     body {
         margin: 0;
-        font-family: "HattonMedium";
+        font-family: var(--font-body);
+        font-size: 17px;
+        line-height: 1.65;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: "liga", "kern";
+        /* candlelit paper: soft warm vignettes */
+        background-image:
+            radial-gradient(ellipse 80% 50% at 50% -10%, rgba(169, 139, 93, 0.10), transparent 60%),
+            radial-gradient(ellipse 70% 60% at 100% 100%, rgba(216, 191, 184, 0.14), transparent 60%);
+        background-attachment: fixed;
     }
 
-    a {
-        font-family: "HattonUltralight";
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        letter-spacing: -0.01em;
+        line-height: 1.1;
+        color: var(--color-ink);
+    }
+
+    a { font-family: var(--font-body); color: inherit; }
+
+    ::selection {
+        background: var(--color-primary);
+        color: var(--color-bg);
     }
 
     code {
-        font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
     }
+
+    /* honour reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+    }
+}
+
+/* ─────────── Eyebrow / kicker labels ─────────── */
+
+@utility eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+}
+
+@utility eyebrow-muted {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+/* small caps UI label (nav, meta) */
+@utility ui-label {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+/* ─────────── Rules & ornaments ─────────── */
+
+@utility gold-rule {
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--color-gold-soft) 25%,
+        var(--color-gold) 50%,
+        var(--color-gold-soft) 75%,
+        transparent 100%
+    );
+}
+
+@utility hairline {
+    height: 1px;
+    background: var(--color-line);
+}
+
+/* small diamond ornament between divider lines */
+@utility ornament {
+    color: var(--color-gold);
+    letter-spacing: 0.4em;
+    font-size: 0.7rem;
+}
+
+/* ─────────── Buttons ─────────── */
+
+@utility btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.8125rem;
+    color: var(--color-bg);
+    background: var(--color-primary);
+    border-radius: 999px;
+    box-shadow: 0 10px 30px -12px rgba(30, 38, 31, 0.55);
+    transition: transform 400ms var(--ease-soft), background 350ms ease, box-shadow 400ms ease;
+}
+@utility btn-primary-hover {
+    background: var(--color-primary-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px -14px rgba(30, 38, 31, 0.6);
+}
+
+@utility btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 0.8125rem;
+    color: var(--color-ink);
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    border-radius: 999px;
+    transition: transform 400ms var(--ease-soft), background 350ms ease, color 350ms ease;
+}
+@utility btn-outline-hover {
+    background: var(--color-primary);
+    color: var(--color-bg);
+    transform: translateY(-2px);
+}
+
+/* ─────────── Cards ─────────── */
+
+@utility lux-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset,
+                0 20px 45px -30px rgba(30, 38, 31, 0.35);
+    transition: transform 600ms var(--ease-soft), box-shadow 600ms var(--ease-soft);
+}
+
+/* animated luxe link underline */
+@utility lux-link {
+    position: relative;
+    padding-bottom: 2px;
+}
+
+/* ─────────── Animations ─────────── */
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@utility fade-up {
+    animation: fadeUp 900ms var(--ease-soft) both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@utility fade-in {
+    animation: fadeIn 1200ms ease both;
+}
+
+@keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+@utility floaty {
+    animation: floaty 7s ease-in-out infinite;
 }

@@ -10,11 +10,17 @@ const AboutPage = () => {
 
             <div className="mx-auto w-[95%] max-w-5xl sm:w-[90%] md:w-[85%] lg:w-[80%]">
                 {/* Header */}
-                <div className="mb-12 text-center">
-                    <h1 className="mb-3 text-3xl font-light tracking-wide text-gray-900 sm:text-4xl">
+                <div className="mb-14 flex flex-col items-center text-center">
+                    <span className="eyebrow">Our Atelier</span>
+                    <h1 className="mt-3 font-[var(--font-display)] text-4xl tracking-[0.01em] text-[var(--color-ink)] sm:text-5xl">
                         {t("about.title")}
                     </h1>
-                    <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-500">
+                    <div className="mt-5 flex items-center gap-3">
+                        <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                        <span className="ornament">&#10022;</span>
+                        <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                    </div>
+                    <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-[var(--color-fg-mid)]">
                         {t("about.subtitle")}
                     </p>
                 </div>
@@ -23,19 +29,19 @@ const AboutPage = () => {
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {/* Left column — Our Story */}
                     <div>
-                        <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                        <h2 className="eyebrow mb-6">
                             {t("about.our_story")}
                         </h2>
 
                         <div className="space-y-4">
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-[var(--color-fg-mid)]">
                                     {t("about.paragraph1")}
                                 </p>
                             </div>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-[var(--color-fg-mid)]">
                                     {t("about.paragraph2")}
                                 </p>
                             </div>
@@ -46,12 +52,12 @@ const AboutPage = () => {
                     <div className="space-y-8">
                         {/* What We Offer */}
                         <div>
-                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            <h2 className="eyebrow mb-6">
                                 {t("about.what_we_offer")}
                             </h2>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="text-sm leading-relaxed font-light text-gray-700">
+                            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm">
+                                <p className="text-sm leading-relaxed font-light text-[var(--color-fg-mid)]">
                                     {t("about.paragraph3")}
                                 </p>
                             </div>
@@ -59,15 +65,15 @@ const AboutPage = () => {
 
                         {/* Delivery */}
                         <div>
-                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            <h2 className="eyebrow mb-6">
                                 {t("about.delivery_title")}
                             </h2>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm">
                                 <div className="flex items-start gap-4">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-tint)]">
                                         <svg
-                                            className="h-4.5 w-4.5 text-gray-600"
+                                            className="h-4.5 w-4.5 text-[var(--color-primary)]"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -80,7 +86,7 @@ const AboutPage = () => {
                                             />
                                         </svg>
                                     </div>
-                                    <p className="text-sm leading-relaxed font-light text-gray-700">
+                                    <p className="text-sm leading-relaxed font-light text-[var(--color-fg-mid)]">
                                         {t("about.delivery_text")}
                                     </p>
                                 </div>
@@ -93,7 +99,7 @@ const AboutPage = () => {
                 <div className="mt-12 text-center">
                     <Link
                         to="/Catalog"
-                        className="inline-block rounded-full bg-gray-900 px-10 py-3 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                        className="btn-primary hover:btn-primary-hover px-10 py-3.5"
                     >
                         {t("about.browse_catalog")}
                     </Link>

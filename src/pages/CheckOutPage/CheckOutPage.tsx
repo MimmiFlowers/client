@@ -39,7 +39,7 @@ function FormInput({
         <div>
             <label
                 htmlFor={id}
-                className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+                className="eyebrow-muted mb-1.5 block"
             >
                 {label}
             </label>
@@ -50,15 +50,15 @@ function FormInput({
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 min={min}
-                className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none placeholder:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 ${
+                className={`w-full rounded-lg border bg-[var(--color-surface)] px-4 py-2.5 text-sm text-[var(--color-ink)] transition-all duration-200 outline-none placeholder:text-[var(--color-muted)]/50 disabled:cursor-not-allowed disabled:bg-[var(--color-surface-2)] disabled:text-[var(--color-muted)] ${
                     error
-                        ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                        : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
+                        ? "border-[var(--color-blush-deep)]/50 focus:border-[var(--color-blush-deep)] focus:ring-2 focus:ring-[var(--color-blush)]/30"
+                        : "border-[var(--color-line)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary-tint)]"
                 }`}
                 placeholder={label}
             />
             {error && (
-                <p className="mt-1 text-xs text-red-500" role="alert">
+                <p className="mt-1 text-xs text-[var(--color-blush-deep)]" role="alert">
                     {error}
                 </p>
             )}
@@ -84,16 +84,16 @@ function Toggle({
                 aria-checked={checked}
                 onClick={() => onChange(!checked)}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors duration-200 ${
-                    checked ? "bg-[#edc7f5]" : "bg-gray-200"
+                    checked ? "bg-[var(--color-primary)]" : "bg-[var(--color-line)]"
                 }`}
             >
                 <span
-                    className={`pointer-events-none inline-block h-4 w-4 translate-y-0.5 rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 ${
+                    className={`pointer-events-none inline-block h-4 w-4 translate-y-0.5 rounded-full bg-[var(--color-surface)] shadow-sm ring-0 transition-transform duration-200 ${
                         checked ? "translate-x-4.5" : "translate-x-0.5"
                     }`}
                 />
             </button>
-            <span className="text-sm text-gray-700">{label}</span>
+            <span className="text-sm text-[var(--color-fg-mid)]">{label}</span>
         </label>
     );
 }
@@ -102,10 +102,10 @@ function Toggle({
 function SectionHeader({ step, title }: { step: number; title: string }) {
     return (
         <div className="mb-5 flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/40 text-xs font-semibold text-gray-700">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary)] text-xs font-semibold text-[var(--color-bg)]">
                 {step}
             </span>
-            <h2 className="text-base font-semibold tracking-wide text-gray-900 uppercase">
+            <h2 className="font-[var(--font-display)] text-xl tracking-wide text-[var(--color-ink)]">
                 {title}
             </h2>
         </div>
@@ -274,7 +274,7 @@ export default function CheckoutPage() {
             <div className="flex min-h-[60vh] flex-col items-center justify-center px-4">
                 <title>{t("seo.checkout_title")}</title>
                 <svg
-                    className="mb-6 h-16 w-16 text-gray-300"
+                    className="mb-6 h-16 w-16 text-[var(--color-line)]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -286,15 +286,15 @@ export default function CheckoutPage() {
                         d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
                     />
                 </svg>
-                <p className="mb-2 text-lg font-medium text-gray-700">
+                <p className="mb-2 font-[var(--font-display)] text-2xl text-[var(--color-ink)]">
                     {t("checkout.empty_cart")}
                 </p>
-                <p className="mb-6 text-sm text-gray-400">
+                <p className="mb-6 text-sm text-[var(--color-muted)]">
                     {t("checkout.empty_cart_hint")}
                 </p>
                 <Link
                     to="/Catalog"
-                    className="rounded-full bg-gray-900 px-8 py-2.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80"
+                    className="btn-primary hover:btn-primary-hover px-8 py-3"
                 >
                     {t("checkout.browse_catalog")}
                 </Link>
@@ -307,15 +307,18 @@ export default function CheckoutPage() {
             <title>{t("seo.checkout_title")}</title>
 
             {/* Page title */}
-            <h1 className="mb-8 text-center text-xl font-light tracking-[0.15em] text-gray-900 uppercase sm:text-2xl">
-                {t("checkout.page_title")}
-            </h1>
+            <div className="mb-10 flex flex-col items-center text-center">
+                <span className="eyebrow">Almost There</span>
+                <h1 className="mt-3 font-[var(--font-display)] text-3xl tracking-[0.01em] text-[var(--color-ink)] sm:text-4xl">
+                    {t("checkout.page_title")}
+                </h1>
+            </div>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
                 {/* ── LEFT: Form sections ── */}
                 <div className="space-y-6 lg:col-span-3">
                     {/* Step 1: Customer info */}
-                    <section className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
+                    <section className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm sm:p-8">
                         <SectionHeader
                             step={1}
                             title={t("checkout.customer_title")}
@@ -364,7 +367,7 @@ export default function CheckoutPage() {
                         </div>
 
                         {/* Toggles */}
-                        <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
+                        <div className="mt-6 space-y-3 border-t border-[var(--color-line)] pt-5">
                             <Toggle
                                 checked={orderForMyself}
                                 onChange={setOrderForMyself}
@@ -374,7 +377,7 @@ export default function CheckoutPage() {
                     </section>
 
                     {/* Step 2: Delivery / Recipient info */}
-                    <section className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
+                    <section className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm sm:p-8">
                         <SectionHeader
                             step={2}
                             title={t("checkout.recipient_title")}
@@ -461,7 +464,7 @@ export default function CheckoutPage() {
                             <div>
                                 <label
                                     htmlFor="recipient-time"
-                                    className="mb-1.5 block text-xs font-medium tracking-wide text-gray-500 uppercase"
+                                    className="eyebrow-muted mb-1.5 block"
                                 >
                                     {t("checkout.delivery_time")}
                                 </label>
@@ -494,21 +497,21 @@ export default function CheckoutPage() {
                                             }));
                                         }
                                     }}
-                                    className={`w-full rounded-lg border bg-white px-4 py-2.5 text-sm text-gray-900 transition-all duration-200 outline-none ${
+                                    className={`w-full rounded-lg border bg-[var(--color-surface)] px-4 py-2.5 text-sm text-[var(--color-ink)] transition-all duration-200 outline-none ${
                                         errors.recipientTime
-                                            ? "border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100"
-                                            : "border-gray-200 focus:border-[#edc7f5] focus:ring-2 focus:ring-[#edc7f5]/30"
+                                            ? "border-[var(--color-blush-deep)]/50 focus:border-[var(--color-blush-deep)] focus:ring-2 focus:ring-[var(--color-blush)]/30"
+                                            : "border-[var(--color-line)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary-tint)]"
                                     }`}
                                 />
                                 {errors.recipientTime && (
                                     <p
-                                        className="mt-1 text-xs text-red-500"
+                                        className="mt-1 text-xs text-[var(--color-blush-deep)]"
                                         role="alert"
                                     >
                                         {errors.recipientTime}
                                     </p>
                                 )}
-                                <p className="mt-1 text-[11px] text-gray-400">
+                                <p className="mt-1 text-[11px] text-[var(--color-muted)]">
                                     {t("checkout.delivery_time_range")}
                                 </p>
                             </div>
@@ -518,8 +521,8 @@ export default function CheckoutPage() {
 
                 {/* ── RIGHT: Order summary (sticky) ── */}
                 <aside className="lg:col-span-2">
-                    <div className="sticky top-20 rounded-2xl bg-white/70 p-6 backdrop-blur-sm sm:p-8">
-                        <h2 className="mb-5 text-base font-semibold tracking-wide text-gray-900 uppercase">
+                    <div className="sticky top-20 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm sm:p-8">
+                        <h2 className="mb-5 font-[var(--font-display)] text-xl tracking-wide text-[var(--color-ink)]">
                             {t("checkout.cart_title")}
                         </h2>
 
@@ -534,14 +537,14 @@ export default function CheckoutPage() {
                                     />
                                     <div className="flex min-w-0 flex-1 flex-col justify-between">
                                         <div className="flex items-start justify-between gap-2">
-                                            <p className="truncate text-sm font-medium text-gray-900">
+                                            <p className="truncate font-[var(--font-display)] text-sm text-[var(--color-ink)]">
                                                 {item.name}
                                             </p>
                                             <button
                                                 onClick={() =>
                                                     removeItem(item.id)
                                                 }
-                                                className="shrink-0 cursor-pointer text-gray-300 transition-colors hover:text-gray-500"
+                                                className="shrink-0 cursor-pointer text-[var(--color-line)] transition-colors hover:text-[var(--color-blush-deep)]"
                                                 aria-label={`Remove ${item.name}`}
                                             >
                                                 <svg
@@ -565,25 +568,25 @@ export default function CheckoutPage() {
                                                     onClick={() =>
                                                         decrease(item.id)
                                                     }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-fg-mid)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-ink)]"
                                                     aria-label="Decrease quantity"
                                                 >
                                                     -
                                                 </button>
-                                                <span className="min-w-[1.25rem] text-center text-sm text-gray-700">
+                                                <span className="min-w-[1.25rem] text-center text-sm text-[var(--color-fg-mid)]">
                                                     {item.quantity}
                                                 </span>
                                                 <button
                                                     onClick={() =>
                                                         increase(item.id)
                                                     }
-                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 text-xs text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-700"
+                                                    className="flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-[var(--color-line)] text-xs text-[var(--color-fg-mid)] transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-ink)]"
                                                     aria-label="Increase quantity"
                                                 >
                                                     +
                                                 </button>
                                             </div>
-                                            <span className="text-sm font-medium text-gray-900">
+                                            <span className="text-sm font-medium text-[var(--color-ink)]">
                                                 {item.price * item.quantity} kr
                                             </span>
                                         </div>
@@ -593,12 +596,12 @@ export default function CheckoutPage() {
                         </div>
 
                         {/* Totals */}
-                        <div className="mt-6 space-y-2 border-t border-gray-100 pt-5">
-                            <div className="flex justify-between text-sm text-gray-500">
+                        <div className="mt-6 space-y-2 border-t border-[var(--color-line)] pt-5">
+                            <div className="flex justify-between text-sm text-[var(--color-fg-mid)]">
                                 <span>{t("checkout.subtotal")}</span>
                                 <span>{subtotal} kr</span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-500">
+                            <div className="flex justify-between text-sm text-[var(--color-fg-mid)]">
                                 <span>{t("checkout.delivery")}</span>
                                 <span>
                                     {subtotal >= FREE_DELIVERY_THRESHOLD
@@ -606,11 +609,11 @@ export default function CheckoutPage() {
                                         : `${deliveryFee} kr`}
                                 </span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-400">
+                            <div className="flex justify-between text-sm text-[var(--color-muted)]">
                                 <span>{t("checkout.vat_included")}</span>
                                 <span>{moms.toFixed(2)} kr</span>
                             </div>
-                            <div className="flex justify-between border-t border-gray-100 pt-3 text-base font-semibold text-gray-900">
+                            <div className="flex justify-between border-t border-[var(--color-line)] pt-3 text-base font-semibold text-[var(--color-ink)]">
                                 <span>{t("checkout.total")}</span>
                                 <span>{total} kr</span>
                             </div>
@@ -619,7 +622,7 @@ export default function CheckoutPage() {
                         {/* Error */}
                         {submitError && (
                             <div
-                                className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600"
+                                className="mt-4 rounded-lg bg-[var(--color-blush-soft)] px-4 py-3 text-sm text-[var(--color-blush-deep)]"
                                 role="alert"
                             >
                                 {submitError}
@@ -628,7 +631,7 @@ export default function CheckoutPage() {
 
                         {/* Pay button */}
                         <button
-                            className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gray-900 py-3.5 text-sm font-medium tracking-wider text-white uppercase transition-opacity duration-300 hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-40"
+                            className="btn-primary hover:btn-primary-hover mt-6 w-full py-4 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
                             onClick={handlePay}
                             disabled={isLoading || items.length === 0}
                         >
@@ -676,7 +679,7 @@ export default function CheckoutPage() {
                         </button>
 
                         {/* Trust signal */}
-                        <p className="mt-4 text-center text-[11px] text-gray-400">
+                        <p className="mt-4 text-center text-[11px] text-[var(--color-muted)]">
                             <svg
                                 className="mr-1 inline h-3 w-3"
                                 fill="none"

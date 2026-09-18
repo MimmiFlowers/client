@@ -9,11 +9,17 @@ const ContactPage = () => {
 
             <div className="mx-auto w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] max-w-5xl">
                 {/* Header */}
-                <div className="mb-12 text-center">
-                    <h1 className="mb-3 text-3xl font-light tracking-wide text-gray-900 sm:text-4xl">
+                <div className="mb-14 flex flex-col items-center text-center">
+                    <span className="eyebrow">Say Hello</span>
+                    <h1 className="mt-3 font-[var(--font-display)] text-4xl tracking-[0.01em] text-[var(--color-ink)] sm:text-5xl">
                         {t("contact.title")}
                     </h1>
-                    <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-500">
+                    <div className="mt-5 flex items-center gap-3">
+                        <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                        <span className="ornament">&#10022;</span>
+                        <span className="block h-px w-10 bg-[var(--color-gold-soft)]" />
+                    </div>
+                    <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-[var(--color-fg-mid)]">
                         {t("contact.subtitle")}
                     </p>
                 </div>
@@ -22,7 +28,7 @@ const ContactPage = () => {
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                     {/* Left column — Get in Touch */}
                     <div>
-                        <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                        <h2 className="eyebrow mb-6">
                             {t("contact.get_in_touch")}
                         </h2>
 
@@ -30,11 +36,11 @@ const ContactPage = () => {
                             {/* Email card */}
                             <a
                                 href={`mailto:${t("contact.email_value")}`}
-                                className="group flex items-start gap-4 rounded-2xl bg-white/70 p-5 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-sm"
+                                className="group flex items-start gap-4 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-5 backdrop-blur-sm transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-sm"
                             >
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-tint)]">
                                     <svg
-                                        className="h-4.5 w-4.5 text-gray-600 transition-colors duration-300 group-hover:text-gray-900"
+                                        className="h-4.5 w-4.5 text-[var(--color-primary)] transition-colors duration-300 group-hover:text-[var(--color-primary-deep)]"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -48,10 +54,10 @@ const ContactPage = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-medium tracking-[0.15em] text-gray-400 uppercase">
+                                    <p className="eyebrow-muted">
                                         {t("contact.email_label")}
                                     </p>
-                                    <p className="mt-1 text-sm font-light text-gray-700 transition-colors duration-300 group-hover:text-gray-900">
+                                    <p className="mt-1 text-sm font-light text-[var(--color-fg-mid)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">
                                         {t("contact.email_value")}
                                     </p>
                                 </div>
@@ -60,11 +66,11 @@ const ContactPage = () => {
                             {/* Phone card */}
                             <a
                                 href={t("contact.phone_href")}
-                                className="group flex items-start gap-4 rounded-2xl bg-white/70 p-5 backdrop-blur-sm transition-all duration-300 hover:bg-white/90 hover:shadow-sm"
+                                className="group flex items-start gap-4 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-5 backdrop-blur-sm transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-sm"
                             >
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-tint)]">
                                     <svg
-                                        className="h-4.5 w-4.5 text-gray-600 transition-colors duration-300 group-hover:text-gray-900"
+                                        className="h-4.5 w-4.5 text-[var(--color-primary)] transition-colors duration-300 group-hover:text-[var(--color-primary-deep)]"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -78,20 +84,20 @@ const ContactPage = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-medium tracking-[0.15em] text-gray-400 uppercase">
+                                    <p className="eyebrow-muted">
                                         {t("contact.phone_label")}
                                     </p>
-                                    <p className="mt-1 text-sm font-light text-gray-700 transition-colors duration-300 group-hover:text-gray-900">
+                                    <p className="mt-1 text-sm font-light text-[var(--color-fg-mid)] transition-colors duration-300 group-hover:text-[var(--color-ink)]">
                                         {t("contact.phone_value")}
                                     </p>
                                 </div>
                             </a>
 
                             {/* Hours card */}
-                            <div className="flex items-start gap-4 rounded-2xl bg-white/70 p-5 backdrop-blur-sm">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                            <div className="flex items-start gap-4 rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-5 backdrop-blur-sm">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-tint)]">
                                     <svg
-                                        className="h-4.5 w-4.5 text-gray-600"
+                                        className="h-4.5 w-4.5 text-[var(--color-primary)]"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -105,10 +111,10 @@ const ContactPage = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-medium tracking-[0.15em] text-gray-400 uppercase">
+                                    <p className="eyebrow-muted">
                                         {t("contact.hours_label")}
                                     </p>
-                                    <p className="mt-1 text-sm font-light text-gray-700">
+                                    <p className="mt-1 text-sm font-light text-[var(--color-fg-mid)]">
                                         {t("contact.hours_value")}
                                     </p>
                                 </div>
@@ -120,15 +126,15 @@ const ContactPage = () => {
                     <div className="space-y-8">
                         {/* Visit Us */}
                         <div>
-                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            <h2 className="eyebrow mb-6">
                                 {t("contact.visit_us")}
                             </h2>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
+                            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm">
                                 <div className="flex items-start gap-4">
-                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#edc7f5]/30">
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary-tint)]">
                                         <svg
-                                            className="h-4.5 w-4.5 text-gray-600"
+                                            className="h-4.5 w-4.5 text-[var(--color-primary)]"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -147,10 +153,10 @@ const ContactPage = () => {
                                         </svg>
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-medium tracking-[0.15em] text-gray-400 uppercase">
+                                        <p className="eyebrow-muted">
                                             {t("contact.address_label")}
                                         </p>
-                                        <p className="mt-1 text-sm font-light text-gray-700">
+                                        <p className="mt-1 text-sm font-light text-[var(--color-fg-mid)]">
                                             {t("contact.address_value")}
                                         </p>
                                     </div>
@@ -160,12 +166,12 @@ const ContactPage = () => {
 
                         {/* Follow Us */}
                         <div>
-                            <h2 className="mb-6 text-[10px] font-medium tracking-[0.2em] text-gray-400 uppercase">
+                            <h2 className="eyebrow mb-6">
                                 {t("contact.follow_us")}
                             </h2>
 
-                            <div className="rounded-2xl bg-white/70 p-6 backdrop-blur-sm">
-                                <p className="mb-5 text-sm font-light leading-relaxed text-gray-500">
+                            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)]/80 p-6 backdrop-blur-sm">
+                                <p className="mb-5 text-sm font-light leading-relaxed text-[var(--color-fg-mid)]">
                                     {t("contact.follow_us_text")}
                                 </p>
 
@@ -175,7 +181,7 @@ const ContactPage = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="Instagram"
-                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edc7f5]/30 text-gray-500 transition-all duration-300 hover:bg-[#edc7f5]/50 hover:text-gray-800"
+                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary)] transition-all duration-300 hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]"
                                     >
                                         <svg
                                             className="h-4.5 w-4.5"
@@ -190,7 +196,7 @@ const ContactPage = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="TikTok"
-                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#edc7f5]/30 text-gray-500 transition-all duration-300 hover:bg-[#edc7f5]/50 hover:text-gray-800"
+                                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary)] transition-all duration-300 hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)]"
                                     >
                                         <svg
                                             className="h-4.5 w-4.5"
