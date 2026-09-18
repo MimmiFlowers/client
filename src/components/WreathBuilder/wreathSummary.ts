@@ -1,4 +1,4 @@
-import type { WreathSummary } from "./types";
+import type { Named, WreathSummary } from "./types";
 
 /** Compact lines shown under a wreath in the cart drawer and checkout summary. */
 export const summaryLines = (
@@ -7,7 +7,7 @@ export const summaryLines = (
     bandNoneLabel: string,
 ): string[] => {
     const lang = language.startsWith("sv") ? "sv" : "en";
-    const name = (o: { en: string; sv: string }) => o[lang] || o.en;
+    const name = (o: Named) => o[lang] || o.en;
     const counts = new Map<string, number>();
     for (const d of summary.decorations) {
         counts.set(name(d), (counts.get(name(d)) ?? 0) + 1);

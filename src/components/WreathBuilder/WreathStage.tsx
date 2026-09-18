@@ -6,7 +6,7 @@ import {
     CENTER,
     DECORATION_SIZE,
     STAGE,
-    ringSize,
+    ringForSize,
     slotPositions,
     slotRadius,
 } from "./wreathGeometry";
@@ -30,11 +30,7 @@ const WreathStage = ({
     ref,
 }: Props) => {
     const { t } = useTranslation();
-    const sizeIndex = Math.max(
-        0,
-        options.sizes.findIndex((s) => s.code === design.sizeCode),
-    );
-    const ring = ringSize(sizeIndex, options.sizes.length);
+    const ring = ringForSize(options.sizes, design.sizeCode);
     const material = options.materials.find(
         (m) => m.code === design.materialCode,
     );

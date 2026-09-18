@@ -6,7 +6,10 @@ export interface WreathDesignState {
     bandCode: string | null;
     /** One entry per slot, clockwise from the bow: a decoration code or null. */
     placements: (string | null)[];
-    /** Decorations discarded by the last size change, for a one-off notice. */
+    /**
+     * Decorations discarded by the last size change, for a one-off notice.
+     * Reset by the next `place`; the page just renders it while > 0.
+     */
     dropped: number;
 }
 
@@ -15,8 +18,7 @@ export type WreathAction =
     | { type: "setMaterial"; code: string }
     | { type: "setBand"; code: string | null }
     | { type: "place"; slot: number; code: string }
-    | { type: "clearSlot"; slot: number }
-    | { type: "clearNotice" };
+    | { type: "clearSlot"; slot: number };
 
 export const initialDesign = (options: WreathOptions): WreathDesignState => {
     const size = options.sizes[0];
@@ -35,6 +37,11 @@ export const wreathReducer = (
 ): WreathDesignState => {
     switch (action.type) {
         case "setSize": {
+            if (
+                action.code === state.sizeCode &&
+                action.slotCount === state.placements.length
+            )
+                return state;
             const kept = state.placements.slice(0, action.slotCount);
             const dropped = state.placements
                 .slice(action.slotCount)
@@ -65,8 +72,6 @@ export const wreathReducer = (
             placements[action.slot] = null;
             return { ...state, placements };
         }
-        case "clearNotice":
-            return state.dropped === 0 ? state : { ...state, dropped: 0 };
     }
 };
 

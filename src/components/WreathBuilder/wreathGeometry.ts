@@ -14,29 +14,43 @@ export interface Point {
 export const ringSize = (index: number, count: number): number =>
     count <= 1 ? 360 : 360 * (0.84 + 0.16 * (index / (count - 1)));
 
-/** Radius of the circle the slot centres sit on (the ring's mid line in the base artwork). */
-export const slotRadius = (ring: number): number => ring * 0.36;
+/** Drawn ring size for the selected size code (falls back to the first size). */
+export const ringForSize = (
+    sizes: { code: string }[],
+    sizeCode: string,
+): number =>
+    ringSize(
+        Math.max(
+            0,
+            sizes.findIndex((s) => s.code === sizeCode),
+        ),
+        sizes.length,
+    );
+
+/**
+ * Radius of the circle the slot centres sit on: the ring's mid line in the base
+ * artwork (r=68 in a 200-unit viewBox).
+ */
+export const slotRadius = (ring: number): number => ring * 0.34;
 
 /**
  * Slot centres, clockwise, starting just right of the bow at the top.
  * Offsetting by half a step guarantees no slot ever sits under the band.
  * Must match services/wreath.py's description "(i + 0.5) * 360 / n from the top".
  */
-export const slotPositions = (
-    count: number,
-    radius: number,
-    cx: number = CENTER,
-    cy: number = CENTER,
-): Point[] =>
+export const slotPositions = (count: number, radius: number): Point[] =>
     Array.from({ length: count }, (_, i) => {
         const angle = ((-90 + ((i + 0.5) * 360) / count) * Math.PI) / 180;
         return {
-            x: cx + radius * Math.cos(angle),
-            y: cy + radius * Math.sin(angle),
+            x: CENTER + radius * Math.cos(angle),
+            y: CENTER + radius * Math.sin(angle),
         };
     });
 
-/** Index of the closest slot within `maxDistance`, or null. */
+/**
+ * Index of the closest slot within `maxDistance`, or null.
+ * A point exactly at `maxDistance` counts; ties go to the higher index.
+ */
 export const nearestSlot = (
     points: Point[],
     p: Point,

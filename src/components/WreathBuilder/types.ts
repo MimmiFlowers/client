@@ -43,7 +43,8 @@ export interface WreathSpec {
     decorations: { slot: number; code: string }[];
 }
 
-interface Named {
+/** A name the server returns in both UI languages. */
+export interface Named {
     en: string;
     sv: string;
 }

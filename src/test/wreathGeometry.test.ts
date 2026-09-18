@@ -2,9 +2,11 @@ import { describe, it, expect } from "vitest";
 import {
     CENTER,
     nearestSlot,
+    ringForSize,
     ringSize,
     slotPositions,
 } from "../components/WreathBuilder/wreathGeometry";
+import { OPTIONS } from "./wreathFixtures";
 
 describe("wreathGeometry", () => {
     it("spreads slots evenly on the ring, none exactly at the top (under the bow)", () => {
@@ -31,9 +33,28 @@ describe("wreathGeometry", () => {
         expect(nearestSlot(points, { x: CENTER, y: CENTER }, 40)).toBeNull();
     });
 
+    it("counts a point exactly at maxDistance but not one past it", () => {
+        const points = slotPositions(4, 100);
+        expect(
+            nearestSlot(points, { x: points[1]!.x + 40, y: points[1]!.y }, 40),
+        ).toBe(1);
+        expect(
+            nearestSlot(points, { x: points[1]!.x + 41, y: points[1]!.y }, 40),
+        ).toBeNull();
+    });
+
+    it("returns null when there are no slots", () => {
+        expect(nearestSlot([], { x: 0, y: 0 }, 40)).toBeNull();
+    });
+
     it("scales the ring from 84% to 100% across sizes", () => {
         expect(ringSize(0, 3)).toBeCloseTo(360 * 0.84);
         expect(ringSize(2, 3)).toBe(360);
         expect(ringSize(0, 1)).toBe(360);
+    });
+
+    it("maps a size code to its ring, falling back to the first size", () => {
+        expect(ringForSize(OPTIONS.sizes, "m")).toBe(ringSize(1, 2));
+        expect(ringForSize(OPTIONS.sizes, "nope")).toBe(ringSize(0, 2));
     });
 });

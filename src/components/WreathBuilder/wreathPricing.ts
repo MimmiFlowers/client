@@ -10,7 +10,10 @@ export interface WreathPrice {
 
 /** Display-only running total in SEK. The server recomputes the real price. */
 export const priceDesign = (
-    design: WreathDesignState,
+    design: Pick<
+        WreathDesignState,
+        "sizeCode" | "materialCode" | "bandCode" | "placements"
+    >,
     options: WreathOptions,
 ): WreathPrice => {
     const base =
@@ -25,5 +28,10 @@ export const priceDesign = (
         (sum, code) => sum + (code ? (priceByCode.get(code) ?? 0) : 0),
         0,
     );
-    return { base, band, decorations, total: base + band + decorations };
+    return {
+        base,
+        band,
+        decorations,
+        total: Math.round((base + band + decorations) * 100) / 100,
+    };
 };

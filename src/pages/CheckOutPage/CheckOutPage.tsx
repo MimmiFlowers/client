@@ -337,13 +337,13 @@ export default function CheckoutPage() {
                                 <CloseIcon className="h-4 w-4" />
                             </button>
                         </div>
-                        {item.details && (
+                        {item.details?.length ? (
                             <ul className="mt-1 space-y-0.5 text-xs leading-snug text-muted">
-                                {item.details.map((line) => (
-                                    <li key={line}>{line}</li>
+                                {item.details.map((line, index) => (
+                                    <li key={index}>{line}</li>
                                 ))}
                             </ul>
-                        )}
+                        ) : null}
                         <div className="mt-auto flex items-center justify-between pt-2">
                             <div className="flex h-8 items-center rounded-full border border-line-strong">
                                 <button

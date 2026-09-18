@@ -167,12 +167,33 @@ describe("CartContext", () => {
         ]);
     });
 
-    it("merges the same wreath design into one line with quantity 2", () => {
+    // The app mints a new designID per add, so this pins the reducer rule
+    // (lines merge by id), not a user flow.
+    it("merges cart lines by id, including wreath lines", () => {
         const { result } = renderHook(() => useCart(), { wrapper });
         const wreath = makeItem({ id: "wreath-a", designID: "a" });
         act(() => result.current.addItem(wreath));
         act(() => result.current.addItem(wreath));
         expect(result.current.items).toHaveLength(1);
         expect(result.current.items[0]!.quantity).toBe(2);
+    });
+
+    it("round-trips wreath fields through localStorage", () => {
+        localStorage.setItem(
+            "cartItems",
+            JSON.stringify({
+                items: [
+                    makeItem({
+                        id: "wreath-a",
+                        designID: "a",
+                        details: ["x", "y"],
+                    }),
+                ],
+                updatedAt: Date.now(),
+            }),
+        );
+        const { result } = renderHook(() => useCart(), { wrapper });
+        expect(result.current.items[0]!.designID).toBe("a");
+        expect(result.current.items[0]!.details).toEqual(["x", "y"]);
     });
 });

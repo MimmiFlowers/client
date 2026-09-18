@@ -168,13 +168,17 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                             {item.price.toLocaleString("sv-SE")}{" "}
                                             {t("cart.pp")}
                                         </p>
-                                        {item.details && (
+                                        {item.details?.length ? (
                                             <ul className="mt-1 space-y-0.5 text-xs leading-snug text-muted">
-                                                {item.details.map((line) => (
-                                                    <li key={line}>{line}</li>
-                                                ))}
+                                                {item.details.map(
+                                                    (line, index) => (
+                                                        <li key={index}>
+                                                            {line}
+                                                        </li>
+                                                    ),
+                                                )}
                                             </ul>
-                                        )}
+                                        ) : null}
 
                                         <div className="mt-auto flex items-center justify-between pt-3">
                                             <div className="flex h-11 items-center rounded-full border border-line-strong">

@@ -19,7 +19,6 @@ describe("priceDesign", () => {
                     null,
                     null,
                 ],
-                dropped: 0,
             },
             OPTIONS,
         );
@@ -31,6 +30,42 @@ describe("priceDesign", () => {
         });
     });
 
+    it("charges nothing for the band when none is chosen", () => {
+        const price = priceDesign(
+            {
+                sizeCode: "s",
+                materialCode: "fir",
+                bandCode: null,
+                placements: ["star", null, null, null, null, null],
+            },
+            OPTIONS,
+        );
+        expect(price).toEqual({
+            base: 299,
+            band: 0,
+            decorations: 25,
+            total: 324,
+        });
+    });
+
+    it("rounds the total to öre rather than leaking float noise", () => {
+        const price = priceDesign(
+            {
+                sizeCode: "s",
+                materialCode: "fir",
+                bandCode: "red-velvet",
+                placements: ["pine-cone", "pine-cone", "pine-cone"],
+            },
+            {
+                ...OPTIONS,
+                basePrices: { s: { fir: 299.5 } },
+                bands: [{ ...OPTIONS.bands[0]!, price: 49.9 }],
+                decorations: [{ ...OPTIONS.decorations[0]!, price: 15.1 }],
+            },
+        );
+        expect(price.total).toBe(394.7);
+    });
+
     it("treats unknown codes as 0 rather than NaN", () => {
         const price = priceDesign(
             {
@@ -38,7 +73,6 @@ describe("priceDesign", () => {
                 materialCode: "fir",
                 bandCode: "nope",
                 placements: ["ghost"],
-                dropped: 0,
             },
             OPTIONS,
         );

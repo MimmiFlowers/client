@@ -35,4 +35,35 @@ describe("summaryLines", () => {
             ),
         ).toEqual(["Small 25 cm · Fir", "Gold"]);
     });
+
+    it("falls back to the English name when the Swedish one is empty", () => {
+        expect(
+            summaryLines(
+                {
+                    ...SUMMARY,
+                    decorations: [{ slot: 1, en: "Star", sv: "" }],
+                },
+                "sv",
+                "Inget band",
+            ),
+        ).toEqual(["Liten 25 cm · Gran", "Inget band", "Star ×1"]);
+    });
+
+    it("merges decorations that share a name into one counted line", () => {
+        // Different decoration codes on the server can carry the same name;
+        // the summary only sees names, so they collapse into a single line.
+        expect(
+            summaryLines(
+                {
+                    ...SUMMARY,
+                    decorations: [
+                        { slot: 1, en: "Pine cone", sv: "Kotte" },
+                        { slot: 4, en: "Pine cone", sv: "Kotte" },
+                    ],
+                },
+                "en",
+                "No band",
+            ),
+        ).toEqual(["Small 25 cm · Fir", "No band", "Pine cone ×2"]);
+    });
 });

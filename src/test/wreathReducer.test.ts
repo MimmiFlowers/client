@@ -57,8 +57,23 @@ describe("wreathReducer", () => {
         d = wreathReducer(d, { type: "setSize", code: "s", slotCount: 6 });
         expect(d.placements).toEqual([null, "star", null, null, null, null]);
         expect(d.dropped).toBe(2);
-        d = wreathReducer(d, { type: "clearNotice" });
-        expect(d.dropped).toBe(0);
+    });
+
+    it("is a no-op when the same size is chosen again", () => {
+        const d = wreathReducer(initialDesign(OPTIONS), {
+            type: "place",
+            slot: 0,
+            code: "star",
+        });
+        expect(
+            wreathReducer(d, { type: "setSize", code: "s", slotCount: 6 }),
+        ).toBe(d);
+    });
+
+    it("ignores clearSlot outside the slot range", () => {
+        const d = initialDesign(OPTIONS);
+        expect(wreathReducer(d, { type: "clearSlot", slot: 6 })).toBe(d);
+        expect(wreathReducer(d, { type: "clearSlot", slot: -1 })).toBe(d);
     });
 
     it("sets and unsets the band and material", () => {
