@@ -53,7 +53,7 @@ const CollectionList = () => {
 
     return (
         <section
-            className="mt-24 bg-blush-deep py-20 md:mt-36 md:py-28"
+            className="mt-section bg-blush-deep py-band"
             aria-labelledby="collections-title"
         >
             <Reveal className="container-luxe flex flex-wrap items-end justify-between gap-x-8 gap-y-4">

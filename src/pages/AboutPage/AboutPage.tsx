@@ -1,9 +1,8 @@
-import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import banner480 from "../../assets/images/banner-480.webp";
 import banner960 from "../../assets/images/banner-960.webp";
 import Reveal from "../../components/Reveal/Reveal";
-import { ArrowRightIcon } from "../../components/Icons/Icons";
+import PillLink from "../../components/PillLink/PillLink";
 
 const AboutPage = () => {
     const { t } = useTranslation();
@@ -73,15 +72,9 @@ const AboutPage = () => {
                     ))}
 
                     <Reveal className="border-t border-line pt-10">
-                        <Link
-                            to="/Catalog"
-                            className="group inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-label font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
-                        >
+                        <PillLink to="/Catalog">
                             {t("about.browse_catalog")}
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
-                                <ArrowRightIcon className="h-4 w-4" />
-                            </span>
-                        </Link>
+                        </PillLink>
                     </Reveal>
                 </div>
             </div>

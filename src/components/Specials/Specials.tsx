@@ -45,7 +45,7 @@ const Specials = ({ setting }: SpecialProps) => {
     );
 
     return (
-        <section className="mt-24 md:mt-36" aria-labelledby={`specials-${key}`}>
+        <section className="mt-section" aria-labelledby={`specials-${key}`}>
             <Reveal className="container-luxe flex items-end justify-between gap-6">
                 <div>
                     <h2

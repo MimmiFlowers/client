@@ -1,11 +1,9 @@
 import { useParams, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import StatusLayout from "../../components/StatusLayout/StatusLayout";
-import {
-    primaryActionClass,
-    secondaryActionClass,
-} from "../../components/StatusLayout/actionStyles";
-import { ArrowRightIcon, CloseIcon } from "../../components/Icons/Icons";
+import { secondaryActionClass } from "../../components/StatusLayout/actionStyles";
+import { CloseIcon } from "../../components/Icons/Icons";
+import PillLink from "../../components/PillLink/PillLink";
 
 const CancelPage = () => {
     const { orderID } = useParams<{ orderID: string }>();
@@ -23,12 +21,7 @@ const CancelPage = () => {
                 title={t("cancel.title")}
                 actions={
                     <>
-                        <Link to="/Checkout" className={primaryActionClass}>
-                            {t("cancel.return_checkout")}
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
-                                <ArrowRightIcon className="h-4 w-4" />
-                            </span>
-                        </Link>
+                        <PillLink to="/Checkout">{t("cancel.return_checkout")}</PillLink>
                         <Link to="/" className={secondaryActionClass}>
                             {t("success.return_home")}
                         </Link>

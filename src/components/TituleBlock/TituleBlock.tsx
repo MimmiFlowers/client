@@ -155,7 +155,7 @@ const TituleBlock = () => {
                                 </p>
                                 <Link
                                     to={slide.ctaLink}
-                                    className={`group mt-8 inline-flex h-14 items-center gap-5 rounded-full bg-blush pr-2 pl-7 text-label font-medium tracking-[0.18em] text-ink uppercase transition-all duration-1000 ease-luxe active:scale-[0.98] ${
+                                    className={`group mt-8 inline-flex h-14 items-center gap-5 rounded-full bg-blush pr-2 pl-7 text-button font-medium tracking-[0.18em] text-ink uppercase transition-all duration-1000 ease-luxe active:scale-[0.98] ${
                                         active
                                             ? "translate-y-0 opacity-100 delay-[400ms]"
                                             : "translate-y-5 opacity-0"

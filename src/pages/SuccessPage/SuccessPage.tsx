@@ -4,15 +4,12 @@ import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import api from "../../api/api";
 import StatusLayout from "../../components/StatusLayout/StatusLayout";
-import {
-    primaryActionClass,
-    secondaryActionClass,
-} from "../../components/StatusLayout/actionStyles";
+import { secondaryActionClass } from "../../components/StatusLayout/actionStyles";
 import {
     AlertIcon,
-    ArrowRightIcon,
     CheckIcon,
 } from "../../components/Icons/Icons";
+import PillLink from "../../components/PillLink/PillLink";
 
 type VerifyState = "loading" | "verified" | "error";
 
@@ -42,12 +39,7 @@ const SuccessPage = () => {
     }, [orderID]);
 
     const homeAction = (
-        <Link to="/" className={primaryActionClass}>
-            {t("success.return_home")}
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
-                <ArrowRightIcon className="h-4 w-4" />
-            </span>
-        </Link>
+        <PillLink to="/">{t("success.return_home")}</PillLink>
     );
 
     /* ── Loading state ── */

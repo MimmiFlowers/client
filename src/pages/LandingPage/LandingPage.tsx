@@ -31,12 +31,12 @@ const LandingPage = () => {
 
             <Specials key="Season" setting="Season" />
 
-            <CollectionList />
-
             <WreathPromo />
 
+            <CollectionList />
+
             {/* Promises */}
-            <section className="container-luxe mt-24 md:mt-32">
+            <section className="container-luxe mt-section">
                 <ul className="grid border-y border-line sm:grid-cols-3">
                     {promises.map(({ icon: Icon, n }, i) => (
                         <Reveal
@@ -63,10 +63,15 @@ const LandingPage = () => {
                 </ul>
             </section>
 
-            {/* Story */}
-            <section className="mt-24 bg-blush-deep py-20 md:mt-32 md:py-32">
+            {/* Story — same tint as the footer; runs straight into it */}
+            <section
+                data-ends-with-band
+                className="mt-section bg-blush-deep py-band"
+            >
                 <Reveal className="container-luxe grid gap-10 lg:grid-cols-12">
-                    <p className="eyebrow lg:col-span-3">{t("about.our_story")}</p>
+                    <p className="eyebrow lg:col-span-3">
+                        {t("about.our_story")}
+                    </p>
                     <div className="lg:col-span-8">
                         <p className="font-display text-[1.9rem] leading-[1.15] tracking-[-0.015em] text-ink sm:text-[2.6rem] lg:text-[3.2rem]">
                             <span className="text-accent-ink" aria-hidden="true">

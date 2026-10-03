@@ -7,7 +7,7 @@ const Footer = () => {
     const { t } = useTranslation();
 
     return (
-        <footer className="mt-24 bg-blush-deep md:mt-36">
+        <footer className="mt-section bg-blush-deep">
             <div className="container-luxe pt-16 pb-10 md:pt-24">
                 <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-12">
                     {/* Brand */}

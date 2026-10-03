@@ -3,11 +3,9 @@ import { useTranslation } from "react-i18next";
 import { useCart } from "../../contexts/CartContext";
 import { FREE_DELIVERY_THRESHOLD, DELIVERY_FEE } from "../../contexts/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
-import { Link } from "react-router";
 import api from "../../api/api";
 import {
     AlertIcon,
-    ArrowRightIcon,
     BagIcon,
     ChevronDownIcon,
     CloseIcon,
@@ -17,6 +15,7 @@ import {
     PlusIcon,
 } from "../../components/Icons/Icons";
 import { isAxiosError } from "axios";
+import PillLink from "../../components/PillLink/PillLink";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
@@ -397,15 +396,9 @@ export default function CheckoutPage() {
                 <p className="mt-3 max-w-xs text-body-sm text-ink-soft">
                     {t("checkout.empty_cart_hint")}
                 </p>
-                <Link
-                    to="/Catalog"
-                    className="group mt-10 inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-button font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
-                >
+                <PillLink to="/Catalog" className="mt-10">
                     {t("checkout.browse_catalog")}
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
-                        <ArrowRightIcon className="h-4 w-4" />
-                    </span>
-                </Link>
+                </PillLink>
             </div>
         );
     }

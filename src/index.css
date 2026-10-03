@@ -58,6 +58,14 @@
     --text-page: 3rem; /* → 72 → 96 — page h1 */
     --text-hero: 2.9rem; /* → 60 → 80 — carousel headline */
 
+    /*
+     * Vertical rhythm. mt-section = gap between page sections, py-band =
+     * padding inside a tinted full-width band. Phone values here, the md:
+     * override sits next to the type roles under @layer base.
+     */
+    --spacing-section: 4rem; /* 64 → 96 */
+    --spacing-band: 3.5rem; /* 56 → 80 */
+
     --font-sans: "Jost Variable", "Jost", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Hatton", "Times New Roman", serif;
 
@@ -114,6 +122,13 @@
             --text-section: 3rem;
             --text-page: 4.5rem;
             --text-hero: 3.75rem;
+        }
+    }
+
+    @media (min-width: 48rem) {
+        :root {
+            --spacing-section: 6rem;
+            --spacing-band: 5rem;
         }
     }
 
@@ -275,4 +290,15 @@
             transform: none;
         }
     }
+}
+
+/*
+ * A page whose last section is a full-width tinted band ([data-ends-with-band],
+ * e.g. the landing story band) runs into the footer as one tinted area: no
+ * page-colour strip, just a hairline between them. Unlayered on purpose so it
+ * beats the footer's mt-section utility.
+ */
+body:has([data-ends-with-band]) footer {
+    margin-top: 0;
+    border-top: 1px solid var(--color-line-strong);
 }
