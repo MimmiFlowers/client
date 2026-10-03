@@ -12,7 +12,13 @@ i18n.use(LanguageDetector)
             en: { translation: en },
             sv: { translation: sv },
         },
+        // Browsers report regional codes ("en-US", "sv-SE"); the app, the
+        // switcher and the server only know "en" / "sv".
+        supportedLngs: ["en", "sv"],
         fallbackLng: "en",
+        detection: {
+            convertDetectedLanguage: (lng: string) => lng.split("-")[0] ?? lng,
+        },
         interpolation: {
             escapeValue: false,
         },

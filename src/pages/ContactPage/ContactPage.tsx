@@ -2,14 +2,13 @@ import { useTranslation } from "react-i18next";
 import Reveal from "../../components/Reveal/Reveal";
 import {
     ArrowUpRightIcon,
-    ClockIcon,
     InstagramIcon,
     MailIcon,
     PhoneIcon,
-    PinIcon,
     TikTokIcon,
+    TruckIcon,
 } from "../../components/Icons/Icons";
-import { SOCIAL_LINKS } from "../../layout/navigation";
+import { SOCIAL_HANDLE, SOCIAL_LINKS } from "../../layout/navigation";
 
 const ContactPage = () => {
     const { t } = useTranslation();
@@ -29,9 +28,19 @@ const ContactPage = () => {
         },
     ];
 
-    const details = [
-        { icon: PinIcon, label: t("contact.address_label"), value: t("contact.address_value") },
-        { icon: ClockIcon, label: t("contact.hours_label"), value: t("contact.hours_value") },
+    const socials = [
+        {
+            icon: InstagramIcon,
+            name: "Instagram",
+            handle: SOCIAL_HANDLE,
+            href: SOCIAL_LINKS.instagram,
+        },
+        {
+            icon: TikTokIcon,
+            name: "TikTok",
+            handle: SOCIAL_HANDLE,
+            href: SOCIAL_LINKS.tiktok,
+        },
     ];
 
     return (
@@ -55,7 +64,10 @@ const ContactPage = () => {
 
             <div className="container-luxe mt-14 grid gap-14 md:mt-20 lg:grid-cols-12 lg:gap-16">
                 {/* Direct channels */}
-                <section className="lg:col-span-7" aria-label={t("contact.get_in_touch")}>
+                <section
+                    className="lg:col-span-7"
+                    aria-label={t("contact.get_in_touch")}
+                >
                     {channels.map(({ icon: Icon, label, value, href }, i) => (
                         <Reveal key={label} delay={i * 80}>
                             <a
@@ -80,50 +92,46 @@ const ContactPage = () => {
                     <div className="border-t border-line" />
                 </section>
 
-                {/* Studio details */}
+                {/* Social — the shop is online-only for now */}
                 <aside className="lg:col-span-5">
                     <Reveal className="rounded-[1.75rem] bg-surface p-7 shadow-soft sm:p-10">
-                        <h2 className="font-display text-3xl">{t("contact.visit_us")}</h2>
-                        <dl className="mt-8 space-y-6">
-                            {details.map(({ icon: Icon, label, value }) => (
-                                <div key={label} className="flex gap-4">
-                                    <Icon className="mt-0.5 h-5 w-5 shrink-0 text-ink" />
-                                    <div>
-                                        <dt className="eyebrow">{label}</dt>
-                                        <dd className="price mt-1.5 text-[15px] leading-relaxed text-ink">
-                                            {value}
-                                        </dd>
-                                    </div>
-                                </div>
-                            ))}
-                        </dl>
-
-                        <div className="mt-10 border-t border-line pt-8">
-                            <h2 className="eyebrow">{t("contact.follow_us")}</h2>
-                            <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">
-                                {t("contact.follow_us_text")}
-                            </p>
-                            <div className="mt-5 flex gap-3">
-                                <a
-                                    href={SOCIAL_LINKS.instagram}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Instagram"
-                                    className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
-                                >
-                                    <InstagramIcon />
-                                </a>
-                                <a
-                                    href={SOCIAL_LINKS.tiktok}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="TikTok"
-                                    className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
-                                >
-                                    <TikTokIcon className="h-[1.1rem] w-[1.1rem]" />
-                                </a>
-                            </div>
-                        </div>
+                        <h2 className="font-display text-3xl">
+                            {t("contact.follow_us")}
+                        </h2>
+                        <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">
+                            {t("contact.follow_us_text")}
+                        </p>
+                        <ul className="mt-8">
+                            {socials.map(
+                                ({ icon: Icon, name, handle, href }) => (
+                                    <li key={name}>
+                                        <a
+                                            href={href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center gap-4 border-t border-line py-5"
+                                        >
+                                            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 group-hover:bg-primary-deep">
+                                                <Icon className="h-[1.15rem] w-[1.15rem]" />
+                                            </span>
+                                            <span className="min-w-0 flex-1">
+                                                <span className="block font-display text-2xl leading-tight text-ink">
+                                                    {name}
+                                                </span>
+                                                <span className="block text-[15px] text-ink-soft">
+                                                    {handle}
+                                                </span>
+                                            </span>
+                                            <ArrowUpRightIcon className="h-4 w-4 shrink-0 text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                        </a>
+                                    </li>
+                                ),
+                            )}
+                        </ul>
+                        <p className="flex gap-3 border-t border-line pt-6 text-[15px] leading-relaxed text-ink-soft">
+                            <TruckIcon className="mt-0.5 h-5 w-5 shrink-0 text-ink" />
+                            {t("contact.online_only")}
+                        </p>
                     </Reveal>
                 </aside>
             </div>

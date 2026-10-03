@@ -174,7 +174,7 @@
     },
     "contact": {
         "title": "Kontakta oss",
-        "subtitle": "Vi vill gärna höra från dig. Kontakta oss via e-post, telefon eller besök vår studio i Stockholm.",
+        "subtitle": "Vi vill gärna höra från dig. Kontakta oss via e-post eller telefon, eller säg hej på Instagram.",
         "address_label": "Adress",
         "address_value": "Stockholm",
         "email_label": "E-post",
@@ -186,8 +186,9 @@
         "hours_value": "Mån–Fre 08:00–18:00, Lör 10:00–16:00",
         "visit_us": "Besök oss",
         "get_in_touch": "Hör av dig",
-        "follow_us": "Följ oss",
-        "follow_us_text": "Håll dig inspirerad med våra senaste buketter och säsongsarrangemang."
+        "follow_us": "Följ vårt arbete",
+        "follow_us_text": "Håll dig inspirerad med våra senaste buketter och säsongsarrangemang.",
+        "online_only": "Just nu är vi en webbutik – ingen studio att besöka, men vi levererar i hela Stockholm."
     },
     "seo": {
         "home_title": "Mimmi Flowers — Blomsterleverans i Stockholm",
@@ -225,7 +226,7 @@
         "collection": {
             "mono bouquets": "Monobuketter",
             "duo bouquets": "Duobuketter",
-            "author": "Författare",
+            "author": "Designbuketter",
             "boxes and baskets": "Lådor & Korgar",
             "gifts": "Presenter",
             "season": "Säsong"

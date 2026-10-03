@@ -4,28 +4,40 @@ const LANGUAGES = ["en", "sv"] as const;
 
 const LanguageSwitch = ({ className = "" }: { className?: string }) => {
     const { i18n } = useTranslation();
+    const current = i18n.resolvedLanguage;
 
     return (
         <div
-            className={`flex items-center text-[11px] font-medium tracking-[0.18em] ${className}`}
+            className={`flex items-center text-[12px] font-medium tracking-[0.18em] ${className}`}
         >
-            {LANGUAGES.map((lng, i) => (
-                <span key={lng} className="flex items-center">
-                    {i > 0 && <span className="mx-2 h-3 w-px bg-line-strong" />}
-                    <button
-                        type="button"
-                        onClick={() => i18n.changeLanguage(lng)}
-                        aria-pressed={i18n.language === lng}
-                        className={`min-h-11 cursor-pointer px-1 uppercase transition-colors duration-300 ${
-                            i18n.language === lng
-                                ? "text-ink"
-                                : "text-muted hover:text-ink"
-                        }`}
-                    >
-                        {lng}
-                    </button>
-                </span>
-            ))}
+            {LANGUAGES.map((lng, i) => {
+                const active = current === lng;
+                return (
+                    <span key={lng} className="flex items-center">
+                        {i > 0 && (
+                            <span className="mx-2 h-3 w-px bg-line-strong" />
+                        )}
+                        <button
+                            type="button"
+                            onClick={() => i18n.changeLanguage(lng)}
+                            aria-pressed={active}
+                            className={`min-h-11 cursor-pointer px-1 uppercase transition-colors duration-300 ${
+                                active
+                                    ? "text-ink"
+                                    : "text-muted hover:text-ink"
+                            }`}
+                        >
+                            <span
+                                className={`border-b pb-0.5 transition-colors duration-300 ${
+                                    active ? "border-ink" : "border-transparent"
+                                }`}
+                            >
+                                {lng}
+                            </span>
+                        </button>
+                    </span>
+                );
+            })}
         </div>
     );
 };

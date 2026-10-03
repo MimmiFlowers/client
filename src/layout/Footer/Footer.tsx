@@ -92,9 +92,6 @@ const Footer = () => {
                             >
                                 {t("contact.phone_value")}
                             </a>
-                            <p className="py-1.5 text-muted">
-                                {t("contact.hours_value")}
-                            </p>
                         </address>
                     </div>
                 </div>

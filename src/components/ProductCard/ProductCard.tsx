@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 import type { ProductMini } from "../../types/types";
 import { ArrowUpRightIcon } from "../Icons/Icons";
 
@@ -18,6 +19,7 @@ export const ProductCardSkeleton = () => (
 );
 
 const ProductCard = ({ productMini, showCollection, eager }: Props) => {
+    const { t } = useTranslation();
     const { productID, name, picture, price, collection } = productMini;
 
     return (
@@ -35,7 +37,9 @@ const ProductCard = ({ productMini, showCollection, eager }: Props) => {
 
                 {showCollection && collection && (
                     <span className="absolute top-3 left-3 bg-surface/90 px-2.5 py-1 text-[10px] font-medium tracking-[0.16em] text-ink uppercase">
-                        {collection}
+                        {t(`catalog.collection.${collection.toLowerCase()}`, {
+                            defaultValue: collection,
+                        })}
                     </span>
                 )}
 

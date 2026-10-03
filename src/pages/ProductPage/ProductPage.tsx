@@ -239,7 +239,21 @@ const ProductPage = () => {
                                 className="mt-3 animate-rise text-sm text-ink-soft"
                                 style={{ animationDelay: "150ms" }}
                             >
-                                {[product.collection, product.category]
+                                {[
+                                    product.collection &&
+                                        t(
+                                            `catalog.collection.${product.collection.toLowerCase()}`,
+                                            {
+                                                defaultValue:
+                                                    product.collection,
+                                            },
+                                        ),
+                                    product.category &&
+                                        t(
+                                            `catalog.category.${product.category.toLowerCase()}`,
+                                            { defaultValue: product.category },
+                                        ),
+                                ]
                                     .filter(Boolean)
                                     .join(" · ")}
                             </p>
