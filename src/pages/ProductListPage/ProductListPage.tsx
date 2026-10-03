@@ -229,14 +229,15 @@ const ProductListPage = () => {
                             </span>
                         )}
                     </button>
-                    <label className="sr-only" htmlFor="catalog-sort-mobile">
+                    <span id="catalog-sort-mobile-label" className="sr-only">
                         {t("catalog.sort_label")}
-                    </label>
+                    </span>
                     <SortSelect
                         id="catalog-sort-mobile"
+                        labelId="catalog-sort-mobile-label"
+                        variant="inline"
                         value={sort}
                         onChange={setSort}
-                        className="w-44 [&_select]:border-0 [&_select]:text-right [&_select]:text-caption"
                     />
                 </div>
             </div>

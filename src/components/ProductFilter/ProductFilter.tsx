@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { CheckIcon, ChevronDownIcon } from "../Icons/Icons";
-import {
-    categoryOptions,
-    collectionOptions,
-    sortOptions,
-} from "./filterOptions";
+import { CheckIcon } from "../Icons/Icons";
+import { categoryOptions, collectionOptions } from "./filterOptions";
+import SortSelect from "./SortSelect";
+
+export { SortSelect };
 
 type Props = {
     selectedCollections: string[];
@@ -17,38 +16,6 @@ type Props = {
     onClearAll: () => void;
     /** The mobile sheet shows sort in the toolbar instead. */
     showSort?: boolean;
-};
-
-export const SortSelect = ({
-    id,
-    value,
-    onChange,
-    className = "",
-}: {
-    id: string;
-    value: string;
-    onChange: (sort: string) => void;
-    className?: string;
-}) => {
-    const { t } = useTranslation();
-
-    return (
-        <div className={`relative ${className}`}>
-            <select
-                id={id}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                className="min-h-11 w-full cursor-pointer appearance-none rounded-none border-b border-line-strong bg-transparent pr-7 text-body-sm text-ink transition-colors outline-none focus:border-ink"
-            >
-                {sortOptions.map((o) => (
-                    <option key={o.value} value={o.value}>
-                        {t(o.key)}
-                    </option>
-                ))}
-            </select>
-            <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-0 h-4 w-4 -translate-y-1/2 text-ink" />
-        </div>
-    );
 };
 
 const Option = ({
@@ -128,11 +95,12 @@ const ProductFilter = ({
 
             {showSort && (
                 <div className="border-b border-line py-6">
-                    <label htmlFor="catalog-sort" className="eyebrow block">
+                    <p id="catalog-sort-label" className="eyebrow">
                         {t("catalog.sort_label")}
-                    </label>
+                    </p>
                     <SortSelect
                         id="catalog-sort"
+                        labelId="catalog-sort-label"
                         value={sort}
                         onChange={onSortChange}
                         className="mt-3"

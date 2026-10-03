@@ -162,9 +162,9 @@ const ProductPage = () => {
         <button
             type="button"
             onClick={handleAddToCart}
-            className={`group flex cursor-pointer items-center justify-center gap-3 rounded-full font-medium whitespace-nowrap uppercase transition-[background-color,transform] duration-500 ease-luxe active:scale-[0.98] ${
+            className={`group flex cursor-pointer items-center justify-center gap-3 rounded-full text-center font-medium whitespace-nowrap uppercase transition-[background-color,transform] duration-500 ease-luxe active:scale-[0.98] ${
                 size === "lg"
-                    ? "h-14 min-w-0 flex-1 text-label tracking-[0.16em]"
+                    ? "h-14 min-w-0 flex-1 px-4 text-label tracking-[0.16em] max-[399px]:tracking-[0.06em] max-[359px]:px-3 max-[359px]:leading-tight max-[359px]:whitespace-normal"
                     : "h-12 shrink-0 px-5 text-label tracking-[0.08em]"
             } ${
                 addedFeedback
@@ -179,8 +179,9 @@ const ProductPage = () => {
                 </>
             ) : (
                 <>
+                    {/* No room for the icon beside the Swedish label on phones. */}
                     {size === "lg" && (
-                        <BagIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5" />
+                        <BagIcon className="hidden h-4 w-4 shrink-0 transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5 min-[440px]:block" />
                     )}
                     {t("buttons.add_to_cart")}
                 </>
@@ -212,10 +213,12 @@ const ProductPage = () => {
                 />
             )}
 
-            <div className="container-luxe mt-6 grid gap-10 md:mt-10 lg:grid-cols-12 lg:gap-16">
-                {/* Image */}
-                <div className="lg:col-span-7">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-blush-deep">
+            <div className="container-luxe mt-6 grid grid-cols-1 gap-10 md:mt-10 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-16">
+                {/* Image — on desktop sized by the viewport height so the whole
+                    photo is visible on arrival (14.75rem = 219px header +
+                    breadcrumb + a 1rem bottom gap); width follows the 4:5 ratio. */}
+                <div>
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-blush-deep lg:h-[clamp(26rem,calc(100svh-14.75rem),56rem)]">
                         <img
                             className="h-full w-full object-cover"
                             src={product.picture}
@@ -226,7 +229,7 @@ const ProductPage = () => {
                 </div>
 
                 {/* Details */}
-                <div className="lg:col-span-5">
+                <div>
                     <div className="lg:sticky lg:top-36">
                         <h1
                             className="animate-rise font-display text-[2.9rem] leading-[0.98] font-medium tracking-[-0.025em] sm:text-6xl"
