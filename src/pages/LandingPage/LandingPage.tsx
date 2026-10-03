@@ -51,10 +51,10 @@ const LandingPage = () => {
                         >
                             <Icon className="h-7 w-7 shrink-0 text-ink" />
                             <div>
-                                <h2 className="font-display text-xl leading-tight">
+                                <h2 className="font-display text-item-title leading-tight">
                                     {t(`home.promise_${n}_title`)}
                                 </h2>
-                                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-soft">
+                                <p className="mt-2 max-w-xs text-caption leading-relaxed text-ink-soft">
                                     {t(`home.promise_${n}_text`)}
                                 </p>
                             </div>
@@ -74,12 +74,12 @@ const LandingPage = () => {
                             </span>
                             {t("about.paragraph1")}
                         </p>
-                        <p className="mt-8 max-w-xl text-[15px] leading-relaxed text-ink-soft">
+                        <p className="mt-8 max-w-xl text-body-sm leading-relaxed text-ink-soft">
                             {t("about.paragraph2")}
                         </p>
                         <Link
                             to="/About"
-                            className="group mt-10 inline-flex min-h-11 items-center gap-3 text-[12px] font-medium tracking-[0.16em] text-ink uppercase"
+                            className="group mt-10 inline-flex min-h-11 items-center gap-3 text-label font-medium tracking-[0.16em] text-ink uppercase"
                         >
                             <span className="border-b border-ink/30 pb-1 transition-colors duration-300 group-hover:border-ink">
                                 {t("home.story_cta")}

@@ -200,11 +200,11 @@ const ProductListPage = () => {
             {/* Title */}
             <header className="container-luxe mt-6 md:mt-10">
                 <div className="flex flex-col gap-4 border-b border-line pb-8 md:flex-row md:items-end md:justify-between md:pb-12">
-                    <h1 className="animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-8xl">
+                    <h1 className="animate-rise font-display text-page leading-[0.95] font-medium tracking-[-0.03em]">
                         {t("catalog.title")}
                     </h1>
                     <p
-                        className="max-w-sm animate-rise text-[15px] leading-relaxed text-ink-soft md:text-right"
+                        className="max-w-sm animate-rise text-body-sm leading-relaxed text-ink-soft md:text-right"
                         style={{ animationDelay: "120ms" }}
                     >
                         {t("catalog.subtitle")}
@@ -219,12 +219,12 @@ const ProductListPage = () => {
                         type="button"
                         onClick={() => setMobileFiltersOpen(true)}
                         aria-expanded={mobileFiltersOpen}
-                        className="flex min-h-11 cursor-pointer items-center gap-2.5 text-[12px] font-medium tracking-[0.16em] uppercase"
+                        className="flex min-h-11 cursor-pointer items-center gap-2.5 text-label font-medium tracking-[0.16em] uppercase"
                     >
                         <FiltersIcon className="h-5 w-5" />
                         {t("catalog.filters")}
                         {activeFilterCount > 0 && (
-                            <span className="price flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] tracking-normal">
+                            <span className="price flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-1.5 text-label tracking-normal">
                                 {activeFilterCount}
                             </span>
                         )}
@@ -236,7 +236,7 @@ const ProductListPage = () => {
                         id="catalog-sort-mobile"
                         value={sort}
                         onChange={setSort}
-                        className="w-44 [&_select]:border-0 [&_select]:text-right [&_select]:text-[13px]"
+                        className="w-44 [&_select]:border-0 [&_select]:text-right [&_select]:text-caption"
                     />
                 </div>
             </div>
@@ -249,7 +249,7 @@ const ProductListPage = () => {
                             key={chip.id}
                             type="button"
                             onClick={chip.remove}
-                            className="flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-line-strong bg-surface py-1 pr-2.5 pl-4 text-[13px]"
+                            className="flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-line-strong bg-surface py-1 pr-2.5 pl-4 text-caption"
                         >
                             {chip.label}
                             <CloseIcon className="h-3.5 w-3.5" />
@@ -307,7 +307,7 @@ const ProductListPage = () => {
                 >
                     <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-line-strong" />
                     <div className="flex items-center justify-between px-5 pt-3 pb-2">
-                        <h2 className="font-display text-2xl">
+                        <h2 className="font-display text-subtitle">
                             {t("catalog.filters")}
                         </h2>
                         <button
@@ -326,7 +326,7 @@ const ProductListPage = () => {
                         <button
                             type="button"
                             onClick={closeFilters}
-                            className="price flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-ink text-[12px] font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
+                            className="price flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-ink text-label font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
                         >
                             {t("catalog.show_results", {
                                 count: filteredProducts.length,

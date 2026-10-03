@@ -24,6 +24,40 @@
     --color-danger: #a8324f;
     --color-success: #58705c;
 
+    /*
+     * Type roles. Components use these (text-caption, text-card-title…), never
+     * text-[14px] or text-sm: change a role here and every use follows.
+     * Values are the phone size; larger breakpoints override the variable in
+     * the @media blocks under @layer base. Line heights are only set where the
+     * role has no explicit leading-* at its call sites.
+     */
+    --text-badge: 0.6875rem; /* 11 — cart count, catalogue card tag */
+    --text-label: 0.75rem; /* 12 — uppercase labels, nav, breadcrumbs, fine print */
+    --text-button: 0.8125rem; /* 13 — button text */
+    --text-caption: 0.9375rem; /* 15 — hints, per-item price, details */
+    --text-caption--line-height: calc(1.25 / 0.9375);
+    --text-body-sm: 1rem; /* 16 — secondary paragraphs, footer links */
+    --text-body: 1.125rem; /* 18 — body copy, totals rows, form inputs */
+    --text-body--line-height: 1.5;
+    --text-price: 1.125rem; /* 18 — cart/checkout line prices and quantities */
+    --text-price--line-height: 1.5;
+    --text-card-price: 1.5rem; /* 24 — price on product cards */
+    --text-card-price--line-height: 1;
+    --text-lead: 1.125rem; /* 18 → 20 — intro paragraphs (never below text-body) */
+    --text-item-title: 1.25rem; /* 20 — cart/checkout line names, small card heads */
+    --text-item-title--line-height: 1.4;
+    --text-card-title: 1.3125rem; /* 21 → 24 — product card names */
+    --text-subtitle: 1.5rem; /* 24 — short headings in cards and empty states */
+    --text-subtitle--line-height: calc(2 / 1.5);
+    --text-title: 1.75rem; /* 28 — cart heading, totals, big prices */
+    --text-title--line-height: 1.2;
+    --text-heading: 1.5rem; /* 24 → 30 — headings inside a page (form steps, legal) */
+    --text-heading--line-height: calc(2 / 1.5);
+    --text-heading-lg: 1.875rem; /* 30 → 36 — About chapters */
+    --text-section: 2.4rem; /* → 48 → 60 — landing/page section headings */
+    --text-page: 3rem; /* → 72 → 96 — page h1 */
+    --text-hero: 2.9rem; /* → 60 → 80 — carousel headline */
+
     --font-sans: "Jost Variable", "Jost", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Hatton", "Times New Roman", serif;
 
@@ -69,6 +103,28 @@
 }
 
 @layer base {
+    /* Type roles that grow with the screen (phone values live in @theme). */
+    @media (min-width: 40rem) {
+        :root {
+            --text-lead: 1.25rem;
+            --text-card-title: 1.5rem;
+            --text-heading: 1.875rem;
+            --text-heading--line-height: 1.2;
+            --text-heading-lg: 2.25rem;
+            --text-section: 3rem;
+            --text-page: 4.5rem;
+            --text-hero: 3.75rem;
+        }
+    }
+
+    @media (min-width: 64rem) {
+        :root {
+            --text-section: 3.75rem;
+            --text-page: 6rem;
+            --text-hero: 5rem;
+        }
+    }
+
     html {
         -webkit-text-size-adjust: 100%;
         scrollbar-color: var(--color-line-strong) var(--color-blush);
@@ -177,7 +233,7 @@
 
     .eyebrow {
         font-family: var(--font-sans);
-        font-size: 0.6875rem;
+        font-size: var(--text-label);
         font-weight: 500;
         letter-spacing: 0.22em;
         text-transform: uppercase;

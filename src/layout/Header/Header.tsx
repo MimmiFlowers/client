@@ -34,7 +34,7 @@ const Header = () => {
             <header className="fixed inset-x-0 top-0 z-40">
                 {/* Announcement strip */}
                 <div className="flex h-8 items-center justify-center bg-primary px-4">
-                    <p className="truncate text-[10.5px] font-medium tracking-[0.2em] text-ink uppercase">
+                    <p className="truncate text-label font-medium tracking-[0.06em] max-[359px]:tracking-[0.02em] sm:tracking-[0.18em] text-ink uppercase">
                         {t("cart.free_delivery_hint")}
                     </p>
                 </div>
@@ -48,19 +48,19 @@ const Header = () => {
                     }`}
                 >
                     <div className="container-luxe grid h-16 grid-cols-[1fr_auto_1fr] items-center md:h-20">
-                        {/* Left: burger on mobile, nav on desktop */}
+                        {/* Left: burger below xl, nav from xl */}
                         <div className="flex items-center">
                             <BurgerMenu />
                             <nav
                                 aria-label={t("nav.main")}
-                                className="hidden items-center gap-9 lg:flex"
+                                className="hidden items-center gap-6 xl:flex 2xl:gap-9"
                             >
                                 {navLinks.map((link) => (
                                     <NavLink
                                         key={link.to}
                                         to={link.to}
                                         className={({ isActive }) =>
-                                            `group relative py-2 text-[12px] font-medium tracking-[0.16em] uppercase transition-colors duration-300 ${
+                                            `group relative py-2 text-label font-medium tracking-[0.12em] whitespace-nowrap uppercase 2xl:tracking-[0.16em] transition-colors duration-300 ${
                                                 isActive
                                                     ? "text-ink"
                                                     : "text-ink-soft hover:text-ink"
@@ -94,7 +94,7 @@ const Header = () => {
 
                         {/* Right: language + bag */}
                         <div className="flex items-center justify-end gap-6">
-                            <LanguageSwitch className="hidden lg:flex" />
+                            <LanguageSwitch className="hidden xl:flex" />
                             <button
                                 type="button"
                                 onClick={() => setShowCart(true)}
@@ -102,9 +102,9 @@ const Header = () => {
                                 aria-expanded={showCart}
                                 className="group relative -mr-2 flex h-11 w-11 cursor-pointer items-center justify-center text-ink"
                             >
-                                <BagIcon className="h-[1.4rem] w-[1.4rem] transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5" />
+                                <BagIcon className="h-[1.625rem] w-[1.625rem] transition-transform duration-500 ease-luxe group-hover:-translate-y-0.5" />
                                 {count > 0 && (
-                                    <span className="price absolute top-1.5 right-0.5 flex h-[1.1rem] min-w-[1.1rem] items-center justify-center rounded-full bg-ink px-1 text-[10px] leading-none font-medium text-blush">
+                                    <span className="price absolute top-0.5 right-0 flex h-[1.25rem] min-w-[1.25rem] items-center justify-center rounded-full bg-ink px-1 text-badge leading-none font-medium text-blush">
                                         {count}
                                     </span>
                                 )}

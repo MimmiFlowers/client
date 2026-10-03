@@ -50,10 +50,10 @@ const DecorationTray = ({
                                 draggable={false}
                                 className="h-12 w-12 object-contain"
                             />
-                            <span className="text-center text-[13px] leading-tight">
+                            <span className="text-center text-caption leading-tight">
                                 {decoration.name}
                             </span>
-                            <span className="price text-ink-soft text-xs">
+                            <span className="price text-ink-soft text-label">
                                 {t("wreath.each", {
                                     price: decoration.price.toLocaleString(
                                         "sv-SE",

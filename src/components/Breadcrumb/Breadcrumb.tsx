@@ -7,7 +7,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
 
     return (
         <nav aria-label={t("nav.breadcrumb")} className="container-luxe pt-6 md:pt-10">
-            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium tracking-[0.16em] text-muted uppercase">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-label font-medium tracking-[0.16em] text-muted uppercase">
                 {items.map((item, idx) => (
                     <li key={idx} className="flex items-center gap-2">
                         {idx > 0 && (

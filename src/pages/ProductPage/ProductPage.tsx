@@ -145,12 +145,12 @@ const ProductPage = () => {
     if (error || !product) {
         return (
             <div className="container-luxe flex min-h-[60dvh] flex-col items-center justify-center text-center">
-                <p className="font-display text-3xl">
+                <p className="font-display text-title">
                     {error || t("errors.load_product")}
                 </p>
                 <Link
                     to="/Catalog"
-                    className="mt-8 min-h-11 border-b border-ink pb-1 text-[12px] font-medium tracking-[0.16em] uppercase"
+                    className="mt-8 min-h-11 border-b border-ink pb-1 text-label font-medium tracking-[0.16em] uppercase"
                 >
                     {t("checkout.browse_catalog")}
                 </Link>
@@ -164,8 +164,8 @@ const ProductPage = () => {
             onClick={handleAddToCart}
             className={`group flex cursor-pointer items-center justify-center gap-3 rounded-full font-medium whitespace-nowrap uppercase transition-[background-color,transform] duration-500 ease-luxe active:scale-[0.98] ${
                 size === "lg"
-                    ? "h-14 min-w-0 flex-1 text-[12px] tracking-[0.16em]"
-                    : "h-12 shrink-0 px-5 text-[11px] tracking-[0.1em]"
+                    ? "h-14 min-w-0 flex-1 text-label tracking-[0.16em]"
+                    : "h-12 shrink-0 px-5 text-label tracking-[0.08em]"
             } ${
                 addedFeedback
                     ? "bg-success text-blush"
@@ -236,7 +236,7 @@ const ProductPage = () => {
                         </h1>
                         {(product.collection || product.category) && (
                             <p
-                                className="mt-3 animate-rise text-sm text-ink-soft"
+                                className="mt-3 animate-rise text-caption text-ink-soft"
                                 style={{ animationDelay: "150ms" }}
                             >
                                 {[
@@ -263,11 +263,11 @@ const ProductPage = () => {
                             className="mt-5 flex animate-rise items-baseline justify-between gap-4 border-b border-line pb-6"
                             style={{ animationDelay: "180ms" }}
                         >
-                            <p className="price font-display text-3xl">
+                            <p className="price font-display text-title">
                                 {product.price.toLocaleString("sv-SE")}{" "}
-                                <span className="text-xl">kr</span>
+                                <span className="text-item-title">kr</span>
                             </p>
-                            <p className="price text-[11px] tracking-[0.14em] text-muted uppercase">
+                            <p className="price text-label tracking-[0.14em] text-muted uppercase">
                                 {t("product_page.sku_label")} {product.sku}
                             </p>
                         </div>
@@ -279,7 +279,7 @@ const ProductPage = () => {
                             <h2 className="eyebrow">
                                 {t("product_page.description")}
                             </h2>
-                            <p className="mt-3 text-[16px] leading-[1.75] text-ink-soft">
+                            <p className="mt-3 text-body leading-[1.75] text-ink-soft">
                                 {product.description}
                             </p>
 
@@ -292,7 +292,7 @@ const ProductPage = () => {
                                         {product.contents.map((item) => (
                                             <li
                                                 key={item}
-                                                className="rounded-full border border-line-strong px-3.5 py-1.5 text-[13px] text-ink-soft capitalize"
+                                                className="rounded-full border border-line-strong px-3.5 py-1.5 text-caption text-ink-soft capitalize"
                                             >
                                                 {item}
                                             </li>
@@ -328,7 +328,7 @@ const ProductPage = () => {
                                         <MinusIcon className="h-4 w-4" />
                                     </button>
                                     <span
-                                        className="price w-6 text-center text-[15px]"
+                                        className="price w-6 text-center text-body-sm"
                                         aria-live="polite"
                                     >
                                         {quantity}
@@ -350,7 +350,7 @@ const ProductPage = () => {
                                 {addButton("lg")}
                             </div>
 
-                            <ul className="mt-6 space-y-3 text-sm text-ink-soft">
+                            <ul className="mt-6 space-y-3 text-caption text-ink-soft">
                                 <li className="flex items-center gap-3">
                                     <TruckIcon className="h-5 w-5 shrink-0 text-ink" />
                                     {t("product_page.free_delivery")}
@@ -369,7 +369,7 @@ const ProductPage = () => {
             {related.length > 0 && (
                 <section className="mt-24 md:mt-36">
                     <Reveal className="container-luxe">
-                        <h2 className="font-display text-[2.4rem] leading-none font-medium tracking-[-0.02em] sm:text-5xl">
+                        <h2 className="font-display text-section leading-none font-medium tracking-[-0.02em]">
                             {t("product_page.you_may_also_like")}
                         </h2>
                     </Reveal>
@@ -398,10 +398,10 @@ const ProductPage = () => {
             >
                 <div className="container-luxe flex items-center gap-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
                     <div className="min-w-0 flex-1">
-                        <p className="truncate font-display text-lg leading-tight">
+                        <p className="truncate font-display text-item-title leading-tight">
                             {product.name}
                         </p>
-                        <p className="price text-sm text-ink-soft">
+                        <p className="price text-caption text-ink-soft">
                             {(product.price * quantity).toLocaleString("sv-SE")} kr
                         </p>
                     </div>

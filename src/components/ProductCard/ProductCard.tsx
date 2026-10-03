@@ -13,8 +13,8 @@ type Props = {
 export const ProductCardSkeleton = () => (
     <div aria-hidden="true">
         <div className="aspect-[4/5] w-full animate-shimmer rounded-[2px] bg-blush-deep" />
-        <div className="mt-4 h-5 w-2/3 animate-shimmer rounded-full bg-blush-deep" />
-        <div className="mt-2 h-4 w-1/4 animate-shimmer rounded-full bg-blush-deep" />
+        <div className="mt-4 h-6 w-2/3 animate-shimmer rounded-full bg-blush-deep" />
+        <div className="mt-2 h-5 w-1/4 animate-shimmer rounded-full bg-blush-deep" />
     </div>
 );
 
@@ -36,7 +36,7 @@ const ProductCard = ({ productMini, showCollection, eager }: Props) => {
                 />
 
                 {showCollection && collection && (
-                    <span className="absolute top-3 left-3 bg-surface/90 px-2.5 py-1 text-[10px] font-medium tracking-[0.16em] text-ink uppercase">
+                    <span className="absolute top-3 left-3 bg-surface/90 px-2.5 py-1 text-badge font-medium tracking-[0.16em] text-ink uppercase">
                         {t(`catalog.collection.${collection.toLowerCase()}`, {
                             defaultValue: collection,
                         })}
@@ -49,13 +49,13 @@ const ProductCard = ({ productMini, showCollection, eager }: Props) => {
                 </span>
             </div>
 
-            <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                <h3 className="font-display text-[1.15rem] leading-tight text-ink sm:text-xl">
+            <div className="mt-4 flex flex-col gap-1.5">
+                <h3 className="font-display text-card-title leading-tight text-ink">
                     <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 ease-luxe group-hover:bg-[length:100%_1px]">
                         {name}
                     </span>
                 </h3>
-                <p className="price shrink-0 text-sm text-ink-soft">
+                <p className="price text-card-price text-ink">
                     {price.toLocaleString("sv-SE")} kr
                 </p>
             </div>

@@ -49,13 +49,13 @@ const ContactPage = () => {
 
             <header className="container-luxe pt-10 md:pt-16">
                 <h1
-                    className="animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-[6rem]"
+                    className="animate-rise font-display text-page leading-[0.95] font-medium tracking-[-0.03em]"
                     style={{ animationDelay: "100ms" }}
                 >
                     {t("contact.title")}
                 </h1>
                 <p
-                    className="mt-6 max-w-xl animate-rise text-lg leading-relaxed text-ink-soft"
+                    className="mt-6 max-w-xl animate-rise text-lead leading-relaxed text-ink-soft"
                     style={{ animationDelay: "180ms" }}
                 >
                     {t("contact.subtitle")}
@@ -95,10 +95,10 @@ const ContactPage = () => {
                 {/* Social — the shop is online-only for now */}
                 <aside className="lg:col-span-5">
                     <Reveal className="rounded-[1.75rem] bg-surface p-7 shadow-soft sm:p-10">
-                        <h2 className="font-display text-3xl">
+                        <h2 className="font-display text-title">
                             {t("contact.follow_us")}
                         </h2>
-                        <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">
+                        <p className="mt-3 text-body-sm leading-relaxed text-ink-soft">
                             {t("contact.follow_us_text")}
                         </p>
                         <ul className="mt-8">
@@ -115,10 +115,10 @@ const ContactPage = () => {
                                                 <Icon className="h-[1.15rem] w-[1.15rem]" />
                                             </span>
                                             <span className="min-w-0 flex-1">
-                                                <span className="block font-display text-2xl leading-tight text-ink">
+                                                <span className="block font-display text-subtitle leading-tight text-ink">
                                                     {name}
                                                 </span>
-                                                <span className="block text-[15px] text-ink-soft">
+                                                <span className="block text-body-sm text-ink-soft">
                                                     {handle}
                                                 </span>
                                             </span>
@@ -128,7 +128,7 @@ const ContactPage = () => {
                                 ),
                             )}
                         </ul>
-                        <p className="flex gap-3 border-t border-line pt-6 text-[15px] leading-relaxed text-ink-soft">
+                        <p className="flex gap-3 border-t border-line pt-6 text-body-sm leading-relaxed text-ink-soft">
                             <TruckIcon className="mt-0.5 h-5 w-5 shrink-0 text-ink" />
                             {t("contact.online_only")}
                         </p>

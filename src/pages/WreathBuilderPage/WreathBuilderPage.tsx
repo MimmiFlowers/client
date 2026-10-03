@@ -45,7 +45,7 @@ function Step({ n, title }: { n: number; title: string }) {
             >
                 0{n}
             </span>
-            <h2 className="font-display text-2xl leading-tight sm:text-3xl">
+            <h2 className="font-display text-heading leading-tight">
                 {title}
             </h2>
         </div>
@@ -155,7 +155,7 @@ const WreathBuilderPage = () => {
                 <button
                     type="button"
                     onClick={fetchOptions}
-                    className="bg-ink text-blush hover:bg-ink-soft mt-6 inline-flex h-12 cursor-pointer items-center rounded-full px-6 text-[12px] font-medium tracking-[0.16em] uppercase"
+                    className="bg-ink text-blush hover:bg-ink-soft mt-6 inline-flex h-12 cursor-pointer items-center rounded-full px-6 text-label font-medium tracking-[0.16em] uppercase"
                 >
                     {t("wreath.retry")}
                 </button>
@@ -292,8 +292,8 @@ const WreathBuilderPage = () => {
             disabled={adding}
             className={`group ease-luxe flex cursor-pointer items-center justify-center gap-3 rounded-full font-medium whitespace-nowrap uppercase transition-[background-color,transform] duration-500 active:scale-[0.98] disabled:cursor-wait disabled:opacity-70 ${
                 size === "lg"
-                    ? "h-14 w-full text-[12px] tracking-[0.16em]"
-                    : "h-12 shrink-0 px-5 text-[11px] tracking-[0.1em]"
+                    ? "h-14 w-full text-label tracking-[0.16em]"
+                    : "h-12 shrink-0 px-5 text-label tracking-[0.08em]"
             } ${added ? "bg-success text-blush" : "bg-ink text-blush hover:bg-ink-soft"}`}
         >
             {added ? (
@@ -321,10 +321,10 @@ const WreathBuilderPage = () => {
             />
 
             <section className="container-luxe mt-6 md:mt-10">
-                <h1 className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+                <h1 className="font-display text-section leading-[1] font-medium tracking-[-0.02em]">
                     {t("wreath.title")}
                 </h1>
-                <p className="text-ink-soft mt-4 max-w-xl text-[15px] leading-relaxed">
+                <p className="text-ink-soft mt-4 max-w-xl text-body-sm leading-relaxed">
                     {t("wreath.intro")}
                 </p>
             </section>
@@ -343,7 +343,7 @@ const WreathBuilderPage = () => {
                                 onSlotTap={onSlotTap}
                             />
                         </div>
-                        <div className="text-ink-soft mt-3 flex min-h-11 flex-wrap items-center justify-center gap-3 text-center text-xs">
+                        <div className="text-ink-soft mt-3 flex min-h-11 flex-wrap items-center justify-center gap-3 text-center text-label">
                             {selectedDecoration && selectedSlot !== null ? (
                                 <button
                                     type="button"
@@ -374,7 +374,7 @@ const WreathBuilderPage = () => {
                         {design.dropped > 0 && (
                             <p
                                 role="status"
-                                className="text-danger mt-2 text-center text-xs"
+                                className="text-danger mt-2 text-center text-label"
                             >
                                 {t("wreath.dropped_notice", {
                                     count: design.dropped,
@@ -455,7 +455,7 @@ const WreathBuilderPage = () => {
                         className="border-line bg-surface rounded-[2px] border p-6"
                         aria-label={t("wreath.total")}
                     >
-                        <dl className="space-y-2 text-sm">
+                        <dl className="space-y-2 text-caption">
                             <div className="flex justify-between gap-4">
                                 <dt className="text-ink-soft">
                                     {t("wreath.summary_base")} ·{" "}
@@ -481,7 +481,7 @@ const WreathBuilderPage = () => {
                                 <dt className="font-medium">
                                     {t("wreath.total")}
                                 </dt>
-                                <dd className="price font-display text-2xl">
+                                <dd className="price font-display text-subtitle">
                                     {kr(price.total)}
                                 </dd>
                             </div>
@@ -489,7 +489,7 @@ const WreathBuilderPage = () => {
                         {imageWarning && (
                             <p
                                 role="status"
-                                className="text-ink-soft mt-4 text-xs"
+                                className="text-ink-soft mt-4 text-label"
                             >
                                 {t("wreath.image_warning")}
                             </p>
@@ -497,7 +497,7 @@ const WreathBuilderPage = () => {
                         {submitError && (
                             <p
                                 role="alert"
-                                className="text-danger mt-4 flex items-center gap-2 text-sm"
+                                className="text-danger mt-4 flex items-center gap-2 text-caption"
                             >
                                 <AlertIcon className="h-4 w-4" /> {submitError}
                             </p>
@@ -516,10 +516,10 @@ const WreathBuilderPage = () => {
             >
                 <div className="container-luxe flex items-center gap-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
                     <div className="min-w-0 flex-1">
-                        <p className="font-display truncate text-lg leading-tight">
+                        <p className="font-display truncate text-item-title leading-tight">
                             {t("wreath.cart_name")}
                         </p>
-                        <p className="price text-ink-soft text-sm">
+                        <p className="price text-ink-soft text-caption">
                             {kr(price.total)}
                         </p>
                     </div>

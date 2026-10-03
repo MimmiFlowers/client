@@ -64,10 +64,10 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
             >
                 {/* Head */}
                 <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-5 sm:h-20 sm:px-8">
-                    <h2 className="font-display text-2xl font-medium">
+                    <h2 className="font-display text-title font-medium">
                         {t("cart.your_cart")}
                         {items.length > 0 && (
-                            <span className="price ml-2 align-top font-sans text-xs text-muted">
+                            <span className="price ml-2 align-top font-sans text-caption text-muted">
                                 ({items.reduce((n, i) => n + i.quantity, 0)})
                             </span>
                         )}
@@ -87,16 +87,16 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                         <span className="flex h-20 w-20 items-center justify-center rounded-full bg-blush text-muted">
                             <BagIcon className="h-8 w-8" />
                         </span>
-                        <p className="mt-6 font-display text-2xl">
+                        <p className="mt-6 font-display text-subtitle">
                             {t("cart.empty_cart")}
                         </p>
-                        <p className="mt-2 max-w-60 text-sm text-muted">
+                        <p className="mt-2 max-w-64 text-body-sm text-muted">
                             {t("checkout.empty_cart_hint")}
                         </p>
                         <Link
                             to="/Catalog"
                             onClick={onClose}
-                            className="group mt-8 inline-flex items-center gap-3 border-b border-ink pb-1 text-[12px] font-medium tracking-[0.16em] uppercase"
+                            className="group mt-8 inline-flex items-center gap-3 border-b border-ink pb-1 text-button font-medium tracking-[0.16em] uppercase"
                         >
                             {t("checkout.browse_catalog")}
                             <ArrowRightIcon className="h-4 w-4 transition-transform duration-500 ease-luxe group-hover:translate-x-1" />
@@ -106,7 +106,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                     <>
                         {/* Free delivery progress */}
                         <div className="shrink-0 border-b border-line px-5 py-4 sm:px-8">
-                            <p className="flex items-center gap-2 text-[13px] text-ink-soft">
+                            <p className="flex items-center gap-2 text-body-sm text-ink-soft">
                                 {isFreeDelivery && (
                                     <CheckIcon className="h-4 w-4 text-success" />
                                 )}
@@ -154,22 +154,22 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
 
                                     <div className="flex min-w-0 flex-1 flex-col">
                                         <div className="flex items-start justify-between gap-3">
-                                            <p className="font-display text-lg leading-tight">
+                                            <p className="font-display text-item-title leading-tight">
                                                 {item.name}
                                             </p>
-                                            <p className="price shrink-0 text-sm">
+                                            <p className="price shrink-0 text-price">
                                                 {(
                                                     item.price * item.quantity
                                                 ).toLocaleString("sv-SE")}{" "}
                                                 kr
                                             </p>
                                         </div>
-                                        <p className="price mt-1 text-xs text-muted">
+                                        <p className="price mt-1 text-caption text-muted">
                                             {item.price.toLocaleString("sv-SE")}{" "}
                                             {t("cart.pp")}
                                         </p>
                                         {item.details?.length ? (
-                                            <ul className="mt-1 space-y-0.5 text-xs leading-snug text-muted">
+                                            <ul className="mt-1 space-y-0.5 text-caption leading-snug text-muted">
                                                 {item.details.map(
                                                     (line, index) => (
                                                         <li key={index}>
@@ -195,7 +195,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                                 >
                                                     <MinusIcon className="h-3.5 w-3.5" />
                                                 </button>
-                                                <span className="price w-6 text-center text-sm">
+                                                <span className="price w-7 text-center text-price">
                                                     {item.quantity}
                                                 </span>
                                                 <button
@@ -217,7 +217,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                                 onClick={() =>
                                                     removeItem(item.id)
                                                 }
-                                                className="-mr-2 min-h-11 cursor-pointer px-2 text-xs text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-danger"
+                                                className="-mr-2 min-h-11 cursor-pointer px-2 text-caption text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-danger"
                                             >
                                                 {t("cart.remove")}
                                             </button>
@@ -229,7 +229,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
 
                         {/* Totals */}
                         <div className="shrink-0 border-t border-line bg-surface px-5 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8 sm:pb-8">
-                            <dl className="space-y-2 text-sm">
+                            <dl className="space-y-2 text-body">
                                 <div className="flex justify-between text-ink-soft">
                                     <dt>{t("cart.subtotal")}</dt>
                                     <dd className="price">
@@ -248,7 +248,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                     <dt className="eyebrow text-ink">
                                         {t("cart.total")}
                                     </dt>
-                                    <dd className="price font-display text-2xl">
+                                    <dd className="price font-display text-title">
                                         {grandTotal.toLocaleString("sv-SE")} kr
                                     </dd>
                                 </div>
@@ -260,7 +260,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                                     onClose();
                                     navigate("/Checkout");
                                 }}
-                                className="group mt-5 flex h-14 w-full cursor-pointer items-center justify-between rounded-full bg-ink pr-2 pl-7 text-[12px] font-medium tracking-[0.18em] text-blush uppercase transition-transform duration-300 active:scale-[0.98]"
+                                className="group mt-5 flex h-14 w-full cursor-pointer items-center justify-between rounded-full bg-ink pr-2 pl-7 text-button font-medium tracking-[0.18em] text-blush uppercase transition-transform duration-300 active:scale-[0.98]"
                             >
                                 {t("cart.checkout")}
                                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-0.5">
@@ -270,7 +270,7 @@ export const CartDropdown: React.FC<Props> = ({ open, onClose }) => {
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="mt-2 flex min-h-11 w-full cursor-pointer items-center justify-center text-[12px] tracking-[0.12em] text-muted uppercase transition-colors hover:text-ink"
+                                className="mt-2 flex min-h-11 w-full cursor-pointer items-center justify-center text-button tracking-[0.12em] text-muted uppercase transition-colors hover:text-ink"
                             >
                                 {t("cart.continue_shopping")}
                             </button>

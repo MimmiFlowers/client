@@ -20,7 +20,7 @@ const Footer = () => {
                             <br />
                             Flowers
                         </Link>
-                        <p className="mt-6 max-w-xs text-[15px] leading-relaxed text-ink-soft">
+                        <p className="mt-6 max-w-xs text-body-sm leading-relaxed text-ink-soft">
                             {t("footer.tagline")}
                         </p>
                         <div className="mt-7 flex items-center gap-3">
@@ -56,7 +56,7 @@ const Footer = () => {
                                 <li key={link.to}>
                                     <Link
                                         to={link.to}
-                                        className="inline-flex min-h-9 items-center text-[15px] text-ink-soft transition-colors duration-300 hover:text-ink"
+                                        className="inline-flex min-h-9 items-center text-body-sm text-ink-soft transition-colors duration-300 hover:text-ink"
                                     >
                                         {t(link.key)}
                                     </Link>
@@ -65,7 +65,7 @@ const Footer = () => {
                             <li>
                                 <Link
                                     to="/Privacy"
-                                    className="inline-flex min-h-9 items-center text-[15px] text-ink-soft transition-colors duration-300 hover:text-ink"
+                                    className="inline-flex min-h-9 items-center text-body-sm text-ink-soft transition-colors duration-300 hover:text-ink"
                                 >
                                     {t("footer.privacy_policy")}
                                 </Link>
@@ -76,7 +76,7 @@ const Footer = () => {
                     {/* Contact */}
                     <div className="md:col-span-3">
                         <h2 className="eyebrow">{t("footer.contact_title")}</h2>
-                        <address className="mt-5 space-y-1 text-[15px] leading-relaxed text-ink-soft not-italic">
+                        <address className="mt-5 space-y-1 text-body-sm leading-relaxed text-ink-soft not-italic">
                             <p className="min-h-9 py-1.5">
                                 {t("contact.address_value")}
                             </p>
@@ -96,7 +96,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="mt-16 flex flex-col gap-2 border-t border-line-strong pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-16 flex flex-col gap-2 border-t border-line-strong pt-6 text-label text-muted sm:flex-row sm:items-center sm:justify-between">
                     <p>
                         &copy; {new Date().getFullYear()} Mimmi Flowers.{" "}
                         {t("footer.rights")}

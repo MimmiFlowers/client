@@ -20,13 +20,13 @@ const AboutPage = () => {
 
             <header className="container-luxe pt-10 md:pt-16">
                 <h1
-                    className="max-w-5xl animate-rise font-display text-[3rem] leading-[0.95] font-medium tracking-[-0.03em] sm:text-7xl lg:text-[6rem]"
+                    className="max-w-5xl animate-rise font-display text-page leading-[0.95] font-medium tracking-[-0.03em]"
                     style={{ animationDelay: "100ms" }}
                 >
                     {t("about.title")}
                 </h1>
                 <p
-                    className="mt-6 max-w-xl animate-rise text-lg leading-relaxed text-ink-soft"
+                    className="mt-6 max-w-xl animate-rise text-lead leading-relaxed text-ink-soft"
                     style={{ animationDelay: "180ms" }}
                 >
                     {t("about.subtitle")}
@@ -57,13 +57,13 @@ const AboutPage = () => {
                             className="border-t border-line py-10 first:border-t-0 first:pt-0 md:py-14"
                         >
                             <div>
-                                <h2 className="font-display text-3xl leading-tight sm:text-4xl">
+                                <h2 className="font-display text-heading-lg leading-tight">
                                     {chapter.title}
                                 </h2>
                                 {chapter.body.map((paragraph) => (
                                     <p
                                         key={paragraph}
-                                        className="mt-5 max-w-xl text-[17px] leading-[1.75] text-ink-soft"
+                                        className="mt-5 max-w-xl text-lead leading-[1.75] text-ink-soft"
                                     >
                                         {paragraph}
                                     </p>
@@ -75,7 +75,7 @@ const AboutPage = () => {
                     <Reveal className="border-t border-line pt-10">
                         <Link
                             to="/Catalog"
-                            className="group inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-[12px] font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
+                            className="group inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-label font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
                         >
                             {t("about.browse_catalog")}
                             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">

@@ -60,17 +60,17 @@ const CollectionList = () => {
                 <div>
                     <h2
                         id="collections-title"
-                        className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+                        className="font-display text-section leading-[1] font-medium tracking-[-0.02em]"
                     >
                         {t("collections.title")}
                     </h2>
-                    <p className="mt-4 max-w-md text-[15px] leading-relaxed text-ink-soft">
+                    <p className="mt-4 max-w-md text-body-sm leading-relaxed text-ink-soft">
                         {t("home.collections_text")}
                     </p>
                 </div>
                 <Link
                     to="/Catalog"
-                    className="group inline-flex min-h-11 items-center gap-3 text-[12px] font-medium tracking-[0.16em] text-ink uppercase"
+                    className="group inline-flex min-h-11 items-center gap-3 text-label font-medium tracking-[0.16em] text-ink uppercase"
                 >
                     <span className="border-b border-ink/30 pb-1 transition-colors duration-300 group-hover:border-ink">
                         {t("specials.show_all")}
@@ -80,7 +80,7 @@ const CollectionList = () => {
             </Reveal>
 
             {error ? (
-                <p className="container-luxe mt-10 text-sm text-danger" role="alert">
+                <p className="container-luxe mt-10 text-caption text-danger" role="alert">
                     {error}
                 </p>
             ) : (

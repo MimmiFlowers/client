@@ -107,7 +107,7 @@ const SuccessPage = () => {
             >
                 <div className="mx-auto mb-6 inline-flex flex-col items-center rounded-2xl border border-line bg-surface px-8 py-4">
                     <span className="eyebrow">{t("success.order_id")}</span>
-                    <span className="price mt-1.5 font-display text-2xl tracking-[0.04em] text-ink">
+                    <span className="price mt-1.5 font-display text-subtitle tracking-[0.04em] text-ink">
                         {orderID}
                     </span>
                 </div>

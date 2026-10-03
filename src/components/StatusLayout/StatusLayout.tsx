@@ -21,7 +21,7 @@ const StatusLayout = ({ visual, note, title, children, actions }: Props) => (
         </h1>
         {note && (
             <p
-                className="mt-3 animate-rise font-display text-xl text-accent-ink"
+                className="mt-3 animate-rise font-display text-item-title text-accent-ink"
                 style={{ animationDelay: "170ms" }}
             >
                 {note}
@@ -29,7 +29,7 @@ const StatusLayout = ({ visual, note, title, children, actions }: Props) => (
         )}
         {children && (
             <div
-                className="mt-6 max-w-md animate-rise space-y-2 text-[15px] leading-relaxed text-ink-soft"
+                className="mt-6 max-w-md animate-rise space-y-2 text-body-sm leading-relaxed text-ink-soft"
                 style={{ animationDelay: "200ms" }}
             >
                 {children}

@@ -46,15 +46,15 @@ const ChoiceGroup = ({ label, name, choices, value, onChange }: Props) => (
                                     className="h-14 w-14 object-contain"
                                 />
                             )}
-                            <span className="text-[15px] leading-tight">
+                            <span className="text-body-sm leading-tight">
                                 {choice.name}
                             </span>
                             {choice.meta && (
-                                <span className="text-muted text-xs">
+                                <span className="text-muted text-label">
                                     {choice.meta}
                                 </span>
                             )}
-                            <span className="price text-ink-soft text-xs">
+                            <span className="price text-ink-soft text-label">
                                 {choice.priceLabel}
                             </span>
                         </span>

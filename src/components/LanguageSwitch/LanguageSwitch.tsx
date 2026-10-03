@@ -2,13 +2,20 @@ import { useTranslation } from "react-i18next";
 
 const LANGUAGES = ["en", "sv"] as const;
 
-const LanguageSwitch = ({ className = "" }: { className?: string }) => {
+const LanguageSwitch = ({
+    className = "",
+    size = "sm",
+}: {
+    className?: string;
+    /** "lg" in the burger menu, where it is a primary touch control. */
+    size?: "sm" | "lg";
+}) => {
     const { i18n } = useTranslation();
     const current = i18n.resolvedLanguage;
 
     return (
         <div
-            className={`flex items-center text-[12px] font-medium tracking-[0.18em] ${className}`}
+            className={`flex items-center font-medium tracking-[0.18em] ${size === "lg" ? "text-body-sm" : "text-label"} ${className}`}
         >
             {LANGUAGES.map((lng, i) => {
                 const active = current === lng;
@@ -21,7 +28,7 @@ const LanguageSwitch = ({ className = "" }: { className?: string }) => {
                             type="button"
                             onClick={() => i18n.changeLanguage(lng)}
                             aria-pressed={active}
-                            className={`min-h-11 cursor-pointer px-1 uppercase transition-colors duration-300 ${
+                            className={`min-h-11 cursor-pointer uppercase ${size === "lg" ? "min-w-11 px-2" : "px-1"} transition-colors duration-300 ${
                                 active
                                     ? "text-ink"
                                     : "text-muted hover:text-ink"

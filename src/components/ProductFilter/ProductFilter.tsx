@@ -38,7 +38,7 @@ export const SortSelect = ({
                 id={id}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="min-h-11 w-full cursor-pointer appearance-none rounded-none border-b border-line-strong bg-transparent pr-7 text-[15px] text-ink transition-colors outline-none focus:border-ink"
+                className="min-h-11 w-full cursor-pointer appearance-none rounded-none border-b border-line-strong bg-transparent pr-7 text-body-sm text-ink transition-colors outline-none focus:border-ink"
             >
                 {sortOptions.map((o) => (
                     <option key={o.value} value={o.value}>
@@ -65,7 +65,7 @@ const Option = ({
             type="button"
             onClick={onClick}
             aria-pressed={active}
-            className={`group flex min-h-11 w-full cursor-pointer items-center gap-3 text-left text-[15px] transition-colors duration-300 ${
+            className={`group flex min-h-11 w-full cursor-pointer items-center gap-3 text-left text-body-sm transition-colors duration-300 ${
                 active ? "text-ink" : "text-ink-soft hover:text-ink"
             }`}
         >
@@ -107,7 +107,7 @@ const ProductFilter = ({
     return (
         <div className="flex flex-col">
             <div className="flex min-h-11 items-center justify-between border-b border-line pb-4">
-                <p className="price text-sm text-muted">
+                <p className="price text-caption text-muted">
                     {t(
                         resultCount === 1
                             ? "catalog.results_count_one"
@@ -119,7 +119,7 @@ const ProductFilter = ({
                     <button
                         type="button"
                         onClick={onClearAll}
-                        className="min-h-11 cursor-pointer text-[12px] tracking-[0.12em] text-ink uppercase underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+                        className="min-h-11 cursor-pointer text-label tracking-[0.12em] text-ink uppercase underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
                     >
                         {t("catalog.clear_all")}
                     </button>

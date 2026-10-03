@@ -27,7 +27,7 @@ interface FormErrors {
 }
 
 const inputClass = (error?: string) =>
-    `h-13 w-full rounded-xl border bg-surface px-4 text-[16px] text-ink transition-[border-color,box-shadow] duration-300 outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
+    `h-13 w-full rounded-xl border bg-surface px-4 text-body text-ink transition-[border-color,box-shadow] duration-300 outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
         error
             ? "border-danger focus:ring-4 focus:ring-danger/10"
             : "border-field hover:border-ink-soft focus:border-ink focus:ring-4 focus:ring-primary/50"
@@ -61,7 +61,7 @@ function FormInput({
         <div>
             <label
                 htmlFor={id}
-                className="mb-2 block text-[11px] font-medium tracking-[0.16em] text-ink-soft uppercase"
+                className="mb-2 block text-label font-medium tracking-[0.16em] text-ink-soft uppercase"
             >
                 {label}
             </label>
@@ -81,7 +81,7 @@ function FormInput({
             {error && (
                 <p
                     id={`${id}-error`}
-                    className="mt-2 flex items-center gap-1.5 text-[13px] text-danger"
+                    className="mt-2 flex items-center gap-1.5 text-caption text-danger"
                     role="alert"
                 >
                     <AlertIcon className="h-3.5 w-3.5 shrink-0" />
@@ -110,7 +110,7 @@ function Toggle({
             onClick={() => onChange(!checked)}
             className="flex min-h-11 w-full cursor-pointer items-center justify-between gap-4 text-left"
         >
-            <span className="text-[15px] text-ink">{label}</span>
+            <span className="text-body-sm text-ink">{label}</span>
             <span
                 className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-300 ${
                     checked ? "bg-ink" : "bg-line-strong"
@@ -138,7 +138,7 @@ function SectionHeader({ step, title }: { step: number; title: string }) {
             >
                 0{step}
             </span>
-            <h2 className="font-display text-2xl leading-tight sm:text-3xl">
+            <h2 className="font-display text-heading leading-tight">
                 <span className="sr-only">
                     {t("checkout.step_of", { step })}:{" "}
                 </span>
@@ -325,7 +325,7 @@ export default function CheckoutPage() {
                     />
                     <div className="flex min-w-0 flex-1 flex-col">
                         <div className="flex items-start justify-between gap-3">
-                            <p className="font-display text-[17px] leading-tight">
+                            <p className="font-display text-item-title leading-tight">
                                 {item.name}
                             </p>
                             <button
@@ -338,39 +338,39 @@ export default function CheckoutPage() {
                             </button>
                         </div>
                         {item.details?.length ? (
-                            <ul className="mt-1 space-y-0.5 text-xs leading-snug text-muted">
+                            <ul className="mt-1 space-y-0.5 text-caption leading-snug text-muted">
                                 {item.details.map((line, index) => (
                                     <li key={index}>{line}</li>
                                 ))}
                             </ul>
                         ) : null}
                         <div className="mt-auto flex items-center justify-between pt-2">
-                            <div className="flex h-8 items-center rounded-full border border-line-strong">
+                            <div className="flex h-10 items-center rounded-full border border-line-strong">
                                 <button
                                     type="button"
                                     onClick={() => decrease(item.id)}
-                                    className="flex h-full w-8 cursor-pointer items-center justify-center text-ink-soft hover:text-ink"
+                                    className="flex h-full w-10 cursor-pointer items-center justify-center text-ink-soft hover:text-ink"
                                     aria-label={t("cart.decrease", {
                                         name: item.name,
                                     })}
                                 >
-                                    <MinusIcon className="h-3 w-3" />
+                                    <MinusIcon className="h-3.5 w-3.5" />
                                 </button>
-                                <span className="price w-5 text-center text-[13px]">
+                                <span className="price w-7 text-center text-price">
                                     {item.quantity}
                                 </span>
                                 <button
                                     type="button"
                                     onClick={() => increase(item.id)}
-                                    className="flex h-full w-8 cursor-pointer items-center justify-center text-ink-soft hover:text-ink"
+                                    className="flex h-full w-10 cursor-pointer items-center justify-center text-ink-soft hover:text-ink"
                                     aria-label={t("cart.increase", {
                                         name: item.name,
                                     })}
                                 >
-                                    <PlusIcon className="h-3 w-3" />
+                                    <PlusIcon className="h-3.5 w-3.5" />
                                 </button>
                             </div>
-                            <span className="price text-sm">
+                            <span className="price text-price">
                                 {(item.price * item.quantity).toLocaleString(
                                     "sv-SE",
                                 )}{" "}
@@ -394,12 +394,12 @@ export default function CheckoutPage() {
                 <h1 className="mt-8 font-display text-4xl sm:text-5xl">
                     {t("checkout.empty_cart")}
                 </h1>
-                <p className="mt-3 max-w-xs text-[15px] text-ink-soft">
+                <p className="mt-3 max-w-xs text-body-sm text-ink-soft">
                     {t("checkout.empty_cart_hint")}
                 </p>
                 <Link
                     to="/Catalog"
-                    className="group mt-10 inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-[12px] font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
+                    className="group mt-10 inline-flex h-14 items-center gap-5 rounded-full bg-ink pr-2 pl-7 text-button font-medium tracking-[0.18em] text-blush uppercase active:scale-[0.98]"
                 >
                     {t("checkout.browse_catalog")}
                     <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-ink transition-transform duration-500 ease-luxe group-hover:translate-x-1">
@@ -414,19 +414,19 @@ export default function CheckoutPage() {
         <div className="container-luxe pt-8 md:pt-12">
             <title>{t("seo.checkout_title")}</title>
 
-            <h1 className="animate-rise font-display text-[3rem] leading-none font-medium tracking-[-0.03em] sm:text-7xl">
+            <h1 className="animate-rise font-display text-page leading-none font-medium tracking-[-0.03em]">
                 {t("checkout.page_title")}
             </h1>
 
             {/* Mobile: collapsible summary */}
             <details className="group mt-8 rounded-2xl border border-line bg-surface lg:hidden">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 [&::-webkit-details-marker]:hidden">
-                    <span className="flex items-center gap-2 text-[13px] text-ink">
+                    <span className="flex items-center gap-2 text-body-sm text-ink">
                         <BagIcon className="h-4 w-4" />
                         {t("checkout.show_summary")}
                         <ChevronDownIcon className="h-4 w-4 transition-transform duration-300 group-open:rotate-180" />
                     </span>
-                    <span className="price font-display text-xl">
+                    <span className="price font-display text-item-title">
                         {formatKr(total)}
                     </span>
                 </summary>
@@ -577,7 +577,7 @@ export default function CheckoutPage() {
                             <div>
                                 <label
                                     htmlFor="recipient-time"
-                                    className="mb-2 block text-[11px] font-medium tracking-[0.16em] text-ink-soft uppercase"
+                                    className="mb-2 block text-label font-medium tracking-[0.16em] text-ink-soft uppercase"
                                 >
                                     {t("checkout.delivery_time")}
                                 </label>
@@ -617,7 +617,7 @@ export default function CheckoutPage() {
                                 {errors.recipientTime ? (
                                     <p
                                         id="recipient-time-hint"
-                                        className="mt-2 flex items-center gap-1.5 text-[13px] text-danger"
+                                        className="mt-2 flex items-center gap-1.5 text-caption text-danger"
                                         role="alert"
                                     >
                                         <AlertIcon className="h-3.5 w-3.5 shrink-0" />
@@ -626,7 +626,7 @@ export default function CheckoutPage() {
                                 ) : (
                                     <p
                                         id="recipient-time-hint"
-                                        className="mt-2 text-[13px] text-muted"
+                                        className="mt-2 text-caption text-muted"
                                     >
                                         {t("checkout.delivery_time_range")}
                                     </p>
@@ -639,14 +639,14 @@ export default function CheckoutPage() {
                 {/* ── RIGHT: Order summary (sticky) ── */}
                 <aside className="lg:col-span-5">
                     <div className="rounded-[1.75rem] bg-surface p-6 shadow-soft sm:p-8 lg:sticky lg:top-36">
-                        <h2 className="hidden font-display text-2xl lg:block">
+                        <h2 className="hidden font-display text-title lg:block">
                             {t("checkout.cart_title")}
                         </h2>
                         <div className="hidden lg:mt-6 lg:block">
                             {summaryItems}
                         </div>
 
-                        <dl className="space-y-2.5 text-sm lg:mt-6 lg:border-t lg:border-line lg:pt-6">
+                        <dl className="space-y-2.5 text-body lg:mt-6 lg:border-t lg:border-line lg:pt-6">
                             <div className="flex justify-between text-ink-soft">
                                 <dt>{t("checkout.subtotal")}</dt>
                                 <dd className="price">{formatKr(subtotal)}</dd>
@@ -667,7 +667,7 @@ export default function CheckoutPage() {
                                 <dt className="eyebrow text-ink">
                                     {t("checkout.total")}
                                 </dt>
-                                <dd className="price font-display text-3xl">
+                                <dd className="price font-display text-title">
                                     {formatKr(total)}
                                 </dd>
                             </div>
@@ -675,7 +675,7 @@ export default function CheckoutPage() {
 
                         {submitError && (
                             <div
-                                className="mt-5 flex gap-2.5 rounded-xl bg-danger/8 px-4 py-3 text-sm text-danger"
+                                className="mt-5 flex gap-2.5 rounded-xl bg-danger/8 px-4 py-3 text-body-sm text-danger"
                                 role="alert"
                             >
                                 <AlertIcon className="mt-0.5 h-4 w-4 shrink-0" />
@@ -685,7 +685,7 @@ export default function CheckoutPage() {
 
                         <button
                             type="button"
-                            className="mt-6 flex h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-full bg-ink text-[12px] font-medium tracking-[0.18em] text-blush uppercase transition-[background-color,transform] duration-300 hover:bg-ink-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                            className="mt-6 flex h-14 w-full cursor-pointer items-center justify-center gap-3 rounded-full bg-ink text-button font-medium tracking-[0.18em] text-blush uppercase transition-[background-color,transform] duration-300 hover:bg-ink-soft active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                             onClick={handlePay}
                             disabled={isLoading || items.length === 0}
                             aria-busy={isLoading}
@@ -703,7 +703,7 @@ export default function CheckoutPage() {
                             )}
                         </button>
 
-                        <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-muted">
+                        <p className="mt-4 flex items-center justify-center gap-1.5 text-center text-caption text-muted">
                             <LockIcon className="h-3.5 w-3.5" />
                             {t("checkout.secure_payment")}
                         </p>

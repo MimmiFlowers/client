@@ -21,7 +21,7 @@ const App = () => {
         <div className="relative flex min-h-dvh w-full flex-col overflow-x-clip">
             <a
                 href="#main"
-                className="fixed top-2 left-2 z-[60] -translate-y-24 rounded-full bg-ink px-5 py-3 text-sm text-blush focus:translate-y-0"
+                className="fixed top-2 left-2 z-[60] -translate-y-24 rounded-full bg-ink px-5 py-3 text-caption text-blush focus:translate-y-0"
             >
                 {t("menu.skip_to_content")}
             </a>

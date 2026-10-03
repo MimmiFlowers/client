@@ -13,7 +13,7 @@ import {
     TikTokIcon,
 } from "../Icons/Icons";
 
-/** Full-screen navigation for phones and tablets. Hidden from lg: upwards. */
+/** Full-screen navigation for phones and tablets. Hidden from xl: upwards — the Swedish nav needs ~1280px beside the wordmark. */
 const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { t } = useTranslation();
@@ -21,7 +21,7 @@ const BurgerMenu = () => {
     const panelRef = useOverlay<HTMLDivElement>(
         isOpen,
         close,
-        "(min-width: 1024px)",
+        "(min-width: 1280px)",
     );
 
     const links = [{ to: "/", key: "breadcrumbs.home" }, ...navLinks];
@@ -31,7 +31,7 @@ const BurgerMenu = () => {
             <button
                 type="button"
                 onClick={() => setIsOpen(true)}
-                className="-ml-2.5 flex h-11 w-11 cursor-pointer items-center justify-center text-ink lg:hidden"
+                className="-ml-2.5 flex h-11 w-11 cursor-pointer items-center justify-center text-ink xl:hidden"
                 aria-label={t("menu.open")}
                 aria-expanded={isOpen}
                 aria-controls="mobile-menu"
@@ -47,7 +47,7 @@ const BurgerMenu = () => {
                     aria-modal="true"
                     aria-label={t("menu.title")}
                     inert={!isOpen}
-                    className={`fixed inset-0 z-50 flex flex-col bg-blush transition-[opacity,visibility] duration-500 ease-luxe lg:hidden ${
+                    className={`fixed inset-0 z-50 flex flex-col bg-blush transition-[opacity,visibility] duration-500 ease-luxe xl:hidden ${
                         isOpen ? "visible opacity-100" : "invisible opacity-0"
                     }`}
                 >
@@ -103,33 +103,33 @@ const BurgerMenu = () => {
                     <div className="container-luxe shrink-0 space-y-6 border-t border-line py-7 pb-[max(1.75rem,env(safe-area-inset-bottom))]">
                         <div className="flex items-center justify-between">
                             <span className="eyebrow">{t("menu.language")}</span>
-                            <LanguageSwitch />
+                            <LanguageSwitch size="lg" />
                         </div>
                         <div className="flex items-center justify-between">
                             <a
                                 href={`mailto:${t("contact.email_value")}`}
-                                className="text-sm text-ink-soft"
+                                className="text-body text-ink-soft"
                             >
                                 {t("contact.email_value")}
                             </a>
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-3">
                                 <a
                                     href={SOCIAL_LINKS.instagram}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Instagram"
-                                    className="flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                                    className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
                                 >
-                                    <InstagramIcon />
+                                    <InstagramIcon className="h-[1.35rem] w-[1.35rem]" />
                                 </a>
                                 <a
                                     href={SOCIAL_LINKS.tiktok}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="TikTok"
-                                    className="-mr-3 flex h-11 w-11 items-center justify-center text-ink-soft transition-colors hover:text-ink"
+                                    className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-ink transition-colors duration-300 hover:bg-primary-deep"
                                 >
-                                    <TikTokIcon className="h-[1.1rem] w-[1.1rem]" />
+                                    <TikTokIcon className="h-[1.2rem] w-[1.2rem]" />
                                 </a>
                             </div>
                         </div>

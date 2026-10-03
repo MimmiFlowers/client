@@ -16,17 +16,17 @@ const ProductList = ({
         return (
             <div className="flex flex-col items-center justify-center border border-dashed border-line-strong px-6 py-20 text-center">
                 <FlowerOutline />
-                <p className="mt-6 font-display text-2xl">
+                <p className="mt-6 font-display text-subtitle">
                     {t("catalog.no_products")}
                 </p>
-                <p className="mt-2 max-w-xs text-sm text-muted">
+                <p className="mt-2 max-w-xs text-caption text-muted">
                     {t("catalog.no_products_hint")}
                 </p>
                 {onClearAll && (
                     <button
                         type="button"
                         onClick={onClearAll}
-                        className="mt-8 min-h-11 cursor-pointer border-b border-ink pb-1 text-[12px] font-medium tracking-[0.16em] uppercase"
+                        className="mt-8 min-h-11 cursor-pointer border-b border-ink pb-1 text-label font-medium tracking-[0.16em] uppercase"
                     >
                         {t("catalog.clear_all")}
                     </button>

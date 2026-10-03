@@ -136,7 +136,7 @@ const TituleBlock = () => {
                         <div className="container-luxe absolute inset-0 flex flex-col justify-end pb-20 sm:pb-24 lg:pb-28">
                             <div className="max-w-2xl">
                                 <p
-                                    className={`font-display text-[2.9rem] leading-[0.95] font-medium tracking-[-0.03em] text-blush transition-all duration-1000 ease-luxe sm:text-6xl lg:text-[5rem] ${
+                                    className={`font-display text-hero leading-[0.95] font-medium tracking-[-0.03em] text-blush transition-all duration-1000 ease-luxe ${
                                         active
                                             ? "translate-y-0 opacity-100 delay-200"
                                             : "translate-y-5 opacity-0"
@@ -145,7 +145,7 @@ const TituleBlock = () => {
                                     {t(slide.titleKey)}
                                 </p>
                                 <p
-                                    className={`mt-5 max-w-lg text-[17px] leading-relaxed text-blush/85 transition-all duration-1000 ease-luxe sm:text-lg ${
+                                    className={`mt-5 max-w-lg text-lead leading-relaxed text-blush/85 transition-all duration-1000 ease-luxe ${
                                         active
                                             ? "translate-y-0 opacity-100 delay-300"
                                             : "translate-y-5 opacity-0"
@@ -155,7 +155,7 @@ const TituleBlock = () => {
                                 </p>
                                 <Link
                                     to={slide.ctaLink}
-                                    className={`group mt-8 inline-flex h-14 items-center gap-5 rounded-full bg-blush pr-2 pl-7 text-[12px] font-medium tracking-[0.18em] text-ink uppercase transition-all duration-1000 ease-luxe active:scale-[0.98] ${
+                                    className={`group mt-8 inline-flex h-14 items-center gap-5 rounded-full bg-blush pr-2 pl-7 text-label font-medium tracking-[0.18em] text-ink uppercase transition-all duration-1000 ease-luxe active:scale-[0.98] ${
                                         active
                                             ? "translate-y-0 opacity-100 delay-[400ms]"
                                             : "translate-y-5 opacity-0"

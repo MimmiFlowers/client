@@ -35,7 +35,7 @@ const Specials = ({ setting }: SpecialProps) => {
     const showAll = (
         <Link
             to={`/Catalog?filter=${key}`}
-            className="group inline-flex min-h-11 items-center gap-3 text-[12px] font-medium tracking-[0.16em] text-ink uppercase"
+            className="group inline-flex min-h-11 items-center gap-3 text-label font-medium tracking-[0.16em] text-ink uppercase"
         >
             <span className="border-b border-ink/30 pb-1 transition-colors duration-300 group-hover:border-ink">
                 {t("specials.show_all")}
@@ -50,7 +50,7 @@ const Specials = ({ setting }: SpecialProps) => {
                 <div>
                     <h2
                         id={`specials-${key}`}
-                        className="font-display text-[2.4rem] leading-[1] font-medium tracking-[-0.02em] sm:text-5xl lg:text-6xl"
+                        className="font-display text-section leading-[1] font-medium tracking-[-0.02em]"
                     >
                         {t(`specials.${key}_title`)}
                     </h2>
@@ -59,7 +59,7 @@ const Specials = ({ setting }: SpecialProps) => {
             </Reveal>
 
             {error ? (
-                <p className="container-luxe mt-10 text-sm text-danger" role="alert">
+                <p className="container-luxe mt-10 text-caption text-danger" role="alert">
                     {error}
                 </p>
             ) : (
