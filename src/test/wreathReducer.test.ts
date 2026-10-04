@@ -86,6 +86,29 @@ describe("wreathReducer", () => {
         expect(wreathReducer(d, { type: "clearSlot", slot: -1 })).toBe(d);
     });
 
+    it("clears every slot and restores them for undo", () => {
+        let d = initialDesign(OPTIONS);
+        d = wreathReducer(d, { type: "place", slot: 1, code: "star" });
+        d = wreathReducer(d, { type: "place", slot: 4, code: "pine-cone" });
+        const before = d.placements;
+        d = wreathReducer(d, { type: "clearAll" });
+        expect(d.placements).toEqual([null, null, null, null, null, null]);
+        d = wreathReducer(d, { type: "restore", placements: before });
+        expect(d.placements).toEqual(before);
+    });
+
+    it("fits restored placements to the current slot count", () => {
+        const d = initialDesign(OPTIONS);
+        const eight = [null, "star", null, null, null, null, null, "berries"];
+        expect(
+            wreathReducer(d, { type: "restore", placements: eight }).placements,
+        ).toEqual([null, "star", null, null, null, null]);
+        expect(
+            wreathReducer(d, { type: "restore", placements: ["star"] })
+                .placements,
+        ).toEqual(["star", null, null, null, null, null]);
+    });
+
     it("sets and unsets the band and material", () => {
         let d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",

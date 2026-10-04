@@ -19,7 +19,10 @@ export type WreathAction =
     | { type: "setMaterial"; code: string }
     | { type: "setBand"; code: string | null }
     | { type: "place"; slot: number; code: string }
-    | { type: "clearSlot"; slot: number };
+    | { type: "clearSlot"; slot: number }
+    | { type: "clearAll" }
+    /** Undo for clearAll: put earlier placements back, fitted to the current slot count. */
+    | { type: "restore"; placements: (string | null)[] };
 
 export const initialDesign = (options: WreathOptions): WreathDesignState => {
     const size = options.sizes[0];
@@ -73,6 +76,20 @@ export const wreathReducer = (
             placements[action.slot] = null;
             return { ...state, placements, dropped: 0 };
         }
+        case "clearAll":
+            return {
+                ...state,
+                placements: state.placements.map(() => null),
+                dropped: 0,
+            };
+        case "restore":
+            return {
+                ...state,
+                placements: state.placements.map(
+                    (_, slot) => action.placements[slot] ?? null,
+                ),
+                dropped: 0,
+            };
     }
 };
 
