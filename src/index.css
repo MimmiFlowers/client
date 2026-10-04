@@ -66,6 +66,9 @@
     --spacing-section: 4rem; /* 64 → 96 */
     --spacing-band: 3.5rem; /* 56 → 80 */
 
+    /* Wreath builder column below lg: (wreath, compact options, totals). Phones use full width. */
+    --container-wreath: 26rem; /* 416 */
+
     --font-sans: "Jost Variable", "Jost", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Hatton", "Times New Roman", serif;
 

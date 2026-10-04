@@ -9,11 +9,11 @@ import {
     AlertIcon,
     BagIcon,
     CheckIcon,
-    CloseIcon,
 } from "../../components/Icons/Icons";
 import WreathStage from "../../components/WreathBuilder/WreathStage";
 import ChoiceGroup from "../../components/WreathBuilder/ChoiceGroup";
 import DecorationTray from "../../components/WreathBuilder/DecorationTray";
+import DecorationSheet from "../../components/WreathBuilder/DecorationSheet";
 import { useDragToSlot } from "../../components/WreathBuilder/useDragToSlot";
 import { renderWreathPng } from "../../components/WreathBuilder/renderWreathPng";
 import { priceDesign } from "../../components/WreathBuilder/wreathPricing";
@@ -34,6 +34,9 @@ import type {
 } from "../../components/WreathBuilder/types";
 
 const kr = (n: number) => `${n.toLocaleString("sv-SE")} kr`;
+
+/** How long the "Wreath cleared · Undo" toast stays up. */
+const UNDO_MS = 5000;
 
 /* Same numbered heading as the checkout steps. */
 function Step({ n, title }: { n: number; title: string }) {
@@ -61,7 +64,14 @@ const WreathBuilderPage = () => {
     const [loadError, setLoadError] = useState("");
     const [design, setDesign] = useState<WreathDesignState | null>(null);
     const [armed, setArmed] = useState<string | null>(null);
-    const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
+    // Slot picker: pickerSlot outlives pickerOpen so the panel slides out with its content.
+    const [pickerOpen, setPickerOpen] = useState(false);
+    const [pickerSlot, setPickerSlot] = useState<number | null>(null);
+    // Placements before the last "Clear all", while its Undo toast is up.
+    const [undoPlacements, setUndoPlacements] = useState<
+        (string | null)[] | null
+    >(null);
+    const undoTimer = useRef<number | undefined>(undefined);
     const [announcement, setAnnouncement] = useState("");
     const [adding, setAdding] = useState(false);
     const [added, setAdded] = useState(false);
@@ -113,7 +123,8 @@ const WreathBuilderPage = () => {
     const place = useCallback(
         (slot: number, code: string) => {
             dispatch({ type: "place", slot, code });
-            setSelectedSlot(null);
+            setPickerOpen(false);
+            setUndoPlacements(null);
             setAnnouncement(
                 t("wreath.placed", { name: decorationName(code), n: slot + 1 }),
             );
@@ -134,6 +145,8 @@ const WreathBuilderPage = () => {
         () => (design && options ? priceDesign(design, options) : null),
         [design, options],
     );
+
+    useEffect(() => () => window.clearTimeout(undoTimer.current), []);
 
     if (loading && !options) {
         return (
@@ -163,33 +176,48 @@ const WreathBuilderPage = () => {
         );
     }
 
+    // A decoration armed in the desktop tray goes straight in; otherwise open the picker.
     const onSlotTap = (slot: number) => {
-        const current = design.placements[slot] ?? null;
         if (armed) {
             place(slot, armed);
             return;
         }
-        if (current) {
-            setSelectedSlot(selectedSlot === slot ? null : slot);
-            return;
-        }
-        setAnnouncement(t("wreath.tray_hint"));
+        setPickerSlot(slot);
+        setPickerOpen(true);
     };
 
     const onArm = (code: string | null) => {
         setArmed(code);
-        setSelectedSlot(null);
         if (code)
             setAnnouncement(
                 t("wreath.armed_hint", { name: decorationName(code) }),
             );
     };
 
-    const clearSelected = () => {
-        if (selectedSlot === null) return;
-        dispatch({ type: "clearSlot", slot: selectedSlot });
-        setAnnouncement(t("wreath.removed", { n: selectedSlot + 1 }));
-        setSelectedSlot(null);
+    const removeFromPicker = () => {
+        if (pickerSlot === null) return;
+        dispatch({ type: "clearSlot", slot: pickerSlot });
+        setAnnouncement(t("wreath.removed", { n: pickerSlot + 1 }));
+        setPickerOpen(false);
+        setUndoPlacements(null);
+    };
+
+    const clearAll = () => {
+        setUndoPlacements(design.placements);
+        dispatch({ type: "clearAll" });
+        setAnnouncement(t("wreath.cleared"));
+        window.clearTimeout(undoTimer.current);
+        undoTimer.current = window.setTimeout(
+            () => setUndoPlacements(null),
+            UNDO_MS,
+        );
+    };
+
+    const undoClear = () => {
+        if (!undoPlacements) return;
+        dispatch({ type: "restore", placements: undoPlacements });
+        setUndoPlacements(null);
+        window.clearTimeout(undoTimer.current);
     };
 
     const handleAddToCart = async () => {
@@ -253,10 +281,16 @@ const WreathBuilderPage = () => {
     };
 
     const selectedSize = options.sizes.find((s) => s.code === design.sizeCode);
-    const selectedDecoration =
-        selectedSlot !== null
-            ? (design.placements[selectedSlot] ?? null)
-            : null;
+    const selectedMaterial = options.materials.find(
+        (m) => m.code === design.materialCode,
+    );
+    const selectedBand = options.bands.find((b) => b.code === design.bandCode);
+    const filled = design.placements.filter((code) => code !== null).length;
+    const sizeChoice = (code: string) => {
+        const size = options.sizes.find((s) => s.code === code);
+        if (size)
+            dispatch({ type: "setSize", code, slotCount: size.slotCount });
+    };
     const sizeChoices = options.sizes.map((s) => ({
         code: s.code,
         name: s.name,
@@ -330,43 +364,51 @@ const WreathBuilderPage = () => {
             </section>
 
             <section className="container-luxe mt-8 grid gap-8 lg:mt-12 lg:grid-cols-12 lg:gap-14">
-                {/* Stage: sticky under the header so the wreath stays visible while choosing. */}
-                <div className="bg-blush/95 sticky top-24 z-20 -mx-5 px-5 pb-3 backdrop-blur-xl sm:-mx-8 sm:px-8 md:top-28 lg:static lg:col-span-6 lg:mx-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:backdrop-blur-none">
+                {/* Stage. Phones: near full width, scrolls with the page, options right under it.
+                    Desktop: sticky beside the numbered steps. */}
+                {/* min-w-0: the sideways-scrolling chip rows must not widen the grid track. */}
+                <div className="min-w-0 lg:col-span-6">
                     <div className="lg:sticky lg:top-36">
-                        <div className="bg-surface shadow-soft mx-auto max-w-[16rem] rounded-[2px] p-3 sm:max-w-[22rem] lg:max-w-none">
+                        <div className="bg-surface shadow-soft mx-auto rounded-[2px] p-1.5 sm:max-w-wreath sm:p-3 lg:max-w-none">
                             <WreathStage
                                 ref={stageRef}
                                 options={options}
                                 design={design}
                                 armed={armed}
-                                selectedSlot={selectedSlot}
+                                selectedSlot={pickerOpen ? pickerSlot : null}
                                 onSlotTap={onSlotTap}
                             />
                         </div>
-                        <div className="text-ink-soft mt-3 flex min-h-11 flex-wrap items-center justify-center gap-3 text-center text-label">
-                            {selectedDecoration && selectedSlot !== null ? (
-                                <button
-                                    type="button"
-                                    onClick={clearSelected}
-                                    className="border-line-strong text-ink-soft hover:border-danger hover:text-danger inline-flex h-11 cursor-pointer items-center gap-2 rounded-full border px-4 transition-colors"
-                                >
-                                    <CloseIcon className="h-3.5 w-3.5" />
-                                    {t("wreath.remove_from_slot", {
-                                        name: decorationName(
-                                            selectedDecoration,
-                                        ),
-                                        n: selectedSlot + 1,
-                                    })}
-                                </button>
-                            ) : (
-                                <span>
-                                    {armed
-                                        ? t("wreath.armed_hint", {
-                                              name: decorationName(armed),
-                                          })
-                                        : t("wreath.tray_hint")}
-                                </span>
-                            )}
+                        <div className="mx-auto mt-1.5 flex min-h-12 items-center justify-between gap-3 sm:max-w-wreath lg:max-w-none">
+                            <p className="text-ink-soft text-caption">
+                                {armed ? (
+                                    t("wreath.armed_hint", {
+                                        name: decorationName(armed),
+                                    })
+                                ) : filled > 0 ? (
+                                    t("wreath.hint_filled", {
+                                        count: filled,
+                                        total: design.placements.length,
+                                    })
+                                ) : (
+                                    <>
+                                        <span className="lg:hidden">
+                                            {t("wreath.hint_empty")}
+                                        </span>
+                                        <span className="hidden lg:inline">
+                                            {t("wreath.tray_hint")}
+                                        </span>
+                                    </>
+                                )}
+                            </p>
+                            <button
+                                type="button"
+                                onClick={clearAll}
+                                disabled={filled === 0}
+                                className="text-ink decoration-line-strong hover:decoration-ink disabled:text-muted min-h-11 shrink-0 cursor-pointer px-0.5 text-button font-medium tracking-[0.12em] uppercase underline underline-offset-[5px] transition-colors disabled:cursor-default disabled:opacity-50 disabled:hover:decoration-line-strong"
+                            >
+                                {t("wreath.clear_all")}
+                            </button>
                         </div>
                         <p aria-live="polite" className="sr-only">
                             {announcement}
@@ -381,11 +423,58 @@ const WreathBuilderPage = () => {
                                 })}
                             </p>
                         )}
+
+                        {/* Compact options, phones and tablets only (desktop has the steps). */}
+                        <div className="mx-auto mt-4 space-y-5 sm:max-w-wreath lg:hidden">
+                            <ChoiceGroup
+                                variant="segmented"
+                                label={t("wreath.step_size")}
+                                name="wreath-size-compact"
+                                choices={sizeChoices}
+                                value={design.sizeCode}
+                                valueLabel={
+                                    selectedSize
+                                        ? `${selectedSize.diameterCm} cm`
+                                        : undefined
+                                }
+                                onChange={sizeChoice}
+                            />
+                            <ChoiceGroup
+                                variant="chips"
+                                label={t("wreath.step_material")}
+                                name="wreath-material-compact"
+                                choices={materialChoices}
+                                value={design.materialCode}
+                                valueLabel={selectedMaterial?.name}
+                                onChange={(code) =>
+                                    dispatch({ type: "setMaterial", code })
+                                }
+                            />
+                            <ChoiceGroup
+                                variant="chips"
+                                label={t("wreath.step_band")}
+                                name="wreath-band-compact"
+                                choices={bandChoices}
+                                value={design.bandCode ?? ""}
+                                valueLabel={
+                                    selectedBand?.name ?? t("wreath.band_none")
+                                }
+                                onChange={(code) =>
+                                    dispatch({
+                                        type: "setBand",
+                                        code: code || null,
+                                    })
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
 
                 <div className="space-y-12 pb-24 lg:col-span-6 lg:pb-0">
-                    <section aria-label={t("wreath.step_size")}>
+                    <section
+                        className="hidden lg:block"
+                        aria-label={t("wreath.step_size")}
+                    >
                         <Reveal>
                             <Step n={1} title={t("wreath.step_size")} />
                             <ChoiceGroup
@@ -393,21 +482,14 @@ const WreathBuilderPage = () => {
                                 name="wreath-size"
                                 choices={sizeChoices}
                                 value={design.sizeCode}
-                                onChange={(code) => {
-                                    const size = options.sizes.find(
-                                        (s) => s.code === code,
-                                    );
-                                    if (size)
-                                        dispatch({
-                                            type: "setSize",
-                                            code,
-                                            slotCount: size.slotCount,
-                                        });
-                                }}
+                                onChange={sizeChoice}
                             />
                         </Reveal>
                     </section>
-                    <section aria-label={t("wreath.step_material")}>
+                    <section
+                        className="hidden lg:block"
+                        aria-label={t("wreath.step_material")}
+                    >
                         <Reveal>
                             <Step n={2} title={t("wreath.step_material")} />
                             <ChoiceGroup
@@ -421,7 +503,10 @@ const WreathBuilderPage = () => {
                             />
                         </Reveal>
                     </section>
-                    <section aria-label={t("wreath.step_band")}>
+                    <section
+                        className="hidden lg:block"
+                        aria-label={t("wreath.step_band")}
+                    >
                         <Reveal>
                             <Step n={3} title={t("wreath.step_band")} />
                             <ChoiceGroup
@@ -438,7 +523,12 @@ const WreathBuilderPage = () => {
                             />
                         </Reveal>
                     </section>
-                    <section aria-label={t("wreath.step_decorations")}>
+                    {/* Drag/arm tray: desktop only. On touch screens the slot picker replaces it,
+                        and its touch-none tiles would block page scrolling. */}
+                    <section
+                        className="hidden lg:block"
+                        aria-label={t("wreath.step_decorations")}
+                    >
                         <Reveal>
                             <Step n={4} title={t("wreath.step_decorations")} />
                             <DecorationTray
@@ -452,7 +542,7 @@ const WreathBuilderPage = () => {
                     </section>
 
                     <section
-                        className="border-line bg-surface rounded-[2px] border p-6"
+                        className="border-line bg-surface mx-auto rounded-[2px] border p-6 sm:max-w-wreath lg:max-w-none"
                         aria-label={t("wreath.total")}
                     >
                         <dl className="space-y-2 text-caption">
@@ -471,7 +561,7 @@ const WreathBuilderPage = () => {
                             </div>
                             <div className="flex justify-between gap-4">
                                 <dt className="text-ink-soft">
-                                    {t("wreath.summary_decorations")}
+                                    {t("wreath.summary_decorations")} ({filled})
                                 </dt>
                                 <dd className="price">
                                     {kr(price.decorations)}
@@ -525,6 +615,41 @@ const WreathBuilderPage = () => {
                     </div>
                     {addButton("sm")}
                 </div>
+            </div>
+
+            <DecorationSheet
+                open={pickerOpen}
+                slot={pickerSlot}
+                current={
+                    pickerSlot !== null
+                        ? (design.placements[pickerSlot] ?? null)
+                        : null
+                }
+                decorations={options.decorations}
+                onPick={(code) => {
+                    if (pickerSlot !== null) place(pickerSlot, code);
+                }}
+                onRemove={removeFromPicker}
+                onClose={() => setPickerOpen(false)}
+            />
+
+            {/* Undo for "Clear all"; sits above the phone buy bar. */}
+            <div
+                className={`bg-ink text-blush ease-luxe fixed inset-x-4 bottom-24 z-40 mx-auto flex max-w-sm items-center justify-between gap-3 rounded-xl py-1.5 pr-2 pl-4.5 text-caption shadow-lift transition-[opacity,transform] duration-300 lg:bottom-8 ${
+                    undoPlacements
+                        ? "translate-y-0 opacity-100"
+                        : "pointer-events-none translate-y-5 opacity-0"
+                }`}
+                inert={!undoPlacements}
+            >
+                <span>{t("wreath.cleared")}</span>
+                <button
+                    type="button"
+                    onClick={undoClear}
+                    className="text-primary min-h-11 cursor-pointer px-3 text-button font-medium tracking-[0.12em] uppercase"
+                >
+                    {t("wreath.undo")}
+                </button>
             </div>
 
             {ghost && (

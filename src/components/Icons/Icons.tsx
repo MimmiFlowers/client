@@ -75,6 +75,12 @@ export const CheckIcon = (props: IconProps) => (
     </Base>
 );
 
+export const TrashIcon = (props: IconProps) => (
+    <Base {...props}>
+        <path d="M4.5 7h15M9.5 7V4.75h5V7M6.5 7l1 12.25a1.5 1.5 0 0 0 1.5 1.25h6a1.5 1.5 0 0 0 1.5-1.25L17.5 7" />
+    </Base>
+);
+
 export const ChevronDownIcon = (props: IconProps) => (
     <Base {...props}>
         <path d="m6 9.5 6 6 6-6" />

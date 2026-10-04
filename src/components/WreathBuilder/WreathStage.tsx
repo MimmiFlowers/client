@@ -54,7 +54,8 @@ const WreathStage = ({
         <svg
             ref={ref}
             viewBox={`0 0 ${STAGE} ${STAGE}`}
-            className="h-auto w-full touch-none select-none"
+            /* Drag only exists on desktop; on touch screens the page must scroll over the wreath. */
+            className="h-auto w-full touch-manipulation select-none lg:touch-none"
             role="group"
             aria-label={t("wreath.stage_label")}
             data-wreath-stage
@@ -114,26 +115,29 @@ const WreathStage = ({
                             stroke={
                                 selected
                                     ? "var(--color-ink)"
-                                    : target && !decoration
-                                      ? "var(--color-accent-ink)"
-                                      : "var(--color-line-strong)"
+                                    : decoration
+                                      ? "transparent"
+                                      : "var(--color-accent-ink)"
                             }
                             strokeWidth={
-                                selected || (target && !decoration) ? 2 : 1.25
+                                selected ? 2.5 : target && !decoration ? 2 : 1.25
                             }
-                            strokeDasharray={decoration ? undefined : "4 4"}
+                            strokeDasharray={
+                                decoration || selected ? undefined : "4 4"
+                            }
                         />
                         {!decoration && (
                             <text
                                 data-export-hide
                                 x={p.x}
-                                y={p.y + 4}
+                                y={p.y + 6}
                                 textAnchor="middle"
-                                fontSize="12"
+                                fontSize="20"
                                 fontFamily="var(--font-sans)"
-                                fill="var(--color-muted)"
+                                fill="var(--color-accent-ink)"
+                                aria-hidden="true"
                             >
-                                {slot + 1}
+                                +
                             </text>
                         )}
                     </g>
