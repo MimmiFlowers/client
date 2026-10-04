@@ -7,11 +7,16 @@
  * enabled) or the fetch — and the export — fails. Returns null on any failure;
  * the caller then submits the design without a picture.
  *
+ * R2 artwork (images-stg.mimmiflowers.se) needs three things: the bucket's CORS
+ * policy, the domain in nginx.conf's CSP connect-src, and `cache: "no-store"`
+ * below — the stage already displayed the image without CORS, and reusing that
+ * cached copy (no Access-Control-Allow-Origin) makes the fetch fail.
+ *
  * Everything not marked `data-export-hide` must be self-contained (no CSS
  * variables, no page CSS): the export renders in a standalone document.
  */
 const toDataUrl = async (href: string): Promise<string> => {
-    const response = await fetch(href);
+    const response = await fetch(href, { cache: "no-store" });
     if (!response.ok) throw new Error(`Failed to fetch ${href}`);
     const blob = await response.blob();
     return new Promise((resolve, reject) => {
