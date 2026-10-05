@@ -240,7 +240,6 @@ const WreathBuilderPage = () => {
                 // rather than let the server reject the whole order.
                 if (image && image.length > 660_000) image = null;
             }
-            if (!image) setImageWarning(true);
             const response = await api.post<WreathDesignResponse>(
                 "/data/wreath/designs",
                 { spec: toSpec(design), image },
@@ -248,20 +247,18 @@ const WreathBuilderPage = () => {
             const {
                 designID,
                 price: serverPrice,
-                imagePath,
+                imageUrl,
                 summary,
             } = response.data;
+            // No picture either because the browser export failed or the server's
+            // upload to R2 did; the shop still gets the full option list.
+            if (!imageUrl) setImageWarning(true);
             addItem({
                 id: `wreath-${designID}`,
                 name: t("wreath.cart_name"),
-                // Same-origin in Docker (VITE_API_URL is ""), the API host in local dev.
-                picture: imagePath
-                    ? `${import.meta.env.VITE_API_URL ?? ""}${imagePath}`
-                    : baseImage(
-                          options,
-                          design.sizeCode,
-                          design.materialCode,
-                      ),
+                picture:
+                    imageUrl ??
+                    baseImage(options, design.sizeCode, design.materialCode),
                 price: serverPrice,
                 quantity: 1,
                 designID,

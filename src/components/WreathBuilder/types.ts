@@ -65,7 +65,7 @@ export interface WreathSummary {
 export interface WreathDesignResponse {
     designID: string;
     price: number;
-    imagePath: string | null;
+    /** Public R2 URL of the stored PNG; null if the export or the upload failed. */
     imageUrl: string | null;
     summary: WreathSummary;
 }
