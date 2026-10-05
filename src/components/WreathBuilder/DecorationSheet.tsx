@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useOverlay } from "../../hooks/useOverlay";
 import { CloseIcon, TrashIcon } from "../Icons/Icons";
 import type { WreathDecoration } from "./types";
+import DecorationThumb from "./DecorationThumb";
 
 interface Props {
     open: boolean;
@@ -89,10 +90,9 @@ const DecorationSheet = ({
 
                     {placed && (
                         <div className="bg-blush mt-3 flex items-center gap-3 rounded-xl px-3 py-2.5">
-                            <img
+                            <DecorationThumb
                                 src={placed.image}
-                                alt=""
-                                className="h-10 w-10 shrink-0 object-contain"
+                                className="h-10 w-10 shrink-0"
                             />
                             <p className="min-w-0 flex-1 text-caption">
                                 {placed.name}
@@ -139,10 +139,9 @@ const DecorationSheet = ({
                                             : "border-line-strong hover:border-ink-soft"
                                     }`}
                                 >
-                                    <img
+                                    <DecorationThumb
                                         src={decoration.image}
-                                        alt=""
-                                        className="h-13 w-13 object-contain"
+                                        className="h-13 w-13"
                                     />
                                     <span className="text-center text-caption leading-tight">
                                         {decoration.name}

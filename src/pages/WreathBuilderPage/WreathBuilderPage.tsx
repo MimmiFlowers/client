@@ -14,6 +14,7 @@ import WreathStage from "../../components/WreathBuilder/WreathStage";
 import ChoiceGroup from "../../components/WreathBuilder/ChoiceGroup";
 import DecorationTray from "../../components/WreathBuilder/DecorationTray";
 import DecorationSheet from "../../components/WreathBuilder/DecorationSheet";
+import DecorationThumb from "../../components/WreathBuilder/DecorationThumb";
 import { useDragToSlot } from "../../components/WreathBuilder/useDragToSlot";
 import { renderWreathPng } from "../../components/WreathBuilder/renderWreathPng";
 import { priceDesign } from "../../components/WreathBuilder/wreathPricing";
@@ -23,6 +24,7 @@ import {
     baseImage,
     chipImage,
 } from "../../components/WreathBuilder/wreathArtwork";
+import { preloadImage } from "../../components/WreathBuilder/imageCache";
 import {
     initialDesign,
     toSpec,
@@ -151,6 +153,15 @@ const WreathBuilderPage = () => {
     );
 
     useEffect(() => () => window.clearTimeout(undoTimer.current), []);
+
+    // Fetch every size's base photo for the chosen material in the background, so
+    // switching sizes doesn't wait for a ~500 KB download.
+    const materialCode = design?.materialCode;
+    useEffect(() => {
+        if (!options || !materialCode) return;
+        for (const size of options.sizes)
+            void preloadImage(baseImage(options, size.code, materialCode));
+    }, [options, materialCode]);
 
     if (loading && !options) {
         return (
@@ -655,13 +666,12 @@ const WreathBuilderPage = () => {
             </div>
 
             {ghost && (
-                <img
-                    src={ghost.image}
-                    alt=""
-                    aria-hidden="true"
-                    className="pointer-events-none fixed z-50 h-14 w-14 -translate-x-1/2 -translate-y-1/2 object-contain drop-shadow-lg"
+                <div
+                    className="pointer-events-none fixed z-50 h-14 w-14 -translate-x-1/2 -translate-y-1/2 drop-shadow-lg"
                     style={{ left: ghost.x, top: ghost.y }}
-                />
+                >
+                    <DecorationThumb src={ghost.image} className="h-full w-full" />
+                </div>
             )}
         </div>
     );

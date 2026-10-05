@@ -1,9 +1,25 @@
 /** Stage coordinate system: a 400×400 SVG viewBox with the ring centred. */
 export const STAGE = 400;
 export const CENTER = STAGE / 2;
-export const DECORATION_SIZE = 56;
 /** Drop-target radius (stage units) for drag-and-drop. */
 export const DROP_RADIUS = 44;
+
+/*
+ * Artwork rules — the proportions on the stage come from these, so keep the
+ * images to them (convert-wreath-images.py in the project root checks them):
+ *  - every decoration is a 350 × 350 px canvas, the decoration in its middle;
+ *  - every base is square at 36 px per cm of wreath diameter
+ *    (25 cm → 900 px, 35 cm → 1260 px, 50 cm → 1800 px), wreath filling the canvas.
+ * Served files may be scaled down: sizes are computed from centimetres, not file pixels.
+ */
+export const DECORATION_PX = 350;
+export const BASE_PX_PER_CM = 36;
+/** Slot circle radius as a share of the base width: the ring's middle line (280 of 900 px). */
+export const SLOT_RADIUS = 0.311;
+/** Share of a decoration's canvas the decoration itself covers (the gift: ~173 of 350 px). */
+export const DECORATION_CONTENT = 0.5;
+/** Loading-ring thickness as a share of the base width (fir: 0.31 / 0.27 / 0.23 by size). */
+export const PLACEHOLDER_RING_WIDTH = 0.27;
 
 export interface Point {
     x: number;
@@ -27,11 +43,19 @@ export const ringForSize = (
         sizes.length,
     );
 
+/** Radius of the circle the slot centres sit on, for a base drawn `ring` units wide. */
+export const slotRadius = (ring: number): number => ring * SLOT_RADIUS;
+
 /**
- * Radius of the circle the slot centres sit on: the ring's mid line in the base
- * artwork (r=68 in a 200-unit viewBox).
+ * Drawn size (stage units) of a decoration's canvas on a base drawn `ring` units
+ * wide, true to the photos: 350 px against diameterCm × 36 px.
  */
-export const slotRadius = (ring: number): number => ring * 0.34;
+export const decorationSize = (ring: number, diameterCm: number): number =>
+    (ring * DECORATION_PX) / (diameterCm * BASE_PX_PER_CM);
+
+/** Empty-slot marker radius: the visible part of a decoration plus a small margin. */
+export const markerRadius = (decoration: number): number =>
+    (decoration * DECORATION_CONTENT) / 2 + 4;
 
 /**
  * Slot centres, clockwise, starting just right of the bow at the top.

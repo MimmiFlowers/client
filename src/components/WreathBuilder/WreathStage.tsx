@@ -3,10 +3,13 @@ import { useTranslation } from "react-i18next";
 import type { WreathOptions } from "./types";
 import type { WreathDesignState } from "./wreathReducer";
 import { baseImage } from "./wreathArtwork";
+import { useImageReady } from "./imageCache";
 import {
     CENTER,
-    DECORATION_SIZE,
+    PLACEHOLDER_RING_WIDTH,
     STAGE,
+    decorationSize,
+    markerRadius,
     ringForSize,
     slotPositions,
     slotRadius,
@@ -33,6 +36,7 @@ const WreathStage = ({
     const { t } = useTranslation();
     const ring = ringForSize(options.sizes, design.sizeCode);
     const base = baseImage(options, design.sizeCode, design.materialCode);
+    const baseReady = useImageReady(base);
     const band = design.bandCode
         ? options.bands.find((b) => b.code === design.bandCode)
         : undefined;
@@ -40,7 +44,11 @@ const WreathStage = ({
         options.decorations.map((d) => [d.code, d]),
     );
     const points = slotPositions(design.placements.length, slotRadius(ring));
-    const half = DECORATION_SIZE / 2;
+    const diameterCm =
+        options.sizes.find((s) => s.code === design.sizeCode)?.diameterCm ?? 25;
+    const decoSize = decorationSize(ring, diameterCm);
+    const half = decoSize / 2;
+    const marker = markerRadius(decoSize);
 
     const onKey = (slot: number) => (event: KeyboardEvent<SVGGElement>) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -59,13 +67,34 @@ const WreathStage = ({
             aria-label={t("wreath.stage_label")}
             data-wreath-stage
         >
+            {/* Loading ring while the base photo downloads (never exported). */}
+            {!baseReady && (
+                <circle
+                    data-export-hide
+                    aria-hidden="true"
+                    cx={CENTER}
+                    cy={CENTER}
+                    r={slotRadius(ring)}
+                    fill="none"
+                    stroke="var(--color-blush-deep)"
+                    strokeWidth={ring * PLACEHOLDER_RING_WIDTH}
+                    className="animate-shimmer"
+                />
+            )}
             {base && (
+                /* A new element per photo, hidden until it has loaded: the browser would
+                   otherwise keep painting the previous photo at the new size. The opacity
+                   classes are page CSS, so the PNG export always shows the photo. */
                 <image
+                    key={base}
                     href={base}
                     x={CENTER - ring / 2}
                     y={CENTER - ring / 2}
                     width={ring}
                     height={ring}
+                    className={`ease-luxe transition-opacity duration-300 ${
+                        baseReady ? "opacity-100" : "opacity-0"
+                    }`}
                 />
             )}
 
@@ -100,16 +129,23 @@ const WreathStage = ({
                                 href={decoration.image}
                                 x={p.x - half}
                                 y={p.y - half}
-                                width={DECORATION_SIZE}
-                                height={DECORATION_SIZE}
+                                width={decoSize}
+                                height={decoSize}
+                                // The canvas is mostly transparent and overlaps its
+                                // neighbours; only the slot circle below takes taps.
+                                pointerEvents="none"
                             />
                         )}
                         <circle
                             data-export-hide
                             cx={p.x}
                             cy={p.y}
-                            r={half + 4}
-                            fill={decoration ? "none" : "var(--color-surface)"}
+                            r={marker}
+                            fill={
+                                decoration
+                                    ? "transparent"
+                                    : "var(--color-surface)"
+                            }
                             fillOpacity={decoration ? undefined : 0.6}
                             stroke={
                                 selected

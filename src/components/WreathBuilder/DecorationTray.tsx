@@ -1,6 +1,7 @@
 import type { PointerEvent } from "react";
 import { useTranslation } from "react-i18next";
 import type { WreathDecoration } from "./types";
+import DecorationThumb from "./DecorationThumb";
 
 interface Props {
     decorations: WreathDecoration[];
@@ -44,11 +45,9 @@ const DecorationTray = ({
                                     : "border-line-strong hover:border-ink-soft"
                             }`}
                         >
-                            <img
+                            <DecorationThumb
                                 src={decoration.image}
-                                alt=""
-                                draggable={false}
-                                className="h-12 w-12 object-contain"
+                                className="h-12 w-12"
                             />
                             <span className="text-center text-caption leading-tight">
                                 {decoration.name}
