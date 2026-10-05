@@ -2,6 +2,7 @@ import type { KeyboardEvent, Ref } from "react";
 import { useTranslation } from "react-i18next";
 import type { WreathOptions } from "./types";
 import type { WreathDesignState } from "./wreathReducer";
+import { baseImage } from "./wreathArtwork";
 import {
     CENTER,
     DECORATION_SIZE,
@@ -31,9 +32,7 @@ const WreathStage = ({
 }: Props) => {
     const { t } = useTranslation();
     const ring = ringForSize(options.sizes, design.sizeCode);
-    const material = options.materials.find(
-        (m) => m.code === design.materialCode,
-    );
+    const base = baseImage(options, design.sizeCode, design.materialCode);
     const band = design.bandCode
         ? options.bands.find((b) => b.code === design.bandCode)
         : undefined;
@@ -60,9 +59,9 @@ const WreathStage = ({
             aria-label={t("wreath.stage_label")}
             data-wreath-stage
         >
-            {material && (
+            {base && (
                 <image
-                    href={material.image}
+                    href={base}
                     x={CENTER - ring / 2}
                     y={CENTER - ring / 2}
                     width={ring}

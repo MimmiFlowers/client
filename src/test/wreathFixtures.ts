@@ -10,6 +10,9 @@ export const OPTIONS: WreathOptions = {
         { code: "moss", name: "Moss", image: "/wreath/base-moss.svg" },
     ],
     basePrices: { s: { fir: 299, moss: 349 }, m: { fir: 399, moss: 449 } },
+    baseImages: {
+        s: { fir: "https://images-stg.mimmiflowers.se/wreath/base-s-fir.png" },
+    },
     bands: [
         {
             code: "red-velvet",

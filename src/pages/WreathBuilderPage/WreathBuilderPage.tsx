@@ -20,6 +20,10 @@ import { priceDesign } from "../../components/WreathBuilder/wreathPricing";
 import { summaryLines } from "../../components/WreathBuilder/wreathSummary";
 import { ringForSize } from "../../components/WreathBuilder/wreathGeometry";
 import {
+    baseImage,
+    chipImage,
+} from "../../components/WreathBuilder/wreathArtwork";
+import {
     initialDesign,
     toSpec,
     wreathReducer,
@@ -247,16 +251,17 @@ const WreathBuilderPage = () => {
                 imagePath,
                 summary,
             } = response.data;
-            const material = options.materials.find(
-                (m) => m.code === design.materialCode,
-            );
             addItem({
                 id: `wreath-${designID}`,
                 name: t("wreath.cart_name"),
                 // Same-origin in Docker (VITE_API_URL is ""), the API host in local dev.
                 picture: imagePath
                     ? `${import.meta.env.VITE_API_URL ?? ""}${imagePath}`
-                    : (material?.image ?? ""),
+                    : baseImage(
+                          options,
+                          design.sizeCode,
+                          design.materialCode,
+                      ),
                 price: serverPrice,
                 quantity: 1,
                 designID,
@@ -300,7 +305,7 @@ const WreathBuilderPage = () => {
     const materialChoices = options.materials.map((m) => ({
         code: m.code,
         name: m.name,
-        image: m.image,
+        image: chipImage(options, m.code),
         priceLabel: kr(options.basePrices[design.sizeCode]?.[m.code] ?? 0),
     }));
     const bandChoices = [

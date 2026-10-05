@@ -31,6 +31,11 @@ export interface WreathOptions {
     materials: WreathMaterial[];
     /** basePrices[sizeCode][materialCode] in SEK */
     basePrices: Record<string, Record<string, number>>;
+    /**
+     * baseImages[sizeCode][materialCode]: the wreath picture for that combination
+     * (absolute R2 URL). Only combinations that have one; use baseImage() to read.
+     */
+    baseImages: Record<string, Record<string, string>>;
     bands: WreathBand[];
     decorations: WreathDecoration[];
 }
