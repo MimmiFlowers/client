@@ -3,6 +3,7 @@ import type { PointerEvent as ReactPointerEvent, RefObject } from "react";
 import type { WreathDecoration } from "./types";
 import {
     DROP_RADIUS,
+    isCovered,
     nearestSlot,
     slotPositions,
     slotRadius,
@@ -38,6 +39,8 @@ export const useDragToSlot = (
     stageRef: RefObject<SVGSVGElement | null>,
     slotCount: number,
     ring: number,
+    /** A band is on: its covered slots take no drops. */
+    banded: boolean,
     onDrop: (slot: number, code: string) => void,
 ) => {
     const [ghost, setGhost] = useState<DragGhost | null>(null);
@@ -125,6 +128,7 @@ export const useDragToSlot = (
                 slotPositions(slotCount, slotRadius(ring)),
                 { x: pt.x, y: pt.y },
                 DROP_RADIUS,
+                (slot) => isCovered(slot, banded),
             );
             if (slot !== null) onDropRef.current(slot, start.code);
         };
@@ -147,7 +151,7 @@ export const useDragToSlot = (
             window.removeEventListener("pointercancel", cancel);
             window.removeEventListener("blur", cancel);
         };
-    }, [stageRef, slotCount, ring]);
+    }, [stageRef, slotCount, ring, banded]);
 
     return { ghost, onPointerDown, consumeDragClick };
 };

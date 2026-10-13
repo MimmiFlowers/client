@@ -19,7 +19,10 @@ import { useDragToSlot } from "../../components/WreathBuilder/useDragToSlot";
 import { renderWreathPng } from "../../components/WreathBuilder/renderWreathPng";
 import { priceDesign } from "../../components/WreathBuilder/wreathPricing";
 import { summaryLines } from "../../components/WreathBuilder/wreathSummary";
-import { ringForSize } from "../../components/WreathBuilder/wreathGeometry";
+import {
+    openSlotCount,
+    ringForSize,
+} from "../../components/WreathBuilder/wreathGeometry";
 import {
     baseImage,
     chipImage,
@@ -144,6 +147,7 @@ const WreathBuilderPage = () => {
         stageRef,
         design?.placements.length ?? 0,
         ring,
+        (design?.bandCode ?? null) !== null,
         place,
     );
 
@@ -299,6 +303,7 @@ const WreathBuilderPage = () => {
     );
     const selectedBand = options.bands.find((b) => b.code === design.bandCode);
     const filled = design.placements.filter((code) => code !== null).length;
+    const banded = design.bandCode !== null;
     const sizeChoice = (code: string) => {
         const size = options.sizes.find((s) => s.code === code);
         if (size)
@@ -307,7 +312,10 @@ const WreathBuilderPage = () => {
     const sizeChoices = options.sizes.map((s) => ({
         code: s.code,
         name: s.name,
-        meta: t("wreath.size_meta", { cm: s.diameterCm, slots: s.slotCount }),
+        meta: t("wreath.size_meta", {
+            cm: s.diameterCm,
+            slots: openSlotCount(s.slotCount, banded),
+        }),
         priceLabel: kr(options.basePrices[s.code]?.[design.materialCode] ?? 0),
     }));
     const materialChoices = options.materials.map((m) => ({
@@ -401,7 +409,10 @@ const WreathBuilderPage = () => {
                                 ) : filled > 0 ? (
                                     t("wreath.hint_filled", {
                                         count: filled,
-                                        total: design.placements.length,
+                                        total: openSlotCount(
+                                            design.placements.length,
+                                            banded,
+                                        ),
                                     })
                                 ) : (
                                     <>
@@ -431,9 +442,12 @@ const WreathBuilderPage = () => {
                                 role="status"
                                 className="text-danger mt-2 text-center text-label"
                             >
-                                {t("wreath.dropped_notice", {
-                                    count: design.dropped,
-                                })}
+                                {t(
+                                    design.droppedBy === "band"
+                                        ? "wreath.dropped_band_notice"
+                                        : "wreath.dropped_notice",
+                                    { count: design.dropped },
+                                )}
                             </p>
                         )}
 

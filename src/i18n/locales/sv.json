@@ -332,6 +332,8 @@
         "undo": "Ångra",
         "dropped_notice_one": "{{count}} dekoration togs bort eftersom den mindre kransen har färre platser.",
         "dropped_notice_other": "{{count}} dekorationer togs bort eftersom den mindre kransen har färre platser.",
+        "dropped_band_notice_one": "{{count}} dekoration togs bort eftersom bandet täcker dess plats och platserna bredvid var upptagna.",
+        "dropped_band_notice_other": "{{count}} dekorationer togs bort eftersom bandet täcker deras platser och platserna bredvid var upptagna.",
         "summary_base": "Krans",
         "summary_band": "Band",
         "summary_decorations": "Dekorationer",

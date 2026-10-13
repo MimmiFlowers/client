@@ -53,36 +53,69 @@ export const slotRadius = (ring: number): number => ring * SLOT_RADIUS;
 export const decorationSize = (ring: number, diameterCm: number): number =>
     (ring * DECORATION_PX) / (diameterCm * BASE_PX_PER_CM);
 
-/** Empty-slot marker radius: the visible part of a decoration plus a small margin. */
-export const markerRadius = (decoration: number): number =>
-    (decoration * DECORATION_CONTENT) / 2 + 4;
+/**
+ * Empty-slot marker radius: the visible part of a decoration plus a small margin,
+ * shrunk when needed so neighbouring markers `gap` apart keep 4 units between them.
+ */
+export const markerRadius = (decoration: number, gap = Infinity): number =>
+    Math.min((decoration * DECORATION_CONTENT) / 2 + 4, gap / 2 - 2);
+
+/** Distance between neighbouring slot centres on a circle of `radius`. */
+export const slotGap = (count: number, radius: number): number =>
+    count < 2 ? Infinity : 2 * radius * Math.sin(Math.PI / count);
 
 /**
- * Slot centres, clockwise, starting just right of the bow at the top.
- * Offsetting by half a step guarantees no slot ever sits under the band.
- * Must match services/wreath.py's description "(i + 0.5) * 360 / n from the top".
+ * Slot centres, clockwise, slot 0 at 12 o'clock: slot i sits at i · 360 / count
+ * from the top. Must match services/wreath.py's description "i * 360 / n from the top".
  */
 export const slotPositions = (count: number, radius: number): Point[] =>
     Array.from({ length: count }, (_, i) => {
-        const angle = ((-90 + ((i + 0.5) * 360) / count) * Math.PI) / 180;
+        const angle = ((-90 + (i * 360) / count) * Math.PI) / 180;
         return {
             x: CENTER + radius * Math.cos(angle),
             y: CENTER + radius * Math.sin(angle),
         };
     });
 
+/** Angle of slot `slot` of `count`, degrees clockwise from the top. */
+export const slotAngle = (slot: number, count: number): number =>
+    (slot * 360) / count;
+
 /**
- * Index of the closest slot within `maxDistance`, or null.
+ * With a band on, the ribbon wraps around every odd slot and leaves the even
+ * ones (slot 0 at the top included) for decorations: one between each pair of
+ * wraps. slotCount is always even, so the wraps are evenly spread.
+ * Must match services/wreath.py's slot_covered().
+ */
+export const isCovered = (slot: number, banded: boolean): boolean =>
+    banded && slot % 2 === 1;
+
+/** How many slots take a decoration: all of them, or half with a band. */
+export const openSlotCount = (count: number, banded: boolean): number =>
+    banded ? Math.ceil(count / 2) : count;
+
+/*
+ * Drawn ribbon wrap, as shares of the ring size, and its tilt (degrees, clockwise)
+ * away from straight across the ring. The band picture is one wrap, a 1 : 4 strip.
+ */
+export const BAND_WRAP_WIDTH = 0.075;
+export const BAND_WRAP_LENGTH = 0.3;
+export const BAND_WRAP_TILT = 30;
+
+/**
+ * Index of the closest slot within `maxDistance` that `skip` lets through, or null.
  * A point exactly at `maxDistance` counts; ties go to the higher index.
  */
 export const nearestSlot = (
     points: Point[],
     p: Point,
     maxDistance: number,
+    skip: (slot: number) => boolean = () => false,
 ): number | null => {
     let best: number | null = null;
     let bestDistance = maxDistance;
     points.forEach((q, i) => {
+        if (skip(i)) return;
         const d = Math.hypot(q.x - p.x, q.y - p.y);
         if (d <= bestDistance) {
             best = i;

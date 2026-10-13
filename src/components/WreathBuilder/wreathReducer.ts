@@ -1,17 +1,19 @@
 import type { WreathOptions, WreathSpec } from "./types";
+import { isCovered } from "./wreathGeometry";
 
 export interface WreathDesignState {
     sizeCode: string;
     materialCode: string;
     bandCode: string | null;
-    /** One entry per slot, clockwise from the bow: a decoration code or null. */
+    /** One entry per slot, clockwise from the top: a decoration code or null. */
     placements: (string | null)[];
     /**
-     * Decorations discarded by the last size change, for a one-off notice.
-     * Cleared by the next interaction of any kind other than another `setSize`;
-     * the page just renders it while > 0.
+     * Decorations discarded by the last size or band change, for a one-off notice.
+     * Cleared by the next interaction of any other kind; the page just renders it
+     * while > 0, worded by `droppedBy`.
      */
     dropped: number;
+    droppedBy: "size" | "band";
 }
 
 export type WreathAction =
@@ -32,6 +34,7 @@ export const initialDesign = (options: WreathOptions): WreathDesignState => {
         bandCode: null,
         placements: Array.from({ length: size?.slotCount ?? 0 }, () => null),
         dropped: 0,
+        droppedBy: "size",
     };
 };
 
@@ -56,14 +59,42 @@ export const wreathReducer = (
                 sizeCode: action.code,
                 placements: kept,
                 dropped,
+                droppedBy: "size",
             };
         }
         case "setMaterial":
             return { ...state, materialCode: action.code, dropped: 0 };
-        case "setBand":
-            return { ...state, bandCode: action.code, dropped: 0 };
+        case "setBand": {
+            if (action.code === null)
+                return { ...state, bandCode: null, dropped: 0 };
+            // Decorations under the new wraps slide to a free neighbour
+            // (anticlockwise first), or are dropped when both are taken.
+            const placements = [...state.placements];
+            const n = placements.length;
+            let dropped = 0;
+            placements.forEach((code, slot) => {
+                if (!code || !isCovered(slot, true)) return;
+                placements[slot] = null;
+                const free = [(slot - 1 + n) % n, (slot + 1) % n].find(
+                    (s) => !isCovered(s, true) && placements[s] === null,
+                );
+                if (free === undefined) dropped++;
+                else placements[free] = code;
+            });
+            return {
+                ...state,
+                bandCode: action.code,
+                placements,
+                dropped,
+                droppedBy: "band",
+            };
+        }
         case "place": {
-            if (action.slot < 0 || action.slot >= state.placements.length)
+            if (
+                action.slot < 0 ||
+                action.slot >= state.placements.length ||
+                isCovered(action.slot, state.bandCode !== null)
+            )
                 return state;
             const placements = [...state.placements];
             placements[action.slot] = action.code;
@@ -85,8 +116,10 @@ export const wreathReducer = (
         case "restore":
             return {
                 ...state,
-                placements: state.placements.map(
-                    (_, slot) => action.placements[slot] ?? null,
+                placements: state.placements.map((_, slot) =>
+                    isCovered(slot, state.bandCode !== null)
+                        ? null
+                        : (action.placements[slot] ?? null),
                 ),
                 dropped: 0,
             };

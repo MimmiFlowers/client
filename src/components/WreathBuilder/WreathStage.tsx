@@ -5,12 +5,19 @@ import type { WreathDesignState } from "./wreathReducer";
 import { baseImage } from "./wreathArtwork";
 import { useImageReady } from "./imageCache";
 import {
+    BAND_WRAP_LENGTH,
+    BAND_WRAP_TILT,
+    BAND_WRAP_WIDTH,
     CENTER,
     PLACEHOLDER_RING_WIDTH,
     STAGE,
     decorationSize,
+    isCovered,
     markerRadius,
+    openSlotCount,
     ringForSize,
+    slotAngle,
+    slotGap,
     slotPositions,
     slotRadius,
 } from "./wreathGeometry";
@@ -43,12 +50,21 @@ const WreathStage = ({
     const decorationByCode = new Map(
         options.decorations.map((d) => [d.code, d]),
     );
-    const points = slotPositions(design.placements.length, slotRadius(ring));
+    const slotCount = design.placements.length;
+    const points = slotPositions(slotCount, slotRadius(ring));
+    const wrapWidth = ring * BAND_WRAP_WIDTH;
+    const wrapLength = ring * BAND_WRAP_LENGTH;
     const diameterCm =
         options.sizes.find((s) => s.code === design.sizeCode)?.diameterCm ?? 25;
     const decoSize = decorationSize(ring, diameterCm);
     const half = decoSize / 2;
-    const marker = markerRadius(decoSize);
+    const marker = markerRadius(
+        decoSize,
+        slotGap(
+            openSlotCount(slotCount, design.bandCode !== null),
+            slotRadius(ring),
+        ),
+    );
 
     const onKey = (slot: number) => (event: KeyboardEvent<SVGGElement>) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -98,9 +114,29 @@ const WreathStage = ({
                 />
             )}
 
+            {/* Ribbon wraps under the decorations, on the covered slots. */}
+            {band &&
+                points.map((p, slot) =>
+                    isCovered(slot, true) ? (
+                        <image
+                            key={slot}
+                            href={band.image}
+                            x={-wrapWidth / 2}
+                            y={-wrapLength / 2}
+                            width={wrapWidth}
+                            height={wrapLength}
+                            preserveAspectRatio="none"
+                            transform={`translate(${p.x} ${p.y}) rotate(${
+                                slotAngle(slot, slotCount) + BAND_WRAP_TILT
+                            })`}
+                        />
+                    ) : null,
+                )}
+
             {design.placements.map((code, slot) => {
                 const p = points[slot];
-                if (!p) return null;
+                if (!p || isCovered(slot, design.bandCode !== null))
+                    return null;
                 const decoration = code
                     ? decorationByCode.get(code)
                     : undefined;
@@ -178,16 +214,6 @@ const WreathStage = ({
                     </g>
                 );
             })}
-
-            {band && (
-                <image
-                    href={band.image}
-                    x={CENTER - 70}
-                    y={CENTER - ring / 2 - 22}
-                    width={140}
-                    height={100}
-                />
-            )}
         </svg>
     );
 };

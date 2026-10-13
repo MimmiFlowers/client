@@ -2,26 +2,53 @@ import { describe, it, expect } from "vitest";
 import {
     CENTER,
     decorationSize,
+    isCovered,
     markerRadius,
     nearestSlot,
+    openSlotCount,
     ringForSize,
     ringSize,
+    slotAngle,
+    slotGap,
     slotPositions,
     slotRadius,
 } from "../components/WreathBuilder/wreathGeometry";
 import { OPTIONS } from "./wreathFixtures";
 
 describe("wreathGeometry", () => {
-    it("spreads slots evenly on the ring, none exactly at the top (under the bow)", () => {
+    it("spreads slots evenly on the ring, slot 0 at 12 o'clock", () => {
         const points = slotPositions(4, 100);
         expect(points).toHaveLength(4);
         for (const p of points) {
             expect(Math.hypot(p.x - CENTER, p.y - CENTER)).toBeCloseTo(100, 5);
         }
-        // first slot is 45° clockwise from the top: upper-right
-        expect(points[0]!.x).toBeGreaterThan(CENTER);
-        expect(points[0]!.y).toBeLessThan(CENTER);
-        expect(points[0]!.x).toBeCloseTo(CENTER + 100 * Math.SQRT1_2, 5);
+        expect(points[0]!.x).toBeCloseTo(CENTER, 5);
+        expect(points[0]!.y).toBeCloseTo(CENTER - 100, 5);
+        // clockwise: slot 1 is at 3 o'clock
+        expect(points[1]!.x).toBeCloseTo(CENTER + 100, 5);
+        expect(slotAngle(3, 12)).toBe(90);
+    });
+
+    it("covers every odd slot with a band, keeping the top slot free", () => {
+        expect([0, 1, 2, 3].map((s) => isCovered(s, true))).toEqual([
+            false,
+            true,
+            false,
+            true,
+        ]);
+        expect(isCovered(1, false)).toBe(false);
+        expect(openSlotCount(12, true)).toBe(6);
+        expect(openSlotCount(12, false)).toBe(12);
+    });
+
+    it("skips slots the caller rules out when finding the nearest", () => {
+        const points = slotPositions(4, 100);
+        expect(
+            nearestSlot(points, points[1]!, 200, (s) => isCovered(s, true)),
+        ).not.toBe(1);
+        expect(
+            nearestSlot(points, points[1]!, 40, (s) => isCovered(s, true)),
+        ).toBeNull();
     });
 
     it("returns the nearest slot within the radius, else null", () => {
@@ -64,7 +91,9 @@ describe("wreathGeometry", () => {
     it("draws decorations at their true size against the base photo", () => {
         // 350 px decoration on a 36 px/cm base: 900 / 1260 / 1800 px for 25 / 35 / 50 cm.
         expect(decorationSize(360 * 0.84, 25)).toBeCloseTo((302.4 * 350) / 900);
-        expect(decorationSize(360 * 0.92, 35)).toBeCloseTo((331.2 * 350) / 1260);
+        expect(decorationSize(360 * 0.92, 35)).toBeCloseTo(
+            (331.2 * 350) / 1260,
+        );
         expect(decorationSize(360, 50)).toBeCloseTo(70);
     });
 
@@ -75,13 +104,16 @@ describe("wreathGeometry", () => {
 
     it("sizes empty-slot markers to the visible decoration, not its whole canvas", () => {
         expect(markerRadius(100)).toBe(29); // half of the canvas is visible, + 4 margin
-        // Large (12 slots): neighbouring markers must not touch.
+        // Large without a band (24 slots): markers shrink so neighbours don't touch.
         const ring = 360;
-        const points = slotPositions(12, slotRadius(ring));
+        const points = slotPositions(24, slotRadius(ring));
         const gap = Math.hypot(
             points[1]!.x - points[0]!.x,
             points[1]!.y - points[0]!.y,
         );
-        expect(2 * markerRadius(decorationSize(ring, 50))).toBeLessThan(gap);
+        expect(slotGap(24, slotRadius(ring))).toBeCloseTo(gap, 5);
+        expect(2 * markerRadius(decorationSize(ring, 50), gap)).toBeLessThan(
+            gap,
+        );
     });
 });

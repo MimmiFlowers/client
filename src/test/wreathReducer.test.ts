@@ -121,6 +121,51 @@ describe("wreathReducer", () => {
         expect(d.materialCode).toBe("moss");
     });
 
+    it("refuses a decoration on a slot under the band", () => {
+        const d = wreathReducer(initialDesign(OPTIONS), {
+            type: "setBand",
+            code: "red-velvet",
+        });
+        expect(wreathReducer(d, { type: "place", slot: 1, code: "star" })).toBe(
+            d,
+        );
+    });
+
+    it("slides decorations off the new band's wraps, dropping them when boxed in", () => {
+        let d = initialDesign(OPTIONS);
+        // 1 → 0 (free); 3 → 2 taken, so 4; 5 → 4 and 0 (wrapping round) both taken: dropped.
+        for (const [slot, code] of [
+            [1, "star"],
+            [2, "pine-cone"],
+            [3, "star"],
+            [5, "pine-cone"],
+        ] as const)
+            d = wreathReducer(d, { type: "place", slot, code });
+        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        expect(d.placements).toEqual([
+            "star",
+            null,
+            "pine-cone",
+            null,
+            "star",
+            null,
+        ]);
+        expect(d.dropped).toBe(1);
+        expect(d.droppedBy).toBe("band");
+    });
+
+    it("keeps covered slots empty when undoing Clear all under a band", () => {
+        let d = wreathReducer(initialDesign(OPTIONS), {
+            type: "setBand",
+            code: "red-velvet",
+        });
+        d = wreathReducer(d, {
+            type: "restore",
+            placements: ["star", "star", "star", null, null, null],
+        });
+        expect(d.placements).toEqual(["star", null, "star", null, null, null]);
+    });
+
     it("serialises to the API spec with 0-based slots, skipping empty ones", () => {
         let d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",
