@@ -2,8 +2,14 @@ import type { WreathOptions } from "../components/WreathBuilder/types";
 
 export const OPTIONS: WreathOptions = {
     sizes: [
-        { code: "s", name: "Small", diameterCm: 25, slotCount: 6 },
-        { code: "m", name: "Medium", diameterCm: 35, slotCount: 8 },
+        { code: "s", name: "Small", diameterCm: 25, slotCount: 6, bandStep: 2 },
+        {
+            code: "m",
+            name: "Medium",
+            diameterCm: 35,
+            slotCount: 8,
+            bandStep: 2,
+        },
     ],
     materials: [
         { code: "fir", name: "Fir", image: "/wreath/base-fir.svg" },
@@ -18,6 +24,9 @@ export const OPTIONS: WreathOptions = {
             code: "red-velvet",
             name: "Red velvet",
             image: "/wreath/band-red-velvet.svg",
+            sizeImages: {
+                s: "https://images-stg.mimmiflowers.se/wreaths/bands/s/redbands.webp",
+            },
             price: 49,
         },
     ],

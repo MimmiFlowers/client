@@ -82,17 +82,18 @@ export const slotAngle = (slot: number, count: number): number =>
     (slot * 360) / count;
 
 /**
- * With a band on, the ribbon wraps around every odd slot and leaves the even
- * ones (slot 0 at the top included) for decorations: one between each pair of
- * wraps. slotCount is always even, so the wraps are evenly spread.
+ * With a band on, its ribbon wraps cover every `bandStep`-th slot: slot i is
+ * covered when i % bandStep === 1 (step 2: 1, 3, 5…; step 3: 1, 4, 7…), so slot 0
+ * at the top always stays free. `bandStep` is the size's, or null without a band.
+ * The database keeps slotCount divisible by bandStep, so the wraps are evenly spread.
  * Must match services/wreath.py's slot_covered().
  */
-export const isCovered = (slot: number, banded: boolean): boolean =>
-    banded && slot % 2 === 1;
+export const isCovered = (slot: number, bandStep: number | null): boolean =>
+    bandStep !== null && slot % bandStep === 1;
 
-/** How many slots take a decoration: all of them, or half with a band. */
-export const openSlotCount = (count: number, banded: boolean): number =>
-    banded ? Math.ceil(count / 2) : count;
+/** How many slots take a decoration: all of them, or all but the covered ones. */
+export const openSlotCount = (count: number, bandStep: number | null): number =>
+    bandStep === null ? count : count - Math.floor(count / bandStep);
 
 /*
  * Drawn ribbon wrap, as shares of the ring size, and its tilt (degrees, clockwise)
@@ -100,7 +101,7 @@ export const openSlotCount = (count: number, banded: boolean): number =>
  */
 export const BAND_WRAP_WIDTH = 0.075;
 export const BAND_WRAP_LENGTH = 0.3;
-export const BAND_WRAP_TILT = 30;
+export const BAND_WRAP_TILT = 15;
 
 /**
  * Index of the closest slot within `maxDistance` that `skip` lets through, or null.

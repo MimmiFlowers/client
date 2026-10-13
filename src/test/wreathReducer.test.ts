@@ -41,7 +41,12 @@ describe("wreathReducer", () => {
             slot: 5,
             code: "star",
         });
-        d = wreathReducer(d, { type: "setSize", code: "m", slotCount: 8 });
+        d = wreathReducer(d, {
+            type: "setSize",
+            code: "m",
+            slotCount: 8,
+            bandStep: 2,
+        });
         expect(d.sizeCode).toBe("m");
         expect(d.placements).toHaveLength(8);
         expect(d.placements[5]).toBe("star");
@@ -50,20 +55,40 @@ describe("wreathReducer", () => {
 
     it("drops placements that no longer fit on a smaller size and counts them", () => {
         let d = initialDesign(OPTIONS);
-        d = wreathReducer(d, { type: "setSize", code: "m", slotCount: 8 });
+        d = wreathReducer(d, {
+            type: "setSize",
+            code: "m",
+            slotCount: 8,
+            bandStep: 2,
+        });
         d = wreathReducer(d, { type: "place", slot: 1, code: "star" });
         d = wreathReducer(d, { type: "place", slot: 6, code: "pine-cone" });
         d = wreathReducer(d, { type: "place", slot: 7, code: "pine-cone" });
-        d = wreathReducer(d, { type: "setSize", code: "s", slotCount: 6 });
+        d = wreathReducer(d, {
+            type: "setSize",
+            code: "s",
+            slotCount: 6,
+            bandStep: 2,
+        });
         expect(d.placements).toEqual([null, "star", null, null, null, null]);
         expect(d.dropped).toBe(2);
     });
 
     it("clears the dropped notice on the next non-size interaction", () => {
         let d = initialDesign(OPTIONS);
-        d = wreathReducer(d, { type: "setSize", code: "m", slotCount: 8 });
+        d = wreathReducer(d, {
+            type: "setSize",
+            code: "m",
+            slotCount: 8,
+            bandStep: 2,
+        });
         d = wreathReducer(d, { type: "place", slot: 7, code: "star" });
-        d = wreathReducer(d, { type: "setSize", code: "s", slotCount: 6 });
+        d = wreathReducer(d, {
+            type: "setSize",
+            code: "s",
+            slotCount: 6,
+            bandStep: 2,
+        });
         expect(d.dropped).toBe(1);
         d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
         expect(d.dropped).toBe(0);
@@ -76,7 +101,12 @@ describe("wreathReducer", () => {
             code: "star",
         });
         expect(
-            wreathReducer(d, { type: "setSize", code: "s", slotCount: 6 }),
+            wreathReducer(d, {
+                type: "setSize",
+                code: "s",
+                slotCount: 6,
+                bandStep: 2,
+            }),
         ).toBe(d);
     });
 
@@ -86,26 +116,36 @@ describe("wreathReducer", () => {
         expect(wreathReducer(d, { type: "clearSlot", slot: -1 })).toBe(d);
     });
 
-    it("clears every slot and restores them for undo", () => {
+    it("clears every slot and the band, and restores both for undo", () => {
         let d = initialDesign(OPTIONS);
-        d = wreathReducer(d, { type: "place", slot: 1, code: "star" });
+        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        d = wreathReducer(d, { type: "place", slot: 2, code: "star" });
         d = wreathReducer(d, { type: "place", slot: 4, code: "pine-cone" });
-        const before = d.placements;
+        const before = { placements: d.placements, bandCode: d.bandCode };
         d = wreathReducer(d, { type: "clearAll" });
         expect(d.placements).toEqual([null, null, null, null, null, null]);
-        d = wreathReducer(d, { type: "restore", placements: before });
-        expect(d.placements).toEqual(before);
+        expect(d.bandCode).toBeNull();
+        d = wreathReducer(d, { type: "restore", ...before });
+        expect(d.placements).toEqual(before.placements);
+        expect(d.bandCode).toBe("red-velvet");
     });
 
     it("fits restored placements to the current slot count", () => {
         const d = initialDesign(OPTIONS);
         const eight = [null, "star", null, null, null, null, null, "berries"];
         expect(
-            wreathReducer(d, { type: "restore", placements: eight }).placements,
+            wreathReducer(d, {
+                type: "restore",
+                placements: eight,
+                bandCode: null,
+            }).placements,
         ).toEqual([null, "star", null, null, null, null]);
         expect(
-            wreathReducer(d, { type: "restore", placements: ["star"] })
-                .placements,
+            wreathReducer(d, {
+                type: "restore",
+                placements: ["star"],
+                bandCode: null,
+            }).placements,
         ).toEqual(["star", null, null, null, null, null]);
     });
 
@@ -154,14 +194,43 @@ describe("wreathReducer", () => {
         expect(d.droppedBy).toBe("band");
     });
 
-    it("keeps covered slots empty when undoing Clear all under a band", () => {
+    it("moves the band to the new size's slots when the size changes", () => {
         let d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",
             code: "red-velvet",
         });
+        d = wreathReducer(d, { type: "place", slot: 2, code: "star" });
+        d = wreathReducer(d, { type: "place", slot: 4, code: "pine-cone" });
+        // Step 3 covers 1, 4, 7: the pine cone slides to slot 3 (slot 2 is taken).
         d = wreathReducer(d, {
+            type: "setSize",
+            code: "m",
+            slotCount: 9,
+            bandStep: 3,
+        });
+        expect(d.bandStep).toBe(3);
+        expect(d.placements).toEqual([
+            null,
+            null,
+            "star",
+            "pine-cone",
+            null,
+            null,
+            null,
+            null,
+            null,
+        ]);
+        expect(d.dropped).toBe(0);
+        expect(wreathReducer(d, { type: "place", slot: 7, code: "star" })).toBe(
+            d,
+        );
+    });
+
+    it("keeps covered slots empty when undoing Clear all under a band", () => {
+        const d = wreathReducer(initialDesign(OPTIONS), {
             type: "restore",
             placements: ["star", "star", "star", null, null, null],
+            bandCode: "red-velvet",
         });
         expect(d.placements).toEqual(["star", null, "star", null, null, null]);
     });

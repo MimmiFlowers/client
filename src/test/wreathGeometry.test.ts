@@ -29,25 +29,30 @@ describe("wreathGeometry", () => {
         expect(slotAngle(3, 12)).toBe(90);
     });
 
-    it("covers every odd slot with a band, keeping the top slot free", () => {
-        expect([0, 1, 2, 3].map((s) => isCovered(s, true))).toEqual([
+    it("covers every bandStep-th slot with a band, keeping the top slot free", () => {
+        expect([0, 1, 2, 3].map((s) => isCovered(s, 2))).toEqual([
             false,
             true,
             false,
             true,
         ]);
-        expect(isCovered(1, false)).toBe(false);
-        expect(openSlotCount(12, true)).toBe(6);
-        expect(openSlotCount(12, false)).toBe(12);
+        // step 3: 1, 4, 7… (2, 5, 8… for humans)
+        expect([0, 1, 2, 3, 4, 5, 6, 7].filter((s) => isCovered(s, 3))).toEqual(
+            [1, 4, 7],
+        );
+        expect(isCovered(1, null)).toBe(false);
+        expect(openSlotCount(12, 2)).toBe(6);
+        expect(openSlotCount(15, 3)).toBe(10);
+        expect(openSlotCount(12, null)).toBe(12);
     });
 
     it("skips slots the caller rules out when finding the nearest", () => {
         const points = slotPositions(4, 100);
         expect(
-            nearestSlot(points, points[1]!, 200, (s) => isCovered(s, true)),
+            nearestSlot(points, points[1]!, 200, (s) => isCovered(s, 2)),
         ).not.toBe(1);
         expect(
-            nearestSlot(points, points[1]!, 40, (s) => isCovered(s, true)),
+            nearestSlot(points, points[1]!, 40, (s) => isCovered(s, 2)),
         ).toBeNull();
     });
 

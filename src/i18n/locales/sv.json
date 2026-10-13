@@ -327,6 +327,8 @@
         "placed_here": "Placerad här · {{price}} kr",
         "remove": "Ta bort",
         "close_picker": "Stäng",
+        "preview": "Förhandsvisa",
+        "edit": "Redigera",
         "clear_all": "Rensa allt",
         "cleared": "Kransen rensad",
         "undo": "Ångra",

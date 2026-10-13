@@ -327,6 +327,8 @@
         "placed_here": "Placed here · {{price}} kr",
         "remove": "Remove",
         "close_picker": "Close",
+        "preview": "Preview",
+        "edit": "Edit",
         "clear_all": "Clear all",
         "cleared": "Wreath cleared",
         "undo": "Undo",

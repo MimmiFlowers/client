@@ -3,7 +3,10 @@ export interface WreathSize {
     code: string;
     name: string;
     diameterCm: number;
+    /** Slots without a band. */
     slotCount: number;
+    /** With a band on, every bandStep-th slot is under a wrap (see isCovered). */
+    bandStep: number;
 }
 
 export interface WreathMaterial {
@@ -15,7 +18,13 @@ export interface WreathMaterial {
 export interface WreathBand {
     code: string;
     name: string;
+    /** One ribbon wrap (a 1:4 strip), drawn rotated on every covered slot. */
     image: string;
+    /**
+     * Optional whole-band picture per size code: transparent, framed like that
+     * size's base photo, drawn once over it instead of the strips.
+     */
+    sizeImages: Record<string, string>;
     price: number;
 }
 

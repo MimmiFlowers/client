@@ -14,6 +14,21 @@ export const baseImage = (
     options.materials.find((m) => m.code === materialCode)?.image ??
     "";
 
+/**
+ * The whole-band picture for a band on a size, or null when that size has none
+ * (the stage then draws the band's strip on every covered slot).
+ */
+export const bandOverlay = (
+    options: WreathOptions,
+    bandCode: string | null,
+    sizeCode: string,
+): string | null =>
+    (bandCode &&
+        options.bands.find((b) => b.code === bandCode)?.sizeImages?.[
+            sizeCode
+        ]) ||
+    null;
+
 /** Material chip thumbnail: the smallest size (first in catalogue order) of that material. */
 export const chipImage = (
     options: WreathOptions,

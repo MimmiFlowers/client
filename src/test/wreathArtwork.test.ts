@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+    bandOverlay,
     baseImage,
     chipImage,
 } from "../components/WreathBuilder/wreathArtwork";
@@ -34,5 +35,19 @@ describe("chipImage", () => {
     it("shows the smallest size (first in catalogue order) of each material", () => {
         expect(chipImage(OPTIONS, "fir")).toBe(R2_SMALL_FIR);
         expect(chipImage(OPTIONS, "moss")).toBe("/wreath/base-moss.svg");
+    });
+});
+
+describe("bandOverlay", () => {
+    it("returns the band's picture for that size", () => {
+        expect(bandOverlay(OPTIONS, "red-velvet", "s")).toBe(
+            "https://images-stg.mimmiflowers.se/wreaths/bands/s/redbands.webp",
+        );
+    });
+
+    it("is null without a band, for a size with no picture or an unknown band", () => {
+        expect(bandOverlay(OPTIONS, null, "s")).toBeNull();
+        expect(bandOverlay(OPTIONS, "red-velvet", "m")).toBeNull();
+        expect(bandOverlay(OPTIONS, "nope", "s")).toBeNull();
     });
 });

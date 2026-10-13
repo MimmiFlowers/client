@@ -39,8 +39,8 @@ export const useDragToSlot = (
     stageRef: RefObject<SVGSVGElement | null>,
     slotCount: number,
     ring: number,
-    /** A band is on: its covered slots take no drops. */
-    banded: boolean,
+    /** The size's band step while a band is on, else null: covered slots take no drops. */
+    bandStep: number | null,
     onDrop: (slot: number, code: string) => void,
 ) => {
     const [ghost, setGhost] = useState<DragGhost | null>(null);
@@ -128,7 +128,7 @@ export const useDragToSlot = (
                 slotPositions(slotCount, slotRadius(ring)),
                 { x: pt.x, y: pt.y },
                 DROP_RADIUS,
-                (slot) => isCovered(slot, banded),
+                (slot) => isCovered(slot, bandStep),
             );
             if (slot !== null) onDropRef.current(slot, start.code);
         };
@@ -151,7 +151,7 @@ export const useDragToSlot = (
             window.removeEventListener("pointercancel", cancel);
             window.removeEventListener("blur", cancel);
         };
-    }, [stageRef, slotCount, ring, banded]);
+    }, [stageRef, slotCount, ring, bandStep]);
 
     return { ghost, onPointerDown, consumeDragClick };
 };

@@ -5,6 +5,8 @@ export interface WreathDesignState {
     sizeCode: string;
     materialCode: string;
     bandCode: string | null;
+    /** The size's bandStep: with a band on, every bandStep-th slot is covered (see isCovered). */
+    bandStep: number;
     /** One entry per slot, clockwise from the top: a decoration code or null. */
     placements: (string | null)[];
     /**
@@ -17,14 +19,18 @@ export interface WreathDesignState {
 }
 
 export type WreathAction =
-    | { type: "setSize"; code: string; slotCount: number }
+    | { type: "setSize"; code: string; slotCount: number; bandStep: number }
     | { type: "setMaterial"; code: string }
     | { type: "setBand"; code: string | null }
     | { type: "place"; slot: number; code: string }
     | { type: "clearSlot"; slot: number }
     | { type: "clearAll" }
-    /** Undo for clearAll: put earlier placements back, fitted to the current slot count. */
-    | { type: "restore"; placements: (string | null)[] };
+    /** Undo for clearAll: put the band and earlier placements back, fitted to the current slot count. */
+    | {
+          type: "restore";
+          placements: (string | null)[];
+          bandCode: string | null;
+      };
 
 export const initialDesign = (options: WreathOptions): WreathDesignState => {
     const size = options.sizes[0];
@@ -32,10 +38,39 @@ export const initialDesign = (options: WreathOptions): WreathDesignState => {
         sizeCode: size?.code ?? "",
         materialCode: options.materials[0]?.code ?? "",
         bandCode: null,
+        bandStep: size?.bandStep ?? 2,
         placements: Array.from({ length: size?.slotCount ?? 0 }, () => null),
         dropped: 0,
         droppedBy: "size",
     };
+};
+
+/** The band step in force: the size's with a band on, null without one. */
+const activeStep = (state: WreathDesignState): number | null =>
+    state.bandCode === null ? null : state.bandStep;
+
+/**
+ * Move decorations off slots the band covers: each slides to a free neighbour
+ * (anticlockwise first), or is dropped when both are taken. Returns the new
+ * placements and how many were dropped.
+ */
+const clearCovered = (
+    placements: (string | null)[],
+    bandStep: number | null,
+): { placements: (string | null)[]; dropped: number } => {
+    const next = [...placements];
+    const n = next.length;
+    let dropped = 0;
+    next.forEach((code, slot) => {
+        if (!code || !isCovered(slot, bandStep)) return;
+        next[slot] = null;
+        const free = [(slot - 1 + n) % n, (slot + 1) % n].find(
+            (s) => !isCovered(s, bandStep) && next[s] === null,
+        );
+        if (free === undefined) dropped++;
+        else next[free] = code;
+    });
+    return { placements: next, dropped };
 };
 
 export const wreathReducer = (
@@ -50,16 +85,22 @@ export const wreathReducer = (
             )
                 return state;
             const kept = state.placements.slice(0, action.slotCount);
-            const dropped = state.placements
+            const lost = state.placements
                 .slice(action.slotCount)
                 .filter((code) => code !== null).length;
             while (kept.length < action.slotCount) kept.push(null);
+            // The new size may put the band on other slots.
+            const fitted = clearCovered(
+                kept,
+                state.bandCode === null ? null : action.bandStep,
+            );
             return {
                 ...state,
                 sizeCode: action.code,
-                placements: kept,
-                dropped,
-                droppedBy: "size",
+                bandStep: action.bandStep,
+                placements: fitted.placements,
+                dropped: lost + fitted.dropped,
+                droppedBy: lost > 0 || fitted.dropped === 0 ? "size" : "band",
             };
         }
         case "setMaterial":
@@ -67,20 +108,10 @@ export const wreathReducer = (
         case "setBand": {
             if (action.code === null)
                 return { ...state, bandCode: null, dropped: 0 };
-            // Decorations under the new wraps slide to a free neighbour
-            // (anticlockwise first), or are dropped when both are taken.
-            const placements = [...state.placements];
-            const n = placements.length;
-            let dropped = 0;
-            placements.forEach((code, slot) => {
-                if (!code || !isCovered(slot, true)) return;
-                placements[slot] = null;
-                const free = [(slot - 1 + n) % n, (slot + 1) % n].find(
-                    (s) => !isCovered(s, true) && placements[s] === null,
-                );
-                if (free === undefined) dropped++;
-                else placements[free] = code;
-            });
+            const { placements, dropped } = clearCovered(
+                state.placements,
+                state.bandStep,
+            );
             return {
                 ...state,
                 bandCode: action.code,
@@ -93,7 +124,7 @@ export const wreathReducer = (
             if (
                 action.slot < 0 ||
                 action.slot >= state.placements.length ||
-                isCovered(action.slot, state.bandCode !== null)
+                isCovered(action.slot, activeStep(state))
             )
                 return state;
             const placements = [...state.placements];
@@ -110,19 +141,22 @@ export const wreathReducer = (
         case "clearAll":
             return {
                 ...state,
+                bandCode: null,
                 placements: state.placements.map(() => null),
                 dropped: 0,
             };
-        case "restore":
+        case "restore": {
+            const restored = { ...state, bandCode: action.bandCode };
             return {
-                ...state,
+                ...restored,
                 placements: state.placements.map((_, slot) =>
-                    isCovered(slot, state.bandCode !== null)
+                    isCovered(slot, activeStep(restored))
                         ? null
                         : (action.placements[slot] ?? null),
                 ),
                 dropped: 0,
             };
+        }
     }
 };
 

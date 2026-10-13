@@ -73,13 +73,17 @@ const WreathBuilderPage = () => {
     const [loadError, setLoadError] = useState("");
     const [design, setDesign] = useState<WreathDesignState | null>(null);
     const [armed, setArmed] = useState<string | null>(null);
+    // Preview: the stage shows only the wreath, no empty-spot markers. Placing or
+    // arming a decoration switches it off again.
+    const [preview, setPreview] = useState(false);
     // Slot picker: pickerSlot outlives pickerOpen so the panel slides out with its content.
     const [pickerOpen, setPickerOpen] = useState(false);
     const [pickerSlot, setPickerSlot] = useState<number | null>(null);
-    // Placements before the last "Clear all", while its Undo toast is up.
-    const [undoPlacements, setUndoPlacements] = useState<
-        (string | null)[] | null
-    >(null);
+    // Placements and band before the last "Clear all", while its Undo toast is up.
+    const [undoSnapshot, setUndoSnapshot] = useState<{
+        placements: (string | null)[];
+        bandCode: string | null;
+    } | null>(null);
     const undoTimer = useRef<number | undefined>(undefined);
     const [announcement, setAnnouncement] = useState("");
     const [adding, setAdding] = useState(false);
@@ -132,8 +136,9 @@ const WreathBuilderPage = () => {
     const place = useCallback(
         (slot: number, code: string) => {
             dispatch({ type: "place", slot, code });
+            setPreview(false);
             setPickerOpen(false);
-            setUndoPlacements(null);
+            setUndoSnapshot(null);
             setAnnouncement(
                 t("wreath.placed", { name: decorationName(code), n: slot + 1 }),
             );
@@ -147,7 +152,7 @@ const WreathBuilderPage = () => {
         stageRef,
         design?.placements.length ?? 0,
         ring,
-        (design?.bandCode ?? null) !== null,
+        design && design.bandCode !== null ? design.bandStep : null,
         place,
     );
 
@@ -207,6 +212,7 @@ const WreathBuilderPage = () => {
 
     const onArm = (code: string | null) => {
         setArmed(code);
+        if (code) setPreview(false);
         if (code)
             setAnnouncement(
                 t("wreath.armed_hint", { name: decorationName(code) }),
@@ -218,24 +224,27 @@ const WreathBuilderPage = () => {
         dispatch({ type: "clearSlot", slot: pickerSlot });
         setAnnouncement(t("wreath.removed", { n: pickerSlot + 1 }));
         setPickerOpen(false);
-        setUndoPlacements(null);
+        setUndoSnapshot(null);
     };
 
     const clearAll = () => {
-        setUndoPlacements(design.placements);
+        setUndoSnapshot({
+            placements: design.placements,
+            bandCode: design.bandCode,
+        });
         dispatch({ type: "clearAll" });
         setAnnouncement(t("wreath.cleared"));
         window.clearTimeout(undoTimer.current);
         undoTimer.current = window.setTimeout(
-            () => setUndoPlacements(null),
+            () => setUndoSnapshot(null),
             UNDO_MS,
         );
     };
 
     const undoClear = () => {
-        if (!undoPlacements) return;
-        dispatch({ type: "restore", placements: undoPlacements });
-        setUndoPlacements(null);
+        if (!undoSnapshot) return;
+        dispatch({ type: "restore", ...undoSnapshot });
+        setUndoSnapshot(null);
         window.clearTimeout(undoTimer.current);
     };
 
@@ -307,14 +316,19 @@ const WreathBuilderPage = () => {
     const sizeChoice = (code: string) => {
         const size = options.sizes.find((s) => s.code === code);
         if (size)
-            dispatch({ type: "setSize", code, slotCount: size.slotCount });
+            dispatch({
+                type: "setSize",
+                code,
+                slotCount: size.slotCount,
+                bandStep: size.bandStep,
+            });
     };
     const sizeChoices = options.sizes.map((s) => ({
         code: s.code,
         name: s.name,
         meta: t("wreath.size_meta", {
             cm: s.diameterCm,
-            slots: openSlotCount(s.slotCount, banded),
+            slots: openSlotCount(s.slotCount, banded ? s.bandStep : null),
         }),
         priceLabel: kr(options.basePrices[s.code]?.[design.materialCode] ?? 0),
     }));
@@ -390,7 +404,7 @@ const WreathBuilderPage = () => {
                 {/* min-w-0: the sideways-scrolling chip rows must not widen the grid track. */}
                 <div className="min-w-0 lg:col-span-6">
                     <div className="lg:sticky lg:top-36">
-                        <div className="bg-surface shadow-soft mx-auto rounded-[2px] p-1.5 sm:max-w-wreath sm:p-3 lg:max-w-none">
+                        <div className="bg-surface shadow-soft relative mx-auto rounded-[2px] p-1.5 sm:max-w-wreath sm:p-3 lg:max-w-none">
                             <WreathStage
                                 ref={stageRef}
                                 options={options}
@@ -398,9 +412,26 @@ const WreathBuilderPage = () => {
                                 armed={armed}
                                 selectedSlot={pickerOpen ? pickerSlot : null}
                                 onSlotTap={onSlotTap}
+                                preview={preview}
                             />
+                            {/* Both buttons sit outside the <svg>, so the PNG export never shows them. */}
+                            <button
+                                type="button"
+                                onClick={() => setPreview((on) => !on)}
+                                className="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 text-ink decoration-line-strong hover:decoration-ink min-h-11 cursor-pointer px-2 text-button font-medium tracking-[0.12em] uppercase underline underline-offset-[5px] transition-colors"
+                            >
+                                {preview ? t("wreath.edit") : t("wreath.preview")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={clearAll}
+                                disabled={filled === 0 && !banded}
+                                className="absolute top-1.5 right-1.5 sm:top-3 sm:right-3 text-ink decoration-line-strong hover:decoration-ink disabled:text-muted min-h-11 cursor-pointer px-2 text-button font-medium tracking-[0.12em] uppercase underline underline-offset-[5px] transition-colors disabled:cursor-default disabled:opacity-50 disabled:hover:decoration-line-strong"
+                            >
+                                {t("wreath.clear_all")}
+                            </button>
                         </div>
-                        <div className="mx-auto mt-1.5 flex min-h-12 items-center justify-between gap-3 sm:max-w-wreath lg:max-w-none">
+                        <div className="mx-auto mt-1.5 flex min-h-12 items-center sm:max-w-wreath lg:max-w-none">
                             <p className="text-ink-soft text-caption">
                                 {armed ? (
                                     t("wreath.armed_hint", {
@@ -411,7 +442,7 @@ const WreathBuilderPage = () => {
                                         count: filled,
                                         total: openSlotCount(
                                             design.placements.length,
-                                            banded,
+                                            banded ? design.bandStep : null,
                                         ),
                                     })
                                 ) : (
@@ -425,14 +456,6 @@ const WreathBuilderPage = () => {
                                     </>
                                 )}
                             </p>
-                            <button
-                                type="button"
-                                onClick={clearAll}
-                                disabled={filled === 0}
-                                className="text-ink decoration-line-strong hover:decoration-ink disabled:text-muted min-h-11 shrink-0 cursor-pointer px-0.5 text-button font-medium tracking-[0.12em] uppercase underline underline-offset-[5px] transition-colors disabled:cursor-default disabled:opacity-50 disabled:hover:decoration-line-strong"
-                            >
-                                {t("wreath.clear_all")}
-                            </button>
                         </div>
                         <p aria-live="polite" className="sr-only">
                             {announcement}
@@ -663,11 +686,11 @@ const WreathBuilderPage = () => {
             {/* Undo for "Clear all"; sits above the phone buy bar. */}
             <div
                 className={`bg-ink text-blush ease-luxe fixed inset-x-4 bottom-24 z-40 mx-auto flex max-w-sm items-center justify-between gap-3 rounded-xl py-1.5 pr-2 pl-4.5 text-caption shadow-lift transition-[opacity,transform] duration-300 lg:bottom-8 ${
-                    undoPlacements
+                    undoSnapshot
                         ? "translate-y-0 opacity-100"
                         : "pointer-events-none translate-y-5 opacity-0"
                 }`}
-                inert={!undoPlacements}
+                inert={!undoSnapshot}
             >
                 <span>{t("wreath.cleared")}</span>
                 <button

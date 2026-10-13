@@ -2,7 +2,7 @@ import type { KeyboardEvent, Ref } from "react";
 import { useTranslation } from "react-i18next";
 import type { WreathOptions } from "./types";
 import type { WreathDesignState } from "./wreathReducer";
-import { baseImage } from "./wreathArtwork";
+import { bandOverlay, baseImage } from "./wreathArtwork";
 import { useImageReady } from "./imageCache";
 import {
     BAND_WRAP_LENGTH,
@@ -14,7 +14,6 @@ import {
     decorationSize,
     isCovered,
     markerRadius,
-    openSlotCount,
     ringForSize,
     slotAngle,
     slotGap,
@@ -29,6 +28,8 @@ interface Props {
     armed: string | null;
     selectedSlot: number | null;
     onSlotTap: (slot: number) => void;
+    /** Show only the wreath: no empty-spot markers, no tappable spots. */
+    preview?: boolean;
     ref?: Ref<SVGSVGElement>;
 }
 
@@ -38,12 +39,14 @@ const WreathStage = ({
     armed,
     selectedSlot,
     onSlotTap,
+    preview = false,
     ref,
 }: Props) => {
     const { t } = useTranslation();
     const ring = ringForSize(options.sizes, design.sizeCode);
     const base = baseImage(options, design.sizeCode, design.materialCode);
     const baseReady = useImageReady(base);
+    const overlay = bandOverlay(options, design.bandCode, design.sizeCode);
     const band = design.bandCode
         ? options.bands.find((b) => b.code === design.bandCode)
         : undefined;
@@ -51,6 +54,7 @@ const WreathStage = ({
         options.decorations.map((d) => [d.code, d]),
     );
     const slotCount = design.placements.length;
+    const bandStep = design.bandCode === null ? null : design.bandStep;
     const points = slotPositions(slotCount, slotRadius(ring));
     const wrapWidth = ring * BAND_WRAP_WIDTH;
     const wrapLength = ring * BAND_WRAP_LENGTH;
@@ -58,13 +62,8 @@ const WreathStage = ({
         options.sizes.find((s) => s.code === design.sizeCode)?.diameterCm ?? 25;
     const decoSize = decorationSize(ring, diameterCm);
     const half = decoSize / 2;
-    const marker = markerRadius(
-        decoSize,
-        slotGap(
-            openSlotCount(slotCount, design.bandCode !== null),
-            slotRadius(ring),
-        ),
-    );
+    // Sized for every slot, band or not, so the markers keep one size when a band is picked.
+    const marker = markerRadius(decoSize, slotGap(slotCount, slotRadius(ring)));
 
     const onKey = (slot: number) => (event: KeyboardEvent<SVGGElement>) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -114,10 +113,22 @@ const WreathStage = ({
                 />
             )}
 
-            {/* Ribbon wraps under the decorations, on the covered slots. */}
+            {/* The band under the decorations: the size's own picture, framed like
+                the base and drawn over it once, or else a strip on each covered slot. */}
+            {overlay && (
+                <image
+                    key={overlay}
+                    href={overlay}
+                    x={CENTER - ring / 2}
+                    y={CENTER - ring / 2}
+                    width={ring}
+                    height={ring}
+                />
+            )}
             {band &&
+                !overlay &&
                 points.map((p, slot) =>
-                    isCovered(slot, true) ? (
+                    isCovered(slot, bandStep) ? (
                         <image
                             key={slot}
                             href={band.image}
@@ -135,11 +146,22 @@ const WreathStage = ({
 
             {design.placements.map((code, slot) => {
                 const p = points[slot];
-                if (!p || isCovered(slot, design.bandCode !== null))
+                if (!p || isCovered(slot, bandStep))
                     return null;
                 const decoration = code
                     ? decorationByCode.get(code)
                     : undefined;
+                if (preview)
+                    return decoration ? (
+                        <image
+                            key={slot}
+                            href={decoration.image}
+                            x={p.x - half}
+                            y={p.y - half}
+                            width={decoSize}
+                            height={decoSize}
+                        />
+                    ) : null;
                 const selected = selectedSlot === slot;
                 const target = armed !== null;
                 const label = decoration
