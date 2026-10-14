@@ -43,6 +43,16 @@ const PrivacyPage = () => {
                             <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary-deep" />
                             <div>
                                 <span className="font-medium text-ink">
+                                    {t("privacy.storage_wreath_title")}
+                                </span>
+                                {" \u2014 "}
+                                {t("privacy.storage_wreath_desc")}
+                            </div>
+                        </li>
+                        <li className="flex gap-3 text-body leading-[1.75] text-ink-soft">
+                            <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary-deep" />
+                            <div>
+                                <span className="font-medium text-ink">
                                     {t("privacy.storage_lang_title")}
                                 </span>
                                 {" \u2014 "}

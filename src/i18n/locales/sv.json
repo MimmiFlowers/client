@@ -254,6 +254,8 @@
         "what_we_store_intro": "Vi använder inga cookies. Vår webbplats lagrar en liten mängd data i din webbläsares lokala lagring för att tillhandahålla grundläggande funktionalitet:",
         "storage_cart_title": "Varukorg",
         "storage_cart_desc": "Dina valda produkter sparas så att de finns kvar om du stänger webbläsaren. Varukorgsdata rensas automatiskt efter 7 dagars inaktivitet.",
+        "storage_wreath_title": "Kransdesign",
+        "storage_wreath_desc": "Kransen du bygger (storlek, material, band och dekorationer) sparas så att den finns kvar om du laddar om sidan eller kommer tillbaka senare. Den rensas automatiskt efter 7 dagars inaktivitet.",
         "storage_lang_title": "Språkinställning",
         "storage_lang_desc": "Ditt valda språk (engelska eller svenska) sparas så att webbplatsen visas på rätt språk vid ditt nästa besök.",
         "why_title": "Varför vi lagrar dessa uppgifter",

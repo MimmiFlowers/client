@@ -29,6 +29,10 @@ import {
 } from "../../components/WreathBuilder/wreathArtwork";
 import { preloadImage } from "../../components/WreathBuilder/imageCache";
 import {
+    loadDesign,
+    saveDesign,
+} from "../../components/WreathBuilder/wreathStorage";
+import {
     initialDesign,
     toSpec,
     wreathReducer,
@@ -112,14 +116,24 @@ const WreathBuilderPage = () => {
                 throw new Error("empty catalogue");
             }
             setOptions(response.data);
-            // Keep the customer's choices across a language switch; only seed once.
-            setDesign((current) => current ?? initialDesign(response.data));
+            // Keep the customer's choices across a language switch; only seed once,
+            // from the design saved before a reload when there is one.
+            setDesign(
+                (current) =>
+                    current ??
+                    loadDesign(response.data) ??
+                    initialDesign(response.data),
+            );
         } catch {
             setLoadError(t("wreath.load_error"));
         } finally {
             setLoading(false);
         }
     }, [t]);
+
+    useEffect(() => {
+        if (design) saveDesign(design);
+    }, [design]);
 
     useEffect(() => {
         fetchOptions();

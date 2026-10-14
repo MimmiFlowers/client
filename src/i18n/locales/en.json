@@ -254,6 +254,8 @@
         "what_we_store_intro": "We do not use cookies. Our website stores a small amount of data in your browser's local storage to provide core functionality:",
         "storage_cart_title": "Shopping cart",
         "storage_cart_desc": "Your selected items are saved so they persist if you close the browser. Cart data is automatically cleared after 7 days of inactivity.",
+        "storage_wreath_title": "Wreath design",
+        "storage_wreath_desc": "The wreath you are building (size, material, band and decorations) is saved so it is still there if you reload the page or come back later. It is automatically cleared after 7 days of inactivity.",
         "storage_lang_title": "Language preference",
         "storage_lang_desc": "Your chosen language (English or Swedish) is remembered so the site displays in the correct language on your next visit.",
         "why_title": "Why We Store This Data",
