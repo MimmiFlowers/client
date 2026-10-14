@@ -9,7 +9,8 @@ export const DROP_RADIUS = 44;
  * images to them (convert-wreath-images.py in the project root checks them):
  *  - every decoration is a 350 × 350 px canvas, the decoration in its middle;
  *  - every base is square at 36 px per cm of wreath diameter
- *    (25 cm → 900 px, 35 cm → 1260 px, 50 cm → 1800 px), wreath filling the canvas.
+ *    (25 cm → 900 px, 35 cm → 1260 px, 50 cm → 1800 px), wreath filling the canvas,
+ *    except where ARTWORK_CANVAS gives a size a bigger canvas with an empty margin.
  * Served files may be scaled down: sizes are computed from centimetres, not file pixels.
  */
 export const DECORATION_PX = 350;
@@ -18,6 +19,17 @@ export const BASE_PX_PER_CM = 36;
 export const SLOT_RADIUS = 0.311;
 /** Share of a decoration's canvas the decoration itself covers (the gift: ~173 of 350 px). */
 export const DECORATION_CONTENT = 0.5;
+/**
+ * Canvas size relative to the wreath, per size code, for base photos and band
+ * pictures exported with an empty margin around the wreath. Small: 1000 px canvas
+ * around a 900 px wreath. Sizes not listed fill their canvas (1).
+ */
+export const ARTWORK_CANVAS: Record<string, number> = { s: 1000 / 900 };
+
+/** Drawn size of a base or band picture for a wreath drawn `ring` units wide. */
+export const artworkSize = (ring: number, sizeCode: string): number =>
+    ring * (ARTWORK_CANVAS[sizeCode] ?? 1);
+
 /** Loading-ring thickness as a share of the base width (fir: 0.31 / 0.27 / 0.23 by size). */
 export const PLACEHOLDER_RING_WIDTH = 0.27;
 

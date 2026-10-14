@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
     CENTER,
+    artworkSize,
     decorationSize,
     isCovered,
     markerRadius,
@@ -100,6 +101,11 @@ describe("wreathGeometry", () => {
             (331.2 * 350) / 1260,
         );
         expect(decorationSize(360, 50)).toBeCloseTo(70);
+    });
+
+    it("draws small pictures larger for their margin, others at ring size", () => {
+        expect(artworkSize(900, "s")).toBeCloseTo(1000);
+        expect(artworkSize(300, "m")).toBe(300);
     });
 
     it("puts the slot circle on the middle line of the ring", () => {

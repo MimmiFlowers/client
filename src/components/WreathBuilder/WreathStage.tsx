@@ -10,6 +10,7 @@ import {
     BAND_WRAP_WIDTH,
     CENTER,
     PLACEHOLDER_RING_WIDTH,
+    artworkSize,
     STAGE,
     decorationSize,
     isCovered,
@@ -44,6 +45,8 @@ const WreathStage = ({
 }: Props) => {
     const { t } = useTranslation();
     const ring = ringForSize(options.sizes, design.sizeCode);
+    // Pictures may have a margin around the wreath (ARTWORK_CANVAS): draw them larger.
+    const art = artworkSize(ring, design.sizeCode);
     const base = baseImage(options, design.sizeCode, design.materialCode);
     const baseReady = useImageReady(base);
     const overlay = bandOverlay(options, design.bandCode, design.sizeCode);
@@ -103,10 +106,10 @@ const WreathStage = ({
                 <image
                     key={base}
                     href={base}
-                    x={CENTER - ring / 2}
-                    y={CENTER - ring / 2}
-                    width={ring}
-                    height={ring}
+                    x={CENTER - art / 2}
+                    y={CENTER - art / 2}
+                    width={art}
+                    height={art}
                     className={`ease-luxe transition-opacity duration-300 ${
                         baseReady ? "opacity-100" : "opacity-0"
                     }`}
@@ -119,10 +122,10 @@ const WreathStage = ({
                 <image
                     key={overlay}
                     href={overlay}
-                    x={CENTER - ring / 2}
-                    y={CENTER - ring / 2}
-                    width={ring}
-                    height={ring}
+                    x={CENTER - art / 2}
+                    y={CENTER - art / 2}
+                    width={art}
+                    height={art}
                 />
             )}
             {band &&
