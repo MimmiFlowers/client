@@ -317,6 +317,7 @@
         "slot_empty": "Spot {{n}}, empty",
         "slot_filled": "Spot {{n}}, {{name}}",
         "tray_hint": "Click a spot to choose a decoration, or drag one from the list onto the wreath.",
+        "approximate_notice": "The picture is an approximate sketch. Your wreath is handmade from natural materials, so the real one will differ a little from the image.",
         "armed_hint": "{{name}} selected. Tap a spot on the wreath to place it, or tap the decoration again to deselect.",
         "hint_empty": "Tap an empty spot to add a decoration.",
         "hint_filled": "{{count}} of {{total}} spots filled. Tap a spot to change it.",

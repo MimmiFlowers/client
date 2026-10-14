@@ -21,10 +21,11 @@ export interface WreathBand {
     /** One ribbon wrap (a 1:4 strip), drawn rotated on every covered slot. */
     image: string;
     /**
-     * Optional whole-band picture per size code: transparent, framed like that
-     * size's base photo, drawn once over it instead of the strips.
+     * Optional whole-band pictures per size code: transparent, framed like that
+     * size's base photo, drawn once over it instead of the strips. A size maps to
+     * one picture for every material, or to a picture per material code.
      */
-    sizeImages: Record<string, string>;
+    sizeImages: Record<string, string | Record<string, string>>;
     price: number;
 }
 

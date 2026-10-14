@@ -317,6 +317,7 @@
         "slot_empty": "Plats {{n}}, tom",
         "slot_filled": "Plats {{n}}, {{name}}",
         "tray_hint": "Klicka på en plats för att välja en dekoration, eller dra en från listan till kransen.",
+        "approximate_notice": "Bilden är en ungefärlig skiss. Kransen görs för hand av naturmaterial, så den riktiga kransen kommer att skilja sig något från bilden.",
         "armed_hint": "{{name}} vald. Tryck på en plats på kransen för att placera den, eller tryck på dekorationen igen för att avmarkera.",
         "hint_empty": "Tryck på en tom plats för att lägga till en dekoration.",
         "hint_filled": "{{count}} av {{total}} platser fyllda. Tryck på en plats för att ändra.",

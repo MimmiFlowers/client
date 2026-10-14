@@ -444,6 +444,9 @@ const WreathBuilderPage = () => {
                             >
                                 {t("wreath.clear_all")}
                             </button>
+                            <p className="text-ink-soft text-label px-2 pt-1 pb-1.5 text-center leading-snug sm:pb-0">
+                                {t("wreath.approximate_notice")}
+                            </p>
                         </div>
                         <div className="mx-auto mt-1.5 flex min-h-12 items-center sm:max-w-wreath lg:max-w-none">
                             <p className="text-ink-soft text-caption">

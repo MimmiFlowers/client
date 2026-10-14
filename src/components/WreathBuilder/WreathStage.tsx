@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { WreathOptions } from "./types";
 import type { WreathDesignState } from "./wreathReducer";
 import { bandOverlay, baseImage } from "./wreathArtwork";
+import BandOverlay from "./BandOverlay";
 import { useImageReady } from "./imageCache";
 import {
     BAND_WRAP_LENGTH,
@@ -49,7 +50,12 @@ const WreathStage = ({
     const art = artworkSize(ring, design.sizeCode);
     const base = baseImage(options, design.sizeCode, design.materialCode);
     const baseReady = useImageReady(base);
-    const overlay = bandOverlay(options, design.bandCode, design.sizeCode);
+    const overlay = bandOverlay(
+        options,
+        design.bandCode,
+        design.sizeCode,
+        design.materialCode,
+    );
     const band = design.bandCode
         ? options.bands.find((b) => b.code === design.bandCode)
         : undefined;
@@ -116,17 +122,36 @@ const WreathStage = ({
                 />
             )}
 
-            {/* The band under the decorations: the size's own picture, framed like
-                the base and drawn over it once, or else a strip on each covered slot. */}
+            {/* The band under the decorations: a picture framed like the base and
+                drawn over it once, or else a strip on each covered slot. A picture made
+                for this material is drawn as is; a size's shared picture reaches in far
+                enough for the thickest ring and BandOverlay ends it at each base photo's
+                own inner rim. Both fade in with the base photo. */}
             {overlay && (
-                <image
-                    key={overlay}
-                    href={overlay}
-                    x={CENTER - art / 2}
-                    y={CENTER - art / 2}
-                    width={art}
-                    height={art}
-                />
+                <g
+                    className={`ease-luxe transition-opacity duration-300 ${
+                        baseReady ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                    {base && !overlay.perMaterial ? (
+                        <BandOverlay
+                            key={`${overlay.href} ${base}`}
+                            overlay={overlay.href}
+                            base={base}
+                            ring={ring}
+                            art={art}
+                        />
+                    ) : (
+                        <image
+                            key={overlay.href}
+                            href={overlay.href}
+                            x={CENTER - art / 2}
+                            y={CENTER - art / 2}
+                            width={art}
+                            height={art}
+                        />
+                    )}
+                </g>
             )}
             {band &&
                 !overlay &&

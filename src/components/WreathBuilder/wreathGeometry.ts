@@ -30,6 +30,25 @@ export const ARTWORK_CANVAS: Record<string, number> = { s: 1000 / 900 };
 export const artworkSize = (ring: number, sizeCode: string): number =>
     ring * (ARTWORK_CANVAS[sizeCode] ?? 1);
 
+/**
+ * Inner ribbon ends of a whole-band picture (BandOverlay). Lengths are shares of
+ * the drawn picture's width, so they scale with the size.
+ *  - smooth / solid: how much the base photo's outline is blurred, and the
+ *    alpha (0–1) at which it counts as wreath again: more blur, smoother end;
+ *  - shadowDepth / shadowSoft / shadowStrength: the darkening before the end —
+ *    how far in it starts, how soft it is, how dark (0–1) it gets at the edge;
+ *  - tipsWidth / tipsSoft: the strip of needles laid back over the ribbon end.
+ */
+export const BAND_END = {
+    smooth: 0.014,
+    solid: 0.59,
+    shadowDepth: 0.009,
+    shadowSoft: 0.01,
+    shadowStrength: 0.55,
+    tipsWidth: 0.011,
+    tipsSoft: 0.004,
+};
+
 /** Loading-ring thickness as a share of the base width (fir: 0.31 / 0.27 / 0.23 by size). */
 export const PLACEHOLDER_RING_WIDTH = 0.27;
 

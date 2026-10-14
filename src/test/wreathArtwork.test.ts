@@ -39,15 +39,41 @@ describe("chipImage", () => {
 });
 
 describe("bandOverlay", () => {
-    it("returns the band's picture for that size", () => {
-        expect(bandOverlay(OPTIONS, "red-velvet", "s")).toBe(
-            "https://images-stg.mimmiflowers.se/wreaths/bands/s/redbands.webp",
+    const SHARED =
+        "https://images-stg.mimmiflowers.se/wreaths/bands/s/redbands.webp";
+    const MOSS =
+        "https://images-stg.mimmiflowers.se/wreaths/bands/m/red-moss.webp";
+    const options = {
+        ...OPTIONS,
+        bands: [
+            {
+                ...OPTIONS.bands[0]!,
+                sizeImages: { s: SHARED, m: { moss: MOSS } },
+            },
+        ],
+    };
+
+    it("uses a size's shared picture for every material", () => {
+        expect(bandOverlay(options, "red-velvet", "s", "fir")).toEqual({
+            href: SHARED,
+            perMaterial: false,
+        });
+        expect(bandOverlay(options, "red-velvet", "s", "moss")?.href).toBe(
+            SHARED,
         );
     });
 
-    it("is null without a band, for a size with no picture or an unknown band", () => {
-        expect(bandOverlay(OPTIONS, null, "s")).toBeNull();
-        expect(bandOverlay(OPTIONS, "red-velvet", "m")).toBeNull();
-        expect(bandOverlay(OPTIONS, "nope", "s")).toBeNull();
+    it("uses the picture made for the material when the size has one per material", () => {
+        expect(bandOverlay(options, "red-velvet", "m", "moss")).toEqual({
+            href: MOSS,
+            perMaterial: true,
+        });
+    });
+
+    it("is null without a band, a picture for that size/material, or a known band", () => {
+        expect(bandOverlay(options, null, "s", "fir")).toBeNull();
+        expect(bandOverlay(options, "red-velvet", "m", "fir")).toBeNull();
+        expect(bandOverlay(options, "red-velvet", "l", "fir")).toBeNull();
+        expect(bandOverlay(options, "nope", "s", "fir")).toBeNull();
     });
 });
