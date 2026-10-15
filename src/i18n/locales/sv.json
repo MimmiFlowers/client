@@ -78,14 +78,8 @@
         "title": "Välkommen!"
     },
     "banner": {
-        "slide1_title": "Välkommen till Mimmi Flowers",
-        "slide1_subtitle": "Handbundna buketter med leverans i hela Stockholm",
-        "slide2_title": "Vårkollektionen",
-        "slide2_subtitle": "Nya säsongsbuketter har anlänt",
-        "slide2_cta": "Handla Säsong",
-        "slide3_title": "Fri Leverans",
-        "slide3_subtitle": "På alla beställningar över 999 kr",
-        "slide3_cta": "Bläddra i Katalogen",
+        "fallback_subtitle": "Handbundna buketter med leverans i hela Stockholm",
+        "fallback_cta": "Bläddra i Katalogen",
         "aria_label": "Höjdpunkter",
         "previous": "Föregående bild",
         "next": "Nästa bild",

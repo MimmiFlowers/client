@@ -78,14 +78,8 @@
         "title": "Welcome!"
     },
     "banner": {
-        "slide1_title": "Welcome to Mimmi Flowers",
-        "slide1_subtitle": "Hand-tied bouquets delivered across Stockholm",
-        "slide2_title": "Spring Collection",
-        "slide2_subtitle": "Fresh seasonal bouquets have arrived",
-        "slide2_cta": "Shop Season",
-        "slide3_title": "Free Delivery",
-        "slide3_subtitle": "On all orders over 999 kr",
-        "slide3_cta": "Browse Catalog",
+        "fallback_subtitle": "Hand-tied bouquets delivered across Stockholm",
+        "fallback_cta": "Browse Catalog",
         "aria_label": "Highlights",
         "previous": "Previous slide",
         "next": "Next slide",
