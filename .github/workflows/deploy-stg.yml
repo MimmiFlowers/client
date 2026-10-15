@@ -9,7 +9,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Lint, type check, tests and build first; nothing reaches EC2 unless they pass.
+  ci:
+    uses: ./.github/workflows/ci.yml
+
   deploy:
+    needs: ci
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +24,8 @@ jobs:
           host: ${{ secrets.STG_SSH_HOST }}
           username: ${{ secrets.STG_SSH_USER }}
           key: ${{ secrets.STG_SSH_KEY }}
-          script_stop: true
+          # Default is 10m; the image build runs on a t3.micro. `set -e` below stops on errors.
+          command_timeout: 20m
           script: |
             set -e
             cd /opt/stg/client

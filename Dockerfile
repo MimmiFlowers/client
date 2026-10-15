@@ -9,7 +9,9 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build
+# vite build only, not `npm run build` (= tsc -b && vite build): the type check runs in CI,
+# and the deploy waits for CI. On the t3.micro tsc -b alone took ~6 minutes.
+RUN npx vite build
 
 # serve stage
 FROM nginx:alpine

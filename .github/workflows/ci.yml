@@ -1,10 +1,12 @@
 name: Client CI
 
 on:
+  # Pushes to staging run this through deploy-stg.yml (deploy waits for it), not here.
   push:
-    branches: [main, staging, AgentProdFixedVersion]
+    branches: [main, AgentProdFixedVersion]
   pull_request:
     branches: [main, staging]
+  workflow_call:
 
 jobs:
   lint-test-build:
