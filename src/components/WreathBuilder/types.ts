@@ -5,8 +5,10 @@ export interface WreathSize {
     diameterCm: number;
     /** Slots without a band. */
     slotCount: number;
-    /** With a band on, every bandStep-th slot is under a wrap (see isCovered). */
+    /** With a band on, every bandStep-th slot is under a wrap (see bandSlots)… */
     bandStep: number;
+    /** …unless bandSpots lists the covered spots explicitly (1-based). */
+    bandSpots: number[] | null;
 }
 
 export interface WreathMaterial {

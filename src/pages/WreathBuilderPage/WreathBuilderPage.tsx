@@ -20,6 +20,7 @@ import { renderWreathPng } from "../../components/WreathBuilder/renderWreathPng"
 import { priceDesign } from "../../components/WreathBuilder/wreathPricing";
 import { summaryLines } from "../../components/WreathBuilder/wreathSummary";
 import {
+    bandSlots,
     openSlotCount,
     ringForSize,
 } from "../../components/WreathBuilder/wreathGeometry";
@@ -166,7 +167,7 @@ const WreathBuilderPage = () => {
         stageRef,
         design?.placements.length ?? 0,
         ring,
-        design && design.bandCode !== null ? design.bandStep : null,
+        design && design.bandCode !== null ? design.bandSlots : null,
         place,
     );
 
@@ -334,7 +335,7 @@ const WreathBuilderPage = () => {
                 type: "setSize",
                 code,
                 slotCount: size.slotCount,
-                bandStep: size.bandStep,
+                bandSlots: bandSlots(size),
             });
     };
     const sizeChoices = options.sizes.map((s) => ({
@@ -342,7 +343,7 @@ const WreathBuilderPage = () => {
         name: s.name,
         meta: t("wreath.size_meta", {
             cm: s.diameterCm,
-            slots: openSlotCount(s.slotCount, banded ? s.bandStep : null),
+            slots: openSlotCount(s.slotCount, banded ? bandSlots(s) : null),
         }),
         priceLabel: kr(options.basePrices[s.code]?.[design.materialCode] ?? 0),
     }));
@@ -459,7 +460,7 @@ const WreathBuilderPage = () => {
                                         count: filled,
                                         total: openSlotCount(
                                             design.placements.length,
-                                            banded ? design.bandStep : null,
+                                            banded ? design.bandSlots : null,
                                         ),
                                     })
                                 ) : (

@@ -113,18 +113,36 @@ export const slotAngle = (slot: number, count: number): number =>
     (slot * 360) / count;
 
 /**
- * With a band on, its ribbon wraps cover every `bandStep`-th slot: slot i is
- * covered when i % bandStep === 1 (step 2: 1, 3, 5…; step 3: 1, 4, 7…), so slot 0
- * at the top always stays free. `bandStep` is the size's, or null without a band.
- * The database keeps slotCount divisible by bandStep, so the wraps are evenly spread.
- * Must match services/wreath.py's slot_covered().
+ * The 0-based slots a band covers on a size: its `bandSpots` (1-based, as
+ * customers see them) when set, else every `bandStep`-th slot from slot 1
+ * (step 2: 1, 3, 5…; step 3: 1, 4, 7…), so slot 0 at the top stays free.
+ * Must match services/wreath.py's band_slots().
  */
-export const isCovered = (slot: number, bandStep: number | null): boolean =>
-    bandStep !== null && slot % bandStep === 1;
+export const bandSlots = (size: {
+    slotCount: number;
+    bandStep: number;
+    bandSpots?: number[] | null;
+}): number[] =>
+    size.bandSpots?.length
+        ? size.bandSpots
+              .map((spot) => spot - 1)
+              .filter((slot) => slot >= 0 && slot < size.slotCount)
+        : Array.from({ length: size.slotCount }, (_, i) => i).filter(
+              (i) => i % size.bandStep === 1,
+          );
+
+/** Whether a slot is under the band; `covered` is bandSlots(size), or null without a band. */
+export const isCovered = (slot: number, covered: number[] | null): boolean =>
+    covered !== null && covered.includes(slot);
 
 /** How many slots take a decoration: all of them, or all but the covered ones. */
-export const openSlotCount = (count: number, bandStep: number | null): number =>
-    bandStep === null ? count : count - Math.floor(count / bandStep);
+export const openSlotCount = (
+    count: number,
+    covered: number[] | null,
+): number =>
+    covered === null
+        ? count
+        : count - covered.filter((slot) => slot < count).length;
 
 /*
  * Drawn ribbon wrap, as shares of the ring size, and its tilt (degrees, clockwise)

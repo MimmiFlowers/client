@@ -63,7 +63,7 @@ const WreathStage = ({
         options.decorations.map((d) => [d.code, d]),
     );
     const slotCount = design.placements.length;
-    const bandStep = design.bandCode === null ? null : design.bandStep;
+    const covered = design.bandCode === null ? null : design.bandSlots;
     const points = slotPositions(slotCount, slotRadius(ring));
     const wrapWidth = ring * BAND_WRAP_WIDTH;
     const wrapLength = ring * BAND_WRAP_LENGTH;
@@ -156,7 +156,7 @@ const WreathStage = ({
             {band &&
                 !overlay &&
                 points.map((p, slot) =>
-                    isCovered(slot, bandStep) ? (
+                    isCovered(slot, covered) ? (
                         <image
                             key={slot}
                             href={band.image}
@@ -174,7 +174,7 @@ const WreathStage = ({
 
             {design.placements.map((code, slot) => {
                 const p = points[slot];
-                if (!p || isCovered(slot, bandStep))
+                if (!p || isCovered(slot, covered))
                     return null;
                 const decoration = code
                     ? decorationByCode.get(code)

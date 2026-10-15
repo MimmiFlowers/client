@@ -1,12 +1,12 @@
 import type { WreathOptions, WreathSpec } from "./types";
-import { isCovered } from "./wreathGeometry";
+import { bandSlots, isCovered } from "./wreathGeometry";
 
 export interface WreathDesignState {
     sizeCode: string;
     materialCode: string;
     bandCode: string | null;
-    /** The size's bandStep: with a band on, every bandStep-th slot is covered (see isCovered). */
-    bandStep: number;
+    /** The 0-based slots the band covers on this size, with a band on (see bandSlots). */
+    bandSlots: number[];
     /** One entry per slot, clockwise from the top: a decoration code or null. */
     placements: (string | null)[];
     /**
@@ -19,7 +19,7 @@ export interface WreathDesignState {
 }
 
 export type WreathAction =
-    | { type: "setSize"; code: string; slotCount: number; bandStep: number }
+    | { type: "setSize"; code: string; slotCount: number; bandSlots: number[] }
     | { type: "setMaterial"; code: string }
     | { type: "setBand"; code: string | null }
     | { type: "place"; slot: number; code: string }
@@ -38,16 +38,16 @@ export const initialDesign = (options: WreathOptions): WreathDesignState => {
         sizeCode: size?.code ?? "",
         materialCode: options.materials[0]?.code ?? "",
         bandCode: null,
-        bandStep: size?.bandStep ?? 2,
+        bandSlots: size ? bandSlots(size) : [],
         placements: Array.from({ length: size?.slotCount ?? 0 }, () => null),
         dropped: 0,
         droppedBy: "size",
     };
 };
 
-/** The band step in force: the size's with a band on, null without one. */
-const activeStep = (state: WreathDesignState): number | null =>
-    state.bandCode === null ? null : state.bandStep;
+/** The covered slots in force: the size's with a band on, null without one. */
+const activeCover = (state: WreathDesignState): number[] | null =>
+    state.bandCode === null ? null : state.bandSlots;
 
 /**
  * Move decorations off slots the band covers: each slides to a free neighbour
@@ -56,16 +56,16 @@ const activeStep = (state: WreathDesignState): number | null =>
  */
 const clearCovered = (
     placements: (string | null)[],
-    bandStep: number | null,
+    covered: number[] | null,
 ): { placements: (string | null)[]; dropped: number } => {
     const next = [...placements];
     const n = next.length;
     let dropped = 0;
     next.forEach((code, slot) => {
-        if (!code || !isCovered(slot, bandStep)) return;
+        if (!code || !isCovered(slot, covered)) return;
         next[slot] = null;
         const free = [(slot - 1 + n) % n, (slot + 1) % n].find(
-            (s) => !isCovered(s, bandStep) && next[s] === null,
+            (s) => !isCovered(s, covered) && next[s] === null,
         );
         if (free === undefined) dropped++;
         else next[free] = code;
@@ -92,12 +92,12 @@ export const wreathReducer = (
             // The new size may put the band on other slots.
             const fitted = clearCovered(
                 kept,
-                state.bandCode === null ? null : action.bandStep,
+                state.bandCode === null ? null : action.bandSlots,
             );
             return {
                 ...state,
                 sizeCode: action.code,
-                bandStep: action.bandStep,
+                bandSlots: action.bandSlots,
                 placements: fitted.placements,
                 dropped: lost + fitted.dropped,
                 droppedBy: lost > 0 || fitted.dropped === 0 ? "size" : "band",
@@ -110,7 +110,7 @@ export const wreathReducer = (
                 return { ...state, bandCode: null, dropped: 0 };
             const { placements, dropped } = clearCovered(
                 state.placements,
-                state.bandStep,
+                state.bandSlots,
             );
             return {
                 ...state,
@@ -124,7 +124,7 @@ export const wreathReducer = (
             if (
                 action.slot < 0 ||
                 action.slot >= state.placements.length ||
-                isCovered(action.slot, activeStep(state))
+                isCovered(action.slot, activeCover(state))
             )
                 return state;
             const placements = [...state.placements];
@@ -150,7 +150,7 @@ export const wreathReducer = (
             return {
                 ...restored,
                 placements: state.placements.map((_, slot) =>
-                    isCovered(slot, activeStep(restored))
+                    isCovered(slot, activeCover(restored))
                         ? null
                         : (action.placements[slot] ?? null),
                 ),

@@ -54,17 +54,17 @@ describe("bandOverlay", () => {
     };
 
     it("uses a size's shared picture for every material", () => {
-        expect(bandOverlay(options, "red-velvet", "s", "fir")).toEqual({
+        expect(bandOverlay(options, "red-satin", "s", "fir")).toEqual({
             href: SHARED,
             perMaterial: false,
         });
-        expect(bandOverlay(options, "red-velvet", "s", "moss")?.href).toBe(
+        expect(bandOverlay(options, "red-satin", "s", "moss")?.href).toBe(
             SHARED,
         );
     });
 
     it("uses the picture made for the material when the size has one per material", () => {
-        expect(bandOverlay(options, "red-velvet", "m", "moss")).toEqual({
+        expect(bandOverlay(options, "red-satin", "m", "moss")).toEqual({
             href: MOSS,
             perMaterial: true,
         });
@@ -72,8 +72,8 @@ describe("bandOverlay", () => {
 
     it("is null without a band, a picture for that size/material, or a known band", () => {
         expect(bandOverlay(options, null, "s", "fir")).toBeNull();
-        expect(bandOverlay(options, "red-velvet", "m", "fir")).toBeNull();
-        expect(bandOverlay(options, "red-velvet", "l", "fir")).toBeNull();
+        expect(bandOverlay(options, "red-satin", "m", "fir")).toBeNull();
+        expect(bandOverlay(options, "red-satin", "l", "fir")).toBeNull();
         expect(bandOverlay(options, "nope", "s", "fir")).toBeNull();
     });
 });

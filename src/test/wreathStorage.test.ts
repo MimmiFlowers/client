@@ -31,16 +31,16 @@ describe("wreathStorage", () => {
             type: "setSize",
             code: "m",
             slotCount: 8,
-            bandStep: 2,
+            bandSlots: [1, 3, 5, 7],
         });
         d = wreathReducer(d, { type: "setMaterial", code: "moss" });
-        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        d = wreathReducer(d, { type: "setBand", code: "red-satin" });
         d = wreathReducer(d, { type: "place", slot: 2, code: "star" });
         saveDesign(d);
         const loaded = loadDesign(OPTIONS)!;
         expect(loaded.sizeCode).toBe("m");
         expect(loaded.materialCode).toBe("moss");
-        expect(loaded.bandCode).toBe("red-velvet");
+        expect(loaded.bandCode).toBe("red-satin");
         expect(loaded.placements).toEqual(d.placements);
         expect(loaded.dropped).toBe(0);
     });
@@ -57,14 +57,14 @@ describe("wreathStorage", () => {
         store({
             sizeCode: "xl",
             materialCode: "gold",
-            bandCode: "red-velvet",
+            bandCode: "red-satin",
             placements: ["star", "star", "unicorn", null, null, null],
             updatedAt: Date.now(),
         });
         const loaded = loadDesign(OPTIONS)!;
         expect(loaded.sizeCode).toBe("s");
         expect(loaded.materialCode).toBe("fir");
-        expect(loaded.bandCode).toBe("red-velvet");
+        expect(loaded.bandCode).toBe("red-satin");
         // slot 1 is under the band, "unicorn" no longer exists
         expect(loaded.placements).toEqual([
             "star",

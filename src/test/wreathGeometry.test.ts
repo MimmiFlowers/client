@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
     CENTER,
     artworkSize,
+    bandSlots,
     decorationSize,
     isCovered,
     markerRadius,
@@ -31,29 +32,42 @@ describe("wreathGeometry", () => {
     });
 
     it("covers every bandStep-th slot with a band, keeping the top slot free", () => {
-        expect([0, 1, 2, 3].map((s) => isCovered(s, 2))).toEqual([
-            false,
-            true,
-            false,
-            true,
-        ]);
+        expect(bandSlots({ slotCount: 8, bandStep: 2 })).toEqual([1, 3, 5, 7]);
         // step 3: 1, 4, 7… (2, 5, 8… for humans)
-        expect([0, 1, 2, 3, 4, 5, 6, 7].filter((s) => isCovered(s, 3))).toEqual(
-            [1, 4, 7],
-        );
+        expect(bandSlots({ slotCount: 9, bandStep: 3 })).toEqual([1, 4, 7]);
+        expect(isCovered(1, [1, 3])).toBe(true);
+        expect(isCovered(2, [1, 3])).toBe(false);
         expect(isCovered(1, null)).toBe(false);
-        expect(openSlotCount(12, 2)).toBe(6);
-        expect(openSlotCount(15, 3)).toBe(10);
+        expect(
+            openSlotCount(12, bandSlots({ slotCount: 12, bandStep: 2 })),
+        ).toBe(6);
         expect(openSlotCount(12, null)).toBe(12);
+    });
+
+    it("uses a size's explicit bandSpots (1-based) over its step", () => {
+        const medium = {
+            slotCount: 15,
+            bandStep: 3,
+            bandSpots: [2, 5, 7, 10, 12, 15],
+        };
+        expect(bandSlots(medium)).toEqual([1, 4, 6, 9, 11, 14]);
+        expect(openSlotCount(15, bandSlots(medium))).toBe(9);
+        // spots past the slot count are ignored; an empty list falls back to the step
+        expect(
+            bandSlots({ slotCount: 6, bandStep: 2, bandSpots: [2, 9] }),
+        ).toEqual([1]);
+        expect(bandSlots({ slotCount: 6, bandStep: 2, bandSpots: [] })).toEqual(
+            [1, 3, 5],
+        );
     });
 
     it("skips slots the caller rules out when finding the nearest", () => {
         const points = slotPositions(4, 100);
         expect(
-            nearestSlot(points, points[1]!, 200, (s) => isCovered(s, 2)),
+            nearestSlot(points, points[1]!, 200, (s) => isCovered(s, [1, 3])),
         ).not.toBe(1);
         expect(
-            nearestSlot(points, points[1]!, 40, (s) => isCovered(s, 2)),
+            nearestSlot(points, points[1]!, 40, (s) => isCovered(s, [1, 3])),
         ).toBeNull();
     });
 

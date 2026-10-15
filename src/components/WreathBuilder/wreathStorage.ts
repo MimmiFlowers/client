@@ -1,4 +1,5 @@
 import type { WreathOptions } from "./types";
+import { bandSlots } from "./wreathGeometry";
 import {
     initialDesign,
     wreathReducer,
@@ -73,7 +74,7 @@ export const loadDesign = (
             type: "setSize",
             code: size.code,
             slotCount: size.slotCount,
-            bandStep: size.bandStep,
+            bandSlots: bandSlots(size),
         });
     if (options.materials.some((m) => m.code === stored.materialCode))
         design = wreathReducer(design, {

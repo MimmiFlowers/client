@@ -45,7 +45,7 @@ describe("wreathReducer", () => {
             type: "setSize",
             code: "m",
             slotCount: 8,
-            bandStep: 2,
+            bandSlots: [1, 3, 5, 7],
         });
         expect(d.sizeCode).toBe("m");
         expect(d.placements).toHaveLength(8);
@@ -59,7 +59,7 @@ describe("wreathReducer", () => {
             type: "setSize",
             code: "m",
             slotCount: 8,
-            bandStep: 2,
+            bandSlots: [1, 3, 5, 7],
         });
         d = wreathReducer(d, { type: "place", slot: 1, code: "star" });
         d = wreathReducer(d, { type: "place", slot: 6, code: "pine-cone" });
@@ -68,7 +68,7 @@ describe("wreathReducer", () => {
             type: "setSize",
             code: "s",
             slotCount: 6,
-            bandStep: 2,
+            bandSlots: [1, 3, 5, 7],
         });
         expect(d.placements).toEqual([null, "star", null, null, null, null]);
         expect(d.dropped).toBe(2);
@@ -80,17 +80,17 @@ describe("wreathReducer", () => {
             type: "setSize",
             code: "m",
             slotCount: 8,
-            bandStep: 2,
+            bandSlots: [1, 3, 5, 7],
         });
         d = wreathReducer(d, { type: "place", slot: 7, code: "star" });
         d = wreathReducer(d, {
             type: "setSize",
             code: "s",
             slotCount: 6,
-            bandStep: 2,
+            bandSlots: [1, 3, 5, 7],
         });
         expect(d.dropped).toBe(1);
-        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        d = wreathReducer(d, { type: "setBand", code: "red-satin" });
         expect(d.dropped).toBe(0);
     });
 
@@ -105,7 +105,7 @@ describe("wreathReducer", () => {
                 type: "setSize",
                 code: "s",
                 slotCount: 6,
-                bandStep: 2,
+                bandSlots: [1, 3, 5, 7],
             }),
         ).toBe(d);
     });
@@ -118,7 +118,7 @@ describe("wreathReducer", () => {
 
     it("clears every slot and the band, and restores both for undo", () => {
         let d = initialDesign(OPTIONS);
-        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        d = wreathReducer(d, { type: "setBand", code: "red-satin" });
         d = wreathReducer(d, { type: "place", slot: 2, code: "star" });
         d = wreathReducer(d, { type: "place", slot: 4, code: "pine-cone" });
         const before = { placements: d.placements, bandCode: d.bandCode };
@@ -127,7 +127,7 @@ describe("wreathReducer", () => {
         expect(d.bandCode).toBeNull();
         d = wreathReducer(d, { type: "restore", ...before });
         expect(d.placements).toEqual(before.placements);
-        expect(d.bandCode).toBe("red-velvet");
+        expect(d.bandCode).toBe("red-satin");
     });
 
     it("fits restored placements to the current slot count", () => {
@@ -152,9 +152,9 @@ describe("wreathReducer", () => {
     it("sets and unsets the band and material", () => {
         let d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",
-            code: "red-velvet",
+            code: "red-satin",
         });
-        expect(d.bandCode).toBe("red-velvet");
+        expect(d.bandCode).toBe("red-satin");
         d = wreathReducer(d, { type: "setBand", code: null });
         expect(d.bandCode).toBeNull();
         d = wreathReducer(d, { type: "setMaterial", code: "moss" });
@@ -164,7 +164,7 @@ describe("wreathReducer", () => {
     it("refuses a decoration on a slot under the band", () => {
         const d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",
-            code: "red-velvet",
+            code: "red-satin",
         });
         expect(wreathReducer(d, { type: "place", slot: 1, code: "star" })).toBe(
             d,
@@ -181,7 +181,7 @@ describe("wreathReducer", () => {
             [5, "pine-cone"],
         ] as const)
             d = wreathReducer(d, { type: "place", slot, code });
-        d = wreathReducer(d, { type: "setBand", code: "red-velvet" });
+        d = wreathReducer(d, { type: "setBand", code: "red-satin" });
         expect(d.placements).toEqual([
             "star",
             null,
@@ -197,7 +197,7 @@ describe("wreathReducer", () => {
     it("moves the band to the new size's slots when the size changes", () => {
         let d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",
-            code: "red-velvet",
+            code: "red-satin",
         });
         d = wreathReducer(d, { type: "place", slot: 2, code: "star" });
         d = wreathReducer(d, { type: "place", slot: 4, code: "pine-cone" });
@@ -206,9 +206,9 @@ describe("wreathReducer", () => {
             type: "setSize",
             code: "m",
             slotCount: 9,
-            bandStep: 3,
+            bandSlots: [1, 4, 7],
         });
-        expect(d.bandStep).toBe(3);
+        expect(d.bandSlots).toEqual([1, 4, 7]);
         expect(d.placements).toEqual([
             null,
             null,
@@ -230,7 +230,7 @@ describe("wreathReducer", () => {
         const d = wreathReducer(initialDesign(OPTIONS), {
             type: "restore",
             placements: ["star", "star", "star", null, null, null],
-            bandCode: "red-velvet",
+            bandCode: "red-satin",
         });
         expect(d.placements).toEqual(["star", null, "star", null, null, null]);
     });
@@ -238,14 +238,14 @@ describe("wreathReducer", () => {
     it("serialises to the API spec with 0-based slots, skipping empty ones", () => {
         let d = wreathReducer(initialDesign(OPTIONS), {
             type: "setBand",
-            code: "red-velvet",
+            code: "red-satin",
         });
         d = wreathReducer(d, { type: "place", slot: 0, code: "pine-cone" });
         d = wreathReducer(d, { type: "place", slot: 4, code: "star" });
         expect(toSpec(d)).toEqual({
             sizeCode: "s",
             materialCode: "fir",
-            bandCode: "red-velvet",
+            bandCode: "red-satin",
             decorations: [
                 { slot: 0, code: "pine-cone" },
                 { slot: 4, code: "star" },

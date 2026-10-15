@@ -8,7 +8,7 @@ describe("priceDesign", () => {
             {
                 sizeCode: "m",
                 materialCode: "moss",
-                bandCode: "red-velvet",
+                bandCode: "red-satin",
                 placements: [
                     "pine-cone",
                     null,
@@ -53,7 +53,7 @@ describe("priceDesign", () => {
             {
                 sizeCode: "s",
                 materialCode: "fir",
-                bandCode: "red-velvet",
+                bandCode: "red-satin",
                 placements: ["pine-cone", "pine-cone", "pine-cone"],
             },
             {
