@@ -21,7 +21,8 @@ export interface Slide {
     title: string;
     text: string;
     cta: Cta | null;
-    image: { small: string; large: string };
+    /** Art direction, not resolutions: phone is a portrait crop, desktop a landscape one. */
+    image: { phone: string; desktop: string };
     alt: string;
 }
 
@@ -46,14 +47,18 @@ export const toSlide = (banner: Banner, lang: string): Slide => {
     const target = ctaTarget(banner.ctaUrl);
     const label = pickText(banner.ctaText, lang);
     if (banner.ctaUrl && !target) {
-        console.warn(`Banner ${banner.id}: ignoring unsafe ctaUrl`, banner.ctaUrl);
+        console.warn(
+            `Banner ${banner.id}: ignoring unsafe ctaUrl`,
+            banner.ctaUrl,
+        );
     }
     return {
         key: `banner-${banner.id}`,
         title: pickText(banner.title, lang),
         text: pickText(banner.text, lang),
         cta: target && label ? { label, ...target } : null,
-        image: { small: banner.imageSmall, large: banner.imageLarge },
+        // DB column names predate the phone/desktop split; see 07-banners.sql.
+        image: { phone: banner.imageSmall, desktop: banner.imageLarge },
         alt: pickText(banner.imageAlt, lang),
     };
 };

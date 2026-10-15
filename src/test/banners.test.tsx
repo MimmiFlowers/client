@@ -68,15 +68,23 @@ describe("toSlide", () => {
             key: "banner-1",
             title: "Vårkollektionen",
             text: "Nya buketter",
-            cta: { label: "Handla Säsong", external: false, to: "/Catalog?filter=season" },
+            cta: {
+                label: "Handla Säsong",
+                external: false,
+                to: "/Catalog?filter=season",
+            },
             alt: "",
         });
     });
 
     it("drops the button for a missing or unsafe URL", () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-        expect(toSlide(banner({ ctaText: null, ctaUrl: null }), "en").cta).toBeNull();
-        expect(toSlide(banner({ ctaUrl: "javascript:alert(1)" }), "en").cta).toBeNull();
+        expect(
+            toSlide(banner({ ctaText: null, ctaUrl: null }), "en").cta,
+        ).toBeNull();
+        expect(
+            toSlide(banner({ ctaUrl: "javascript:alert(1)" }), "en").cta,
+        ).toBeNull();
         expect(warn).toHaveBeenCalledOnce();
         warn.mockRestore();
     });
@@ -100,20 +108,49 @@ describe("TituleBlock", () => {
 
     it("shows the database slides with controls", async () => {
         vi.spyOn(api, "get").mockResolvedValue({
-            data: { data: [banner(), banner({ id: 2, title: { en: "Free Delivery", sv: "Fri Leverans" } })] },
+            data: {
+                data: [
+                    banner(),
+                    banner({
+                        id: 2,
+                        title: { en: "Free Delivery", sv: "Fri Leverans" },
+                    }),
+                ],
+            },
         });
         renderHero();
-        expect(await screen.findByText("Spring Collection")).toBeInTheDocument();
+        expect(
+            await screen.findByText("Spring Collection"),
+        ).toBeInTheDocument();
         expect(screen.getByText("Free Delivery")).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: /Shop Season/ })).toHaveAttribute(
-            "href",
-            "/Catalog?filter=season",
+        expect(
+            screen.getByRole("link", { name: /Shop Season/ }),
+        ).toHaveAttribute("href", "/Catalog?filter=season");
+        expect(
+            screen.getAllByRole("button", { name: /Go to slide/ }),
+        ).toHaveLength(2);
+    });
+
+    it("serves the phone crop by default and the desktop crop from md:", async () => {
+        vi.spyOn(api, "get").mockResolvedValue({ data: { data: [banner()] } });
+        const { container } = renderHero();
+        await screen.findByText("Spring Collection");
+        const source = container.querySelector("picture source");
+        expect(source).toHaveAttribute("media", "(min-width: 768px)");
+        expect(source).toHaveAttribute(
+            "srcset",
+            "https://images.test/banners/a-960.webp",
         );
-        expect(screen.getAllByRole("button", { name: /Go to slide/ })).toHaveLength(2);
+        expect(container.querySelector("picture img")).toHaveAttribute(
+            "src",
+            "https://images.test/banners/a-480.webp",
+        );
     });
 
     it("switches language without refetching", async () => {
-        const get = vi.spyOn(api, "get").mockResolvedValue({ data: { data: [banner()] } });
+        const get = vi
+            .spyOn(api, "get")
+            .mockResolvedValue({ data: { data: [banner()] } });
         renderHero();
         await screen.findByText("Spring Collection");
         await act(() => i18n.changeLanguage("sv"));
@@ -136,33 +173,39 @@ describe("TituleBlock", () => {
         vi.spyOn(api, "get").mockResolvedValue({ data: { data: [banner()] } });
         renderHero();
         await screen.findByText("Spring Collection");
-        expect(screen.queryByRole("button", { name: /Go to slide/ })).toBeNull();
-        expect(screen.queryByRole("button", { name: "Previous slide" })).toBeNull();
+        expect(
+            screen.queryByRole("button", { name: /Go to slide/ }),
+        ).toBeNull();
+        expect(
+            screen.queryByRole("button", { name: "Previous slide" }),
+        ).toBeNull();
     });
 
     it("shows the fallback slide when the request fails", async () => {
         vi.spyOn(api, "get").mockRejectedValue(new Error("network"));
         renderHero();
-        expect(await screen.findByText("Flowers, tied by hand.")).toBeInTheDocument();
-        expect(screen.getByRole("link", { name: /Browse Catalog/ })).toHaveAttribute(
-            "href",
-            "/Catalog",
-        );
+        expect(
+            await screen.findByText("Flowers, tied by hand."),
+        ).toBeInTheDocument();
+        expect(
+            screen.getByRole("link", { name: /Browse Catalog/ }),
+        ).toHaveAttribute("href", "/Catalog");
     });
 
     it("shows the fallback slide when nothing is live", async () => {
         vi.spyOn(api, "get").mockResolvedValue({ data: { data: [] } });
         renderHero();
-        expect(await screen.findByText("Flowers, tied by hand.")).toBeInTheDocument();
+        expect(
+            await screen.findByText("Flowers, tied by hand."),
+        ).toBeInTheDocument();
     });
 
     it("renders no slide while loading", () => {
         vi.spyOn(api, "get").mockReturnValue(new Promise(() => {}));
         renderHero();
         expect(screen.queryByText("Flowers, tied by hand.")).toBeNull();
-        expect(screen.getByRole("region", { name: "Highlights" })).toHaveAttribute(
-            "aria-busy",
-            "true",
-        );
+        expect(
+            screen.getByRole("region", { name: "Highlights" }),
+        ).toHaveAttribute("aria-busy", "true");
     });
 });

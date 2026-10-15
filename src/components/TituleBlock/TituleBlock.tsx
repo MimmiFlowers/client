@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import api from "../../api/api";
-import banner480 from "../../assets/images/banner-480.webp";
 import banner960 from "../../assets/images/banner-960.webp";
 import { ArrowLeftIcon, ArrowRightIcon } from "../Icons/Icons";
 import { toSlide, type Banner, type Slide } from "./banners";
@@ -11,6 +10,8 @@ const INTERVAL_MS = 7000;
 const SWIPE_THRESHOLD = 50;
 // The hero waits on this request, so give up sooner than the API default (15 s).
 const BANNERS_TIMEOUT_MS = 5000;
+// Phone picture below this, desktop picture from it (Tailwind md:).
+const DESKTOP_MEDIA = "(min-width: 768px)";
 
 /** Shown when /data/banners fails or has no live slide. Slides themselves live in
  *  the banners table (db/init/07-banners.sql), edited with SQL. */
@@ -19,7 +20,7 @@ const fallbackSlide = (t: (key: string) => string): Slide => ({
     title: t("home.hero_title"),
     text: t("banner.fallback_subtitle"),
     cta: { label: t("banner.fallback_cta"), external: false, to: "/Catalog" },
-    image: { small: banner480, large: banner960 },
+    image: { phone: banner960, desktop: banner960 },
     alt: "",
 });
 
@@ -139,21 +140,26 @@ const TituleBlock = () => {
                             active ? "opacity-100" : "opacity-0"
                         }`}
                     >
-                        <img
-                            src={slide.image.large}
-                            srcSet={`${slide.image.small} 480w, ${slide.image.large} 960w`}
-                            sizes="100vw"
-                            alt={slide.alt}
-                            aria-hidden={slide.alt ? undefined : "true"}
-                            draggable={false}
-                            loading={i === 0 ? "eager" : "lazy"}
-                            fetchPriority={i === 0 ? "high" : "auto"}
-                            className={`h-full w-full object-cover object-center transition-transform ease-out ${
-                                active
-                                    ? "scale-105 duration-[9000ms]"
-                                    : "scale-100 duration-0"
-                            }`}
-                        />
+                        <picture className="block h-full w-full">
+                            {/* md: (768px) and up: the hero is square to wide, so the landscape crop. */}
+                            <source
+                                media={DESKTOP_MEDIA}
+                                srcSet={slide.image.desktop}
+                            />
+                            <img
+                                src={slide.image.phone}
+                                alt={slide.alt}
+                                aria-hidden={slide.alt ? undefined : "true"}
+                                draggable={false}
+                                loading={i === 0 ? "eager" : "lazy"}
+                                fetchPriority={i === 0 ? "high" : "auto"}
+                                className={`h-full w-full object-cover object-center transition-transform ease-out ${
+                                    active
+                                        ? "scale-105 duration-[9000ms]"
+                                        : "scale-100 duration-0"
+                                }`}
+                            />
+                        </picture>
                         {/* Scrim: keeps the copy readable over any photo. */}
                         <div className="from-ink/85 via-ink/55 to-ink/25 absolute inset-0 bg-gradient-to-t" />
                         <div className="from-ink/45 absolute inset-0 bg-gradient-to-r via-transparent to-transparent" />
